@@ -1,0 +1,6 @@
+interface:
+  display_name: "同步文档到 Notion"
+  short_description: "按中文入口层级同步本地文档到 Notion，预览差异并保护远端修改"
+  default_prompt: "使用 $sync-docs-to-notion 将本次指定的 ayane-docs 文档同步到 Notion，遵循入口映射并保留正文和远端独立修改。"
+policy:
+  allow_implicit_invocation: true

@@ -6,7 +6,7 @@
 
 ## 1. 仓库定位
 
-`ayane-unity-embodiment` 是独立 Unity 仓库，负责 AI 在数字空间中的身体表现。
+`ayane-embodiment` 是独立 Unity 仓库，负责 AI 在数字空间中的身体表现。
 
 它可以独立构建和测试，不依赖 `ayane-contracts`、`ayane-agent-service` 或 `ayane-client` 源码。
 
@@ -37,7 +37,7 @@ Unity 不负责：
 ## 3. 对外产物
 
 ```text
-ayane-unity-embodiment
+ayane-embodiment
        ↓ 独立构建
 ├── Desktop Unity Runtime
 ├── Android Unity Library

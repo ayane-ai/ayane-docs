@@ -26,14 +26,6 @@
 | ayane-infrastructure | [基础设施架构设计](architecture/基础设施架构设计.md) | 部署、环境、Secret、CI/CD 和监控 |
 | ayane-docs | [文档仓库架构设计](architecture/文档仓库架构设计.md) | 文档分层、关联与维护 |
 
-Unity 不直接依赖 Contracts。客户端 Bridge 负责将 Agent Action Protocol 映射为 Unity Embodiment API，并引用固定版本的 Unity 产物。
-
-## Notion 来源
-
-- [二次元 AI 数字生命](https://app.notion.com/p/3c5670a55e4d81649e30d626312bd4fc)：对应本地产品愿景与总纲。
-- [Phase 1 实现准备与 GitHub 参考项目调研](https://app.notion.com/p/3d3670a55e4d81fea3b8c6b9a97633a7)：对应本地 Phase 1 调研文档。
-
-本地文档来自已有架构文件及用户提供的 Notion 导出包，不代表与 Notion 实时同步。
 
 ## 维护规则
 

@@ -4,14 +4,19 @@
 
 产品目标：[产品愿景与总纲](../product/产品愿景与总纲.md)
 
-## 1. 仓库定位
+## 1. 契约域定位
 
-`ayane-contracts` 是跨仓库的协议和数据契约来源，不包含业务实现，不包含客户端 UI，也不包含 Unity 工程。
+契约域是跨仓库的协议和数据契约来源，不包含业务实现，不包含客户端 UI，也不包含 Unity 工程。
+
+Phase 1 不建立独立的 `ayane-contracts` 仓库：契约由 `ayane-agent-service` 内的 `contracts` 模块承载，见 [AgentService 架构设计](AgentService架构设计.md)。契约作为 Client API、Admin API 和 Action Protocol 唯一来源的原则不变，独立仓库延迟到满足第 7 节触发条件后再建立。
 
 ## 2. 契约范围
 
+契约按约束强度分为两级。
+
+**版本化契约**（有版本承诺和兼容规则）：
+
 - Client API。
-- Admin API。
 - WebSocket Event Schema。
 - Identity DTO。
 - Memory DTO。
@@ -20,25 +25,39 @@
 - 错误码和错误分类。
 - 协议版本和兼容规则。
 
+**生成来源契约**（无版本承诺）：
+
+- Admin API。
+
+Admin API 的 OpenAPI 定义保留在契约范围内，但只作为 `ayane-admin-web` TypeScript 类型生成的唯一来源，不适用版本承诺和兼容规则：
+
+- Admin API 唯一消费方是管理后台，服务端与其可 lockstep 演进，不存在需要防漂移的第三方。
+- Admin API 变更随服务端修改同步，`ayane-admin-web` 始终按最新定义重新生成类型，不声明版本范围。
+- Admin API 与 Client API 的权限隔离由 `ayane-agent-service` 的路由和鉴权设计保证，不依赖契约版本管理。
+
 ## 3. 依赖关系
 
 ```text
-ayane-contracts
+contracts 模块（Phase 1，位于 ayane-agent-service）
        ↓
 ayane-agent-service
 ayane-client
 ayane-admin-web
 ```
 
-Unity 不直接依赖 `ayane-contracts`。KMP 客户端负责把 Agent Action Protocol 转换为 Unity Embodiment API。
+Unity 不直接依赖契约。KMP 客户端负责把 Agent Action Protocol 转换为 Unity Embodiment API。
 
 ## 4. 版本规则
+
+本节规则只适用于第 2 节的版本化契约；Admin API 作为生成来源契约不做版本承诺，始终跟随最新定义。
+
+Phase 1 契约随 `ayane-agent-service` 版本一起演进，不启用独立发版流程；以下 SemVer 规则自契约独立成仓库后生效：
 
 - 使用 SemVer 管理契约版本。
 - 破坏性字段变更必须升级主版本。
 - 可选字段和向后兼容扩展使用次版本。
 - 修复描述和校验问题使用补丁版本。
-- 服务端、客户端和 Admin Web 必须声明支持的契约版本范围。
+- 服务端和客户端必须声明支持的契约版本范围；Admin Web 不声明版本范围。
 
 ## 5. Action Protocol 边界
 
@@ -56,6 +75,18 @@ Action Protocol 只描述 Agent 希望身体执行的通用动作，例如说话
 
 ## 6. 变更流程
 
+Phase 1 契约与消费方由同一人维护，流程简化为：
+
+```text
+契约模块修改
+    ↓
+Agent Service / Client 适配
+    ↓
+Desktop / Android / iOS 验证
+```
+
+契约独立成仓库后启用完整流程：
+
 ```text
 契约评审
     ↓
@@ -66,9 +97,17 @@ Agent Service / Client 适配
 Desktop / Android / iOS 验证
 ```
 
-Unity 只在 Unity Embodiment API 发生变化时单独升级，不因 Contracts 的普通字段变化而直接升级。
+Unity 只在 Unity Embodiment API 发生变化时单独升级，不因契约的普通字段变化而直接升级。
 
-## 7. 相关文档
+## 7. 契约独立的触发条件
+
+满足以下任一条件时，把 `contracts` 模块抽出为独立的 `ayane-contracts` 仓库，并启用第 4 节 SemVer 规则和第 6 节完整流程：
+
+- `ayane-admin-web` 开工，需要稳定的 TypeScript 类型生成来源。
+- 协议趋于稳定，需要正式的版本承诺和兼容性管理。
+- 出现第二名开发者，需要跨人协作的契约评审边界。
+
+## 8. 相关文档
 
 - [客户端架构设计](客户端架构设计.md)
 - [AgentService 架构设计](AgentService架构设计.md)

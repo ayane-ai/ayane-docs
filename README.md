@@ -13,12 +13,12 @@
 ## 文档目录
 
 - `product/`：以《产品愿景与总纲》为入口，保存产品目标文档。
-- `architecture/`：以《项目整体架构设计》为入口，关联七份独立仓库架构。
+- `architecture/`：以《项目整体架构设计》为入口，关联七份架构文档（ayane-contracts 独立仓库延迟建立，见下表）。
 - `research/`：以《调研与技术选型》为入口，关联 Phase 1 等专题调研。
 
 | 仓库 | 架构文档 | 职责 |
 | --- | --- | --- |
-| ayane-contracts | [Contracts 架构设计](architecture/Contracts架构设计.md) | Client API、Admin API、事件和动作契约 |
+| ayane-contracts（Phase 1 暂不建立） | [Contracts 架构设计](architecture/Contracts架构设计.md) | Client API、Admin API、事件和动作契约；Phase 1 由 ayane-agent-service 的 contracts 模块承载 |
 | ayane-client | [客户端架构设计](architecture/客户端架构设计.md) | 基于 NomiKit 的 Desktop、Android、iOS 统一客户端，Desktop 为主 |
 | ayane-agent-service | [Agent Service 架构设计](architecture/AgentService架构设计.md) | Identity、Memory、Agent Runtime、World Model 和云端模型适配 |
 | ayane-unity-embodiment | [Unity 身体架构设计](architecture/Unity身体架构设计.md) | 独立身体能力 API 和版本化 Unity 产物 |

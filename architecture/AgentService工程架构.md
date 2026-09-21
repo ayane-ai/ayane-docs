@@ -11,9 +11,9 @@
 
 ## 文档导览（三张图先看）
 
-本文档涉及 13 个 Gradle 模块与两套运行时模式，正文按设计原则、依赖矩阵、Gradle 配置、启动入口、测试、演进的顺序展开。为了让读者在进入正文前先建立心智模型，下面三张图覆盖三个最常被问到的视角：
+本文档涉及 12 个生产 Gradle 模块（另有 1 个可选测试模块 `test-fixtures`）与两套运行时模式，正文按设计原则、依赖矩阵、Gradle 配置、启动入口、测试、演进的顺序展开。为了让读者在进入正文前先建立心智模型，下面三张图覆盖三个最常被问到的视角：
 
-1. **模块依赖拓扑**：13 个模块分 6 层，谁依赖谁、运行时子项目怎么挂进主服务。
+1. **模块依赖拓扑**：12 个模块分 6 层，谁依赖谁、运行时子项目怎么挂进主服务。
 2. **请求处理链路**：一次 Session 事件从 WebSocket 进入到 Action Protocol 产出的完整数据流。
 3. **嵌入 vs 独立两种模式**：Phase 1 单进程（RuntimeGateway 调用）与 Phase 2+ 多进程（HTTP 调用）的部署差异。
 
@@ -74,7 +74,7 @@ flowchart TB
     RuntimeService --> AgentRuntime
 ```
 
-**图注**：13 模块分 6 层（应用 / 接口 / 契约 / 基础设施 / 领域 / runtime 核心）。runtime 子项目通过 `includeBuild("runtime")` 引用，可独立 clone、单独发布。详细分层原则见 §1。
+**图注**：12 个模块分 6 层（应用 / 接口 / 契约 / 基础设施 / 领域 / runtime 核心）。runtime 子项目通过 `includeBuild("runtime")` 引用，可独立 clone、单独发布。详细分层原则见 §1。
 
 ### 图 2：请求处理链路
 
@@ -107,7 +107,7 @@ flowchart LR
     Stream --> Client[Client Unity Bridge]
 ```
 
-**图注**：对应 [AgentService架构设计 §9 Runtime 核心](AgentService架构设计.md) 的运行链路。Runtime 先拉取四份上下文（Perception / Memory / State / World Model），再按固定顺序拼装 Prompt，调用 Model 拿到 LLM 输出，最后走 ActionFactory + ActionValidator 校验后才进入下游 Action Event Stream。
+**图注**：对应 [AgentService架构设计 §9 Agent Runtime](AgentService架构设计.md) 的运行链路。Runtime 先拉取四份上下文（Perception / Memory / State / World Model），再按固定顺序拼装 Prompt，调用 Model 拿到 LLM 输出，最后走 ActionFactory + ActionValidator 校验后才进入下游 Action Event Stream。
 
 ### 图 3：嵌入 vs 独立两种运行模式
 
@@ -170,7 +170,7 @@ flowchart LR
 | **runtime 可独立运行** | `runtime-service` 提供 Ktor API，主服务通过 `RuntimeGateway` 在进程内实现和 HTTP 实现之间切换 |
 | **Perception SPI 化** | Phase 2+ 新增摄像头、麦克风、智能家居只需新增实现模块，不改核心 |
 
-### 1.2 模块地图（13 个）
+### 1.2 模块地图（12 个生产模块 + 可选 test-fixtures）
 
 ```
 ayane-agent-service/                                 ← 主服务子项目
@@ -213,7 +213,7 @@ Phase 1 同时保留可启动的 `runtime-service` Ktor 入口，用于独立健
 
 | 模块 | 依赖 |
 |---|---|
-| `agent-service` | `agent-api`, `agent-domain`, `agent-store-exposed`, `agent-protocol`, `runtime:agent-runtime`、Ktor、Koin、Koog（嵌入模式） |
+| `agent-service` | `agent-api`, `agent-domain`, `agent-store-exposed`, `agent-protocol`、`runtime:agent-runtime`、`runtime:agent-memory`、`runtime:agent-state`、`runtime:agent-world-model`、`runtime:agent-perception`、Ktor、Koin、Koog（嵌入模式） |
 | `agent-api` | `agent-domain`, `agent-protocol`, `contracts` |
 | `agent-domain` | （无业务依赖） |
 | `agent-store-exposed` | `agent-domain` |
@@ -360,7 +360,7 @@ runtime 子项目承载决策核心。核心模块不依赖 Ktor Server、Koin �
 
 `agent-runtime` 可以依赖 Koog Core，但不依赖 Ktor Server、Koin 或 Exposed；具体依赖装配由应用入口负责。
 
-**对应文档**：[AgentService架构设计 §9 Runtime 核心](AgentService架构设计.md)
+**对应文档**：[AgentService架构设计 §9 Agent Runtime](AgentService架构设计.md)
 
 #### 3.7.2 `runtime:agent-memory`（六类记忆 + 召回）
 
@@ -561,15 +561,15 @@ Phase 1 末：当客户端 / 管理后台 / 第三方 SDK 都开始消费 contra
 
 | 工程模块 | 对应设计文档 |
 |---|---|
-| `agent-domain` | [AgentService架构设计 §3 子系统总览](AgentService架构设计.md)、§5 Identity、§6 State、§7 Memory |
-| `runtime:agent-memory` | [AgentService架构设计 §7 Memory](AgentService架构设计.md) |
-| `runtime:agent-state` | [AgentService架构设计 §6 Agent State](AgentService架构设计.md) |
+| `agent-domain` | [AgentService架构设计 §3 子系统总览](AgentService架构设计.md)、§4 AI Identity、§5 Memory、§6 Agent State Store |
+| `runtime:agent-memory` | [AgentService架构设计 §5 Memory](AgentService架构设计.md)、§12 记忆生命周期 |
+| `runtime:agent-state` | [AgentService架构设计 §6 Agent State Store](AgentService架构设计.md) |
 | `runtime:agent-world-model` | [AgentService架构设计 §8 World Model](AgentService架构设计.md) |
 | `runtime:agent-perception` | [AgentService架构设计 §7 Perception Layer](AgentService架构设计.md) |
-| `runtime:agent-runtime` | [AgentService架构设计 §9 Runtime 核心](AgentService架构设计.md) |
+| `runtime:agent-runtime` | [AgentService架构设计 §9 Agent Runtime](AgentService架构设计.md) |
 | `agent-protocol` | [AgentService架构设计 §10 Embodiment Protocol](AgentService架构设计.md)、[Contracts 架构设计](Contracts架构设计.md) |
-| `agent-api` | [AgentService架构设计 §11 API 接口](AgentService架构设计.md) |
-| `agent-store-exposed` | [AgentService架构设计 §14 持久化](AgentService架构设计.md)、[基础设施架构设计](基础设施架构设计.md) |
+| `agent-api` | [AgentService架构设计 §14 协议边界](AgentService架构设计.md)、§15 运行时拓扑 |
+| `agent-store-exposed` | [AgentService架构设计 §13 数据权属与安全](AgentService架构设计.md)、§15 运行时拓扑、[基础设施架构设计](基础设施架构设计.md) |
 | `runtime-service` | [AgentService架构设计 §15 运行时拓扑](AgentService架构设计.md) |
 | `contracts` | [Contracts 架构设计](Contracts架构设计.md) |
 
@@ -617,7 +617,7 @@ Phase 1 末：当客户端 / 管理后台 / 第三方 SDK 都开始消费 contra
 | **依赖反向**：runtime 误引入 Ktor Server / Exposed | 通过依赖分析和模块边界检查检测                                                |
 | **contracts 漂移**：服务端和客户端各持一份               | 拆仓前只在 `agent-service` 仓维护；拆仓后用 Git Tag 锁定版本                    |
 | **运行时模式切换漏配置**                             | 通过 `runtime.mode` 配置和 Koin binding 强制显式选择 RuntimeGateway       |
-| **Gradle 构建慢**：13 模块导致增量编译变慢               | 启用 Gradle Configuration Cache + Kotlin Incremental Compilation |
+| **Gradle 构建慢**：12 模块导致增量编译变慢               | 启用 Gradle Configuration Cache + Kotlin Incremental Compilation |
 
 ---
 

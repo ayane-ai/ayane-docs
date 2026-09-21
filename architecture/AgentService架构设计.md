@@ -81,7 +81,7 @@ flowchart LR
     World -.->|当前认知| Prompt
 ```
 
-> 本图对应 §2 运行链路、§3 子系统总览、§6 State、§7 Perception、§9 Runtime、§10 Embodiment Protocol 的整体关系。详细链路见 §2，运行时分层见 §15。
+> 本图对应 §2 运行链路、§3 子系统总览、§6 Agent State Store、§7 Perception Layer、§9 Agent Runtime、§10 Embodiment Protocol 的整体关系。详细链路见 §2，运行时分层见 §15。
 
 ---
 
@@ -124,13 +124,13 @@ Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Ag
 | 原则 | 含义 | 体现位置 |
 | --- | --- | --- |
 | **Identity 唯一且持久** | 一个用户对应一个 Identity 实例，所有客户端共享同一份状态 | Identity Store、Agent State Store |
-| **Memory 与 State 分离** | Memory 是事实/事件，State 是当前心境/能量/亲密度/孤独感 | §4、§5 |
+| **Memory 与 State 分离** | Memory 是事实/事件，State 是当前心境/能量/亲密度/孤独感 | §5、§6 |
 | **System 拥有 State，LLM 不直接写 State** | LLM 是决策者，不是状态造假者 | Agent State Store + State Update Rules |
-| **Runtime 双 Loop** | Reactive Loop 响应用户，Proactive Loop 自主发起 | §6 Agent Runtime |
+| **Runtime 双 Loop** | Reactive Loop 响应用户，Proactive Loop 自主发起 | §9 Agent Runtime |
 | **感知 ≠ 输入** | 她看见的不只是用户说的话，还包括时间、设备、用户沉默、环境变化 | §7 Perception Layer |
 | **World Model 是"她相信的世界"** | 不只是配置项，而是带置信度的认知 | §8 World Model |
-| **Embodiment Protocol 是稳定边界** | 服务端永远只产协议，不调用任何身体 API | §9 |
-| **可中断、可让位** | 主动行为必须能被打断，不允许"话痨骚扰" | §10 主动行为 |
+| **Embodiment Protocol 是稳定边界** | 服务端永远只产协议，不调用任何身体 API | §10 |
+| **可中断、可让位** | 主动行为必须能被打断，不允许"话痨骚扰" | §11 主动行为与节律 |
 
 这些原则与 [项目整体架构设计](项目整体架构设计.md) 第 1 节的"核心原则"是同构的，只是把它们翻译成了服务端内部的实现约束。
 
@@ -184,7 +184,7 @@ Client ── HTTPS / WebSocket ──► Client API ──► Perception Layer 
 要点：
 
 - **双入口**：用户输入（Client API）与外部感知（Perception Sources）汇入同一个 Perception Layer，不再各自为政。
-- **双出口**：Agent Runtime 既能产出 Reactive 响应，也能产出 Proactive 主动行为（§6）。
+- **双出口**：Agent Runtime 既能产出 Reactive 响应，也能产出 Proactive 主动行为（§9）。
 - **唯一边界**：Runtime 与身体之间只有 Action Protocol，没有别的耦合。
 
 ---
@@ -194,13 +194,13 @@ Client ── HTTPS / WebSocket ──► Client API ──► Perception Layer 
 | 模块 | 职责 | Phase 1 是否实现 |
 | --- | --- | --- |
 | **AI Identity** | 人格、价值观、说话方式、偏好、自我叙事 | ✅ |
-| **Memory** | 6 类记忆：Episodic / Semantic / Preference / Relationship / Emotional / Procedural | ✅（6 类齐备，固化与衰减延后） |
+| **Memory** | 6 类记忆：Episodic / Semantic / Preference / Relationship / Emotional / Procedural | ✅（6 类契约与接口齐备；Phase 1 实装 Episodic / Preference / Relationship / Emotional，Semantic / Procedural 与固化、衰减在 Phase 1.5） |
 | **Agent State Store** | Mood / Energy / Affection / Loneliness / Curiosity / Circadian / CurrentGoal / CurrentActivity | ✅（核心字段） |
 | **World Model** | 时间、用户、她自己所在设备、活跃 Session、最近事件 | ✅ |
 | **Perception Layer** | 把原始信号抽象为 PerceptionEvent，承载 Attention Filter | ✅（接口与基础事件齐备，摄像头/麦克风留到 Phase 2） |
 | **Agent Runtime** | Reactive Loop + Proactive Loop、Reasoning、Planning、Decision | ✅ |
 | **Model Adapter** | 云端 OpenAI-compatible API、流式输出、Prompt 组装 | ✅ |
-| **Embodiment Protocol** | Agent Action Protocol 的服务端生成器 | ✅（已列动作见 §9） |
+| **Embodiment Protocol** | Agent Action Protocol 的服务端生成器 | ✅（已列动作见 §10） |
 | **Memory Lifecycle** | 写入、检索、固化（夜间）、衰减、召回 | ✅ 写入/检索；固化/衰减 Phase 1.5 |
 | **Proactivity & Circadian** | 主动行为调度、生理节律、仪式化行为 | ✅ 基础调度；仪式行为 Phase 1.5 |
 
@@ -304,7 +304,8 @@ State 变化由**确定的系统规则**驱动，LLM 只读 State 做决策，�
 
 要点：
 
-- **State 不存数据库**，而是每次 Session 开始时基于最近事件回放构造；运行中常驻内存，定期落盘最近快照。
+- **State 不做逐字段持久化**：权威副本常驻内存，每次 Session 开始时基于最近事件回放构造；定期落盘**整体快照**，快照只用于跨 Session 恢复与审计，不回写覆盖内存中由规则算出的结果。
+- `VersionSeq` 是内存内的单调版本号，用于乐观并发与审计，不是数据库行版本。
 - 落盘快照用于“她第二天醒来还记得昨天的心情”。
 - LLM 在 Prompt 里**只看到 State 的当前快照**，看不到内部数值规则。
 

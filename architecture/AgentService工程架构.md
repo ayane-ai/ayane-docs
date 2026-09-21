@@ -15,14 +15,14 @@
 
 1. **模块依赖拓扑**：13 个模块分 6 层，谁依赖谁、运行时子项目怎么挂进主服务。
 2. **请求处理链路**：一次 Session 事件从 WebSocket 进入到 Action Protocol 产出的完整数据流。
-3. **嵌入 vs 独立两种模式**：Phase 1 单进程（Bean 调用）与 Phase 2+ 多进程（HTTP 调用）的部署差异。
+3. **嵌入 vs 独立两种模式**：Phase 1 单进程（RuntimeGateway 调用）与 Phase 2+ 多进程（HTTP 调用）的部署差异。
 
 ### 图 1：模块依赖拓扑
 
 ```mermaid
 flowchart TB
     subgraph AppLayer["应用层"]
-        AgentService[agent-service<br/>Spring Boot 启动入口]
+        AgentService[agent-service<br/>Ktor + Koin 启动入口]
         RuntimeService[runtime-service<br/>独立部署壳]
     end
 
@@ -36,7 +36,7 @@ flowchart TB
     end
 
     subgraph InfraLayer["基础设施层"]
-        StoreJPA[agent-store-jpa]
+        StoreExposed[agent-store-exposed]
     end
 
     subgraph DomainLayer["领域层"]
@@ -53,7 +53,7 @@ flowchart TB
 
     AgentService --> AgentApi
     AgentService --> AgentProtocol
-    AgentService --> StoreJPA
+    AgentService --> StoreExposed
     AgentService --> AgentRuntime
     AgentService --> AgentMemory
     AgentService --> AgentState
@@ -63,7 +63,7 @@ flowchart TB
     AgentApi --> AgentProtocol
     AgentApi --> AgentDomain
     AgentProtocol --> Contracts
-    StoreJPA --> AgentDomain
+    StoreExposed --> AgentDomain
 
     AgentRuntime --> AgentMemory
     AgentRuntime --> AgentState
@@ -88,9 +88,9 @@ flowchart LR
     RT -->|snapshot| State[agent-state<br/>AgentStateService]
     RT -->|update| WM[agent-world-model<br/>WorldModelService]
 
-    Memory -->|六类记忆| MemoryRepo[(agent-store-jpa<br/>MemoryRepository)]
-    State -->|快照| StateRepo[(agent-store-jpa<br/>AgentStateRepository)]
-    WM -->|认知| WMRepo[(agent-store-jpa<br/>WorldModelRepository)]
+    Memory -->|六类记忆| MemoryRepo[(agent-store-exposed<br/>MemoryRepository)]
+    State -->|快照| StateRepo[(agent-store-exposed<br/>AgentStateRepository)]
+    WM -->|认知| WMRepo[(agent-store-exposed<br/>WorldModelRepository)]
 
     Perception -->|短期上下文| Assembler
     Memory -->|召回结果| Assembler
@@ -98,7 +98,7 @@ flowchart LR
     WM -->|当前认知| Assembler
     Identity[agent-domain<br/>Identity] -->|前置固定层| Assembler
 
-    Assembler[PromptAssembler<br/>固定顺序拼装] --> Model[ModelClient<br/>Spring AI 注入]
+    Assembler[PromptAssembler<br/>固定顺序拼装] --> Model[Koog Agent<br/>Structured Output]
     Model -->|LLM 输出| Factory
 
     Factory[agent-protocol<br/>ActionFactory] --> Validate{ActionValidator}
@@ -116,11 +116,11 @@ flowchart LR
     subgraph Embed["Phase 1 嵌入模式（默认）"]
         direction TB
         E_Client[Client] --> E_Service[agent-service<br/>:8080]
-        E_Service -->|Spring Bean| E_Core[runtime/agent-runtime]
-        E_Service -->|Spring Bean| E_Mem[runtime/agent-memory]
-        E_Service -->|Spring Bean| E_State[runtime/agent-state]
-        E_Service -->|Spring Bean| E_WM[runtime/agent-world-model]
-        E_Service -->|Spring Bean| E_Per[runtime/agent-perception]
+        E_Service -->|Koin module| E_Core[runtime/agent-runtime]
+        E_Service -->|Koin module| E_Mem[runtime/agent-memory]
+        E_Service -->|Koin module| E_State[runtime/agent-state]
+        E_Service -->|Koin module| E_WM[runtime/agent-world-model]
+        E_Service -->|Koin module| E_Per[runtime/agent-perception]
     end
 
     subgraph Standalone["Phase 2+ 独立模式"]
@@ -137,7 +137,7 @@ flowchart LR
     Embed -.切换条件.-> Standalone
 ```
 
-**图注**：嵌入模式（Phase 1 默认）单进程，agent-service 通过 Spring Bean 调用 runtime 核心；独立模式（Phase 2+）双进程，agent-service 通过 HTTP 调用 runtime-service（:8090）的 REST API。通过 `@ConditionalOnProperty(name = "runtime.mode")` 切换，**不改业务代码**。两种模式启动细节见 §5。
+**图注**：嵌入模式（Phase 1 默认）单进程，agent-service 通过 Koin module 调用 runtime 核心；独立模式（Phase 2+）双进程，agent-service 通过 HTTP 调用 runtime-service（:8090）的 REST API。通过 `RuntimeMode 配置(name = "runtime.mode")` 切换，**不改业务代码**。两种模式启动细节见 §5。
 
 ---
 
@@ -162,11 +162,12 @@ flowchart LR
 | 原则 | 含义 |
 |---|---|
 | **依赖单向** | `service → api / protocol → runtime → domain ← store`；任何反向依赖都视为破坏边界 |
-| **领域接口与实现分离** | `agent-domain` 只定义接口，存储实现放在 `agent-store-*` |
-| **contracts 不反向依赖** | contracts 是纯 OpenAPI / Schema，与 Kotlin / Spring / Spring AI 零耦合 |
-| **protocol 独立** | Action Protocol 构造与校验独立成模块，禁止 runtime 直接拼字符串 |
-| **runtime 完全框架无关** | `runtime/` 子项目不引入 `spring-boot-starter-*`、JPA、Web，单测不依赖 Spring Context |
-| **runtime 可独立运行** | 通过 `runtime-service` 模块提供 REST API，主服务可走"HTTP 调用"而非"进程内 Bean" |
+| **领域接口与实现分离** | `agent-domain` 只定义接口，存储实现放在 `agent-store-exposed` |
+| **contracts 不反向依赖** | contracts 是纯 OpenAPI / Schema，与 Kotlin、Ktor、Koog、Koin、Exposed 零耦合 |
+| **protocol 独立** | Action Protocol 构造、校验和版本迁移独立成模块，禁止 runtime 拼接协议字符串 |
+| **Koog 输出有边界** | `agent-runtime` 通过输出适配器取得结构化 `AgentAction`，再交给 `agent-protocol` 校验 |
+| **runtime 核心轻量** | runtime 核心不依赖 Ktor Server、Koin 或 Exposed；可用 Fake 依赖独立测试 |
+| **runtime 可独立运行** | `runtime-service` 提供 Ktor API，主服务通过 `RuntimeGateway` 在进程内实现和 HTTP 实现之间切换 |
 | **Perception SPI 化** | Phase 2+ 新增摄像头、麦克风、智能家居只需新增实现模块，不改核心 |
 
 ### 1.2 模块地图（13 个）
@@ -181,7 +182,7 @@ ayane-agent-service/                                 ← 主服务子项目
 ├── agent-api/                                       ← [接口层] Client API + Admin API
 ├── contracts/                                       ← [契约层] OpenAPI + Schema
 ├── agent-domain/                                    ← [领域层] 纯 Kotlin 领域模型 + 仓储接口
-├── agent-store-jpa/                                 ← [基础设施层] JPA 实现
+├── agent-store-exposed/                                 ← [基础设施层] Exposed JDBC 实现
 ├── agent-protocol/                                  ← [协议层] Action Protocol 构造 + 校验
 │
 └── runtime/                                         ← ★ runtime 子项目（composite build）
@@ -199,10 +200,10 @@ ayane-agent-service/                                 ← 主服务子项目
 
 | 模式 | 触发方式 | runtime-service | 适用阶段 |
 |---|---|---|---|
-| **嵌入模式** | `agent-service` 直接依赖 `runtime:agent-runtime`，通过 Spring Bean 调用 | 不启动 | Phase 1（推荐起步） |
-| **独立模式** | `agent-service` 通过 HTTP 客户端调用 `runtime-service` 的 REST API | `gradle :runtime:runtime-service:bootRun` | Phase 2+（多团队、水平扩展） |
+| **嵌入模式** | `agent-service` 通过 Koin 绑定 `EmbeddedRuntimeGateway`，直接调用 `runtime:agent-runtime` | 可不启动 | Phase 1（默认） |
+| **独立模式** | `agent-service` 通过 Koin 绑定 `HttpRuntimeGateway`，调用 runtime-service Ktor API | `gradle :runtime:runtime-service:run` | Phase 2+（多团队、水平扩展） |
 
-两种模式通过 Gradle Profile 切换，不改业务代码。
+Phase 1 同时保留可启动的 `runtime-service` Ktor 入口，用于独立健康检查和路由验证，但默认请求仍走嵌入模式。两种模式通过 `runtime.mode` 配置和 Koin binding 切换，不改业务接口。
 
 ---
 
@@ -212,10 +213,10 @@ ayane-agent-service/                                 ← 主服务子项目
 
 | 模块 | 依赖 |
 |---|---|
-| `agent-service` | `agent-api`, `agent-domain`, `agent-store-jpa`, `agent-protocol`, `runtime:agent-runtime`（嵌入模式） |
+| `agent-service` | `agent-api`, `agent-domain`, `agent-store-exposed`, `agent-protocol`, `runtime:agent-runtime`、Ktor、Koin、Koog（嵌入模式） |
 | `agent-api` | `agent-domain`, `agent-protocol`, `contracts` |
 | `agent-domain` | （无业务依赖） |
-| `agent-store-jpa` | `agent-domain` |
+| `agent-store-exposed` | `agent-domain` |
 | `agent-protocol` | `contracts` |
 | `contracts` | （无业务依赖，纯 Schema） |
 
@@ -223,14 +224,14 @@ ayane-agent-service/                                 ← 主服务子项目
 
 | 模块 | 依赖 |
 |---|---|
-| `agent-runtime` | `agent-domain`, `agent-protocol`, `runtime:agent-memory`, `runtime:agent-state`, `runtime:agent-world-model`, `runtime:agent-perception` |
+| `agent-runtime` | `agent-domain`, `agent-protocol`, `runtime:agent-memory`, `runtime:agent-state`, `runtime:agent-world-model`, `runtime:agent-perception`、Koog Core |
 | `agent-memory` | `agent-domain` |
 | `agent-state` | `agent-domain` |
 | `agent-world-model` | `agent-domain`, `runtime:agent-memory` |
 | `agent-perception` | `agent-domain` |
-| `runtime-service` | `runtime:agent-runtime`, Spring Web |
+| `runtime-service` | `runtime:agent-runtime`、Ktor Server、Koin、`koog-ktor` |
 
-**关键约束**：`runtime/` 下任何模块**禁止**依赖 `spring-boot-starter-*`、JPA、Web、JSON 序列化框架——单测使用纯 Kotlin JUnit 5 + kotlinx-coroutines-test。
+**关键约束**：`runtime/` 核心模块禁止依赖 Ktor Server、Koin 和 Exposed；`runtime-service` 作为边界模块可以依赖 Ktor、Koin 和 `koog-ktor`。单测使用纯 Kotlin JUnit 5 + kotlinx-coroutines-test。
 
 ---
 
@@ -238,664 +239,258 @@ ayane-agent-service/                                 ← 主服务子项目
 
 ### 3.1 `agent-domain`（领域层）
 
-**职责**：定义所有业务概念和持久化接口，无任何技术框架。
+**职责**：定义业务概念、领域事件和持久化端口，不依赖 Ktor、Koin、Koog 或 Exposed。
 
-```kotlin
-// 包结构
-agent.domain.identity.AgentId
-agent.domain.identity.Identity              // 人格、价值观、说话方式
-agent.domain.identity.IdentityRepository    // 接口
+**核心边界**：
 
-agent.domain.memory.Memory                  // 六类记忆基类
-agent.domain.memory.MemoryRepository
+| 领域区域 | 主要内容 |
+|---|---|
+| Identity | `AgentId`、`Identity`、`IdentityRepository` |
+| Memory | `Memory`、`MemoryQuery`、`MemoryRepository` |
+| State | `AgentState`、`AgentStateRepository`、状态更新规则端口 |
+| World | `WorldModel`、`WorldModelRepository` |
+| Event | `PerceptionEvent`、`SessionEvent` 及相关值对象 |
 
-agent.domain.state.AgentState               // 心情、精力、亲密度、孤独感
-agent.domain.state.AgentStateRepository
+Repository 只表达领域需要的读写能力；数据库连接、事务、序列化和 Web 请求对象不得进入领域层。
 
-agent.domain.world.WorldModel
-agent.domain.world.WorldModelRepository
+### 3.2 `agent-store-exposed`（基础设施层）
 
-agent.domain.event.PerceptionEvent          // ClockSignal / SessionSignal / ClientSignal
-agent.domain.event.SessionEvent
-```
+**职责**：使用 Exposed JDBC 实现 `agent-domain` 中的 Repository 接口。
 
-**对外接口示例**：
+**实现区域**：
 
-```kotlin
-interface IdentityRepository {
-    suspend fun findById(id: AgentId): Identity?
-    suspend fun save(identity: Identity): Identity
-}
-
-interface MemoryRepository {
-    suspend fun recall(agentId: AgentId, query: MemoryQuery, limit: Int): List<Memory>
-    suspend fun store(agentId: AgentId, memory: Memory): Memory
-}
-```
-
-**依赖**：`kotlinx-coroutines-core`（用于 `suspend`），无 Spring / JPA。
-
-### 3.2 `agent-store-jpa`（基础设施层）
-
-**职责**：实现 `agent-domain` 里的 Repository 接口。
-
-**包结构**：
-
-```kotlin
-agent.store.jpa.identity.JpaIdentityRepository       : IdentityRepository
-agent.store.jpa.memory.JpaMemoryRepository           : MemoryRepository
-agent.store.jpa.state.JpaAgentStateRepository         : AgentStateRepository
-agent.store.jpa.world.JpaWorldModelRepository         : WorldModelRepository
-```
+- `agent.store.exposed.identity`：Identity 持久化。
+- `agent.store.exposed.memory`：六类 Memory 的存储和召回。
+- `agent.store.exposed.state`：Agent State 快照读写。
+- `agent.store.exposed.world`：World Model 读写。
+- `agent.store.exposed.table`：Exposed Table 定义，仅模块内部可见。
+- `agent.store.exposed.mapping`：数据库行与领域对象之间的映射。
 
 **关键约束**：
 
-- 不暴露 `EntityManager` / `JpaRepository` 给上层
-- 通过 `internal` 修饰符隐藏 JPA 实体
-- 实体类放在 `agent.store.jpa.entity` 子包，DTO 与领域对象之间的映射放在 `agent.store.jpa.mapping`
+- 不向上层暴露 Exposed `Table`、`ResultRow`、`Database` 或事务对象。
+- Phase 1 使用 Exposed JDBC，不采用 R2DBC。
+- 协程 Repository 通过挂起事务封装 JDBC 调用，并将阻塞式数据库操作隔离到 IO 调度器。
+- 数据库表、索引、映射和迁移属于本模块，`agent-domain` 只保留领域接口。
 
 ### 3.3 `agent-protocol`（协议层）
 
-**职责**：构造、校验、版本化 Agent Action Protocol。
+**职责**：构造、校验、版本化 Agent Action Protocol，并为 Koog Structured Output 提供稳定的动作模型。
 
-**包结构**：
+**协议区域**：
 
-```kotlin
-agent.protocol.action.SpeakAction
-agent.protocol.action.EmotionAction
-agent.protocol.action.GestureAction
-agent.protocol.action.LookAtAction
-agent.protocol.action.WaitAction
-agent.protocol.action.ListenAction
-
-agent.protocol.factory.ActionFactory              // 构造入口
-agent.protocol.validator.ActionValidator          // JSON Schema 校验
-agent.protocol.version.ProtocolVersion           // v1 / v2 ...
-agent.protocol.migrator.ActionMigrator            // 跨版本迁移
-```
+- Action：`SpeakAction`、`EmotionAction`、`GestureAction`、`LookAtAction`、`WaitAction`、`ListenAction`。
+- Factory：系统规则产生的动作构造入口。
+- Validator：Schema 校验和业务约束校验。
+- Version：协议版本管理。
+- Migrator：跨版本动作迁移。
 
 **关键约束**：
 
-- 不依赖 `agent-runtime` / `agent-api`
-- 仅依赖 `contracts`（Schema 来源）
-- runtime 必须通过 `ActionFactory.create(...)` 产出 Action，禁止运行时拼字符串
+- 只依赖 `contracts` 和协议自身的序列化支持，不依赖 `agent-runtime`、`agent-api` 或 Koog。
+- Koog 输出适配器以协议动作作为结构化输出目标，再调用迁移器和校验器。
+- 只有完整动作通过校验后才能进入 `Flow<AgentActionEvent>`，禁止运行时拼接协议字符串。
 
 **对应文档**：[AgentService架构设计 §10 Embodiment Protocol](AgentService架构设计.md)
 
 ### 3.4 `contracts`（契约层）
 
-**职责**：跨仓库 OpenAPI + WebSocket Schema 定义。
+**职责**：维护跨仓库 OpenAPI、WebSocket Event Schema 和 Agent Action Protocol Schema，保持框架无关。
 
-**内容**：
+**契约资源**：
 
-```yaml
-# src/main/resources/openapi/ayane-client-api.yaml
-# src/main/resources/openapi/ayane-admin-api.yaml
-# src/main/resources/schema/perception-event.schema.json
-# src/main/resources/schema/session-event.schema.json
-# src/main/resources/schema/agent-action-protocol.schema.json
-```
+- `src/main/resources/openapi/ayane-client-api.yaml`
+- `src/main/resources/openapi/ayane-admin-api.yaml`
+- `src/main/resources/schema/perception-event.schema.json`
+- `src/main/resources/schema/session-event.schema.json`
+- `src/main/resources/schema/agent-action-protocol.schema.json`
 
-**生成产物**：通过 OpenAPI Generator Gradle Plugin 生成 DTO，输出到 `build/generated/`（不提交）。
+生成产物只提供纯 Kotlin DTO 和序列化类型，不生成 Web 框架 Controller、Ktor Route 或其他具体适配器。API 路由由 `agent-api` 和 `runtime-service` 手写适配。
 
 **对应文档**：[Contracts 架构设计](Contracts架构设计.md)
 
 ### 3.5 `agent-api`（接口层）
 
-**职责**：暴露 Client API（REST + WebSocket）和 Admin API。
+**职责**：使用 Ktor 暴露 Client API（REST + WebSocket）和 Admin API。
 
-**包结构**：
+**接口区域**：
 
-```kotlin
-agent.api.client.ClientController                 // REST
-agent.api.client.ClientWebSocketHandler           // WS
-agent.api.client.dto.*                            // 由 contracts 生成
-
-agent.api.admin.AdminController
-agent.api.admin.dto.*
-```
+- `agent.api.client.ClientRoutes`：Client REST 路由。
+- `agent.api.client.ClientWebSocketRoutes`：Client WebSocket 路由。
+- `agent.api.admin.AdminRoutes`：Admin API 路由。
+- `agent.api.*.dto`：由 contracts 生成或适配的 DTO。
 
 **关键约束**：
 
-- Controller 不写业务逻辑，只做协议转换与请求分发
-- 业务逻辑调用 `runtime:agent-runtime`（嵌入模式）或 HTTP 客户端（独立模式）
+- Route 只做协议转换、鉴权边界和请求分发，不写领域业务逻辑。
+- 业务逻辑统一调用 `RuntimeGateway`，不直接依赖具体 runtime 实现。
+- Phase 1 默认绑定 `EmbeddedRuntimeGateway`；独立模式再绑定 `HttpRuntimeGateway`。
 
 ### 3.6 `agent-service`（应用层）
 
-**职责**：Spring Boot 启动、装配、配置、Profile 管理。
+**职责**：提供 Ktor Application 入口、Koin 组合根、配置加载和运行模式选择。
 
-**核心类**：
+**启动装配顺序**：
 
-```kotlin
-@SpringBootApplication
-class AgentServiceApplication
+1. 创建 Ktor Application 并安装 HTTP、WebSocket、序列化和错误处理能力。
+2. 由 Koin 装配 Repository、Runtime、Koog 输出适配器和 API 路由依赖。
+3. 根据 `runtime.mode` 绑定 `EmbeddedRuntimeGateway` 或 `HttpRuntimeGateway`。
+4. 注册 Client API、Admin API、WebSocket 和健康检查路由。
+5. 将请求交给 `RuntimeGateway`，不让接口层感知嵌入式或独立式实现。
 
-@Configuration
-class AgentServiceModuleConfig {
-    // 嵌入模式：直接装配 runtime:agent-runtime 的 Bean
-    // 独立模式：装配 RuntimeServiceClient（HTTP 客户端）
-}
-```
-
-**Profile 配置**：
-
-```yaml
-# application.yml（嵌入模式，默认）
-spring.profiles.active: embedded
-
-# application-standalone.yml（独立模式）
-runtime-service.url: http://localhost:8090
-```
+Phase 1 默认使用 `runtime.mode = embedded`，runtime 在同一进程内运行；独立模式只替换 Koin binding 和服务端地址配置。
 
 ### 3.7 `runtime/`（核心决策子项目）
 
-**职责**：所有"决策核心"逻辑，独立于主服务，可单独部署。
+runtime 子项目承载决策核心。核心模块不依赖 Ktor Server、Koin 或 Exposed；只有 `runtime-service` 作为边界模块负责 Ktor 入口和 Koin 装配。
 
 #### 3.7.1 `runtime:agent-runtime`（Loop 与决策）
 
-**包结构**：
+**职责**：编排 Reactive Loop、Proactive Loop、Prompt 组装、Koog 输出和 Action Event Stream。
 
-```kotlin
-agent.runtime.core.AgentRuntime                   // 入口
-agent.runtime.core.ReactiveLoop                   // 响应用户
-agent.runtime.core.ProactiveLoop                  // 主动发起
-agent.runtime.decision.PromptAssembler            // §9.3 固定顺序拼装
-agent.runtime.decision.ModelClient                // 接口，运行时注入
-agent.runtime.decision.DecisionEngine             // 决策编排
-```
+**核心能力**：
 
-**关键约束**：
+- `AgentRuntime`：统一 runtime 入口。
+- `ReactiveLoop`：响应用户事件。
+- `ProactiveLoop`：评估和发起主动行为。
+- `PromptAssembler`：按固定顺序组装上下文。
+- `AgentActionOutput`：结构化动作输出端口。
+- `KoogStructuredActionOutput`：Koog 适配器，取得完整动作后交给 `agent-protocol` 校验。
+- `DecisionEngine`：决策编排。
 
-- `ModelClient` 是接口，由 `agent-service`（嵌入模式）或 `runtime-service`（独立模式）注入
-- 不依赖 Spring AI 的具体实现
+`agent-runtime` 可以依赖 Koog Core，但不依赖 Ktor Server、Koin 或 Exposed；具体依赖装配由应用入口负责。
 
 **对应文档**：[AgentService架构设计 §9 Runtime 核心](AgentService架构设计.md)
 
 #### 3.7.2 `runtime:agent-memory`（六类记忆 + 召回）
 
-**包结构**：
+**职责**：实现六类记忆的召回编排和 Memory 生命周期逻辑。
 
-```kotlin
-agent.runtime.memory.MemoryService                // 入口
-agent.runtime.memory.episodic.EpisodicMemory
-agent.runtime.memory.semantic.SemanticMemory
-agent.runtime.memory.profile.UserProfile
-agent.runtime.memory.emotional.EmotionalMemory
-agent.runtime.memory.contextual.ContextualMemory
-agent.runtime.memory.procedural.ProceduralMemory
-agent.runtime.memory.recall.RecallStrategy        // 召回策略
-```
+**能力区域**：Episodic、Semantic、Preference、Relationship、Emotional、Procedural，以及 `RecallStrategy`。
 
-**关键约束**：
-
-- `MemoryRepository` 来自 `agent-domain`，本模块只做"召回编排"
-- 召回策略可替换：Phase 1 用关键词，Phase 2+ 用向量
+Memory Repository 来自 `agent-domain`；Phase 1 使用关键词和规则召回，Phase 2+ 可替换为向量召回，不改变上层端口。
 
 #### 3.7.3 `runtime:agent-state`（State + 状态机）
 
-**包结构**：
+**职责**：实现 Agent State 快照、状态机和确定性状态更新规则。
 
-```kotlin
-agent.runtime.state.AgentStateService
-agent.runtime.state.machine.StateMachine           // 状态机
-agent.runtime.state.rule.StateRule                // 状态更新规则
-agent.runtime.state.snapshot.StateSnapshot
-```
-
-**关键约束**：
-
-- LLM **不能直接写 State**，必须经过 `StateRule` 校验
-- 规则接口定义在 `agent-domain.state.rule`，实现在本模块
-
-**对应文档**：[AgentService架构设计 §6 Agent State](AgentService架构设计.md)
+LLM 只能读取 State；所有 State 变化必须经过 `StateRule` 和状态机校验。该模块不直接暴露数据库实现。
 
 #### 3.7.4 `runtime:agent-world-model`（World Model）
 
-**包结构**：
+**职责**：维护时间、用户、活跃 Session、设备和最近事件等当前认知。
 
-```kotlin
-agent.runtime.world.WorldModelService
-agent.runtime.world.context.WorldContext          // 当前认知
-agent.runtime.world.inference.WorldInference      // 推理引擎
-agent.runtime.world.update.WorldUpdater
-```
-
-**关键约束**：
-
-- Phase 1：WorldContext = 用户 + 时间 + 设备 + 最近会话摘要
-- Phase 2+：升级为 Belief Store，存储持久化认知
-
-**对应文档**：[AgentService架构设计 §8 World Model](AgentService架构设计.md)
+Phase 1 的 `WorldContext` 保持轻量；Phase 2+ 再演进为带置信度和更新时间的 Belief Store。
 
 #### 3.7.5 `runtime:agent-perception`（感知层）
 
-**包结构**：
+**职责**：接收不同来源的原始信号，经 Attention Filter 和 Working Memory Buffer 转换为语义化 PerceptionEvent。
 
-```kotlin
-agent.runtime.perception.source.PerceptionSource    // SPI 接口
-agent.runtime.perception.source.impl.ClockSignalSource
-agent.runtime.perception.source.impl.SessionSignalSource
-agent.runtime.perception.source.impl.ClientSignalSource
-agent.runtime.perception.filter.AttentionFilter
-agent.runtime.perception.buffer.WorkingMemoryBuffer
-```
+Phase 1 支持 ClientSignal、ClockSignal 和 SessionSignal；Phase 2+ 通过新增 PerceptionSource 接入摄像头、麦克风和智能家居，不修改 runtime 核心。
 
-**关键约束**：
+#### 3.7.6 `runtime:runtime-service`（Ktor 独立部署壳）
 
-- 通过 `java.util.ServiceLoader` 注册 `PerceptionSource` 实现
-- Phase 2+ 新增设备（摄像头、麦克风、智能家居）只需新增 `:runtime:agent-perception-camera` 模块，不改核心
+**职责**：将 `runtime:agent-runtime` 暴露为可启动的 Ktor API，负责 Koin 装配、请求转换、健康检查和运行时适配。业务逻辑全部委托给 runtime 核心。
 
-**对应文档**：[AgentService架构设计 §7 Perception Layer](AgentService架构设计.md)
-
-#### 3.7.6 `runtime:runtime-service`（独立部署壳）
-
-**职责**：把 `runtime:agent-runtime` 暴露为 REST API，让 `agent-service` 通过 HTTP 调用。
-
-**REST 端点**：
+**Phase 1 端点**：
 
 | 端点 | 方法 | 用途 |
 |---|---|---|
-| `/api/runtime/process` | POST | 处理感知事件 |
+| `/api/runtime/process` | POST | 处理感知事件并产生运行结果 |
 | `/api/runtime/memory/recall` | POST | 记忆召回 |
-| `/api/runtime/state/snapshot` | GET | 状态快照 |
+| `/api/runtime/state/snapshot` | GET | 获取状态快照 |
 | `/api/runtime/world/update` | POST | 更新 World Model |
-| `/api/runtime/action/factory` | POST | 构造 Action Protocol |
+| `/api/runtime/action/factory` | POST | 构造 Agent Action Protocol |
 | `/api/runtime/health` | GET | 健康检查 |
 
-**关键约束**：
-
-- 仅做"协议转换"，业务逻辑全部委托给 `runtime:agent-runtime`
-- Phase 1 不打包进最终镜像（嵌入模式）
+Phase 1 可以独立启动和验证该入口，但 `agent-service` 默认仍通过嵌入模式调用 runtime。`koog-ktor` 只属于 Ktor 边界层，协议模型和校验仍属于 `agent-protocol`。
 
 ---
 
 ## 4. Gradle 配置
 
-### 4.1 顶层 `settings.gradle.kts`
-
-```kotlin
-rootProject.name = "ayane-agent-service"
-
-pluginManagement {
-    includeBuild("runtime")
-}
-
-include(
-    "agent-service",
-    "agent-api",
-    "agent-domain",
-    "agent-store-jpa",
-    "agent-protocol",
-    "contracts",
-)
-
-includeBuild("runtime")
-```
-
-### 4.2 顶层 `build.gradle.kts`
-
-```kotlin
-plugins {
-    kotlin("jvm") version "2.0.21" apply false
-    kotlin("plugin.spring") version "2.0.21" apply false
-    kotlin("plugin.serialization") version "2.0.21" apply false
-    springboot { version = "3.3.5" } apply false
-    id("org.springframework.boot") version "3.3.5" apply false
-    id("io.spring.dependency-management") version "1.1.6" apply false
-}
-
-subprojects {
-    group = "com.ayane.agent"
-    version = "0.1.0"
-
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(21))
-        }
-    }
-
-    kotlin {
-        jvmToolchain(21)
-    }
-}
-```
-
-### 4.3 `gradle/libs.versions.toml`
-
-```toml
-[versions]
-spring-boot = "3.3.5"
-spring-ai = "1.0.0-M6"
-kotlin = "2.0.21"
-coroutines = "1.8.1"
-serialization = "1.7.3"
-jpa = "3.1.5"
-h2 = "2.2.224"
-postgres = "42.7.4"
-jackson = "2.17.2"
-
-[libraries]
-# Spring Boot
-spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
-spring-boot-starter-websocket = { module = "org.springframework.boot:spring-boot-starter-websocket" }
-spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
-spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
-
-# Spring AI
-spring-ai-openai = { module = "org.springframework.ai:spring-ai-openai" }
-
-# Kotlin
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
-
-# Database
-h2 = { module = "com.h2database:h2", version.ref = "h2" }
-postgresql = { module = "org.postgresql:postgresql", version.ref = "postgres" }
-
-# OpenAPI Generator
-openapi-generator-gradle = { module = "org.openapi.generator:openapi-generator-gradle-plugin", version = "7.7.0" }
-
-[bundles]
-spring-web = ["spring-boot-starter-web", "spring-boot-starter-websocket", "spring-boot-starter-actuator"]
-spring-data = ["spring-boot-starter-data-jpa"]
-```
-
-### 4.4 主服务各模块 `build.gradle.kts` 示例
-
-#### `agent-service/build.gradle.kts`
-
-```kotlin
-plugins {
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-    kotlin("jvm")
-    kotlin("plugin.spring")
-}
-
-dependencies {
-    implementation(project(":agent-api"))
-    implementation(project(":agent-domain"))
-    implementation(project(":agent-store-jpa"))
-    implementation(project(":agent-protocol"))
-
-    // 嵌入模式：直接依赖 runtime 核心
-    implementation(project(":runtime:agent-runtime"))
-    implementation(project(":runtime:agent-memory"))
-    implementation(project(":runtime:agent-state"))
-    implementation(project(":runtime:agent-world-model"))
-    implementation(project(":runtime:agent-perception"))
-
-    implementation(libs.spring.boot.starter.web)
-    implementation(libs.spring.boot.starter.actuator)
-
-    runtimeOnly(libs.postgresql)
-    runtimeOnly(libs.h2)
-}
-```
-
-#### `agent-api/build.gradle.kts`
-
-```kotlin
-plugins {
-    kotlin("jvm")
-    kotlin("plugin.spring")
-}
-
-dependencies {
-    implementation(project(":agent-domain"))
-    implementation(project(":agent-protocol"))
-    implementation(project(":contracts"))
-
-    implementation(libs.spring.boot.starter.web)
-    implementation(libs.spring.boot.starter.websocket)
-}
-```
-
-#### `agent-domain/build.gradle.kts`
-
-```kotlin
-plugins {
-    kotlin("jvm")
-    kotlin("plugin.serialization")
-}
-
-dependencies {
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.serialization.json)
-
-    testImplementation(libs.kotlinx.coroutines.test)
-}
-```
-
-#### `agent-store-jpa/build.gradle.kts`
-
-```kotlin
-plugins {
-    kotlin("jvm")
-    kotlin("plugin.spring")
-    id("io.spring.dependency-management")
-    kotlin("plugin.serialization")
-    id("com.google.devtools.ksp") version "2.0.21-1.0.25"
-}
-
-dependencies {
-    implementation(project(":agent-domain"))
-    implementation(libs.spring.boot.starter.data.jpa)
-
-    testImplementation(libs.h2)
-}
-```
-
-#### `agent-protocol/build.gradle.kts`
-
-```kotlin
-plugins {
-    kotlin("jvm")
-    kotlin("plugin.serialization")
-}
-
-dependencies {
-    implementation(project(":contracts"))
-    implementation(libs.kotlinx.serialization.json)
-}
-```
-
-#### `contracts/build.gradle.kts`
-
-```kotlin
-plugins {
-    kotlin("jvm")
-    id("org.openapi.generator") version "7.7.0"
-}
-
-openapiGenerate {
-    generatorName.set("kotlin-spring")
-    inputSpec.set("$rootDir/src/main/resources/openapi/ayane-client-api.yaml")
-    outputDir.set("$buildDir/generated")
-    apiPackage.set("com.ayane.contracts.client.api")
-    modelPackage.set("com.ayane.contracts.client.dto")
-    configOptions.set(mapOf(
-        "library" to "spring-boot",
-        "useTags" to "true",
-    ))
-}
-```
-
-### 4.5 `runtime/` 子项目配置
-
-#### `runtime/settings.gradle.kts`
-
-```kotlin
-rootProject.name = "runtime"
-
-include(
-    "agent-runtime",
-    "agent-memory",
-    "agent-state",
-    "agent-world-model",
-    "agent-perception",
-    "runtime-service",
-)
-```
-
-#### `runtime/build.gradle.kts`
-
-```kotlin
-plugins {
-    kotlin("jvm") version "2.0.21" apply false
-    kotlin("plugin.spring") version "2.0.21" apply false
-    springboot { version = "3.3.5" } apply false
-    id("org.springframework.boot") version "3.3.5" apply false
-}
-
-subprojects {
-    group = "com.ayane.agent.runtime"
-    version = "0.1.0"
-
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(21))
-        }
-    }
-
-    kotlin {
-        jvmToolchain(21)
-    }
-}
-```
-
-#### `runtime/agent-runtime/build.gradle.kts`
-
-```kotlin
-plugins {
-    kotlin("jvm")
-    kotlin("plugin.serialization")
-}
-
-dependencies {
-    api(project(":agent-domain"))                   // 暴露领域模型
-    api(project(":agent-protocol"))                 // 暴露协议工厂
-    implementation(project(":agent-memory"))
-    implementation(project(":agent-state"))
-    implementation(project(":agent-world-model"))
-    implementation(project(":agent-perception"))
-
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.serialization.json)
-
-    compileOnly(libs.spring.ai.openapi)              // ModelClient 接口，运行时注入
-
-    testImplementation(libs.kotlinx.coroutines.test)
-}
-```
-
-#### `runtime/agent-memory/build.gradle.kts`
-
-```kotlin
-plugins {
-    kotlin("jvm")
-}
-
-dependencies {
-    api(project(":agent-domain"))
-
-    implementation(libs.kotlinx.coroutines.core)
-
-    testImplementation(libs.kotlinx.coroutines.test)
-}
-```
-
-> `agent-state`、`agent-world-model`、`agent-perception` 配置类似，仅 `api(project(":agent-domain"))` + `kotlinx-coroutines`。
-
-#### `runtime/runtime-service/build.gradle.kts`
-
-```kotlin
-plugins {
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
-    kotlin("jvm")
-    kotlin("plugin.spring")
-}
-
-dependencies {
-    implementation(project(":agent-runtime"))
-    implementation(project(":agent-domain"))
-    implementation(project(":agent-protocol"))
-
-    implementation(libs.spring.boot.starter.web)
-    implementation(libs.spring.boot.starter.actuator)
-
-    implementation(libs.spring.ai.openapi)            // 注入 ModelClient 实现
-}
-```
+本文只规定构建边界和依赖类别，不固化完整 `build.gradle.kts`、Version Catalog 或具体插件版本。实际构建脚本应随 `ayane-agent-service` 工程版本一起维护。
+
+### 4.1 项目结构
+
+- 顶层项目包含 `agent-service`、`agent-api`、`agent-domain`、`agent-store-exposed`、`agent-protocol` 和 `contracts`。
+- 顶层通过 `includeBuild("runtime")` 接入 runtime composite build。
+- runtime 子项目包含 `agent-runtime`、`agent-memory`、`agent-state`、`agent-world-model`、`agent-perception` 和 `runtime-service`。
+- 存储实现模块统一使用 `agent-store-exposed` 命名。
+
+### 4.2 构建和工具链边界
+
+| 构建区域 | 允许内容 |
+|---|---|
+| 基础工具链 | Kotlin/JVM、Java 21、Kotlin Serialization、JUnit 5 |
+| HTTP 入口 | Ktor Server、WebSocket、Content Negotiation、Status Pages |
+| Agent 输出 | Koog Core；`koog-ktor` 仅用于 Ktor 边界集成 |
+| 依赖注入 | Koin Core、Koin Ktor |
+| 持久化 | Exposed Core / DAO / JDBC、HikariCP、PostgreSQL、H2 |
+| 契约生成 | OpenAPI Generator，目标为纯 Kotlin DTO / Serialization 类型 |
+
+版本必须统一由 Version Catalog 管理，禁止在模块脚本中重复声明版本。具体版本以实际工程的兼容性验证结果为准。
+
+### 4.3 模块依赖规则
+
+| 模块 | 允许依赖 | 禁止依赖 |
+|---|---|---|
+| `agent-domain` | Kotlin、协程、序列化 | Ktor、Koin、Koog、Exposed、数据库驱动 |
+| `agent-protocol` | `contracts`、序列化 | `agent-runtime`、`agent-api`、Koog、Ktor |
+| `agent-store-exposed` | `agent-domain`、Exposed、数据库基础设施 | Ktor、API 路由、产品层模块 |
+| `runtime:agent-runtime` | 领域、协议、runtime 核心模块、Koog Core | Ktor Server、Koin、Exposed |
+| `runtime:runtime-service` | runtime 核心、Ktor、Koin、`koog-ktor` | 具体数据库实现和客户端业务模块 |
+| `agent-api` | 领域、协议、contracts、Ktor | Exposed、数据库表和 Koog 具体调用 |
+| `agent-service` | API、Store、Protocol、Runtime、Ktor、Koin、Koog | 反向依赖客户端或 Unity 源码 |
+
+### 4.4 构建验证边界
+
+- 核心 runtime 模块可以脱离 Ktor Application 进行纯单元测试。
+- `agent-store-exposed` 通过 H2 和 Exposed JDBC 做集成测试。
+- `agent-api` 和 `runtime-service` 使用 Ktor `testApplication` 验证路由和序列化。
+- contracts 验证 OpenAPI / JSON Schema 与 DTO 序列化，不验证 Web 框架行为。
+- 依赖分析必须阻止 runtime 核心反向引入 Ktor Server、Koin 或 Exposed。
 
 ---
 
 ## 5. 启动入口
 
-### 5.1 嵌入模式（Phase 1 默认）
+### 5.1 `agent-service` 嵌入模式（Phase 1 默认）
 
-```bash
-# 单一进程：agent-service 启动，内部直接调用 runtime 核心
-./gradlew :agent-service:bootRun
+启动命令：`./gradlew :agent-service:run`
+
+- 端口：`8080`
+- `runtime.mode`：`embedded`
+- Runtime：进程内 `EmbeddedRuntimeGateway`
+- 用途：Phase 1 默认运行方式
+
+### 5.2 `runtime-service` Ktor 入口（Phase 1 可启动骨架）
+
+启动命令：`./gradlew :runtime:runtime-service:run`
+
+- 端口：`8090`
+- 入口模式：Ktor Application + Koin Modules
+- 必须可验证：`/api/runtime/health`、`/api/runtime/process`
+- 用途：独立 runtime 边界验证，不改变 Phase 1 默认嵌入模式
+
+### 5.3 独立模式（Phase 2+）
+
+独立模式由 `runtime.mode = standalone` 触发：
+
+```text
+agent-service :8080
+    └── HttpRuntimeGateway
+            ↓ HTTP
+runtime-service :8090
+    └── runtime:agent-runtime
 ```
 
-**应用端口**：`http://localhost:8080`
+Koin 根据 `runtime.mode` 绑定 `EmbeddedRuntimeGateway` 或 `HttpRuntimeGateway`；Route 和领域业务接口不需要修改。
 
-**生效配置**：
+### 5.4 健康检查
 
-```yaml
-# application.yml
-spring.profiles.active: embedded
-runtime.mode: embedded
-```
-
-### 5.2 独立模式（Phase 2+）
-
-**终端 1**：启动 runtime-service
-
-```bash
-./gradlew :runtime:runtime-service:bootRun
-```
-
-**端口**：`http://localhost:8090`
-
-**生效配置**：
-
-```yaml
-# runtime-service/src/main/resources/application.yml
-server.port: 8090
-runtime.mode: standalone
-```
-
-**终端 2**：启动 agent-service
-
-```bash
-./gradlew :agent-service:bootRun
-```
-
-**生效配置**：
-
-```yaml
-# agent-service/src/main/resources/application-standalone.yml
-spring.profiles.active: standalone
-runtime.mode: standalone
-runtime-service.url: http://localhost:8090
-```
-
-**关键切换**：`agent-service` 通过 `@ConditionalOnProperty(name = "runtime.mode", havingValue = "standalone")` 注入 `RuntimeServiceClient`（HTTP 客户端），调用 `runtime-service` 的 REST API。
-
-### 5.3 健康检查
-
-```bash
-# 嵌入模式
-curl http://localhost:8080/actuator/health
-
-# 独立模式
-curl http://localhost:8090/api/runtime/health
-curl http://localhost:8080/actuator/health
-```
+- `agent-service`：`curl http://localhost:8080/health`
+- `runtime-service`：`curl http://localhost:8090/api/runtime/health`
 
 ---
 
@@ -903,52 +498,34 @@ curl http://localhost:8080/actuator/health
 
 ### 6.1 模块测试层级
 
-| 模块 | 测试类型 | 是否需要 Spring Context |
-|---|---|---|
-| `agent-domain` | 纯单测（值对象、领域事件） | ❌ |
-| `agent-store-jpa` | 集成测试（H2 + JPA） | ✅（最小化） |
-| `agent-protocol` | 纯单测（构造、校验、迁移） | ❌ |
-| `contracts` | Schema 校验测试 | ❌ |
-| `runtime:agent-memory` | 纯单测（召回策略用假仓储） | ❌ |
-| `runtime:agent-state` | 纯单测（状态机 + 规则） | ❌ |
-| `runtime:agent-world-model` | 纯单测（推理逻辑用假 Client） | ❌ |
-| `runtime:agent-perception` | 纯单测（Filter + Buffer） | ❌ |
-| `runtime:agent-runtime` | 纯单测（Loop 编排用假依赖） | ❌ |
-| `runtime:runtime-service` | `@WebMvcTest` | ✅（最小化） |
-| `agent-api` | `@WebMvcTest` | ✅（最小化） |
-| `agent-service` | `@SpringBootTest` | ✅（仅配置装配） |
+| 模块                          | 测试类型                                      | 是否需要 Ktor / Koin |
+|-----------------------------|-------------------------------------------|------------------|
+| `agent-domain`              | 纯单测（值对象、领域事件）                             | ❌                |
+| `agent-store-exposed`       | 集成测试（H2 + Exposed JDBC）                   | ❌，仅使用数据库测试工具     |
+| `agent-protocol`            | 纯单测（结构化动作、校验、迁移）                          | ❌                |
+| `contracts`                 | Schema、DTO 序列化测试                          | ❌                |
+| `runtime:agent-memory`      | 纯单测（召回策略用假仓储）                             | ❌                |
+| `runtime:agent-state`       | 纯单测（状态机 + 规则）                             | ❌                |
+| `runtime:agent-world-model` | 纯单测（推理逻辑用假 Client）                        | ❌                |
+| `runtime:agent-perception`  | 纯单测（Filter + Buffer）                      | ❌                |
+| `runtime:agent-runtime`     | 纯单测（Fake Koog Agent + Fake Repository）    | ❌                |
+| `runtime:runtime-service`   | Ktor `testApplication` 路由测试               | ✅ 最小 Koin 装配     |
+| `agent-api`                 | Ktor `testApplication` API / WebSocket 测试 | ✅ 最小 Koin 装配     |
+| `agent-service`             | Ktor Application + Koin 装配测试              | ✅                |
+
+Koog 输出层至少覆盖：
+
+1. 合法 `AgentAction` 进入 `Flow<AgentActionEvent>`。
+2. 缺少必填字段的结构化输出被拒绝，且不发出协议事件。
+3. 旧协议版本先经过 `ActionMigrator`，再进入校验器。
+4. `SPEAK`、`EMOTION`、`GESTURE` 等动作保持协议版本一致。
+5. Proactive 输出被用户输入打断时，不产生半个协议动作。
 
 ### 6.2 Test Fixtures 模块
 
-建议创建 `test-fixtures/` 顶级模块，提供领域对象构造器（如 `TestIdentity.createDefault()`），避免各模块重复构造逻辑。
-
-```kotlin
-// test-fixtures/src/main/kotlin/com/ayane/test/identity/TestIdentity.kt
-object TestIdentity {
-    fun createDefault(): Identity = Identity(
-        id = AgentId("test-agent"),
-        personality = "测试人格",
-        // ...
-    )
-}
-```
-
-**配置**：
-
-```kotlin
-// settings.gradle.kts
-include("test-fixtures")
-```
-
-```kotlin
-// runtime/agent-memory/build.gradle.kts
-dependencies {
-    testImplementation(testFixtures(project(":test-fixtures")))
-}
-```
+建议创建 `test-fixtures/` 顶级模块，集中提供默认 Identity、Memory、State 和事件构造器，供各模块测试复用。该模块只服务测试，不进入生产运行时，也不改变领域模块的正式依赖方向。
 
 ---
-
 ## 7. 演进路径
 
 ### 7.1 Phase 1 → Phase 2 切换点
@@ -957,7 +534,7 @@ dependencies {
 |---|---|
 | `:runtime:agent-perception-camera` 新模块 | 接入摄像头 |
 | `:runtime:agent-store-vector` 新模块 | 接入向量库 |
-| `agent-mode.mode: standalone` | runtime-service 单独部署 |
+| `runtime.mode: standalone` | runtime-service 单独部署 |
 
 ### 7.2 Phase 2 → Phase 3 切换点
 
@@ -992,7 +569,7 @@ Phase 1 末：当客户端 / 管理后台 / 第三方 SDK 都开始消费 contra
 | `runtime:agent-runtime` | [AgentService架构设计 §9 Runtime 核心](AgentService架构设计.md) |
 | `agent-protocol` | [AgentService架构设计 §10 Embodiment Protocol](AgentService架构设计.md)、[Contracts 架构设计](Contracts架构设计.md) |
 | `agent-api` | [AgentService架构设计 §11 API 接口](AgentService架构设计.md) |
-| `agent-store-jpa` | [AgentService架构设计 §14 持久化](AgentService架构设计.md)、[基础设施架构设计](基础设施架构设计.md) |
+| `agent-store-exposed` | [AgentService架构设计 §14 持久化](AgentService架构设计.md)、[基础设施架构设计](基础设施架构设计.md) |
 | `runtime-service` | [AgentService架构设计 §15 运行时拓扑](AgentService架构设计.md) |
 | `contracts` | [Contracts 架构设计](Contracts架构设计.md) |
 
@@ -1003,14 +580,14 @@ Phase 1 末：当客户端 / 管理后台 / 第三方 SDK 都开始消费 contra
 ### 9.1 第一周：最小可运行
 
 - [ ] 建仓 `ayane-agent-service/`，配置顶层 `settings.gradle.kts` + `build.gradle.kts` + `gradle/libs.versions.toml`
-- [ ] 创建 `agent-service/`、`contracts/`，跑通 Spring Boot 启动 + OpenAPI 暴露
-- [ ] 在 `agent-service/` 内临时写一个最简 `/api/runtime/process` 端点，验证 Spring Boot + OpenAPI 链路
+- [ ] 创建 `agent-service/`、`contracts/`，跑通 Ktor 启动 + OpenAPI 暴露
+- [ ] 在 `agent-service/` 内临时写一个最简 `/api/runtime/process` 端点，验证 Ktor + OpenAPI 链路
 
 ### 9.2 第二周：抽取核心
 
 - [ ] 抽 `agent-domain`、把领域对象移过去
 - [ ] 抽 `agent-protocol`、把 Action Factory 移过去
-- [ ] 抽 `agent-api`、把 Controller 移过去
+- [ ] 抽 `agent-api`、把 Ktor Routes 移过去
 
 ### 9.3 第三周：runtime 子项目独立
 
@@ -1021,8 +598,8 @@ Phase 1 末：当客户端 / 管理后台 / 第三方 SDK 都开始消费 contra
 ### 9.4 第四周：感知与存储
 
 - [ ] 抽 `runtime:agent-perception`，定义 SPI 接口
-- [ ] 抽 `agent-store-jpa`，把 Repository 实现移过去
-- [ ] 建 `runtime:runtime-service`（暂不启用）
+- [ ] 抽 `agent-store-exposed`，把 Repository 实现移过去
+- [ ] 建 `runtime:runtime-service`，完成 Ktor 入口、Koin 装配和健康检查
 
 ### 9.5 第五周：测试与 CI
 
@@ -1034,13 +611,13 @@ Phase 1 末：当客户端 / 管理后台 / 第三方 SDK 都开始消费 contra
 
 ## 10. 风险与约束
 
-| 风险 | 缓解 |
-|---|---|
-| **拆分过早**：模块过多导致单人维护成本高 | 按"每周一抽"的节奏，每步纯重构 + 单测通过即视为成功 |
-| **依赖反向**：runtime 误引入 spring-boot-starter | 通过 `gradle/dependency-analysis` 插件检测 |
-| **contracts 漂移**：服务端和客户端各持一份 | 拆仓前只在 `agent-service` 仓维护；拆仓后用 Git Tag 锁定版本 |
-| **运行时模式切换漏配置** | 通过 `@ConditionalOnProperty` 强制显式声明 `runtime.mode` |
-| **Gradle 构建慢**：13 模块导致增量编译变慢 | 启用 Gradle Configuration Cache + Kotlin Incremental Compilation |
+| 风险                                         | 缓解                                                             |
+|--------------------------------------------|----------------------------------------------------------------|
+| **拆分过早**：模块过多导致单人维护成本高                     | 按"每周一抽"的节奏，每步纯重构 + 单测通过即视为成功                                   |
+| **依赖反向**：runtime 误引入 Ktor Server / Exposed | 通过依赖分析和模块边界检查检测                                                |
+| **contracts 漂移**：服务端和客户端各持一份               | 拆仓前只在 `agent-service` 仓维护；拆仓后用 Git Tag 锁定版本                    |
+| **运行时模式切换漏配置**                             | 通过 `runtime.mode` 配置和 Koin binding 强制显式选择 RuntimeGateway       |
+| **Gradle 构建慢**：13 模块导致增量编译变慢               | 启用 Gradle Configuration Cache + Kotlin Incremental Compilation |
 
 ---
 

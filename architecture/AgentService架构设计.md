@@ -51,7 +51,7 @@ flowchart LR
     end
 
     subgraph Decide["决策与表达"]
-        Adapter[Model Adapter<br/>Spring AI]
+        Adapter[Koog Agent<br/>Structured Output]
         Prompt[Prompt 拼装<br/>固定顺序]
     end
 
@@ -103,17 +103,19 @@ Phase 1 的范围以本文档为准；Phase 2 / 3 的能力在这里只留出接
 
 仓库内含 `contracts` 模块，Phase 1 承载全部跨仓库契约（OpenAPI 定义、WebSocket Event Schema、Agent Action Protocol、DTO 和错误码），契约域设计见 [Contracts 架构设计](Contracts架构设计.md)。
 
-服务端使用 Kotlin + Spring Boot，与 `ayane-client` 共享 Kotlin 语言生态，但框架独立演进；**不能把服务端源码放入客户端仓库**，也不能把客户端、Kotlin Multiplatform、Unity 任何一层的代码反向引入服务端。
+服务端使用 Kotlin + Ktor + Koog，与 `ayane-client` 共享 Kotlin 语言生态；Koin 负责轻量依赖注入，Exposed 负责数据库访问。**不能把服务端源码放入客户端仓库**，也不能把客户端、Kotlin Multiplatform、Unity 任何一层的代码反向引入服务端。
 
 ### 1.1 技术选型
 
-服务端采用 Kotlin + Spring Boot 构建，主要基于以下考虑：
+服务端采用 Kotlin + Ktor + Koog 构建，使用 Koin 装配运行时依赖，使用 Exposed JDBC 封装服务端持久化：
 
-- **生态成熟度**：Spring Boot 拥有成熟的企业级生态，在安全、数据访问、审计、调度、事件流等方面提供完善支持，适合后续复杂阶段的需求。
-- **模型接入简化**：通过 Spring AI（`spring-ai-starter-model-openai`）接入云端 OpenAI-compatible API，减少 Model Adapter 的开发量，并提供现成的观测能力。
-- **团队熟悉度**：团队对 Spring 和 Ktor 熟悉程度相当，选择 Spring Boot 可降低学习成本。
+- **Ktor 宿主**：提供 HTTP、WebSocket、健康检查和路由适配，保持服务端边界轻量且纯 Kotlin。
+- **Koog Agent**：负责 Agent 编排、模型调用、上下文执行和 Structured Output；不拥有 Identity、Memory 或 State 的业务权属。
+- **Koin**：使用经典 Kotlin DSL 装配应用层、runtime、Repository 和模型输出适配器，不引入重量级容器或注解处理器。
+- **Exposed JDBC**：实现 `agent-domain` 的 Repository 接口，通过协程事务封装阻塞式 JDBC；数据库表和映射对象只存在于 `agent-store-exposed`。
+- **OpenAI-compatible Model Provider**：由 Koog 接入云端 OpenAI-compatible API，供应商切换不改变 Prompt 和 Runtime 行为。
 
-虽然客户端使用 Kotlin Multiplatform，服务端改用 Spring Boot 会降低技术栈一致性，但 API 契约（本仓库 `contracts` 模块）仍能确保接口统一。Model Adapter 保持独立，未来如需替换模型供应商，只需修改适配层。
+Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Agent State、World Model 和 Agent Action Protocol 仍由本文定义的领域边界约束。API 契约（本仓库 `contracts` 模块）确保服务端、客户端和管理后台之间的接口统一。
 
 ### 1.2 设计原则（人格化扩展）
 
@@ -291,33 +293,22 @@ AgentState
 
 ### 6.2 更新规则
 
-State 变化由**确定的系统规则**驱动，LLM 只读 State 做决策，不能直接写：
+State 变化由**确定的系统规则**驱动，LLM 只读 State 做决策，不能直接写入。规则在架构层只定义触发条件、变化方向和边界；具体数值、状态对象和持久化实现由工程层决定。
 
-```kotlin
-// 伪代码，仅表达意图
-fun onUserChat(state: AgentState, affect: Float) {
-    state.affection += 1
-    state.loneliness = (state.loneliness - 5).coerceAtLeast(0)
-    state.energy = (state.energy - 2).coerceAtLeast(0)
-    state.mood = blend(state.mood, affect, weight = 0.3f)
-    state.lastInteractionAt = now()
-}
-
-fun onIdle(state: AgentState, duration: Duration) {
-    state.loneliness = (state.loneliness + duration.minutes * 0.1f).coerceAtMost(100)
-    state.energy = (state.energy + duration.minutes * 0.05f).coerceAtMost(100)
-}
-
-fun onTimeOfDay(state: AgentState, t: Instant) {
-    state.circadianPhase = computeCircadianPhase(t, state.userTimezone)
-}
-```
+| 触发条件 | 系统状态变化 | 约束 |
+|---|---|---|
+| 用户互动 | Affection 上升、Loneliness 下降、Energy 消耗、Mood 根据互动情绪调整，并更新 `LastInteractionAt` | 所有字段必须经过确定性规则和上下界约束 |
+| 长时间无互动 | Loneliness 上升、Energy 按节律恢复 | 不得直接触发无限制的主动行为 |
+| 时间或时区变化 | 重新计算 `CircadianPhase` | 使用服务端时间和用户时区，结果可被审计 |
+| Session 开始 | 基于最近事件和快照恢复当前 State | LLM 不参与 State 的恢复和篡改 |
 
 要点：
 
 - **State 不存数据库**，而是每次 Session 开始时基于最近事件回放构造；运行中常驻内存，定期落盘最近快照。
-- 落盘快照用于"她第二天醒来还记得昨天的心情"。
+- 落盘快照用于“她第二天醒来还记得昨天的心情”。
 - LLM 在 Prompt 里**只看到 State 的当前快照**，看不到内部数值规则。
+
+---
 
 ### 6.3 Circadian（生理节律）
 
@@ -359,34 +350,19 @@ Agent Runtime / Memory / State
 
 ### 7.2 PerceptionEvent 类型（Phase 1 契约）
 
-Phase 1 不上摄像头/麦克风，但**事件类型必须先定义**，让 Phase 2 / 3 接入时无需改动 Runtime：
+Phase 1 不上摄像头/麦克风，但事件契约必须先定义，让 Phase 2 / 3 接入时无需改动 Runtime。具体 Schema 进入 `contracts` 模块；本架构文档只定义事件来源和语义分类，不固化 Kotlin `sealed interface`、序列化注解或具体字段实现。
 
-```kotlin
-sealed interface PerceptionEvent {
-    // 来自用户主动输入
-    data class UserMessageHeard(val text: String, val emotionHint: String?) : PerceptionEvent
-    data class UserPresenceChanged(val present: Boolean, val device: DeviceType) : PerceptionEvent
-    data class UserTypingChanged(val active: Boolean) : PerceptionEvent
+| 来源 | Phase 1 / 远期事件类别 | 语义 |
+|---|---|---|
+| ClientSignal | 用户消息、用户在场变化、输入状态变化 | 表达用户主动输入和交互状态 |
+| ClockSignal | 时间流逝、昼夜节律变化、日期边界变化 | 表达服务端时钟和时间上下文 |
+| SessionSignal | Session 开始、Session 结束、心跳 | 表达客户端连接和会话生命周期 |
+| DeviceSignal | 设备状态变化 | Phase 2 接入摄像头、麦克风和智能家居等设备 |
+| MultimodalSignal | 视觉摘要、环境声音 | Phase 2 / 3 接入多模态感知能力 |
 
-    // 来自服务端时钟
-    data class TimeElapsed(val sinceLastInteraction: Duration) : PerceptionEvent
-    data class CircadianShifted(val newPhase: CircadianPhase) : PerceptionEvent
-    data class DateBoundaryCrossed(val from: LocalDate, val to: LocalDate) : PerceptionEvent
+这些事件类型进入 contracts 模块，参与 [Contracts 架构设计](Contracts架构设计.md) 的版本演进。
 
-    // 来自 Session
-    data class SessionStarted(val device: DeviceType) : PerceptionEvent
-    data class SessionEnded(val reason: SessionEndReason) : PerceptionEvent
-
-    // 来自设备（Phase 2 接入，先保留事件类型）
-    data class DeviceStateChanged(val deviceId: String, val state: JsonObject) : PerceptionEvent
-
-    // 来自多模态（Phase 2/3 接入，先保留事件类型）
-    data class VisualFrameSummarized(val summary: String, val faces: List<DetectedFace>) : PerceptionEvent
-    data class AmbientSound(val type: AmbientSoundType, val intensity: Float) : PerceptionEvent
-}
-```
-
-> 这些事件类型进入 contracts 模块，参与 [Contracts 架构设计](Contracts架构设计.md) 的版本演进。
+---
 
 ### 7.3 Attention Filter（注意力过滤）
 
@@ -539,13 +515,15 @@ Proactive Loop 的决策**不是"现在该不该说话"的二选一**，而是�
 
 ### 9.4 Model Adapter
 
-- 通过 Spring AI 接入云端 OpenAI-compatible API。
-- Model Adapter **只负责模型协议、流式输出与基础观测**，不承担人格、记忆、状态、行动决策。
-- 模型可替换（DeepSeek / OpenAI / 其他兼容供应商），但 Prompt 模板与 Runtime 行为不变。
-- Prompt 模板的所有变更必须经过管理后台审计与版本管理。
+模型输出层的架构边界如下：
+
+1. Runtime 将固定顺序拼装后的 `PromptInput` 交给 Koog Agent。
+2. Koog 使用 Structured Output 取得一个完整的 `AgentAction`，模型 token 增量不直接作为协议事件。
+3. `agent-protocol` 负责协议版本迁移、Schema 校验和业务约束校验。
+4. 校验通过的完整动作进入 `Flow<AgentActionEvent>`；校验失败的结果被拒绝，不进入下游。
+5. Ktor、Koin 和 Koog 的具体装配方式属于 [AgentService工程架构](AgentService工程架构.md)，不在本架构文档中固化具体 Kotlin API。
 
 ---
-
 ## 10. Embodiment Protocol（Agent Action Protocol）
 
 服务端只生成协议，**绝不调用任何身体 API**。
@@ -683,7 +661,7 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 
 ```text
 ┌─────────────────────────────────────────────────────┐
-│ ayane-agent-service（Spring Boot）                   │
+│ agent-service（Ktor Application :8080）             │
 │                                                     │
 │  ┌────────────┐    ┌────────────┐    ┌────────────┐ │
 │  │  Client    │    │   Admin    │    │ WebSocket  │ │
@@ -703,8 +681,8 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 │        │  │Identity │ │ Memory  │ │State │  │       │
 │        │  └─────────┘ └─────────┘ └──────┘  │       │
 │        │  ┌─────────┐ ┌─────────────────┐   │       │
-│        │  │World    │ │ Model Adapter   │   │       │
-│        │  │Model    │ │ (Spring AI)     │   │       │
+│        │  │World    │ │ Koog Agent     │   │       │
+│        │  │Model    │ │ Structured Out │   │       │
 │        │  └─────────┘ └─────────────────┘   │       │
 │        └─────────────────┬──────────────────┘       │
 │                          ▼                          │
@@ -714,23 +692,27 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 │                └──────────────────┘                 │
 │                                                     │
 │  ┌─────────────────┐  ┌──────────────────────┐      │
-│  │ Persistence     │  │ Secret / Config      │      │
-│  │ (DB + Cache)    │  │ (API Key / Prompt /  │      │
-│  │                 │  │  Feature Flag)       │      │
+│  │ Persistence     │  │ Koin Modules         │      │
+│  │ Exposed JDBC    │  │ Runtime / Store / AI │      │
 │  └─────────────────┘  └──────────────────────┘      │
-│                                                     │
-│  ┌─────────────────────────────────────────┐        │
-│  │ Logs / Audit / Tracing                  │        │
-│  └─────────────────────────────────────────┘        │
+└─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────┐
+│ runtime-service（Ktor Application :8090）            │
+│ Koin Modules → Koog / Runtime Adapter               │
+│ /api/runtime/health                                  │
+│ /api/runtime/process                                 │
 └─────────────────────────────────────────────────────┘
 ```
 
 要点：
 
-- **Perception Layer** 与 **Proactive Loop Scheduler** 是 Phase 1 新增的两个常驻组件。
-- **Agent Runtime Core** 是单一进程内的子系统集合，不强求拆服务（Phase 1 单体优先，Phase 2 视情况再拆）。
+- `agent-service` 是 Phase 1 默认入口，Ktor 负责 API / WebSocket，Koin 负责组合根，runtime 以进程内实现运行。
+- `runtime-service` 同时提供可启动的 Ktor 入口，用于独立健康检查和 runtime 路由验证，但不改变 Phase 1 的嵌入式请求路径。
+- `runtime-service` 只做协议转换和运行时适配，业务逻辑仍由 `runtime:agent-runtime` 负责。
+- `agent-protocol` 产出的完整动作通过 Action Event Stream 发送；模型 token 流不直接暴露为协议事件。
+- **Perception Layer** 与 **Proactive Loop Scheduler** 是 Phase 1 常驻组件。
 - **Secret / Config** 与 **Persistence** 是服务端基础设施，详见 [基础设施架构设计](基础设施架构设计.md)。
-
 ---
 
 ## 16. Phase 1 验收边界

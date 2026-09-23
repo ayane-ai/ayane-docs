@@ -1,6 +1,6 @@
-# Ayane Digital Life
+# 凌音 AI 数字生命
 
-本仓库维护二次元 AI 数字生命的产品愿景、工程架构和技术调研。当前阶段为 Phase 1 / Digital Life。
+本仓库维护凌音 AI 数字生命（Ayane Digital Life）的产品愿景、工程架构和技术调研。当前阶段为 Phase 1 / Digital Life。
 
 ## 阅读入口
 

@@ -16,9 +16,10 @@
 flowchart LR
     subgraph In["外部输入"]
         Client[Client<br/>Desktop Android iOS]
+        Mic[麦克风<br/>Phase 1 客户端采集]
         Clock[Clock<br/>服务端时钟]
         SessionEvt[Session<br/>启停心跳]
-        Devices[(Phase 2+<br/>摄像头 麦克风 智能家居)]
+        Devices[(Phase 2+<br/>摄像头 智能家居)]
     end
 
     subgraph Ingest["感知层"]
@@ -61,6 +62,7 @@ flowchart LR
         ClientOut[ayane-client<br/>Unity Bridge → Unity]
     end
 
+    Mic --> Sources
     Client --> Sources
     Clock --> Sources
     SessionEvt --> Sources
@@ -123,7 +125,7 @@ Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Ag
 
 | 原则 | 含义 | 体现位置 |
 | --- | --- | --- |
-| **Identity 唯一且持久** | 一个用户对应一个 Identity 实例，所有客户端共享同一份状态 | Identity Store、Agent State Store |
+| **Identity 唯一且持久** | 平台支持多用户；每个用户可拥有多个 Agent，每个 Agent 对应唯一一份 Identity，同一 Agent 的所有客户端共享同一份状态 | Identity Store、Agent State Store |
 | **Memory 与 State 分离** | Memory 是事实/事件，State 是当前心境/能量/亲密度/孤独感 | §5、§6 |
 | **System 拥有 State，LLM 不直接写 State** | LLM 是决策者，不是状态造假者 | Agent State Store + State Update Rules |
 | **Runtime 双 Loop** | Reactive Loop 响应用户，Proactive Loop 自主发起 | §9 Agent Runtime |
@@ -144,7 +146,8 @@ Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Ag
                                                   ┌──────────────────────────┐
                                                   │  Perception Sources      │
                                                   │  (Phase 1: client signal │
-                                                  │   Phase 2+: camera/mic/  │
+                                                  │   + client mic;          │
+                                                  │   Phase 2+: camera /     │
                                                   │   sensors / smart home)  │
                                                   └───────────┬──────────────┘
                                                               │ raw signals
@@ -194,15 +197,15 @@ Client ── HTTPS / WebSocket ──► Client API ──► Perception Layer 
 | 模块 | 职责 | Phase 1 是否实现 |
 | --- | --- | --- |
 | **AI Identity** | 人格、价值观、说话方式、偏好、自我叙事 | ✅ |
-| **Memory** | 6 类记忆：Episodic / Semantic / Preference / Relationship / Emotional / Procedural | ✅（6 类契约与接口齐备；Phase 1 实装 Episodic / Preference / Relationship / Emotional，Semantic / Procedural 与固化、衰减在 Phase 1.5） |
+| **Memory** | 6 类记忆：Episodic / Semantic / Preference / Relationship / Emotional / Procedural | ✅（6 类契约与接口齐备；Phase 1 实装 Episodic / Preference / Relationship / Emotional，Semantic / Procedural 与固化、衰减属 Phase 1 内延后项） |
 | **Agent State Store** | Mood / Energy / Affection / Loneliness / Curiosity / Circadian / CurrentGoal / CurrentActivity | ✅（核心字段） |
 | **World Model** | 时间、用户、她自己所在设备、活跃 Session、最近事件 | ✅ |
-| **Perception Layer** | 把原始信号抽象为 PerceptionEvent，承载 Attention Filter | ✅（接口与基础事件齐备，摄像头/麦克风留到 Phase 2） |
+| **Perception Layer** | 把原始信号抽象为 PerceptionEvent，承载 Attention Filter | ✅（接口与基础事件齐备；麦克风与基础视觉在 Phase 1 由客户端采集进入 ClientSignal，完整视觉理解留到 Phase 2） |
 | **Agent Runtime** | Reactive Loop + Proactive Loop、Reasoning、Planning、Decision | ✅ |
 | **Model Adapter** | 云端 OpenAI-compatible API、流式输出、Prompt 组装 | ✅ |
 | **Embodiment Protocol** | Agent Action Protocol 的服务端生成器 | ✅（已列动作见 §10） |
-| **Memory Lifecycle** | 写入、检索、固化（夜间）、衰减、召回 | ✅ 写入/检索；固化/衰减 Phase 1.5 |
-| **Proactivity & Circadian** | 主动行为调度、生理节律、仪式化行为 | ✅ 基础调度；仪式行为 Phase 1.5 |
+| **Memory Lifecycle** | 写入、检索、固化（夜间）、衰减、召回 | ✅ 写入/检索；固化/衰减属 Phase 1 内延后项 |
+| **Proactivity & Circadian** | 主动行为调度、生理节律、仪式化行为 | ✅ 基础调度；仪式行为属 Phase 1 内延后项 |
 
 ---
 
@@ -222,8 +225,9 @@ Identity
 └── VersionMeta      // 创建时间、修订记录（人格可演进，但要可审计）
 ```
 
+- Identity 的归属维度是「用户 + Agent」：同一用户的不同 Agent 不共享 Identity、Memory 与 State。
 - **Personality / Voice / Aesthetic / Boundaries** 是相对静态的，由用户和管理员维护，运行时只读。
-- **SelfNarrative** 是动态的：随重要事件、关系进展、阶段变化逐步演化。Phase 1 由系统按模板生成；Phase 1.5 起允许在边界内自我修正（仍受管理后台审计）。
+- **SelfNarrative** 是动态的：随重要事件、关系进展、阶段变化逐步演化。Phase 1 由系统按模板生成；Phase 1 内延后项起允许在边界内自我修正（仍受管理后台审计）。
 
 ### 4.2 持久化
 
@@ -252,14 +256,14 @@ Memory 是"她记得什么"，区别于 §6 的 Agent State（"她现在感觉�
 | **Preference** | 用户/她自己的偏好 | 用户表达偏好、Runtime 推断 | 用户维度、类别维度 |
 | **Relationship** | 两人之间发生的事、共同记忆、关系变化 | 关系事件、SelfNarrative 写入 | 用户维度、时间 |
 | **Emotional** | 重要情绪事件（用户哭/笑/愤怒/她被冷落） | Affect Inference 触发显著情绪 | 用户维度、强度 |
-| **Procedural** | 用户行为模式（"他周一总迟到"、"周末爱熬夜"） | 模式识别（Phase 1.5） | 用户维度、模式匹配 |
+| **Procedural** | 用户行为模式（"他周一总迟到"、"周末爱熬夜"） | 模式识别（Phase 1 内延后项） | 用户维度、模式匹配 |
 
 ### 5.2 权威存储
 
 - Memory 的**权威读写都在服务端**。
 - 客户端只持有当前 Session 的短期缓存和必要的展示数据。
 - 写入路径：Runtime 写入 → Memory Service 校验 → 持久化；不允许客户端直接写 Memory。
-- Phase 1 至少落地 **Episodic / Preference / Relationship / Emotional** 四类，Semantic 与 Procedural 在 Phase 1.5 跟进。
+- Phase 1 至少落地 **Episodic / Preference / Relationship / Emotional** 四类，Semantic 与 Procedural 在 Phase 1 内延后项跟进。
 
 ### 5.3 与 Identity / State 的边界
 
@@ -351,15 +355,15 @@ Agent Runtime / Memory / State
 
 ### 7.2 PerceptionEvent 类型（Phase 1 契约）
 
-Phase 1 不上摄像头/麦克风，但事件契约必须先定义，让 Phase 2 / 3 接入时无需改动 Runtime。具体 Schema 进入 `contracts` 模块；本架构文档只定义事件来源和语义分类，不固化 Kotlin `sealed interface`、序列化注解或具体字段实现。
+Phase 1 不由服务端直接访问摄像头或麦克风：语音输入与基础视觉（屏幕内容、在场检测）由客户端采集、经 Client API 作为 ClientSignal 进入；完整视觉理解留到 Phase 2。但事件契约必须先定义，让 Phase 2 / 3 接入时无需改动 Runtime。具体 Schema 进入 `contracts` 模块；本架构文档只定义事件来源和语义分类，不固化 Kotlin `sealed interface`、序列化注解或具体字段实现。
 
 | 来源 | Phase 1 / 远期事件类别 | 语义 |
 |---|---|---|
-| ClientSignal | 用户消息、用户在场变化、输入状态变化 | 表达用户主动输入和交互状态 |
+| ClientSignal | 用户消息、用户在场变化、输入状态变化、屏幕内容与在场检测结果 | 表达用户主动输入、交互状态与 Phase 1 基础视觉 |
 | ClockSignal | 时间流逝、昼夜节律变化、日期边界变化 | 表达服务端时钟和时间上下文 |
 | SessionSignal | Session 开始、Session 结束、心跳 | 表达客户端连接和会话生命周期 |
-| DeviceSignal | 设备状态变化 | Phase 2 接入摄像头、麦克风和智能家居等设备 |
-| MultimodalSignal | 视觉摘要、环境声音 | Phase 2 / 3 接入多模态感知能力 |
+| DeviceSignal | 设备状态变化 | Phase 2 接入摄像头和智能家居等设备 |
+| MultimodalSignal | 图像摘要、环境声音 | Phase 2 / 3 接入完整视觉理解等多模态感知能力 |
 
 这些事件类型进入 contracts 模块，参与 [Contracts 架构设计](Contracts架构设计.md) 的版本演进。
 
@@ -371,7 +375,7 @@ Phase 1 不上摄像头/麦克风，但事件契约必须先定义，让 Phase 2
 
 - 用户说话期间：压制无关 PerceptionEvent 处理，专注对话流。
 - 用户连续 N 分钟无活动 + 时段为深夜 → 触发"是否主动关心"的评估事件。
-- 麦克风无人声但环境变化（Phase 2） → 触发"好奇"。
+- 环境音变化（Phase 2） → 触发"好奇"。
 - 同一事件短时间内重复 → 去抖，避免重复触发主动行为。
 
 Phase 2 之后可升级为基于 LLM 的注意力评估。
@@ -491,7 +495,7 @@ Proactive Loop 的决策**不是"现在该不该说话"的二选一**，而是�
 
 - 同类主动行为短时间内只触发一次（早安不会连续发三遍）。
 - Proactive 输出期间检测到用户输入 → 立即让位，不抢话。
-- 用户明确表达"别烦我"/"让我静静" → Proactive 频率临时降为零，并写入 Procedural Memory（Phase 1.5）。
+- 用户明确表达"别烦我"/"让我静静" → Proactive 频率临时降为零，并写入 Procedural Memory（Phase 1 内延后项）。
 
 ### 9.3 Prompt 组装顺序（强约定）
 
@@ -542,7 +546,7 @@ Phase 1 必须支持的最小动作集：
 | `LOOK_AT` | 注视目标（用户 / 物体 / 方向） |
 | `WAIT` | 等待（持续 N 秒或等某事件） |
 
-Phase 1.5 起视情况扩展：`NOTIFY`（向客户端通知但不说话）、`OBSERVE`（请求摄像头/麦克风）、`MOVE`（Phase 3）。
+Phase 1 内延后项视情况扩展：`NOTIFY`（向客户端通知但不说话）、`OBSERVE`（请求摄像头/麦克风）；`MOVE` 属 Phase 3。
 
 ### 10.2 与 AgentState 的绑定
 
@@ -585,7 +589,7 @@ Phase 1.5 起视情况扩展：`NOTIFY`（向客户端通知但不说话）、`O
 - **回顾**：重要日期 / 共同记忆节点
 - **收尾**：用户长时间未回应 → 留一句晚安或关心，但不刷屏
 
-Phase 1 实现问候与沉默关怀；回顾与复杂仪式在 Phase 1.5 跟进。
+Phase 1 实现问候与沉默关怀；回顾与复杂仪式在 Phase 1 内延后项跟进。
 
 ### 11.4 失败模式约束
 
@@ -614,13 +618,13 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 - 写入由系统规则触发（如显著情绪事件、用户偏好表达、关系事件），**不是每次对话都写**。
 - 写入时打标签：类型、强度、来源（用户陈述 / 推断 / 系统标记）。
 
-### 12.2 固化（Phase 1.5）
+### 12.2 固化（Phase 1 内延后项）
 
 - 每天深夜（Circadian = deep_night 且 ActiveSession 少）触发一次 Memory Consolidation。
 - 把当天零散 Episodic 整理成 Semantic / Relationship / Procedural。
 - 固化过程本身可由 LLM 协助，但必须有人工可读的"为什么这么合并"的解释，落审计。
 
-### 12.3 衰减（Phase 1.5）
+### 12.3 衰减（Phase 1 内延后项）
 
 - 不删除事实，但降低检索优先级。
 - 衰减曲线基于"距上次被召回的天数"和"情绪强度"——重要的记忆衰减慢，琐事的快。
@@ -756,7 +760,7 @@ Phase 1 验收额外必须满足：
 ## 17. 后续阶段衔接（不在 Phase 1 实现，仅留接缝）
 
 - **Phase 2 / Physical World**：Perception Layer 接入 DeviceSignal、VisualFrameSummarized、AmbientSound；WorldModel 升级为 Belief Store；Device Gateway 在 `ayane-infrastructure` 侧独立。
-- **Phase 3 / Spatial Life**：Runtime 增加 `OBSERVE` / `MOVE` 动作；WorldModel 增加空间字段；AgentState 增加 SpatialConfidence。
+- **Phase 3 / Spatial Life**：Runtime 增加 `MOVE` 动作（`OBSERVE` 属 Phase 1 内延后项）；WorldModel 增加空间字段；AgentState 增加 SpatialConfidence。
 - **Phase 4 / Physical Embodiment**：保持原则——LLM 只产高阶目标，电机控制在机器人本地，Runtime 不直接控制硬件。
 
 ---

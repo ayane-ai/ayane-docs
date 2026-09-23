@@ -168,7 +168,7 @@ flowchart LR
 | **Koog 输出有边界** | `agent-runtime` 通过输出适配器取得结构化 `AgentAction`，再交给 `agent-protocol` 校验 |
 | **runtime 核心轻量** | runtime 核心不依赖 Ktor Server、Koin 或 Exposed；可用 Fake 依赖独立测试 |
 | **runtime 可独立运行** | `runtime-service` 提供 Ktor API，主服务通过 `RuntimeGateway` 在进程内实现和 HTTP 实现之间切换 |
-| **Perception SPI 化** | Phase 2+ 新增摄像头、麦克风、智能家居只需新增实现模块，不改核心 |
+| **Perception SPI 化** | Phase 2+ 新增摄像头、智能家居只需新增实现模块，不改核心 |
 
 ### 1.2 模块地图（12 个生产模块 + 可选 test-fixtures）
 
@@ -386,7 +386,7 @@ Phase 1 的 `WorldContext` 保持轻量；Phase 2+ 再演进为带置信度和�
 
 **职责**：接收不同来源的原始信号，经 Attention Filter 和 Working Memory Buffer 转换为语义化 PerceptionEvent。
 
-Phase 1 支持 ClientSignal、ClockSignal 和 SessionSignal；Phase 2+ 通过新增 PerceptionSource 接入摄像头、麦克风和智能家居，不修改 runtime 核心。
+Phase 1 支持 ClientSignal、ClockSignal 和 SessionSignal；Phase 2+ 通过新增 PerceptionSource 接入摄像头（完整视觉理解）和智能家居（麦克风与基础视觉在 Phase 1 由客户端采集，走 ClientSignal），不修改 runtime 核心。
 
 #### 3.7.6 `runtime:runtime-service`（Ktor 独立部署壳）
 
@@ -532,7 +532,7 @@ Koog 输出层至少覆盖：
 
 | 模块变化 | 触发条件 |
 |---|---|
-| `:runtime:agent-perception-camera` 新模块 | 接入摄像头 |
+| `:runtime:agent-perception-camera` 新模块 | 接入完整视觉理解（图像摘要与多模态感知） |
 | `:runtime:agent-store-vector` 新模块 | 接入向量库 |
 | `runtime.mode: standalone` | runtime-service 单独部署 |
 

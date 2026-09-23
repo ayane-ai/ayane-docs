@@ -29,7 +29,7 @@ Phase 1 不应该从完整平台开始，而应该先完成一条可重复验证
 flowchart TD
     memory["Memory"] --> identity["AI Identity"]
     identity --> runtime["Agent Runtime"]
-    input["文本 / 语音输入"] --> runtime
+    input["文本 / 语音 / 基础视觉输入"] --> runtime
     runtime --> cloud["云端 OpenAI-compatible API"]
     cloud --> runtime
     runtime --> world["Phase 1 World Model / Context"]
@@ -99,6 +99,10 @@ Unity 负责 3D、Avatar、表情、动画和 Lip Sync；KMP / Compose 负责普
 
 语音建议先文字后语音。需要跨 Android、iOS、Windows 和 Kotlin 时，优先评估 [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)；只需要本地语音识别时，可评估 [whisper.cpp](https://github.com/ggml-org/whisper.cpp)。
 
+### 7. 基础视觉
+
+Phase 1 只做两块低成本视觉：屏幕内容理解与在场检测 / 人脸跟踪。两者都在客户端侧完成检测与提取，通过 Client API 作为 ClientSignal 上报；完整视觉理解（环境理解、姿态、手势与图像摘要）留到 Phase 2。
+
 ## 三、GitHub 参考项目
 
 | 项目 | 适合参考的部分 | Phase 1 建议 |
@@ -125,6 +129,7 @@ Desktop（主平台）
 ├── Agent Runtime：回忆、决策和动作生成
 ├── Embodiment Protocol：由 Agent Action Protocol 实现，与身体解耦
 ├── Unity + UniVRM：Avatar、表情和动作
+├── 基础视觉：屏幕内容与在场检测，在客户端侧完成
 └── sherpa-onnx：后续接入 ASR / TTS / VAD
 ```
 
@@ -136,7 +141,8 @@ Desktop（主平台）
 4. 输出并校验 Agent Action Protocol。
 5. Unity Avatar 接收动作并表现表情、语音和手势。
 6. 接入语音输入输出。
-7. 最后再加入主动行为和后台调度。
+7. 接入基础视觉（屏幕内容与在场检测）。
+8. 最后再加入主动行为和后台调度。
 
 ## 六、验收标准
 
@@ -157,6 +163,7 @@ Desktop（主平台）
 - 本地模型部署（llama.cpp 仅作为后续参考）
 - 自研大模型
 - 复杂向量数据库和完整长期记忆平台
+- 完整视觉理解（环境理解、姿态、手势与图像摘要）
 
 ## 参考来源
 

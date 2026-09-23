@@ -25,6 +25,8 @@ Phase 1 不建立独立的 `ayane-contracts` 仓库：契约由 `ayane-agent-ser
 - 错误码和错误分类。
 - 协议版本和兼容规则。
 
+Identity、Memory、Session 与 Agent Action Protocol 的 DTO 以「用户 + Agent」为维度；Session 标识必须携带 Agent 标识。
+
 **生成来源契约**（无版本承诺）：
 
 - Admin API。

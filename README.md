@@ -21,7 +21,7 @@
 | ayane-contracts（Phase 1 暂不建立） | [Contracts 架构设计](architecture/Contracts架构设计.md) | Client API、Admin API、事件和动作契约；Phase 1 由 ayane-agent-service 的 contracts 模块承载 |
 | ayane-client | [客户端架构设计](architecture/客户端架构设计.md) | 基于 NomiKit 的 Desktop、Android、iOS 统一客户端，Desktop 为主 |
 | ayane-agent-service | [Agent Service 架构设计](architecture/AgentService架构设计.md) | Identity、Memory、Agent Runtime、World Model 和云端模型适配 |
-| ayane-unity-embodiment | [Unity 身体架构设计](architecture/Unity身体架构设计.md) | 独立身体能力 API 和版本化 Unity 产物 |
+| ayane-embodiment | [Unity 身体架构设计](architecture/Unity身体架构设计.md) | 独立身体能力 API 和版本化 Unity 产物 |
 | ayane-admin-web | [管理后台架构设计](architecture/管理后台架构设计.md) | 管理界面，通过 Admin API 访问服务端 |
 | ayane-infrastructure | [基础设施架构设计](architecture/基础设施架构设计.md) | 部署、环境、Secret、CI/CD 和监控 |
 | ayane-docs | [文档仓库架构设计](architecture/文档仓库架构设计.md) | 文档分层、关联与维护 |

@@ -23,6 +23,7 @@ flowchart LR
     end
 
     subgraph Ingest["感知层"]
+        Voice[语音层<br/>ASR / TTS]
         Sources[Perception Sources]
         Filter[Attention Filter]
         Buffer[Working Memory Buffer]
@@ -62,7 +63,8 @@ flowchart LR
         ClientOut[ayane-client<br/>Unity Bridge → Unity]
     end
 
-    Mic --> Sources
+    Mic --> Voice
+    Voice --> Sources
     Client --> Sources
     Clock --> Sources
     SessionEvt --> Sources
@@ -83,7 +85,7 @@ flowchart LR
     World -.->|当前认知| Prompt
 ```
 
-> 本图对应 §2 运行链路、§3 子系统总览、§6 Agent State Store、§7 Perception Layer、§9 Agent Runtime、§10 Embodiment Protocol 的整体关系。详细链路见 §2，运行时分层见 §15。
+> 本图对应 §2 运行链路、§3 子系统总览、§6 Agent State Store、§7 Perception Layer、§9 Agent Runtime、§10 Embodiment Protocol 的整体关系。详细链路见 §2，运行时拓扑见 §15。
 
 ---
 
@@ -101,7 +103,7 @@ Phase 1 的范围以本文档为准；Phase 2 / 3 的能力在这里只留出接
 
 ## 1. 仓库定位
 
-`ayane-agent-service` 是独立部署的后端服务，承担 **AI Identity 主体** 的运行容器。它负责持续运行 Identity、Memory、Agent State、Session、Perception、Agent Runtime 和 World Model，并对外提供 Client API、Admin API 和 Action Event Stream。
+`ayane-agent-service` 是独立部署的后端服务，承担 **AI Identity 主体** 的运行容器。它负责用户账号与鉴权、Agent 归属登记、语音识别与合成，并持续运行 Identity、Memory、Agent State、Session、Perception、Agent Runtime 和 World Model，对外提供 Client API、Admin API 和 Action Event Stream。
 
 仓库内含 `contracts` 模块，Phase 1 承载全部跨仓库契约（OpenAPI 定义、WebSocket Event Schema、Agent Action Protocol、DTO 和错误码），契约域设计见 [Contracts 架构设计](Contracts架构设计.md)。
 
@@ -126,6 +128,7 @@ Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Ag
 | 原则 | 含义 | 体现位置 |
 | --- | --- | --- |
 | **Identity 唯一且持久** | 平台支持多用户；每个用户可拥有多个 Agent，每个 Agent 对应唯一一份 Identity，同一 Agent 的所有客户端共享同一份状态 | Identity Store、Agent State Store |
+| **账号隔离** | 每个请求都必须解析为确定的「用户 + Agent」；跨用户访问一律拒绝，校验只在接口层完成 | 归属解析、Agent 归属登记 |
 | **Memory 与 State 分离** | Memory 是事实/事件，State 是当前心境/能量/亲密度/孤独感 | §5、§6 |
 | **System 拥有 State，LLM 不直接写 State** | LLM 是决策者，不是状态造假者 | Agent State Store + State Update Rules |
 | **Runtime 双 Loop** | Reactive Loop 响应用户，Proactive Loop 自主发起 | §9 Agent Runtime |
@@ -134,7 +137,7 @@ Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Ag
 | **Embodiment Protocol 是稳定边界** | 服务端永远只产协议，不调用任何身体 API | §10 |
 | **可中断、可让位** | 主动行为必须能被打断，不允许"话痨骚扰" | §11 主动行为与节律 |
 
-这些原则与 [项目整体架构设计](项目整体架构设计.md) 第 1 节的"核心原则"是同构的，只是把它们翻译成了服务端内部的实现约束。
+这些原则与 [项目整体架构设计](项目整体架构设计.md) §1 核心原则是同构的，只是把它们翻译成了服务端内部的实现约束。
 
 ---
 
@@ -146,13 +149,14 @@ Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Ag
                                                   ┌──────────────────────────┐
                                                   │  Perception Sources      │
                                                   │  (Phase 1: client signal │
-                                                  │   + client mic;          │
-                                                  │   Phase 2+: camera /     │
-                                                  │   sensors / smart home)  │
+                                                  │   + client audio + basic │
+                                                  │   vision; Phase 2+:      │
+                                                  │   camera / sensors /     │
+                                                  │   smart home)            │
                                                   └───────────┬──────────────┘
                                                               │ raw signals
                                                               ▼
-Client ── HTTPS / WebSocket ──► Client API ──► Perception Layer ──► Perception Events
+Client ── HTTPS / WebSocket ──► Client API ──► 语音层 ──► Perception Layer ──► Perception Events
                                                               │
                                                               ▼
                                                        Working Memory Buffer
@@ -184,11 +188,21 @@ Client ── HTTPS / WebSocket ──► Client API ──► Perception Layer 
                                                   (KMP Unity Bridge → Unity)
 ```
 
+语音路径（与上图为同一条连接）：
+
+```text
+Client ── 音频帧(上行) ──► 语音层 ──► 云端识别 ──► 用户文本 ──► Perception Layer
+语音层 ── 云端合成 ──► 音频帧(下行，含口型时间轴) ──► Client ──► Unity 播放
+              └── 旁路留存：上行与下行音频异步写入对象存储
+```
+
 要点：
 
 - **双入口**：用户输入（Client API）与外部感知（Perception Sources）汇入同一个 Perception Layer，不再各自为政。
 - **双出口**：Agent Runtime 既能产出 Reactive 响应，也能产出 Proactive 主动行为（§9）。
 - **唯一边界**：Runtime 与身体之间只有 Action Protocol，没有别的耦合。
+- **同一连接**：控制帧（JSON）与音频帧（二进制）复用同一条 WebSocket；动作通过回复标识与音频关联。
+- **留存旁路**：上行与下行音频异步写入对象存储，失败只记指标，不影响对话链路。
 
 ---
 
@@ -197,10 +211,13 @@ Client ── HTTPS / WebSocket ──► Client API ──► Perception Layer 
 | 模块 | 职责 | Phase 1 是否实现 |
 | --- | --- | --- |
 | **AI Identity** | 人格、价值观、说话方式、偏好、自我叙事 | ✅ |
+| **账号与鉴权** | 用户账号、凭据与登录 Token 的签发和校验 | ✅ |
+| **Agent 归属登记** | Agent 实例的归属、状态与默认 Agent | ✅（Phase 1 每用户一个默认 Agent） |
+| **语音层（Voice）** | 云端语音识别与合成的编排、音频留存、口型时间轴 | ✅ |
 | **Memory** | 6 类记忆：Episodic / Semantic / Preference / Relationship / Emotional / Procedural | ✅（6 类契约与接口齐备；Phase 1 实装 Episodic / Preference / Relationship / Emotional，Semantic / Procedural 与固化、衰减属 Phase 1 内延后项） |
 | **Agent State Store** | Mood / Energy / Affection / Loneliness / Curiosity / Circadian / CurrentGoal / CurrentActivity | ✅（核心字段） |
 | **World Model** | 时间、用户、她自己所在设备、活跃 Session、最近事件 | ✅ |
-| **Perception Layer** | 把原始信号抽象为 PerceptionEvent，承载 Attention Filter | ✅（接口与基础事件齐备；麦克风与基础视觉在 Phase 1 由客户端采集进入 ClientSignal，完整视觉理解留到 Phase 2） |
+| **Perception Layer** | 把原始信号抽象为 PerceptionEvent，承载 Attention Filter | ✅（接口与基础事件齐备；麦克风音频在 Phase 1 由客户端采集、经音频通道进入语音层并转为 ClientSignal 文本，基础视觉经 ClientSignal 进入，完整视觉理解留到 Phase 2） |
 | **Agent Runtime** | Reactive Loop + Proactive Loop、Reasoning、Planning、Decision | ✅ |
 | **Model Adapter** | 云端 OpenAI-compatible API、流式输出、Prompt 组装 | ✅ |
 | **Embodiment Protocol** | Agent Action Protocol 的服务端生成器 | ✅（已列动作见 §10） |
@@ -225,13 +242,14 @@ Identity
 └── VersionMeta      // 创建时间、修订记录（人格可演进，但要可审计）
 ```
 
-- Identity 的归属维度是「用户 + Agent」：同一用户的不同 Agent 不共享 Identity、Memory 与 State。
+- Identity 的归属维度是「用户 + Agent」：`UserId` 与 `AgentId` 共同确定她是「谁的哪一个 Agent」；同一用户的不同 Agent 不共享 Identity、Memory 与 State。
 - **Personality / Voice / Aesthetic / Boundaries** 是相对静态的，由用户和管理员维护，运行时只读。
 - **SelfNarrative** 是动态的：随重要事件、关系进展、阶段变化逐步演化。Phase 1 由系统按模板生成；Phase 1 内延后项起允许在边界内自我修正（仍受管理后台审计）。
 
 ### 4.2 持久化
 
 - Identity 的权威数据在服务端，**客户端只读不写**。
+- 领域数据按 `AgentId` 唯一索引；Agent 是否属于当前用户由接口层判定，领域层不做越权判断。
 - Identity 修改必须经过管理后台审计（见 [管理后台架构设计](管理后台架构设计.md)），Runtime 没有直接写 Identity 的能力。
 - Identity 在不同设备、不同 Session 之间共享同一份——这是"换身体不换人格"的工程基础。
 
@@ -309,6 +327,7 @@ State 变化由**确定的系统规则**驱动，LLM 只读 State 做决策，�
 要点：
 
 - **State 不做逐字段持久化**：权威副本常驻内存，每次 Session 开始时基于最近事件回放构造；定期落盘**整体快照**，快照只用于跨 Session 恢复与审计，不回写覆盖内存中由规则算出的结果。
+- **State 驻留按 Agent 维度**：只有活跃 Agent 集合的 State 常驻内存，超出容量上限时按最近使用淘汰，未命中才按事件回放重建；Phase 1 单实例运行，容量上限必须在工程侧显式配置。
 - `VersionSeq` 是内存内的单调版本号，用于乐观并发与审计，不是数据库行版本。
 - 落盘快照用于“她第二天醒来还记得昨天的心情”。
 - LLM 在 Prompt 里**只看到 State 的当前快照**，看不到内部数值规则。
@@ -355,11 +374,11 @@ Agent Runtime / Memory / State
 
 ### 7.2 PerceptionEvent 类型（Phase 1 契约）
 
-Phase 1 不由服务端直接访问摄像头或麦克风：语音输入与基础视觉（屏幕内容、在场检测）由客户端采集、经 Client API 作为 ClientSignal 进入；完整视觉理解留到 Phase 2。但事件契约必须先定义，让 Phase 2 / 3 接入时无需改动 Runtime。具体 Schema 进入 `contracts` 模块；本架构文档只定义事件来源和语义分类，不固化 Kotlin `sealed interface`、序列化注解或具体字段实现。
+Phase 1 服务端接收上行音频并完成识别，识别文本作为用户消息进入感知层；合成在上行完成后由语音层执行。摄像头不由服务端直接访问：基础视觉（屏幕内容、在场检测）由客户端处理、经 Client API 作为 ClientSignal 进入；完整视觉理解留到 Phase 2。但事件契约必须先定义，让 Phase 2 / 3 接入时无需改动 Runtime。具体 Schema 进入 `contracts` 模块；本架构文档只定义事件来源和语义分类，不固化 Kotlin `sealed interface`、序列化注解或具体字段实现。
 
 | 来源 | Phase 1 / 远期事件类别 | 语义 |
 |---|---|---|
-| ClientSignal | 用户消息、用户在场变化、输入状态变化、屏幕内容与在场检测结果 | 表达用户主动输入、交互状态与 Phase 1 基础视觉 |
+| ClientSignal | 用户消息、语音轮次开始与结束、播放被打断、用户在场变化、输入状态变化、屏幕内容与在场检测结果 | 表达用户主动输入、语音轮次与打断、交互状态与 Phase 1 基础视觉 |
 | ClockSignal | 时间流逝、昼夜节律变化、日期边界变化 | 表达服务端时钟和时间上下文 |
 | SessionSignal | Session 开始、Session 结束、心跳 | 表达客户端连接和会话生命周期 |
 | DeviceSignal | 设备状态变化 | Phase 2 接入摄像头和智能家居等设备 |
@@ -407,7 +426,7 @@ WorldModel
 │   ├── lastActivity // 上次互动时间
 │   └── inferred     // 当前推断状态：focused / idle / away / sleeping
 ├── SelfLocation     // 她当前主要在哪台设备上
-├── ActiveSessions   // 当前所有活跃 Session 列表
+├── ActiveSessions   // 该 Agent 的活跃 Session 列表
 └── RecentEvents     // 最近 N 条 PerceptionEvent 摘要
 ```
 
@@ -435,6 +454,8 @@ Runtime 是她的"大脑"，由 **两个 Loop** 组成：
 ### 9.1 Reactive Loop（响应式）
 
 ```text
+上行音频 → 语音层识别 → 用户文本
+   ↓
 PerceptionEvent (User*)
    ↓
 更新 Working Memory / Agent State
@@ -494,7 +515,7 @@ Proactive Loop 的决策**不是"现在该不该说话"的二选一**，而是�
 #### 去抖与让位
 
 - 同类主动行为短时间内只触发一次（早安不会连续发三遍）。
-- Proactive 输出期间检测到用户输入 → 立即让位，不抢话。
+- Proactive 输出期间收到用户文本输入或客户端语音事件 → 立即让位，不抢话；收到播放打断时同时取消合成。
 - 用户明确表达"别烦我"/"让我静静" → Proactive 频率临时降为零，并写入 Procedural Memory（Phase 1 内延后项）。
 
 ### 9.3 Prompt 组装顺序（强约定）
@@ -526,7 +547,7 @@ Proactive Loop 的决策**不是"现在该不该说话"的二选一**，而是�
 2. Koog 使用 Structured Output 取得一个完整的 `AgentAction`，模型 token 增量不直接作为协议事件。
 3. `agent-protocol` 负责协议版本迁移、Schema 校验和业务约束校验。
 4. 校验通过的完整动作进入 `Flow<AgentActionEvent>`；校验失败的结果被拒绝，不进入下游。
-5. Ktor、Koin 和 Koog 的具体装配方式属于 [AgentService工程架构](AgentService工程架构.md)，不在本架构文档中固化具体 Kotlin API。
+5. Ktor、Koin 和 Koog 的具体装配方式属于 [Agent Service 工程架构](AgentService工程架构.md)，不在本架构文档中固化具体 Kotlin API。
 
 ---
 ## 10. Embodiment Protocol（Agent Action Protocol）
@@ -539,7 +560,7 @@ Phase 1 必须支持的最小动作集：
 
 | 动作 | 含义 |
 | --- | --- |
-| `SPEAK` | 说话（含文本与可选 TTS 标记） |
+| `SPEAK` | 说话（文本 + 表现参数；携带回复标识，音频由语音层合成后经音频通道下发） |
 | `LISTEN` | 进入倾听状态 |
 | `EMOTION` | 设置情绪（影响 Avatar 表情） |
 | `GESTURE` | 触发手势 |
@@ -567,7 +588,7 @@ Phase 1 内延后项视情况扩展：`NOTIFY`（向客户端通知但不说话�
 
 ### 11.1 触发源
 
-- **Clock Tick**：固定间隔（如 5 分钟）的评估触发。
+- **Clock Tick**：按活跃 Agent 集合遍历，固定间隔（如 5 分钟）触发；受全局并发上限与单 Agent 频率上限约束。
 - **State Change**：Loneliness / Mood / Energy 跨越阈值时触发。
 - **Memory Recall**：重要日期或重要事件临近时触发（生日、纪念日、用户提到的 deadline）。
 - **Perception Event**：用户长时间不来 / Session 启停 / 设备事件。
@@ -649,6 +670,12 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 - Admin API 的高权限操作（Identity 修改、Memory 干预、Prompt 模板变更、Model 切换）必须记录审计事件。
 - Agent State 的落盘快照是敏感数据（反映"她当时心境"），按敏感个人信息级保护。
 - SelfNarrative 的修改必须审计，不允许 Runtime 在无边界的情况下自我改写人格。
+- **按 Agent 隔离**：Identity 与 Memory 以 Agent 为归属单位；任何读取都必须先确认该 Agent 属于当前登录用户。
+- **账号凭据**：口令只保存哈希，登录 Token 的签名密钥只存在于服务端 Secret 环境，不进入日志。
+- **用户级删除**：删除用户必须级联其名下全部 Agent 的 Identity、Memory、State 快照与留存音频；审计日志的保留期限单独决策。
+- **音频留存**：语音输入与合成输出的音频全部留存，仅用于审计与回溯，不进入记忆体系，也不向客户端暴露，运行时不可读取；音频字节只存对象存储，数据库只保存媒体索引。
+- **保留期限**：留存音频默认保留 90 天，可按环境配置为其他期限或不自动删除；到期由对象存储生命周期策略清理。
+- **音频访问**：只有服务端语音层可直接读取；管理后台经 Admin API 换取短期签名地址，每次访问记录审计。
 
 ---
 
@@ -659,6 +686,10 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 - Client API / Admin API / WebSocket Event / Agent Action Protocol 全部由契约约束。
 - 客户端和服务端不自行定义互不兼容的消息格式；Unity 使用自己的 Embodiment API，**不直接解析后端协议**。
 - KMP 客户端负责把 Agent Action Protocol 映射为 Unity Embodiment API（见 [Unity身体架构设计](Unity身体架构设计.md)）。
+- 所有 Client API 请求必须携带有效的登录 Token；请求中出现的 `AgentId` 必须经归属校验，校验不通过不得进入 Runtime。
+- 登录、刷新与登出端点属于 Client API 契约，不由客户端自定义。
+- 音频帧格式与口型时间轴属于契约；音频字节不作为动作负载，动作只通过标识与音频关联。
+- 语音识别与合成只在服务端完成，客户端不自行识别或合成。
 
 ---
 
@@ -700,6 +731,9 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 │  │ Persistence     │  │ Koin Modules         │      │
 │  │ Exposed JDBC    │  │ Runtime / Store / AI │      │
 │  └─────────────────┘  └──────────────────────┘      │
+│  ┌─────────────────┐  ┌──────────────────────┐      │
+│  │ Auth / Registry │  │ Voice (ASR / TTS)    │      │
+│  └─────────────────┘  └──────────────────────┘      │
 └─────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────┐
@@ -717,12 +751,15 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 - `runtime-service` 只做协议转换和运行时适配，业务逻辑仍由 `runtime:agent-runtime` 负责。
 - `agent-protocol` 产出的完整动作通过 Action Event Stream 发送；模型 token 流不直接暴露为协议事件。
 - **Perception Layer** 与 **Proactive Loop Scheduler** 是 Phase 1 常驻组件。
+- **账号与鉴权**、**Agent 归属登记** 是 Phase 1 常驻组件，位于接口层之前，先于 Runtime 生效。
+- **语音层** 是 Phase 1 常驻组件，承接上行音频识别与下行合成，并经音频通道回传客户端。
 - **Secret / Config** 与 **Persistence** 是服务端基础设施，详见 [基础设施架构设计](基础设施架构设计.md)。
+
 ---
 
 ## 16. Phase 1 验收边界
 
-最小闭环（沿用并强化 [项目整体架构设计](项目整体架构设计.md) §8）：
+最小闭环（沿用并强化 [项目整体架构设计](项目整体架构设计.md) §8 第一阶段开发顺序）：
 
 ```text
 用户说："我喜欢晚上喝茶"
@@ -754,6 +791,13 @@ Phase 1 验收额外必须满足：
 3. **感知分层**：PerceptionEvent 类型已定义，至少 ClockSignal / SessionSignal / ClientSignal 通路跑通。
 4. **协议边界**：服务端不调用任何身体 API；动作集完整。
 5. **审计可追溯**：每次主动行为都能查到"为什么触发"。
+6. **账号隔离**：使用 A 的登录凭据访问 B 的 Agent 必须被拒绝，且不产生任何记忆读取。
+7. **默认 Agent**：新建用户后自动拥有一个默认 Agent，客户端查询时长度为 1。
+8. **按 Agent 恢复**：重启后按 Agent 恢复记忆与状态快照，不同 Agent 之间不串数据。
+9. **全语音闭环**：不依赖键盘即可完成一次完整对话。
+10. **可打断**：播报中用户开口能立即停止播放，且该轮不计入完整发言。
+11. **降级可用**：识别或合成不可用时退回文本对话，流程不中断。
+12. **留存可回溯**：任一轮回复都能从记忆回溯到对应的留存音频。
 
 ---
 

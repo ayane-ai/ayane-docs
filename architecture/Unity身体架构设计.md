@@ -22,6 +22,7 @@
 - Camera。
 - 3D Audio。
 - Unity Embodiment API。
+- TTS 音频播放与口型驱动（音频由服务端产出）。
 
 Unity 不负责：
 
@@ -58,6 +59,8 @@ Unity Embodiment API
 Avatar / Animation / Emotion / Gesture / Lip Sync
 ```
 
+Unity Bridge 分流：Agent Action Protocol 转换为 Unity Embodiment API；服务端下发的音频帧与口型时间轴交给音频播放与口型链路；口型时间轴缺失时，Unity 侧做音素分析。
+
 Unity 只接受身体能力调用，不直接理解后端的 Identity、Memory 和业务状态。
 
 ## 5. 平台接入
@@ -77,6 +80,7 @@ Unity 只接受身体能力调用，不直接理解后端的 Identity、Memory �
 ## 6. 版本规则
 
 - Unity Embodiment API 独立版本化。
+- 音频格式与口型时间轴随 Unity Embodiment API 一起版本化。
 - Desktop Runtime、Android Library、iOS Framework 维护兼容版本表。
 - 客户端只引用固定版本产物。
 - 不使用 Unity 工程源码作为客户端长期依赖。
@@ -86,5 +90,5 @@ Unity 只接受身体能力调用，不直接理解后端的 Identity、Memory �
 
 - [客户端架构设计](客户端架构设计.md)
 - [Contracts 架构设计](Contracts架构设计.md)
-- [AgentService 架构设计](AgentService架构设计.md)
+- [Agent Service 架构设计](AgentService架构设计.md)
 - [基础设施架构设计](基础设施架构设计.md)

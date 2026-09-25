@@ -99,6 +99,8 @@ Unity 负责 3D、Avatar、表情、动画和 Lip Sync；KMP / Compose 负责普
 
 语音建议先文字后语音。需要跨 Android、iOS、Windows 和 Kotlin 时，优先评估 [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)；只需要本地语音识别时，可评估 [whisper.cpp](https://github.com/ggml-org/whisper.cpp)。
 
+已确认的决策：语音识别与合成放在服务端，由云端引擎承担；客户端只做采集、播放与本地打断检测。sherpa-onnx 与 whisper.cpp 转为后续自托管引擎候选。
+
 ### 7. 基础视觉
 
 Phase 1 只做两块低成本视觉：屏幕内容理解与在场检测 / 人脸跟踪。两者都在客户端侧完成检测与提取，通过 Client API 作为 ClientSignal 上报；完整视觉理解（环境理解、姿态、手势与图像摘要）留到 Phase 2。
@@ -130,19 +132,21 @@ Desktop（主平台）
 ├── Embodiment Protocol：由 Agent Action Protocol 实现，与身体解耦
 ├── Unity + UniVRM：Avatar、表情和动作
 ├── 基础视觉：屏幕内容与在场检测，在客户端侧完成
-└── sherpa-onnx：后续接入 ASR / TTS / VAD
+├── 服务端语音：云端 ASR / TTS（识别与合成都由服务端承担）
+└── sherpa-onnx / whisper.cpp：后续自托管引擎候选
 ```
 
 ## 五、开发顺序
 
-1. 文字对话跑通。
-2. 固定 Identity 数据结构和系统提示词。
-3. 保存并召回一条用户记忆。
-4. 输出并校验 Agent Action Protocol。
-5. Unity Avatar 接收动作并表现表情、语音和手势。
-6. 接入语音输入输出。
-7. 接入基础视觉（屏幕内容与在场检测）。
-8. 最后再加入主动行为和后台调度。
+1. 账号、鉴权与 Session。
+2. 文字对话跑通。
+3. 固定 Identity 数据结构和系统提示词。
+4. 保存并召回一条用户记忆。
+5. 输出并校验 Agent Action Protocol。
+6. Unity Avatar 接收动作并表现表情、语音和手势。
+7. 接入语音输入输出（客户端采集播放 + 服务端语音层）。
+8. 接入基础视觉（屏幕内容与在场检测）。
+9. 最后再加入主动行为和后台调度。
 
 ## 六、验收标准
 
@@ -152,6 +156,9 @@ Desktop（主平台）
 - 一次回复可以同时产生文本、语音、表情或动作。
 - Unity 不直接参与人格、记忆和模型推理。
 - 云端 OpenAI-compatible 模型服务可以替换，不影响 AI Identity、Memory 和 Embodiment Protocol。
+- 跨用户隔离：使用他人的登录凭据访问其 Agent 被拒绝。
+- 不依赖键盘完成一次完整语音对话，且用户开口能打断播报。
+- 识别或合成不可用时退回文本，对话不中断。
 - 未引入智能家居、VR、全息、机器人等 Phase 2 以后范围。
 
 ## 七、暂不做
@@ -177,3 +184,5 @@ Desktop（主平台）
 - [Qdrant](https://github.com/qdrant/qdrant)
 - [Open WebUI](https://github.com/open-webui/open-webui)
 - [SillyTavern](https://github.com/SillyTavern/SillyTavern)
+
+以上项目能力、许可证与版本信息的核查日期：2026-09-25。

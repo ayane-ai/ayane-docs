@@ -19,7 +19,7 @@
 - BlendShape。
 - Lip Sync。
 - Gesture。
-- Camera。
+- Camera（渲染相机，不参与感知采集）。
 - 3D Audio。
 - Unity Embodiment API。
 - TTS 音频播放与口型驱动（音频由服务端产出）。

@@ -25,7 +25,7 @@ Phase 1 不建立独立的 `ayane-contracts` 仓库：契约由 `ayane-agent-ser
 - 错误码和错误分类。
 - 协议版本和兼容规则。
 
-Identity、Memory、Session 与 Agent Action Protocol 的 DTO 以「用户 + Agent」为维度；Session 标识必须携带 Agent 标识。登录、刷新与登出端点属于版本化 Client API；客户端访问任何 Agent 维度资源时，服务端必须校验该 Agent 归属于当前登录用户。二进制音频帧、口型时间轴与音频帧参数同属版本化范围。
+Identity、Memory、Session 与 Agent Action Protocol 的 DTO 以「用户 + Agent」为维度；Session 标识必须携带 Agent 标识。登录、刷新与登出端点属于版本化 Client API；客户端访问任何 Agent 维度资源时，服务端必须校验该 Agent 归属于当前登录用户。二进制音频帧、视觉帧、口型时间轴与两类帧的参数（采样率、尺寸、编码与触发策略）同属版本化范围。
 
 **生成来源契约**（无版本承诺）：
 
@@ -60,7 +60,7 @@ Phase 1 契约随 `ayane-agent-service` 版本一起演进，不启用独立发�
 - 可选字段和向后兼容扩展使用次版本。
 - 修复描述和校验问题使用补丁版本。
 - 服务端和客户端必须声明支持的契约版本范围；Admin Web 不声明版本范围。
-- 音频帧格式、采样率与编码的变更属于破坏性变更，客户端与服务端必须同步升级。
+- 音频帧与视觉帧的格式、尺寸、采样率、编码与触发策略的变更属于破坏性变更，客户端与服务端必须同步升级。
 
 ## 5. Action Protocol 边界
 
@@ -77,6 +77,8 @@ Action Protocol 只描述 Agent 希望身体执行的通用动作，例如说话
 具体身体调用由 `ayane-client` 的 Unity Bridge 完成。
 
 说话动作通过回复标识与音频帧关联；协议本身不承载音频字节。
+
+视觉摘要不是动作：它经感知事件进入 Runtime，不进入 Agent Action Protocol。
 
 ## 6. 变更流程
 

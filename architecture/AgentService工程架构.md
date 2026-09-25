@@ -11,10 +11,10 @@
 
 ## 文档导览（三张图先看）
 
-本文档涉及 13 个生产 Gradle 模块（另有 1 个可选测试模块 `test-fixtures`）与两套运行时模式，正文按设计原则、依赖矩阵、Gradle 配置、启动入口、测试、演进的顺序展开。为了让读者在进入正文前先建立心智模型，下面三张图覆盖三个最常被问到的视角：
+本文档涉及 14 个生产 Gradle 模块（另有 1 个可选测试模块 `test-fixtures`）与两套运行时模式，正文按设计原则、依赖矩阵、Gradle 配置、启动入口、测试、演进的顺序展开。为了让读者在进入正文前先建立心智模型，下面三张图覆盖三个最常被问到的视角：
 
-1. **模块依赖拓扑**：13 个模块分 7 层，谁依赖谁、运行时子项目怎么挂进主服务。
-2. **请求处理链路**：一次控制帧 + 音频帧从 WebSocket 进入到 Action Protocol 产出与音频回传的完整数据流。
+1. **模块依赖拓扑**：14 个模块分 7 层，谁依赖谁、运行时子项目怎么挂进主服务。
+2. **请求处理链路**：一次控制帧 + 音频帧 + 视觉帧从 WebSocket 进入到 Action Protocol 产出与音频回传的完整数据流。
 3. **嵌入 vs 独立两种模式**：Phase 1 单进程（RuntimeGateway 调用）与 Phase 2+ 多进程（HTTP 调用）的部署差异。
 
 ### 图 1：模块依赖拓扑
@@ -53,6 +53,7 @@ flowchart TB
         AgentWorldModel[agent-world-model<br/>World + 推理]
         AgentPerception[agent-perception<br/>Sources + Filter]
         AgentVoice[agent-voice<br/>ASR / TTS 编排]
+        AgentVision[agent-vision<br/>Screen / Face 理解]
     end
 
     AgentService --> AgentApi
@@ -64,6 +65,7 @@ flowchart TB
     AgentService --> AgentWorldModel
     AgentService --> AgentPerception
     AgentService --> AgentVoice
+    AgentService --> AgentVision
     AgentService --> AgentDomain
 
     AgentApi --> AgentProtocol
@@ -84,19 +86,22 @@ flowchart TB
     AgentWorldModel --> AgentDomain
     AgentPerception --> AgentDomain
     AgentVoice --> AgentDomain
+    AgentVision --> AgentDomain
 
     RuntimeService --> AgentRuntime
 ```
 
-**图注**：13 个模块分 7 层（应用 / 接口 / 协议 / 契约 / 基础设施 / 领域 / runtime 核心）；runtime 子项目内含核心层与感知层两组模块，通过 `includeBuild("runtime")` 引用，可独立 clone、单独发布。详细分层原则见 §1。
+**图注**：14 个模块分 7 层（应用 / 接口 / 协议 / 契约 / 基础设施 / 领域 / runtime 核心）；runtime 子项目内含核心层与感知层两组模块，通过 `includeBuild("runtime")` 引用，可独立 clone、单独发布。详细分层原则见 §1。
 
 ### 图 2：请求处理链路
 
 ```mermaid
 flowchart LR
-    In[Client WebSocket<br/>控制帧 + 音频帧] --> ClientGW[agent-api<br/>ClientController]
+    In[Client WebSocket<br/>控制帧 + 音频帧 + 视觉帧] --> ClientGW[agent-api<br/>ClientController]
     In -->|音频帧| Voice[agent-voice<br/>ASR / TTS]
+    In -->|视觉帧| Vision[agent-vision<br/>Screen / Face]
     Voice -->|用户文本| ClientGW
+    Vision -->|视觉摘要| ClientGW
     ClientGW --> RT[agent-runtime<br/>AgentRuntime]
 
     RT -->|pull| Perception[agent-perception<br/>Working Memory Buffer]
@@ -125,7 +130,7 @@ flowchart LR
     Voice -->|音频帧| Client
 ```
 
-**图注**：对应 [Agent Service 架构设计 §9 Agent Runtime](AgentService架构设计.md) 的运行链路。Runtime 先拉取四份上下文（Perception / Memory / State / World Model），再按固定顺序拼装 Prompt，调用 Model 拿到 LLM 输出，最后走 ActionFactory + ActionValidator 校验后才进入下游 Action Event Stream。上行音频帧由 `agent-voice` 识别为用户文本后进入 Client API；说话动作由 `agent-voice` 合成音频帧后回传客户端。
+**图注**：对应 [Agent Service 架构设计 §9 Agent Runtime](AgentService架构设计.md) 的运行链路。Runtime 先拉取四份上下文（Perception / Memory / State / World Model），再按固定顺序拼装 Prompt，调用 Model 拿到 LLM 输出，最后走 ActionFactory + ActionValidator 校验后才进入下游 Action Event Stream。上行音频帧由 `agent-voice` 识别为用户文本后进入 Client API；说话动作由 `agent-voice` 合成音频帧后回传客户端。上行视觉帧由 `agent-vision` 理解后产出视觉摘要并进入 Client API，原帧经留存旁路写入媒体存储。
 
 ### 图 3：嵌入 vs 独立两种运行模式
 
@@ -140,6 +145,7 @@ flowchart LR
         E_Service -->|Koin module| E_WM[runtime/agent-world-model]
         E_Service -->|Koin module| E_Per[runtime/agent-perception]
         E_Service -->|Koin module| E_Voice[runtime/agent-voice]
+        E_Service -->|Koin module| E_Vision[runtime/agent-vision]
     end
 
     subgraph Standalone["Phase 2+ 独立模式"]
@@ -152,6 +158,7 @@ flowchart LR
         S_RT --> S_WM[agent-world-model]
         S_RT --> S_Per[agent-perception]
         S_RT --> S_Voice[agent-voice]
+        S_RT --> S_Vision[agent-vision]
     end
 
     Embed -.切换条件.-> Standalone
@@ -188,9 +195,9 @@ flowchart LR
 | **Koog 输出有边界** | `agent-runtime` 通过输出适配器取得结构化 `AgentAction`，再交给 `agent-protocol` 校验 |
 | **runtime 核心轻量** | runtime 核心不依赖 Ktor Server、Koin 或 Exposed；可用 Fake 依赖独立测试 |
 | **runtime 可独立运行** | `runtime-service` 提供 Ktor API，主服务通过 `RuntimeGateway` 在进程内实现和 HTTP 实现之间切换 |
-| **Perception SPI 化** | Phase 2+ 新增摄像头、智能家居只需新增实现模块，不改核心 |
+| **Perception SPI 化** | Phase 2+ 新增设备源（物理环境摄像头、智能家居）只需新增实现模块，不改核心 |
 
-### 1.2 模块地图（13 个生产模块 + 可选 test-fixtures）
+### 1.2 模块地图（14 个生产模块 + 可选 test-fixtures）
 
 ```
 ayane-agent-service/                                 ← 主服务子项目
@@ -234,7 +241,7 @@ Phase 1 同时保留可启动的 `runtime-service` Ktor 入口，用于独立健
 
 | 模块 | 依赖 |
 |---|---|
-| `agent-service` | `agent-api`, `agent-domain`, `agent-store-exposed`, `agent-protocol`、`runtime:agent-runtime`、`runtime:agent-memory`、`runtime:agent-state`、`runtime:agent-world-model`、`runtime:agent-perception`、`runtime:agent-voice`、Ktor、Koin、Koog（嵌入模式） |
+| `agent-service` | `agent-api`, `agent-domain`, `agent-store-exposed`, `agent-protocol`、`runtime:agent-runtime`、`runtime:agent-memory`、`runtime:agent-state`、`runtime:agent-world-model`、`runtime:agent-perception`、`runtime:agent-voice`、`runtime:agent-vision`、Ktor、Koin、Koog（嵌入模式） |
 | `agent-api` | `agent-domain`, `agent-protocol`, `contracts`、Ktor Auth / JWT |
 | `agent-domain` | （无业务依赖） |
 | `agent-store-exposed` | `agent-domain` |
@@ -251,6 +258,7 @@ Phase 1 同时保留可启动的 `runtime-service` Ktor 入口，用于独立健
 | `agent-world-model` | `agent-domain`, `runtime:agent-memory` |
 | `agent-perception` | `agent-domain` |
 | `agent-voice` | `agent-domain`（媒体端口）、云端语音 HTTP 客户端、音频编解码 |
+| `agent-vision` | `agent-domain`（媒体端口）、云端视觉理解 HTTP 客户端、图像编解码 |
 | `runtime-service` | `runtime:agent-runtime`、Ktor Server、Koin、`koog-ktor` |
 
 **关键约束**：`runtime/` 核心模块禁止依赖 Ktor Server、Koin 和 Exposed；`runtime-service` 作为边界模块可以依赖 Ktor、Koin 和 `koog-ktor`。单测使用纯 Kotlin JUnit 5 + kotlinx-coroutines-test。
@@ -273,7 +281,7 @@ Phase 1 同时保留可启动的 `runtime-service` Ktor 入口，用于独立健
 | State | `AgentState`、`AgentStateRepository`、状态更新规则端口 |
 | World | `WorldModel`、`WorldModelRepository` |
 | Event | `PerceptionEvent`、`SessionEvent` 及相关值对象 |
-| 媒体 | `AudioRecord`、`AudioStore`（对象存储端口）、`AudioIndexRepository` |
+| 媒体 | `AudioRecord`、`AudioStore`、`VisionRecord`、`VisionStore`（对象存储端口）、`AudioIndexRepository`、`VisionIndexRepository` |
 
 Repository 只表达领域需要的读写能力；数据库连接、事务、序列化和 Web 请求对象不得进入领域层。
 
@@ -287,6 +295,7 @@ Repository 只表达领域需要的读写能力；数据库连接、事务、序
 - `agent.store.exposed.account`：用户、凭据与刷新 Token 的持久化。
 - `agent.store.exposed.registry`：Agent 归属与状态。
 - `agent.store.exposed.audio`：留存音频的索引行与对象存储访问。
+- `agent.store.exposed.vision`：视觉原帧的索引行与对象存储访问。
 - `agent.store.exposed.memory`：六类 Memory 的存储和召回（Phase 1 实装四类）。
 - `agent.store.exposed.state`：Agent State 快照读写。
 - `agent.store.exposed.world`：World Model 读写。
@@ -350,6 +359,7 @@ Repository 只表达领域需要的读写能力；数据库连接、事务、序
 - `agent.api.client.AuthRoutes`：登录、刷新与登出。
 - `agent.api.security`：归属解析，把登录凭据与请求中的 `AgentId` 解析为确定的「用户 + Agent」。
 - `agent.api.voice`：WebSocket 音频帧分流与校验（大小、时长、轮次归属）。
+- `agent.api.vision`：WebSocket 视觉帧分流与校验（尺寸、频率、来源与轮次归属）。
 
 **关键约束**：
 
@@ -358,6 +368,7 @@ Repository 只表达领域需要的读写能力；数据库连接、事务、序
 - Phase 1 默认绑定 `EmbeddedRuntimeGateway`；独立模式再绑定 `HttpRuntimeGateway`。
 - Route 不得自行解析用户身份，也不得把请求中的 `AgentId` 直接传给 Runtime；必须先经归属解析并通过校验。
 - 音频帧只在已鉴权的 Session 内接受；超出大小或时长上限的帧被丢弃，不进入语音层。
+- 视觉帧只在已鉴权、且用户已授权摄像头的 Session 内接受；超出尺寸或频率上限的帧被丢弃，不进入视觉层。
 
 ### 3.6 `agent-service`（应用层）
 
@@ -420,24 +431,25 @@ Phase 1 的 `WorldContext` 保持轻量；Phase 2+ 再演进为带置信度和�
 
 **职责**：接收不同来源的原始信号，经 Attention Filter 和 Working Memory Buffer 转换为语义化 PerceptionEvent。
 
-Phase 1 支持 ClientSignal、ClockSignal 和 SessionSignal；麦克风音频在 Phase 1 由客户端采集、经音频通道进入语音层，识别文本再作为 ClientSignal 进入本模块，基础视觉同样走 ClientSignal。Phase 2+ 通过新增 PerceptionSource 接入摄像头（完整视觉理解）和智能家居，不修改 runtime 核心。
+Phase 1 支持 ClientSignal、ClockSignal 和 SessionSignal；麦克风音频在 Phase 1 由客户端采集、经音频通道进入语音层，识别文本再作为 ClientSignal 进入本模块；视觉帧经视觉层理解后，视觉摘要同样作为 ClientSignal 进入，端侧在场检测直接上报。Phase 2+ 通过新增 PerceptionSource 接入设备源（物理环境摄像头与智能家居）与完整视觉理解，不修改 runtime 核心。
 
-#### 3.7.6 `runtime:runtime-service`（Ktor 独立部署壳）
+#### 3.7.6 `runtime:agent-vision`（视觉层）
 
-**职责**：将 `runtime:agent-runtime` 暴露为可启动的 Ktor API，负责 Koin 装配、请求转换、健康检查和运行时适配。业务逻辑全部委托给 runtime 核心。
+**职责**：编排云端视觉理解，维护视觉帧的上行节流与轮次归属，产出视觉摘要并留存原帧。
 
-**Phase 1 端点**：
+**能力区域**：
 
-| 端点 | 方法 | 用途 |
-|---|---|---|
-| `/api/runtime/process` | POST | 处理感知事件并产生运行结果 |
-| `/api/runtime/memory/recall` | POST | 记忆召回 |
-| `/api/runtime/state/snapshot` | GET | 获取状态快照 |
-| `/api/runtime/world/update` | POST | 更新 World Model |
-| `/api/runtime/action/factory` | POST | 构造 Agent Action Protocol |
-| `/api/runtime/health` | GET | 健康检查 |
+- 图像编解码：链路使用关键帧图像编码，单帧尺寸与分辨率上限由契约约束。
+- 理解适配：把上行视觉帧转交云端多模态模型，产出屏幕内容理解与人脸跟踪的视觉摘要。
+- 节流与触发：以变化触发为主、间隔触发兜底；未获用户授权的摄像头帧不接受。
+- 留存旁路：原帧异步写入对象存储并登记媒体索引，默认保留 7 天；失败只记指标，不影响对话链路。
 
-Phase 1 可以独立启动和验证该入口，但 `agent-service` 默认仍通过嵌入模式调用 runtime。`koog-ktor` 只属于 Ktor 边界层，协议模型和校验仍属于 `agent-protocol`。
+**关键约束**：
+
+- 不依赖 Ktor Server、Koin 或 Exposed；云端引擎凭据由应用入口从 Secret 注入。
+- 视觉摘要进入感知层与当前对话上下文，不进入长期记忆。
+- 原帧字节不下发客户端展示、不写应用日志；日志只记录媒体标识与耗时。
+- 完整视觉理解（用户位置、姿态、手势、环境理解与图像摘要）属 Phase 2，Phase 1 只做屏幕内容理解与人脸跟踪。
 
 #### 3.7.7 `runtime:agent-voice`（语音层）
 
@@ -458,6 +470,23 @@ Phase 1 可以独立启动和验证该入口，但 `agent-service` 默认仍通�
 - 音频字节不进入记忆、不下发客户端展示、不写应用日志；日志只记录媒体标识与耗时。
 - 播报单播到最后一次用户输入的设备。
 
+#### 3.7.8 `runtime:runtime-service`（Ktor 独立部署壳）
+
+**职责**：将 `runtime:agent-runtime` 暴露为可启动的 Ktor API，负责 Koin 装配、请求转换、健康检查和运行时适配。业务逻辑全部委托给 runtime 核心。
+
+**Phase 1 端点**：
+
+| 端点 | 方法 | 用途 |
+|---|---|---|
+| `/api/runtime/process` | POST | 处理感知事件并产生运行结果 |
+| `/api/runtime/memory/recall` | POST | 记忆召回 |
+| `/api/runtime/state/snapshot` | GET | 获取状态快照 |
+| `/api/runtime/world/update` | POST | 更新 World Model |
+| `/api/runtime/action/factory` | POST | 构造 Agent Action Protocol |
+| `/api/runtime/health` | GET | 健康检查 |
+
+Phase 1 可以独立启动和验证该入口，但 `agent-service` 默认仍通过嵌入模式调用 runtime。`koog-ktor` 只属于 Ktor 边界层，协议模型和校验仍属于 `agent-protocol`。
+
 ---
 
 ## 4. Gradle 配置
@@ -468,7 +497,7 @@ Phase 1 可以独立启动和验证该入口，但 `agent-service` 默认仍通�
 
 - 顶层项目包含 `agent-service`、`agent-api`、`agent-domain`、`agent-store-exposed`、`agent-protocol` 和 `contracts`。
 - 顶层通过 `includeBuild("runtime")` 接入 runtime composite build。
-- runtime 子项目包含 `agent-runtime`、`agent-memory`、`agent-state`、`agent-world-model`、`agent-perception`、`agent-voice` 和 `runtime-service`。
+- runtime 子项目包含 `agent-runtime`、`agent-memory`、`agent-state`、`agent-world-model`、`agent-perception`、`agent-voice`、`agent-vision` 和 `runtime-service`。
 - 存储实现模块统一使用 `agent-store-exposed` 命名。
 
 ### 4.2 构建和工具链边界
@@ -483,6 +512,7 @@ Phase 1 可以独立启动和验证该入口，但 `agent-service` 默认仍通�
 | 认证与凭据 | Ktor Auth、Ktor Auth JWT、Argon2id 口令哈希 |
 | 媒体存储 | S3 兼容对象存储客户端 |
 | 语音引擎 | 云端 ASR / TTS 的 HTTP 客户端 |
+| 视觉引擎 | 云端多模态理解的 HTTP 客户端、图像编解码 |
 | 契约生成 | OpenAPI Generator，目标为纯 Kotlin DTO / Serialization 类型 |
 
 版本必须统一由 Version Catalog 管理，禁止在模块脚本中重复声明版本。具体版本以实际工程的兼容性验证结果为准。
@@ -498,6 +528,7 @@ Phase 1 可以独立启动和验证该入口，但 `agent-service` 默认仍通�
 | `runtime:runtime-service` | runtime 核心、Ktor、Koin、`koog-ktor` | 具体数据库实现和客户端业务模块 |
 | `agent-api` | 领域、协议、contracts、Ktor、Ktor Auth | Exposed、数据库表和 Koog 具体调用 |
 | `runtime:agent-voice` | 领域媒体端口、云端语音 HTTP 客户端、音频编解码 | Ktor Server、Koin、Exposed |
+| `runtime:agent-vision` | 领域媒体端口、云端视觉理解 HTTP 客户端、图像编解码 | Ktor Server、Koin、Exposed |
 | `agent-service` | API、Store、Protocol、Runtime、Ktor、Koin、Koog | 反向依赖客户端或 Unity 源码 |
 
 ### 4.4 构建验证边界
@@ -508,6 +539,7 @@ Phase 1 可以独立启动和验证该入口，但 `agent-service` 默认仍通�
 - contracts 验证 OpenAPI / JSON Schema 与 DTO 序列化，不验证 Web 框架行为。
 - 依赖分析必须阻止 runtime 核心反向引入 Ktor Server、Koin 或 Exposed。
 - 语音层使用假识别与假合成引擎做纯单元测试，不依赖真实云端引擎。
+- 视觉层使用假理解引擎做纯单元测试，不依赖真实云端多模态模型。
 
 ---
 
@@ -556,21 +588,22 @@ Koin 根据 `runtime.mode` 绑定 `EmbeddedRuntimeGateway` 或 `HttpRuntimeGatew
 
 ### 6.1 模块测试层级
 
-| 模块                          | 测试类型                                      | 是否需要 Ktor / Koin |
-|-----------------------------|-------------------------------------------|------------------|
-| `agent-domain`              | 纯单测（值对象、领域事件）                             | ❌                |
-| `agent-store-exposed`       | 集成测试（H2 + Exposed JDBC、账号与归属登记）             | ❌，仅使用数据库测试工具     |
-| `agent-protocol`            | 纯单测（结构化动作、校验、迁移）                          | ❌                |
-| `contracts`                 | Schema、DTO 序列化测试                          | ❌                |
-| `runtime:agent-memory`      | 纯单测（召回策略用假仓储）                             | ❌                |
-| `runtime:agent-state`       | 纯单测（状态机 + 规则）                             | ❌                |
-| `runtime:agent-world-model` | 纯单测（推理逻辑用假 Client）                        | ❌                |
-| `runtime:agent-perception`  | 纯单测（Filter + Buffer）                      | ❌                |
-| `runtime:agent-voice`       | 纯单测（假识别 / 假合成引擎、轮次状态机与打断取消）      | ❌                |
-| `runtime:agent-runtime`     | 纯单测（Fake Koog Agent + Fake Repository）    | ❌                |
-| `runtime:runtime-service`   | Ktor `testApplication` 路由测试               | ✅ 最小 Koin 装配     |
-| `agent-api`                 | Ktor `testApplication` API / WebSocket 与鉴权归属测试（401 / 403） | ✅ 最小 Koin 装配     |
-| `agent-service`             | Ktor Application + Koin 装配测试              | ✅                |
+| 模块 | 测试类型 | 是否需要 Ktor / Koin |
+|---|---|---|
+| `agent-domain` | 纯单测（值对象、领域事件） | ❌ |
+| `agent-store-exposed` | 集成测试（H2 + Exposed JDBC、账号与归属登记） | ❌，仅使用数据库测试工具 |
+| `agent-protocol` | 纯单测（结构化动作、校验、迁移） | ❌ |
+| `contracts` | Schema、DTO 序列化测试 | ❌ |
+| `runtime:agent-memory` | 纯单测（召回策略用假仓储） | ❌ |
+| `runtime:agent-state` | 纯单测（状态机 + 规则） | ❌ |
+| `runtime:agent-world-model` | 纯单测（推理逻辑用假 Client） | ❌ |
+| `runtime:agent-perception` | 纯单测（Filter + Buffer） | ❌ |
+| `runtime:agent-voice` | 纯单测（假识别 / 假合成引擎、轮次状态机与打断取消） | ❌ |
+| `runtime:agent-vision` | 纯单测（假理解引擎、节流与轮次归属、留存旁路） | ❌ |
+| `runtime:agent-runtime` | 纯单测（Fake Koog Agent + Fake Repository） | ❌ |
+| `runtime:runtime-service` | Ktor `testApplication` 路由测试 | ✅ 最小 Koin 装配 |
+| `agent-api` | Ktor `testApplication` API / WebSocket 与鉴权归属测试（401 / 403） | ✅ 最小 Koin 装配 |
+| `agent-service` | Ktor Application + Koin 装配测试 | ✅ |
 
 Koog 输出层至少覆盖：
 
@@ -591,7 +624,8 @@ Koog 输出层至少覆盖：
 
 | 模块变化 | 触发条件 |
 |---|---|
-| `:runtime:agent-perception-camera` 新模块 | 接入完整视觉理解（图像摘要与多模态感知） |
+| `:runtime:agent-vision-advanced` 新模块 | 接入完整视觉理解（用户位置、姿态、手势、环境理解与图像摘要） |
+| `:runtime:agent-perception-device` 新模块 | 接入物理环境摄像头与智能家居设备源 |
 | `:runtime:agent-store-vector` 新模块 | 接入向量库 |
 | `runtime.mode: standalone` | runtime-service 单独部署 |
 
@@ -599,7 +633,9 @@ Koog 输出层至少覆盖：
 
 **语音层 Phase 1 内延后项**：多设备播报仲裁、引擎热切换、口型时间轴精度优化。
 
-Phase 1 的基础视觉（屏幕内容、在场检测）由客户端完成，不需要服务端新模块；语音层是 Phase 1 新增的模块。
+**视觉层 Phase 1 内延后项**：多路视觉源仲裁、视觉与语音轮次的对齐、人脸跟踪精度优化。
+
+Phase 1 的视觉由客户端采集与在场检测加服务端视觉层承担；语音层与视觉层都是 Phase 1 新增的模块。
 
 ### 7.2 Phase 2 → Phase 3 切换点
 
@@ -629,6 +665,7 @@ Phase 1 末：满足 [Contracts 架构设计 §7 契约独立的触发条件](Co
 | `agent-domain` | [Agent Service 架构设计 §3 子系统总览](AgentService架构设计.md)、§4 AI Identity、§5 Memory、§6 Agent State Store |
 | 账号与归属（`agent-api` / `agent-store-exposed`） | [Agent Service 架构设计 §3 子系统总览](AgentService架构设计.md)、[管理后台架构设计 §2 功能范围](管理后台架构设计.md) |
 | `runtime:agent-voice` | [Agent Service 架构设计 §3 子系统总览](AgentService架构设计.md)、§7.2 PerceptionEvent 类型、§10 Embodiment Protocol、§13 数据权属与安全 |
+| `runtime:agent-vision` | [Agent Service 架构设计 §3 子系统总览](AgentService架构设计.md)、§7 Perception Layer、§13 数据权属与安全、[Contracts 架构设计 §2 契约范围](Contracts架构设计.md) |
 | `runtime:agent-memory` | [Agent Service 架构设计 §5 Memory](AgentService架构设计.md)、§12 记忆生命周期 |
 | `runtime:agent-state` | [Agent Service 架构设计 §6 Agent State Store](AgentService架构设计.md) |
 | `runtime:agent-world-model` | [Agent Service 架构设计 §8 World Model](AgentService架构设计.md) |
@@ -667,6 +704,7 @@ Phase 1 末：满足 [Contracts 架构设计 §7 契约独立的触发条件](Co
 
 - [ ] 抽 `runtime:agent-perception`，定义 SPI 接口
 - [ ] 抽 `runtime:agent-voice`，接入云端识别与合成，跑通一次全语音对话
+- [ ] 抽 `runtime:agent-vision`，接入云端视觉理解，跑通一次屏幕内容理解闭环
 - [ ] 抽 `agent-store-exposed`，把 Repository 实现移过去
 - [ ] 建 `runtime:runtime-service`，完成 Ktor 入口、Koin 装配和健康检查
 
@@ -686,9 +724,12 @@ Phase 1 末：满足 [Contracts 架构设计 §7 契约独立的触发条件](Co
 | **依赖反向**：runtime 误引入 Ktor Server / Exposed | 通过依赖分析和模块边界检查检测                                                |
 | **contracts 漂移**：服务端和客户端各持一份               | 拆仓前只在 `agent-service` 仓维护；拆仓后用 Git Tag 锁定版本                    |
 | **运行时模式切换漏配置**                             | 通过 `runtime.mode` 配置和 Koin binding 强制显式选择 RuntimeGateway       |
-| **Gradle 构建慢**：13 模块导致增量编译变慢               | 启用 Gradle Configuration Cache + Kotlin Incremental Compilation |
+| **Gradle 构建慢**：14 模块导致增量编译变慢               | 启用 Gradle Configuration Cache + Kotlin Incremental Compilation |
 | **音频带宽与合成成本**：上行音频与云端引擎按量计费             | 留存副本使用 Opus；单轮时长与全局并发设上限                                  |
 | **语音引擎不可用**：对话链路中断                        | 识别不可用退回文本输入；合成不可用只出文本与动作                                  |
+| **视觉带宽与理解成本**：上行帧与云端多模态按量计费             | 变化触发 + 关键帧、分辨率与频率上限、原帧仅短期留存                                 |
+| **视觉隐私**：屏幕与人脸属敏感数据                        | 摄像头授权后开启、原帧加密且默认 7 天、只有视觉层可读、用户级删除级联                        |
+| **视觉引擎不可用**：视觉能力缺失                         | 退回端侧在场检测与文本对话，对话链路不中断                                      |
 | **越权访问**：`AgentId` 来自请求                        | 统一经归属解析并校验，401 / 403 路径纳入单测                                   |
 
 ---

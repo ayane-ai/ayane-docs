@@ -19,7 +19,7 @@ flowchart LR
         Mic[麦克风<br/>Phase 1 客户端采集]
         Clock[Clock<br/>服务端时钟]
         SessionEvt[Session<br/>启停心跳]
-        Devices[(Phase 2+<br/>摄像头 智能家居)]
+        Devices[(Phase 2+<br/>物理环境设备源)]
     end
 
     subgraph Ingest["感知层"]
@@ -103,7 +103,7 @@ Phase 1 的范围以本文档为准；Phase 2 / 3 的能力在这里只留出接
 
 ## 1. 仓库定位
 
-`ayane-agent-service` 是独立部署的后端服务，承担 **AI Identity 主体** 的运行容器。它负责用户账号与鉴权、Agent 归属登记、语音识别与合成，并持续运行 Identity、Memory、Agent State、Session、Perception、Agent Runtime 和 World Model，对外提供 Client API、Admin API 和 Action Event Stream。
+`ayane-agent-service` 是独立部署的后端服务，承担 **AI Identity 主体** 的运行容器。它负责用户账号与鉴权、Agent 归属登记、语音识别与合成、视觉理解（屏幕内容理解与人脸跟踪），并持续运行 Identity、Memory、Agent State、Session、Perception、Agent Runtime 和 World Model，对外提供 Client API、Admin API 和 Action Event Stream。
 
 仓库内含 `contracts` 模块，Phase 1 承载全部跨仓库契约（OpenAPI 定义、WebSocket Event Schema、Agent Action Protocol、DTO 和错误码），契约域设计见 [Contracts 架构设计](Contracts架构设计.md)。
 
@@ -118,6 +118,7 @@ Phase 1 的范围以本文档为准；Phase 2 / 3 的能力在这里只留出接
 - **Koin**：使用经典 Kotlin DSL 装配应用层、runtime、Repository 和模型输出适配器，不引入重量级容器或注解处理器。
 - **Exposed JDBC**：实现 `agent-domain` 的 Repository 接口，通过协程事务封装阻塞式 JDBC；数据库表和映射对象只存在于 `agent-store-exposed`。
 - **OpenAI-compatible Model Provider**：由 Koog 接入云端 OpenAI-compatible API，供应商切换不改变 Prompt 和 Runtime 行为。
+- **云端视觉引擎**：由视觉层通过 HTTP 客户端调用云端多模态理解能力，供应商切换不改变感知事件与 Runtime 行为。
 
 Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Agent State、World Model 和 Agent Action Protocol 仍由本文定义的领域边界约束。API 契约（本仓库 `contracts` 模块）确保服务端、客户端和管理后台之间的接口统一。
 
@@ -129,6 +130,7 @@ Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Ag
 | --- | --- | --- |
 | **Identity 唯一且持久** | 平台支持多用户；每个用户可拥有多个 Agent，每个 Agent 对应唯一一份 Identity，同一 Agent 的所有客户端共享同一份状态 | Identity Store、Agent State Store |
 | **账号隔离** | 每个请求都必须解析为确定的「用户 + Agent」；跨用户访问一律拒绝，校验只在接口层完成 | 归属解析、Agent 归属登记 |
+| **视觉与语音同构** | 端侧只采集、降采样、节流并做在场检测；识别、合成与视觉理解都在服务端完成 | 语音层、视觉层 |
 | **Memory 与 State 分离** | Memory 是事实/事件，State 是当前心境/能量/亲密度/孤独感 | §5、§6 |
 | **System 拥有 State，LLM 不直接写 State** | LLM 是决策者，不是状态造假者 | Agent State Store + State Update Rules |
 | **Runtime 双 Loop** | Reactive Loop 响应用户，Proactive Loop 自主发起 | §9 Agent Runtime |
@@ -156,7 +158,7 @@ Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Ag
                                                   └───────────┬──────────────┘
                                                               │ raw signals
                                                               ▼
-Client ── HTTPS / WebSocket ──► Client API ──► 语音层 ──► Perception Layer ──► Perception Events
+Client ── HTTPS / WebSocket ──► Client API ──► 语音层 / 视觉层 ──► Perception Layer ──► Perception Events
                                                               │
                                                               ▼
                                                        Working Memory Buffer
@@ -196,6 +198,14 @@ Client ── 音频帧(上行) ──► 语音层 ──► 云端识别 ─�
               └── 旁路留存：上行与下行音频异步写入对象存储
 ```
 
+视觉路径（与音频帧共用同一条连接）：
+
+```text
+Client ── 视觉帧(上行，屏幕 / 摄像头) ──► 视觉层 ──► 云端多模态理解 ──► 视觉摘要 ──► Perception Layer
+在场检测 ──► 客户端本地判定 ──► ClientSignal（不经视觉层）
+              └── 旁路留存：原帧异步写入对象存储并登记媒体索引（默认 7 天）
+```
+
 要点：
 
 - **双入口**：用户输入（Client API）与外部感知（Perception Sources）汇入同一个 Perception Layer，不再各自为政。
@@ -203,6 +213,7 @@ Client ── 音频帧(上行) ──► 语音层 ──► 云端识别 ─�
 - **唯一边界**：Runtime 与身体之间只有 Action Protocol，没有别的耦合。
 - **同一连接**：控制帧（JSON）与音频帧（二进制）复用同一条 WebSocket；动作通过回复标识与音频关联。
 - **留存旁路**：上行与下行音频异步写入对象存储，失败只记指标，不影响对话链路。
+- **视觉同构**：视觉帧与音频帧共用同一条连接和同样的留存旁路；端侧只采集与在场检测，理解在视觉层完成。
 
 ---
 
@@ -214,10 +225,11 @@ Client ── 音频帧(上行) ──► 语音层 ──► 云端识别 ─�
 | **账号与鉴权** | 用户账号、凭据与登录 Token 的签发和校验 | ✅ |
 | **Agent 归属登记** | Agent 实例的归属、状态与默认 Agent | ✅（Phase 1 每用户一个默认 Agent） |
 | **语音层（Voice）** | 云端语音识别与合成的编排、音频留存、口型时间轴 | ✅ |
+| **视觉层（Vision）** | 上行视觉帧的理解编排、视觉摘要产出、原帧留存与媒体索引 | ✅（屏幕内容理解与人脸跟踪） |
 | **Memory** | 6 类记忆：Episodic / Semantic / Preference / Relationship / Emotional / Procedural | ✅（6 类契约与接口齐备；Phase 1 实装 Episodic / Preference / Relationship / Emotional，Semantic / Procedural 与固化、衰减属 Phase 1 内延后项） |
 | **Agent State Store** | Mood / Energy / Affection / Loneliness / Curiosity / Circadian / CurrentGoal / CurrentActivity | ✅（核心字段） |
 | **World Model** | 时间、用户、她自己所在设备、活跃 Session、最近事件 | ✅ |
-| **Perception Layer** | 把原始信号抽象为 PerceptionEvent，承载 Attention Filter | ✅（接口与基础事件齐备；麦克风音频在 Phase 1 由客户端采集、经音频通道进入语音层并转为 ClientSignal 文本，基础视觉经 ClientSignal 进入，完整视觉理解留到 Phase 2） |
+| **Perception Layer** | 把原始信号抽象为 PerceptionEvent，承载 Attention Filter | ✅（接口与基础事件齐备；麦克风音频在 Phase 1 由客户端采集、经音频通道进入语音层并转为 ClientSignal 文本；视觉帧经视觉层理解后，视觉摘要与端侧在场检测同样进入本层，完整视觉理解留到 Phase 2） |
 | **Agent Runtime** | Reactive Loop + Proactive Loop、Reasoning、Planning、Decision | ✅ |
 | **Model Adapter** | 云端 OpenAI-compatible API、流式输出、Prompt 组装 | ✅ |
 | **Embodiment Protocol** | Agent Action Protocol 的服务端生成器 | ✅（已列动作见 §10） |
@@ -374,15 +386,15 @@ Agent Runtime / Memory / State
 
 ### 7.2 PerceptionEvent 类型（Phase 1 契约）
 
-Phase 1 服务端接收上行音频并完成识别，识别文本作为用户消息进入感知层；合成在上行完成后由语音层执行。摄像头不由服务端直接访问：基础视觉（屏幕内容、在场检测）由客户端处理、经 Client API 作为 ClientSignal 进入；完整视觉理解留到 Phase 2。但事件契约必须先定义，让 Phase 2 / 3 接入时无需改动 Runtime。具体 Schema 进入 `contracts` 模块；本架构文档只定义事件来源和语义分类，不固化 Kotlin `sealed interface`、序列化注解或具体字段实现。
+Phase 1 服务端接收上行音频并完成识别，识别文本作为用户消息进入感知层；合成在上行完成后由语音层执行。视觉与语音同构：客户端只做屏幕与摄像头采集、降采样、节流与本地在场检测，上行视觉帧由视觉层调用云端多模态模型完成屏幕内容理解与人脸跟踪，视觉摘要作为 ClientSignal 进入感知层；完整视觉理解（用户位置、姿态、手势、环境理解与图像摘要）留到 Phase 2。但事件契约必须先定义，让 Phase 2 / 3 接入时无需改动 Runtime。具体 Schema 进入 `contracts` 模块；本架构文档只定义事件来源和语义分类，不固化 Kotlin `sealed interface`、序列化注解或具体字段实现。
 
 | 来源 | Phase 1 / 远期事件类别 | 语义 |
 |---|---|---|
-| ClientSignal | 用户消息、语音轮次开始与结束、播放被打断、用户在场变化、输入状态变化、屏幕内容与在场检测结果 | 表达用户主动输入、语音轮次与打断、交互状态与 Phase 1 基础视觉 |
+| ClientSignal | 用户消息、语音轮次开始与结束、播放被打断、用户在场变化、输入状态变化、视觉摘要与在场检测结果 | 表达用户主动输入、语音轮次与打断、交互状态与 Phase 1 视觉 |
 | ClockSignal | 时间流逝、昼夜节律变化、日期边界变化 | 表达服务端时钟和时间上下文 |
 | SessionSignal | Session 开始、Session 结束、心跳 | 表达客户端连接和会话生命周期 |
-| DeviceSignal | 设备状态变化 | Phase 2 接入摄像头和智能家居等设备 |
-| MultimodalSignal | 图像摘要、环境声音 | Phase 2 / 3 接入完整视觉理解等多模态感知能力 |
+| DeviceSignal | 设备状态变化 | Phase 2 接入物理环境设备源（物理环境摄像头、智能家居） |
+| MultimodalSignal | 图像摘要、环境音 | Phase 2 / 3 接入完整视觉理解等多模态感知能力 |
 
 这些事件类型进入 contracts 模块，参与 [Contracts 架构设计](Contracts架构设计.md) 的版本演进。
 
@@ -455,8 +467,9 @@ Runtime 是她的"大脑"，由 **两个 Loop** 组成：
 
 ```text
 上行音频 → 语音层识别 → 用户文本
+上行视觉帧 → 视觉层理解 → 视觉摘要
    ↓
-PerceptionEvent (User*)
+PerceptionEvent（用户消息 / 视觉摘要）
    ↓
 更新 Working Memory / Agent State
    ↓
@@ -567,7 +580,7 @@ Phase 1 必须支持的最小动作集：
 | `LOOK_AT` | 注视目标（用户 / 物体 / 方向） |
 | `WAIT` | 等待（持续 N 秒或等某事件） |
 
-Phase 1 内延后项视情况扩展：`NOTIFY`（向客户端通知但不说话）、`OBSERVE`（请求摄像头/麦克风）；`MOVE` 属 Phase 3。
+Phase 1 内延后项视情况扩展：`NOTIFY`（向客户端通知但不说话）、`OBSERVE`（定向观察：要求客户端按指定目标采集一帧）；`MOVE` 属 Phase 3。
 
 ### 10.2 与 AgentState 的绑定
 
@@ -676,6 +689,9 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 - **音频留存**：语音输入与合成输出的音频全部留存，仅用于审计与回溯，不进入记忆体系，也不向客户端暴露，运行时不可读取；音频字节只存对象存储，数据库只保存媒体索引。
 - **保留期限**：留存音频默认保留 90 天，可按环境配置为其他期限或不自动删除；到期由对象存储生命周期策略清理。
 - **音频访问**：只有服务端语音层可直接读取；管理后台经 Admin API 换取短期签名地址，每次访问记录审计。
+- **视觉留存**：视觉上行原帧默认保留 7 天，可按环境配置为其他期限；原帧只存对象存储并登记媒体索引，只有服务端视觉层可直接读取，管理后台经 Admin API 换取短期签名地址并记录审计。
+- **视觉摘要与记忆**：视觉只以摘要进入当前对话上下文与审计记录，不写入长期记忆；删除用户时随视觉留存一并级联清除。
+- **摄像头授权**：摄像头采集必须由用户在客户端显式授权后开启；未授权时只做屏幕内容理解与端侧在场检测，服务端不接受未授权的摄像头帧。
 
 ---
 
@@ -686,10 +702,12 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 - Client API / Admin API / WebSocket Event / Agent Action Protocol 全部由契约约束。
 - 客户端和服务端不自行定义互不兼容的消息格式；Unity 使用自己的 Embodiment API，**不直接解析后端协议**。
 - KMP 客户端负责把 Agent Action Protocol 映射为 Unity Embodiment API（见 [Unity身体架构设计](Unity身体架构设计.md)）。
-- 所有 Client API 请求必须携带有效的登录 Token；请求中出现的 `AgentId` 必须经归属校验，校验不通过不得进入 Runtime。
+- 所有 Client API 请求必须携带有效的登录 Token；请求中出现的 `AgentId` 必须经归属解析，解析不通过不得进入 Runtime。
 - 登录、刷新与登出端点属于 Client API 契约，不由客户端自定义。
 - 音频帧格式与口型时间轴属于契约；音频字节不作为动作负载，动作只通过标识与音频关联。
 - 语音识别与合成只在服务端完成，客户端不自行识别或合成。
+- 视觉帧格式、尺寸与触发策略属于契约；视觉字节不作为动作负载，视觉摘要经感知事件进入 Runtime。
+- 视觉理解只在服务端完成，客户端只做采集、降采样、节流与本地在场检测。
 
 ---
 
@@ -734,6 +752,10 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 │  ┌─────────────────┐  ┌──────────────────────┐      │
 │  │ Auth / Registry │  │ Voice (ASR / TTS)    │      │
 │  └─────────────────┘  └──────────────────────┘      │
+│                                                     │
+│  ┌────────────────────────┐                         │
+│  │ Vision (Screen / Face) │                         │
+│  └────────────────────────┘                         │
 └─────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────┐
@@ -753,6 +775,7 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 - **Perception Layer** 与 **Proactive Loop Scheduler** 是 Phase 1 常驻组件。
 - **账号与鉴权**、**Agent 归属登记** 是 Phase 1 常驻组件，位于接口层之前，先于 Runtime 生效。
 - **语音层** 是 Phase 1 常驻组件，承接上行音频识别与下行合成，并经音频通道回传客户端。
+- **视觉层** 是 Phase 1 常驻组件，承接上行视觉帧并产出视觉摘要，原帧经留存旁路写入对象存储。
 - **Secret / Config** 与 **Persistence** 是服务端基础设施，详见 [基础设施架构设计](基础设施架构设计.md)。
 
 ---
@@ -798,12 +821,14 @@ Phase 1 验收额外必须满足：
 10. **可打断**：播报中用户开口能立即停止播放，且该轮不计入完整发言。
 11. **降级可用**：识别或合成不可用时退回文本对话，流程不中断。
 12. **留存可回溯**：任一轮回复都能从记忆回溯到对应的留存音频。
+13. **视觉闭环**：客户端上行的屏幕或摄像头帧能产出视觉摘要并进入感知层。
+14. **视觉降级**：断开视觉上行时端侧在场检测与文本对话仍可用，视觉留存可回溯。
 
 ---
 
 ## 17. 后续阶段衔接（不在 Phase 1 实现，仅留接缝）
 
-- **Phase 2 / Physical World**：Perception Layer 接入 DeviceSignal、VisualFrameSummarized、AmbientSound；WorldModel 升级为 Belief Store；Device Gateway 在 `ayane-infrastructure` 侧独立。
+- **Phase 2 / Physical World**：视觉层扩展到完整视觉理解（用户位置、姿态、手势、环境理解与图像摘要），Perception Layer 接入 DeviceSignal 与更多 MultimodalSignal；WorldModel 升级为 Belief Store；Device Gateway 在 `ayane-infrastructure` 侧独立。
 - **Phase 3 / Spatial Life**：Runtime 增加 `MOVE` 动作（`OBSERVE` 属 Phase 1 内延后项）；WorldModel 增加空间字段；AgentState 增加 SpatialConfidence。
 - **Phase 4 / Physical Embodiment**：保持原则——LLM 只产高阶目标，电机控制在机器人本地，Runtime 不直接控制硬件。
 

@@ -1,0 +1,293 @@
+<div class="region-stage" data-proto="client" data-region="client" role="region" aria-label="客户端原型画布">
+
+  <section class="login-shell" id="login-shell" data-layer="登录壳" aria-label="登录">
+    <div class="login-card" data-layer="登录卡">
+      <div class="login-avatar"><img data-avatar alt="绫音头像"></div>
+      <h1>绫音</h1>
+      <p class="login-subtitle">登录客户端</p>
+      <form class="login-form" id="login-form">
+        <label class="login-field">
+          <span>账号</span>
+          <input class="login-input" id="login-account" autocomplete="username" placeholder="输入账号">
+        </label>
+        <label class="login-field">
+          <span>密码</span>
+          <span class="login-input-wrap">
+            <input class="login-input has-toggle" id="login-password" type="password" autocomplete="current-password" placeholder="输入密码">
+            <button class="login-password-toggle" id="login-password-toggle" type="button" aria-label="显示密码" aria-pressed="false"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-eye"></use></svg></button>
+          </span>
+        </label>
+        <button class="login-submit" id="login-submit" type="submit">登录</button>
+        <p class="login-error" id="login-error" role="alert" hidden></p>
+      </form>
+    </div>
+  </section>
+<div class="app-frame" id="app-frame" data-layer="应用框" hidden>
+    <div class="app-window" id="app-window">
+      <aside class="sidebar" id="sidebar" data-layer="侧栏" aria-label="联系人列表">
+        <div class="sidebar-top">
+          <button class="user-block" id="user-block" type="button" aria-label="我的账号">
+            <span class="user-avatar avatar avatar-sm"><img data-user-avatar alt="我的头像"></span>
+            <span class="user-copy">
+              <strong>绫音的伙伴</strong>
+              <p title="今天也想听听你的声音">今天也想听听你的声音</p>
+            </span>
+          </button>
+          <div class="sidebar-menu-wrap" id="sidebar-menu-wrap">
+            <button class="icon-button" id="sidebar-menu-button" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="打开更多菜单"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-more"></use></svg></button>
+            <div class="sidebar-menu" id="sidebar-menu" role="menu" aria-label="更多" hidden>
+              <button class="sidebar-menu-item" type="button" role="menuitem" id="sidebar-profile"><svg class="icon sidebar-menu-icon" aria-hidden="true" focusable="false"><use href="#i-user"></use></svg><span>查看绫音资料</span></button>
+              <button class="sidebar-menu-item" type="button" role="menuitem" id="sidebar-about"><svg class="icon sidebar-menu-icon" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg><span>关于绫音</span></button>
+              <div class="sidebar-menu-divider" role="separator"></div>
+              <button class="sidebar-menu-item" type="button" role="menuitem" id="sidebar-settings"><svg class="icon sidebar-menu-icon" aria-hidden="true" focusable="false"><use href="#i-gear"></use></svg><span>更多设置</span></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-tabs" role="tablist" aria-label="侧边导航">
+          <button class="sidebar-tab is-active" type="button" role="tab" aria-selected="true" data-tab="messages">消息 <span class="tab-badge">1</span></button>
+          <button class="sidebar-tab" type="button" role="tab" aria-selected="false" data-tab="contacts">联系人</button>
+        </div>
+
+        <div class="contact-list" aria-live="polite">
+          <div class="desktop-list-panel" data-list-panel="messages" id="desktop-message-panel">
+            <button class="contact-card is-active" id="desktop-message-card" type="button">
+              <span class="avatar avatar-sm"><img data-avatar alt="绫音头像"></span>
+              <span class="contact-copy">
+                <strong>绫音</strong>
+                <span id="desktop-message-preview">好呀。那我们先从聊天窗口开始，不急着做复杂功能。</span>
+              </span>
+              <span class="contact-time" id="desktop-message-time">10:43</span>
+            </button>
+          </div>
+          <div class="desktop-list-panel" data-list-panel="contacts" id="desktop-contact-panel" hidden>
+            <button class="contact-card" id="contact-ayane" type="button">
+              <span class="avatar avatar-sm"><img data-avatar alt="绫音头像"></span>
+              <span class="contact-copy">
+                <strong>绫音</strong>
+                <span>今天也想听听你的声音</span>
+              </span>
+              <span class="contact-status"><span class="online-dot"></span>在线</span>
+            </button>
+          </div>
+          <p class="contact-footnote">Phase 1 先和绫音好好聊聊。以后，你可以在这里遇见更多不同的她。</p>
+        </div>
+      </aside>
+
+      <div class="sidebar-backdrop" id="sidebar-backdrop" data-layer="侧栏遮罩" aria-hidden="true"></div>
+
+      <section class="mobile-list-view" id="mobile-list-view" data-layer="手机列表" aria-label="消息列表" hidden>
+        <div class="mobile-topbar" id="mobile-topbar" hidden>
+          <button class="user-block" id="mobile-topbar-user" type="button" aria-label="我的账号">
+            <span class="user-avatar avatar avatar-sm"><img data-user-avatar alt="我的头像"></span>
+            <span class="user-copy">
+              <strong>绫音的伙伴</strong>
+              <p title="今天也想听听你的声音">今天也想听听你的声音</p>
+            </span>
+          </button>
+          <div class="sidebar-menu-wrap" id="mobile-topbar-menu-wrap">
+            <button class="icon-button" id="mobile-topbar-menu-button" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="打开更多菜单"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-more"></use></svg></button>
+            <div class="sidebar-menu" id="mobile-topbar-menu" role="menu" aria-label="更多" hidden>
+              <button class="sidebar-menu-item" type="button" role="menuitem" id="mobile-topbar-profile"><svg class="icon sidebar-menu-icon" aria-hidden="true" focusable="false"><use href="#i-user"></use></svg><span>查看绫音资料</span></button>
+              <button class="sidebar-menu-item" type="button" role="menuitem" id="mobile-topbar-about"><svg class="icon sidebar-menu-icon" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg><span>关于绫音</span></button>
+              <div class="sidebar-menu-divider" role="separator"></div>
+              <button class="sidebar-menu-item" type="button" role="menuitem" id="mobile-topbar-settings"><svg class="icon sidebar-menu-icon" aria-hidden="true" focusable="false"><use href="#i-gear"></use></svg><span>更多设置</span></button>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-message-list" role="list" aria-label="消息和联系人列表">
+          <div class="mobile-list-panel" data-list-panel="messages" id="mobile-message-panel">
+            <button class="mobile-message-card" id="mobile-message-card" type="button" role="listitem">
+              <span class="avatar avatar-sm"><img data-avatar alt="绫音头像"></span>
+              <span class="mobile-message-copy">
+                <strong>绫音</strong>
+                <span id="mobile-list-preview">好呀。那我们先从聊天窗口开始，不急着做复杂功能。</span>
+              </span>
+              <span class="mobile-message-meta"><span id="mobile-list-time">10:43</span><span class="tab-badge">1</span></span>
+            </button>
+            <p class="mobile-list-empty">暂时没有更多消息</p>
+          </div>
+          <div class="mobile-list-panel" data-list-panel="contacts" id="mobile-contact-panel" hidden>
+            <button class="mobile-message-card" id="mobile-contact-card" type="button" role="listitem">
+              <span class="avatar avatar-sm"><img data-avatar alt="绫音头像"></span>
+              <span class="mobile-message-copy">
+                <strong>绫音</strong>
+                <span>今天也想听听你的声音</span>
+              </span>
+              <span class="contact-status"><span class="online-dot"></span>在线</span>
+            </button>
+          </div>
+          <div class="mobile-list-panel" data-list-panel="profile" id="mobile-profile-panel" hidden>
+            <button class="mobile-user-card" id="mobile-user-block" type="button" role="listitem">
+              <span class="user-avatar avatar avatar-sm"><img data-user-avatar alt="我的头像"></span>
+              <span class="user-copy">
+                <strong>绫音的伙伴</strong>
+                <span>今天也想听听你的声音</span>
+              </span>
+              <span class="mobile-user-hint">我的账号</span>
+            </button>
+            <div class="mobile-user-actions">
+              <button class="action-button" id="mobile-user-about" type="button">关于绫音</button>
+              <button class="action-button" id="mobile-user-settings" type="button">更多设置</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main class="chat-panel" data-layer="聊天面板" aria-label="与绫音聊天">
+        <header class="chat-header">
+          <button class="mobile-menu-button" id="sidebar-toggle" type="button" aria-label="返回消息列表" aria-expanded="false">←</button>
+          <button class="chat-person" id="chat-person" type="button" aria-label="查看绫音资料">
+            <span class="chat-person-copy">
+              <strong>绫音</strong>
+              <p><span class="header-online-dot"></span>在线 · 今天也想听听你的声音</p>
+            </span>
+          </button>
+          <div class="chat-actions">
+            <button class="icon-button" id="figure-toggle" type="button" aria-label="收起 2D 形象" aria-pressed="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-frame"></use></svg></button>
+            <button class="icon-button" id="call-button" type="button" aria-label="开始语音聊天" aria-pressed="false"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-phone"></use></svg></button>
+            <div class="mode-picker" id="mode-picker">
+              <button class="mode-button" id="mode-button" type="button" aria-haspopup="menu" aria-expanded="false"><span id="mode-label">聊天</span><span aria-hidden="true">⌄</span></button>
+              <div class="mode-menu" id="mode-menu" role="menu" aria-label="切换互动方式" hidden>
+                <button class="mode-option" type="button" role="menuitem" data-mode="chat"><span class="mode-check"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg></span><span>聊天</span><span></span></button>
+                <button class="mode-option" type="button" role="menuitem" data-mode="2d"><span class="mode-check"></span><span>2D 形象</span><span class="mode-note">聊天页常驻</span></button>
+                <button class="mode-option" type="button" role="menuitem" data-mode="3d"><span class="mode-check"></span><span>3D 形象</span><span></span></button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section class="chat-figure" id="chat-figure" aria-label="绫音 2D 形象">
+          <div class="chat-figure-art">
+            <img data-avatar alt="绫音 2D 形象">
+            <span class="chat-figure-status"><span class="chat-figure-dot" aria-hidden="true"></span>在听你说</span>
+          </div>
+        </section>
+
+        <div class="call-banner" id="call-banner" hidden>
+          <span class="call-dot" aria-hidden="true"></span>
+          <strong>正在和绫音通话</strong>
+          <span>你可以随时说话，也可以随时停下来。</span>
+          <button id="end-call-button" type="button">结束通话</button>
+        </div>
+
+        <section class="messages" id="messages" tabindex="0" aria-label="聊天消息" aria-live="polite">
+          <div class="day-divider"><span>今天</span></div>
+          <div class="welcome-card"><strong>绫音在这里。</strong><br>不用急着想好要说什么，想到哪里就从哪里开始。</div>
+        </section>
+
+        <div class="typing-indicator" id="typing-indicator" hidden aria-live="polite">
+          <span class="typing-label">绫音正在想</span><span></span><span></span><span></span>
+        </div>
+
+        <form class="composer" id="message-form" data-layer="输入区">
+          <div class="composer-box">
+            <div class="composer-tools">
+              <button id="mic-button" type="button" aria-label="关闭麦克风" aria-pressed="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-mic"></use></svg></button>
+              <button id="attach-button" type="button" aria-label="添加内容"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-plus"></use></svg></button>
+              <button id="emoji-button" type="button" aria-label="添加表情"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-smile"></use></svg></button>
+            </div>
+            <textarea id="message-input" rows="1" autocomplete="off" placeholder="和绫音说点什么……" aria-label="输入消息"></textarea>
+            <button class="send-button" type="submit" aria-label="发送消息"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-send"></use></svg></button>
+          </div>
+          <div class="composer-meta"><span>Enter 发送 · Shift+Enter 换行</span><strong id="composer-status">聊天中</strong></div>
+        </form>
+      </main>
+    </div>
+
+    <nav class="mobile-nav" id="mobile-nav" data-layer="底部导航" aria-label="移动端导航">
+      <button class="is-active" id="mobile-messages" type="button">消息</button>
+      <button id="mobile-contacts" type="button">联系人</button>
+      <button id="mobile-profile" type="button">我的</button>
+    </nav>
+  </div>
+
+  <section class="companion-window" id="companion-window" data-layer="形象窗" role="dialog" aria-modal="false" aria-labelledby="companion-title" hidden>
+    <div class="companion-grab" id="companion-grab" role="button" tabindex="0" aria-label="向上展开形象"></div>
+    <header class="companion-header" id="companion-drag-handle" data-layer="形象窗把手">
+      <span class="avatar avatar-xs"><img data-avatar alt="绫音头像"></span>
+      <span class="companion-copy"><strong id="companion-title">绫音 · 3D 形象</strong><p>在这里陪着你</p></span>
+      <span class="window-actions">
+        <button id="companion-minimize" type="button" aria-label="最小化形象窗口">—</button>
+        <button id="companion-close" type="button" aria-label="关闭形象窗口">×</button>
+      </span>
+    </header>
+    <div class="companion-content" data-layer="形象内容">
+      <div class="companion-stage">
+        <span class="companion-glow" aria-hidden="true"></span>
+        <div class="companion-avatar-wrap">
+          <span class="avatar avatar-xl"><img data-avatar alt="绫音形象"></span>
+        </div>
+        <span class="companion-bubble" id="companion-bubble" role="status">正在倾听</span>
+      </div>
+      <p class="companion-note" id="companion-note">姿态与动作由 3D 渲染提供，接入模型后在这里实时呈现</p>
+    </div>
+    <footer class="companion-footer" data-layer="形象底栏">
+      <button id="companion-open-chat" type="button">打开聊天</button>
+      <button id="companion-hide" type="button">关闭形象</button>
+    </footer>
+  </section>
+
+  <div class="modal-layer" id="profile-modal" data-layer="资料模态">
+    <section class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+      <button class="close-button" id="profile-close" type="button" aria-label="关闭资料">×</button>
+      <span class="avatar avatar-lg"><img data-avatar alt="绫音头像"></span>
+      <h2 id="profile-title">绫音</h2>
+      <p>今天也想听听你的声音</p>
+      <div class="profile-tags"><span>喜欢慢慢聊天</span><span>会记得你的故事</span><span>偶尔主动来找你</span></div>
+      <div class="profile-actions">
+        <button id="profile-chat" type="button">发消息</button>
+        <button class="secondary" id="profile-3d" type="button">打开 3D 形象</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-layer" id="user-card-modal" data-layer="我的卡片模态">
+    <section class="user-card" role="dialog" aria-modal="true" aria-label="我的资料">
+      <div class="user-card-identity">
+        <span class="user-card-avatar is-online"><img data-user-avatar alt="我的头像"></span>
+        <div>
+          <strong>绫音的伙伴</strong>
+          <p>今天也想听听你的声音</p>
+        </div>
+      </div>
+      <dl class="user-card-table">
+        <div class="user-card-row">
+          <dt>账号</dt>
+          <dd>ayane@example.com</dd>
+        </div>
+        <div class="user-card-row">
+          <dt>昵称</dt>
+          <dd>绫音的伙伴</dd>
+        </div>
+        <div class="user-card-row">
+          <dt>和绫音认识</dt>
+          <dd>第 1 天</dd>
+        </div>
+      </dl>
+      <div class="user-card-actions">
+        <button class="primary" id="user-card-edit" type="button">编辑资料</button>
+        <button id="user-card-signout" type="button">退出登录</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-layer" id="about-modal" data-layer="关于模态">
+    <section class="user-card about-card" role="dialog" aria-modal="true" aria-label="关于绫音">
+      <span class="avatar about-avatar"><img src="https://avatars.githubusercontent.com/u/326977819?s=200&v=4" alt="ayane-ai 组织头像"></span>
+      <h2 class="about-name" id="about-name">绫音</h2>
+      <p class="about-version">版本 1.0.0</p>
+      <p class="about-tagline">一个陪你慢慢说话的桌面伙伴</p>
+      <div class="about-divider" aria-hidden="true"></div>
+      <div class="about-links">
+        <button id="about-update" type="button">检查更新</button>
+        <button id="about-license" type="button">开源许可</button>
+      </div>
+      <div class="user-card-actions about-actions">
+        <button class="primary" id="about-close" type="button">关闭</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" data-layer="提示条" role="status" aria-live="polite"></div>
+</div>

@@ -1,0 +1,123 @@
+<!-- ============================================================
+   示例片段 · 导航、分段控件与分页
+   ============================================================ -->
+<section class="demo-card">
+  <div class="demo-meta">
+    <span class="demo-no">08</span>
+    <h4>导航 Nav / Tabs / Pagination</h4>
+    <p class="spec-note">
+      三类控件共用「选中态 = 主色浅底 + 主色强调字」这一套语义，
+      状态一律由 <code>is-active</code> / <code>aria-current</code> / <code>aria-selected</code> 表达。
+      示例可点，切换由 <code>data-demo="activate"</code> 统一委托。
+    </p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame">
+      <span class="demo-label">侧栏 .nav-item：248px 展开档</span>
+      <nav class="demo-nav" aria-label="侧栏导航示例">
+        <span class="chip-user">
+          <span class="avatar avatar-xs"><img src="https://avatars.githubusercontent.com/u/326977819?s=200&v=4" alt="管理员头像" loading="lazy"></span>
+          <span class="stack">
+            <strong class="ellipsis">绫音运营组</strong>
+            <span class="muted ellipsis">system_admin</span>
+          </span>
+        </span>
+        <button class="nav-item" type="button" data-demo="activate" data-demo-group=".demo-nav" aria-current="page">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-gauge"></use></svg>
+          概览
+        </button>
+        <button class="nav-item" type="button" data-demo="activate" data-demo-group=".demo-nav">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-users"></use></svg>
+          用户管理
+          <span class="spacer"></span>
+          <span class="nav-badge">12</span>
+        </button>
+        <button class="nav-item" type="button" data-demo="activate" data-demo-group=".demo-nav">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shield"></use></svg>
+          审计日志
+        </button>
+        <button class="nav-item" type="button" aria-disabled="true">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-flask"></use></svg>
+          实验特性
+        </button>
+      </nav>
+    </div>
+
+    <div class="demo-frame demo-frame--rail">
+      <span class="demo-label">64px 图标轨：标签隐藏、徽标仍显示</span>
+      <nav class="demo-nav demo-nav--rail is-rail" aria-label="图标轨示例">
+        <span class="chip-user">
+          <span class="avatar avatar-xs"><img src="https://avatars.githubusercontent.com/u/326977819?s=200&v=4" alt="管理员头像" loading="lazy"></span>
+        </span>
+        <button class="nav-item" type="button" aria-current="page" aria-label="概览">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-gauge"></use></svg>
+        </button>
+        <button class="nav-item" type="button" aria-label="用户管理">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-users"></use></svg>
+          <span class="nav-badge">12</span>
+        </button>
+        <button class="nav-item" type="button" aria-label="审计日志">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-scroll"></use></svg>
+        </button>
+      </nav>
+    </div>
+
+    <div class="demo-frame">
+      <span class="demo-label">分段控件 .tabs / .tab（含计数）</span>
+      <div class="tabs" role="tablist" aria-label="会话状态">
+        <button class="tab is-active" type="button" role="tab" aria-selected="true"
+                data-demo="activate" data-demo-group=".tabs">全部会话<span class="tab-count">48</span></button>
+        <button class="tab" type="button" role="tab" aria-selected="false"
+                data-demo="activate" data-demo-group=".tabs">进行中<span class="tab-count">6</span></button>
+        <button class="tab" type="button" role="tab" aria-selected="false"
+                data-demo="activate" data-demo-group=".tabs">已归档</button>
+      </div>
+      <span class="demo-label">侧栏分段 .side-tab</span>
+      <div class="demo-list">
+        <button class="side-tab is-active" type="button" data-demo="activate" data-demo-group=".demo-list">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-messages"></use></svg>
+          消息
+          <span class="spacer"></span>
+          <span class="status-tag is-ok">在线</span>
+        </button>
+        <button class="side-tab" type="button" data-demo="activate" data-demo-group=".demo-list">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-agent"></use></svg>
+          智能体
+          <span class="spacer"></span>
+          <span class="tab-count">5</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="demo-frame">
+      <span class="demo-label">分页 .pagination（当前页 aria-current="page"）</span>
+      <div class="pagination">
+        <span class="page-summary">共 128 条</span>
+        <button class="page-btn page-btn--edge" type="button" aria-label="上一页">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-left"></use></svg>
+        </button>
+        <button class="page-btn" type="button">1</button>
+        <span class="page-gap">…</span>
+        <button class="page-btn" type="button" aria-current="page">4</button>
+        <button class="page-btn" type="button">5</button>
+        <button class="page-btn page-btn--edge" type="button" aria-label="下一页">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"></use></svg>
+        </button>
+      </div>
+      <span class="demo-label">紧凑档 .pagination.is-compact：摘要显示，中段页码收起</span>
+      <div class="pagination is-compact">
+        <span class="page-summary">共 128 条 · 第 4 页</span>
+        <button class="page-btn page-btn--edge" type="button" aria-label="上一页">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-left"></use></svg>
+        </button>
+        <button class="page-btn" type="button">3</button>
+        <button class="page-btn" type="button" aria-current="page">4</button>
+        <button class="page-btn" type="button">5</button>
+        <button class="page-btn page-btn--edge" type="button" aria-label="下一页">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"></use></svg>
+        </button>
+      </div>
+      <p class="demo-hint">后台在列表页按容器宽度自动切档：画布≤639px 时走 is-compact，两个原型表现一致。</p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+/* ============================================================
+   图标（唯一源）
+   ------------------------------------------------------------
+   精灵本体在 src/base/icons.svg.html，这里只定义消费方式。
+   尺寸走 em：图标跟随宿主字号，因此组件只需设 font-size，
+   不再给每个 svg 重复写宽高与描边。
+   档位对齐九级图标令牌。管理后台原 .icon-lg 为 34px，是九级刻度
+   之外的孤值，这里归到 --size-icon-extra-large(32px)，是本次唯一
+   一处有意对齐刻度的取值变更。
+   ============================================================ */
+
+.icon {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: middle;
+}
+
+.icon-xs { font-size: var(--size-icon-tiny); }
+.icon-sm { font-size: var(--size-icon-extra-small); }
+.icon-md { font-size: var(--size-icon-small); }
+.icon-lg { font-size: var(--size-icon-extra-large); }
+.icon-xl { font-size: var(--size-icon-huge); }
+
+/* 与文字同排时用行内盒，避免块级 svg 顶开基线 */
+.icon-inline { display: inline-block; }

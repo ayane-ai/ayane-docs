@@ -1,0 +1,56 @@
+/* ============================================================
+   头像（唯一源）
+   ------------------------------------------------------------
+   正本取自客户端原型：默认 42px，四档组件尺寸 34/44/118/166。
+   这几档与九级刻度没有整数倍关系，因此按「组件档」并列保留，
+   不为凑刻度改掉已验证的视觉。圆角随尺寸同步放大，同样取组件档。
+   图片统一 object-fit: cover；无图时由渐变底兜住，不留空白。
+   ============================================================ */
+
+.avatar {
+  width: var(--size-avatar-default);
+  height: var(--size-avatar-default);
+  flex: 0 0 auto;
+  display: block;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-avatar-sm);
+  background: linear-gradient(145deg, var(--color-avatar-wash-a), var(--color-avatar-wash-b));
+  box-shadow: var(--shadow-avatar-inset);
+}
+
+.avatar img,
+.avatar svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.avatar-xs {
+  width: var(--size-avatar-xs);
+  height: var(--size-avatar-xs);
+  border-radius: var(--radius-avatar-xs);
+}
+
+.avatar-sm {
+  width: var(--size-avatar-sm);
+  height: var(--size-avatar-sm);
+  border-radius: var(--radius-avatar-sm);
+}
+
+.avatar-lg {
+  width: var(--size-avatar-lg);
+  height: var(--size-avatar-lg);
+  border-radius: var(--radius-avatar-lg);
+}
+
+.avatar-xl {
+  width: var(--size-avatar-xl);
+  height: var(--size-avatar-xl);
+  border-radius: var(--radius-avatar-xl);
+}
+
+/* 圆形档：与方档正交，任意尺寸都可叠 */
+.avatar--circle { border-radius: var(--radius-pill); }

@@ -1,0 +1,305 @@
+/* ============================================================
+   导航、分段控件与分页（唯一源）
+   ------------------------------------------------------------
+   正本取自管理后台。三类控件共用「选中态 = 主色浅底 + 主色强调字」
+   这一套语义，状态一律用 is-active / aria-current / aria-selected
+   表达，与视觉同步。
+   分段控件与图标按钮的视觉高度小于 44px，用 ::after 负 inset 扩命中区，
+   不改布局。窄容器下 side-tab 退化为横向轨。
+   ============================================================ */
+
+/* ---- 侧栏导航项 ---- */
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-control-x-sm);
+  width: 100%;
+  min-height: var(--height-control);
+  padding: 0 var(--spacing-control-x-sm);
+  border: 0;
+  border-radius: var(--radius-field);
+  background: transparent;
+  color: var(--color-on-surface-soft);
+  font-family: inherit;
+  font-size: var(--font-body-small);
+  text-align: left;
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.nav-item:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+}
+
+.nav-item:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring);
+}
+
+.nav-item > .icon { font-size: var(--size-icon-small); }
+
+
+.nav-item.is-active,
+.nav-item[aria-current="page"] {
+  background: linear-gradient(135deg, var(--color-nav-active-a), var(--color-nav-active-b));
+  color: var(--color-primary-strong);
+  font-weight: var(--weight-bold);
+  box-shadow: inset 0 0 0 1px var(--color-nav-active-ring);
+}
+
+.nav-item[aria-disabled="true"] { color: var(--color-text-hint); }
+
+.nav-item[aria-disabled="true"]:hover {
+  background: var(--color-neutral-wash);
+  color: var(--color-text-hint);
+}
+
+/* 图标轨：只留图标，标签与徽标隐藏 */
+.is-rail .nav-item {
+  justify-content: center;
+  padding: 0;
+}
+
+/* ---- 侧栏身份块：头像 + 名字，内容排版交给 .stack / .ellipsis ---- */
+.chip-user {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  min-width: 0;
+  padding: var(--spacing-small);
+  border-radius: var(--radius-field);
+  background: var(--color-surface-inset);
+}
+
+.is-rail .chip-user {
+  justify-content: center;
+  padding: var(--spacing-small) 0;
+}
+
+.side-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  width: 100%;
+  min-height: var(--height-control);
+  padding: 0 var(--spacing-control-x-sm);
+  border: 0;
+  border-radius: var(--radius-field);
+  background: transparent;
+  color: var(--color-on-surface-soft);
+  font-family: inherit;
+  font-size: var(--font-body-small);
+  text-align: left;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.side-tab:hover {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+}
+
+.side-tab > .icon { font-size: var(--size-icon-extra-small); }
+
+.side-tab.is-active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+  font-weight: var(--weight-bold);
+  box-shadow: inset 0 0 0 1px var(--color-nav-active-ring);
+}
+
+.side-tab.is-active .tab-count {
+  background: var(--color-surface-inset);
+  color: var(--color-primary-strong);
+}
+
+/* ---- 分段控件 ---- */
+.tabs {
+  display: inline-flex;
+  gap: 3px;
+  padding: var(--spacing-extra-small);
+  border-radius: var(--radius-tab);
+  background: var(--color-tab-track);
+  flex-wrap: wrap;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: var(--height-chip);
+  padding: 0 var(--spacing-medium);
+  border: 0;
+  border-radius: var(--radius-control-sm);
+  background: transparent;
+  color: var(--color-text-hint);
+  font-family: inherit;
+  font-size: var(--font-label-small);
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+/* 视觉 32px，命中区上下扩到 40px 后靠 min-height 兜到 44 */
+.tab::after {
+  content: "";
+  position: absolute;
+  inset: -4px 0;
+}
+
+.tab:hover { color: var(--color-primary-strong); }
+
+.tab:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring);
+}
+
+.tab.is-active,
+.tab[aria-selected="true"] {
+  background: var(--color-surface-strong);
+  color: var(--color-on-surface);
+  font-weight: var(--weight-bold);
+  box-shadow: var(--shadow-inset-hair);
+}
+
+.tab-count {
+  padding: 0 var(--spacing-extra-small);
+  border-radius: var(--radius-pill);
+  background: var(--color-tab-count);
+  color: var(--color-on-surface-soft);
+  font-size: 10px;
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.tab.is-active .tab-count {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+}
+
+/* ---- 计数徽标 ---- */
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: var(--height-badge);
+  height: var(--height-badge);
+  padding: 0 var(--spacing-extra-small);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: var(--font-badge);
+  font-weight: var(--weight-heavy);
+  font-variant-numeric: tabular-nums;
+}
+
+.nav-badge.is-alert { background: var(--color-error); }
+
+/* 贴在图标按钮上的小号徽标：-3/-5 是光学偏移，不属间距刻度 */
+.icon-btn > .nav-badge {
+  position: absolute;
+  top: -3px;
+  right: -5px;
+  z-index: 1;
+  min-width: var(--height-badge-inline);
+  height: var(--height-badge-inline);
+  padding: 0 var(--spacing-extra-small);
+  line-height: var(--height-badge-inline);
+}
+
+/* side-tab 里的语义标签只作计数点缀，不被 flex 压扁 */
+.side-tab .status-tag { flex: 0 0 auto; }
+
+/* ---- 分页 ---- */
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.page-btn {
+  position: relative;
+  min-width: var(--height-chip);
+  min-height: var(--height-chip);
+  padding: 0 var(--spacing-small);
+  border: 1px solid var(--color-outline-strong);
+  border-radius: var(--radius-control-sm);
+  background: var(--color-surface-strong);
+  color: var(--color-on-surface-soft);
+  font-family: inherit;
+  font-size: var(--font-label-small);
+  font-variant-numeric: tabular-nums;
+  transition:
+    background var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.page-btn::after {
+  content: "";
+  position: absolute;
+  inset: -6px -2px;
+}
+
+.page-btn:hover:not(:disabled):not([aria-current="page"]) {
+  border-color: var(--color-outline-hover);
+  color: var(--color-primary-strong);
+}
+
+.page-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.page-btn[aria-current="page"] {
+  border-color: transparent;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: var(--weight-bold);
+}
+
+.page-summary {
+  display: none;
+  color: var(--color-text-hint);
+  font-size: var(--font-label-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.page-gap {
+  padding: 0 var(--spacing-extra-small);
+  color: var(--color-text-hint);
+}
+
+.pagination.is-compact .page-summary { display: inline; }
+
+@container region (max-width: 639px) {
+  .side-tab {
+    width: auto;
+    min-height: var(--height-row);
+    white-space: nowrap;
+  }
+
+  .pagination.is-compact .page-btn:not(.page-btn--edge),
+  .pagination.is-compact .page-gap { display: none; }
+}
+
+@media (pointer: coarse) {
+  .nav-item,
+  .side-tab { min-height: var(--height-tab); }
+
+  .tab { min-height: var(--tap-target); }
+
+  .page-btn {
+    min-width: var(--tap-target);
+    min-height: var(--tap-target);
+  }
+}

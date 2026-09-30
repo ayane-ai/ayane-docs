@@ -1,0 +1,162 @@
+/* ============================================================
+   卡片外壳（唯一源）
+   ------------------------------------------------------------
+   正本取自管理后台的 .card / .card-head / .card-body 与 .stat-card。
+   半透面板 + backdrop-filter + 1px 高光描边是这套暖色的既有质感，
+   描边色收在 --color-surface-hairline，不再各处写 rgba。
+   .table-card 是同一外壳的「撑满剩余高度」变体。
+   ============================================================ */
+
+.card,
+.table-card,
+.stat-card {
+  min-width: 0;
+  border: 1px solid var(--color-surface-hairline);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-low);
+  backdrop-filter: blur(18px);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  flex: 0 0 auto;
+  min-height: var(--height-head);
+  padding: 0 14px;
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.card-head h2 {
+  margin: 0;
+  font-size: var(--font-body-medium);
+  font-weight: var(--weight-bold);
+}
+
+.card-head .muted { font-size: var(--font-caption); }
+
+.card-body {
+  min-width: 0;
+  padding: 14px;
+}
+
+.card-body.is-flush { padding: 0; }
+
+.table-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ---- 统计卡 ---- */
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 13px 14px;
+  text-align: left;
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+button.stat-card { cursor: pointer; }
+
+button.stat-card:hover {
+  border-color: var(--color-outline-hover-soft);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
+}
+
+button.stat-card:active:not(:disabled) { transform: translateY(0); }
+
+button.stat-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.stat-card.is-alert {
+  border-color: var(--color-outline-error-soft);
+  background: linear-gradient(135deg, var(--color-error-wash), var(--color-surface));
+}
+
+.stat-label {
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+  letter-spacing: 0.02em;
+}
+
+.stat-value {
+  color: var(--color-on-surface);
+  font-size: var(--font-stat-large);
+  font-weight: var(--weight-heavy);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.stat-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-extra-small);
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+  gap: var(--spacing-medium);
+}
+
+/* ---- 空态：卡片内容区为空时的统一占位 ---- */
+.empty-state {
+  display: grid;
+  place-items: center;
+  gap: 9px;
+  padding: 46px var(--spacing-huge);
+  text-align: center;
+  color: var(--color-text-hint);
+}
+
+.empty-state .icon { color: var(--color-outline-strong); }
+
+.empty-state strong {
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-body-medium);
+}
+
+.empty-state p {
+  max-width: 440px;
+  font-size: var(--font-label-small);
+  line-height: 1.7;
+}
+
+.empty-state .row {
+  margin-top: var(--spacing-extra-small);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.empty-state.is-403 { padding: 54px var(--spacing-huge); }
+.empty-state.is-403 strong { color: var(--color-on-surface); }
+.empty-state.is-403 .icon { color: var(--color-error); }
+.empty-state.is-error .icon { color: var(--color-warning); }
+.empty-state.is-deferred .icon {
+  color: var(--color-primary);
+  opacity: 0.55;
+}
+
+@media print {
+  .card,
+  .table-card,
+  .stat-card {
+    background: var(--color-surface-strong);
+    border-color: var(--color-outline-strong);
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+}

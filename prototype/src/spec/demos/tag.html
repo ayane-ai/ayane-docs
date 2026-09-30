@@ -1,0 +1,48 @@
+<!-- ============================================================
+   示例片段 · 标签、状态与筛选芯片
+   ============================================================ -->
+<section class="demo-card">
+  <div class="demo-meta">
+    <span class="demo-no">03</span>
+    <h4>标签与状态 Tag / Status</h4>
+    <p class="spec-note">
+      <code>.status-tag</code> 是语义标签，配色一律取语义令牌对（solid 文字 + soft 底），
+      禁止在此写死颜色；<code>.chip</code> 是筛选/多选芯片，两者不要混用。
+    </p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame">
+      <span class="demo-label">语义标签六档</span>
+      <div class="demo-row">
+        <span class="status-tag is-ok">已发布</span>
+        <span class="status-tag is-info">待审核</span>
+        <span class="status-tag is-warn">需修正</span>
+        <span class="status-tag is-danger">已下线</span>
+        <span class="status-tag is-primary">进行中</span>
+        <span class="status-tag is-muted">草稿</span>
+      </div>
+      <div class="demo-row">
+        <span class="status-tag is-deferred">暂缓处理</span>
+        <span class="status-tag is-live">实时通话中</span>
+        <span class="demo-label">is-live 的呼吸点走共享 pulse 关键帧</span>
+      </div>
+      <div class="demo-row">
+        <span class="nav-badge">3</span>
+        <span class="nav-badge">128</span>
+        <span class="nav-badge is-alert">9</span>
+        <span class="demo-label">计数徽标：等宽数字，min-width 撑住单位数</span>
+      </div>
+    </div>
+    <div class="demo-frame">
+      <span class="demo-label">筛选芯片（点选即选中，整块都是命中区）</span>
+      <div class="demo-row">
+        <label class="chip"><input type="checkbox" checked>进行中</label>
+        <label class="chip"><input type="checkbox">待审核</label>
+        <label class="chip"><input type="checkbox">需修正</label>
+        <button class="chip is-on" type="button">已选（无 checkbox）</button>
+        <button class="chip" type="button">可选项</button>
+      </div>
+      <p class="demo-hint">选中态两条路：<code>:has(input:checked)</code> 或 <code>.is-on</code>，视觉一致。</p>
+    </div>
+  </div>
+</section>

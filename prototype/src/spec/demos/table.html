@@ -1,0 +1,147 @@
+<!-- ============================================================
+   示例片段 · 数据表格
+   ============================================================ -->
+<section class="demo-card">
+  <div class="demo-meta">
+    <span class="demo-no">07</span>
+    <h4>表格 Table</h4>
+    <p class="spec-note">
+      正本类名由 <code>.admin-table</code> 改为中性的 <code>.data-table</code>，两个原型共用。
+      <code>table-layout: fixed</code> + 省略号只作用于单元格的直接子元素；
+      表头 sticky 底色取不透明的 <code>--color-table-head</code>，否则滚动内容会透出。
+    </p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame demo-frame--block demo-frame--canvas demo-frame--full demo-frame--tall">
+      <span class="demo-label">数据表：sticky 表头 + 选中 / 新增 / 只读三态行</span>
+      <section class="table-card">
+        <header class="card-head">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-users"></use></svg>
+          <h2>用户管理</h2>
+          <span class="muted">128 条</span>
+          <span class="spacer"></span>
+          <button class="btn btn--sm btn--primary" type="button">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-user-plus"></use></svg>
+            新增
+          </button>
+        </header>
+        <div class="table-scroll">
+          <table class="data-table">
+            <colgroup>
+              <col>
+              <col style="width: 26%">
+              <col style="width: 18%">
+              <col style="width: 15%">
+              <col style="width: 12%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">用户</th>
+                <th scope="col">状态</th>
+                <th scope="col">本月用量</th>
+                <th scope="col">更新时间</th>
+                <th scope="col" class="cell-actions">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <button class="row-link" type="button">
+                    <span class="ellipsis">晚风 · wangfeng@ayane.local</span>
+                  </button>
+                </td>
+                <td><span class="status-tag is-ok">正常</span></td>
+                <td>
+                  <span class="progress" style="--progress-value: 34%"><span class="progress-bar"></span></span>
+                  <span class="progress-label">34%</span>
+                </td>
+                <td class="cell-mono">2026-09-26 21:14</td>
+                <td class="cell-actions">
+                  <div class="row">
+                    <button class="icon-btn" type="button" aria-label="编辑">
+                      <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pencil"></use></svg>
+                    </button>
+                    <button class="icon-btn" type="button" aria-label="回收">
+                      <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="is-selected">
+                <td>
+                  <button class="row-link" type="button"><span class="ellipsis">绫音 · ayane@ayane.local</span></button>
+                </td>
+                <td><span class="status-tag is-warn">需修正</span></td>
+                <td>
+                  <span class="progress is-warn" style="--progress-value: 82%"><span class="progress-bar"></span></span>
+                  <span class="progress-label">82%</span>
+                </td>
+                <td class="cell-mono">2026-09-27 08:02</td>
+                <td class="cell-actions">
+                  <div class="row">
+                    <button class="icon-btn" type="button" aria-label="编辑">
+                      <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pencil"></use></svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr class="is-new">
+                <td>
+                  <button class="row-link" type="button"><span class="ellipsis">新注册设备 · device-7741</span></button>
+                </td>
+                <td><span class="status-tag is-danger">已下线</span></td>
+                <td>
+                  <span class="progress is-danger" style="--progress-value: 97%"><span class="progress-bar"></span></span>
+                  <span class="progress-label">97%</span>
+                </td>
+                <td class="cell-mono">2026-09-27 09:41</td>
+                <td class="cell-actions">
+                  <div class="row">
+                    <button class="icon-btn" type="button" disabled aria-label="不可编辑">
+                      <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button class="row-link" type="button"><span class="ellipsis">只读审计员 · audit@ayane.local</span></button>
+                </td>
+                <td><span class="status-tag is-muted">已归档</span></td>
+                <td>
+                  <span class="progress" style="--progress-value: 8%"><span class="progress-bar"></span></span>
+                  <span class="progress-label">8%</span>
+                </td>
+                <td class="cell-mono">2026-09-21 17:30</td>
+                <td class="cell-actions">
+                  <div class="row">
+                    <button class="icon-btn" type="button" aria-label="查看">
+                      <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-eye"></use></svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <footer class="table-foot">
+          <span>第 1–4 条，共 128 条</span>
+          <div class="pagination">
+            <button class="page-btn page-btn--edge" type="button" disabled aria-label="上一页">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-left"></use></svg>
+            </button>
+            <button class="page-btn" type="button" aria-current="page">1</button>
+            <button class="page-btn" type="button">2</button>
+            <button class="page-btn page-btn--edge" type="button" aria-label="下一页">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-right"></use></svg>
+            </button>
+          </div>
+        </footer>
+      </section>
+    </div>
+    <p class="demo-hint">
+      <code>.is-new</code> 用共享 <code>row-flash</code> 关键帧给出一次高亮，
+      <code>.is-selected</code> 走主色浅底；画布窄到 899px 以下时表格转为横向滚动而不是压扁列宽。
+    </p>
+  </div>
+</section>

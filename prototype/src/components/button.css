@@ -1,0 +1,191 @@
+/* ============================================================
+   按钮（唯一源）
+   ------------------------------------------------------------
+   正本取自管理后台原型的 .btn / .icon-btn 实现。四种语义：默认描边、
+   主操作渐变、弱化幽灵、危险。图标按钮视觉 32px，用 ::after 负 inset
+   把命中区撑到 44px，因此不改变布局又能满足触控下限。
+   is-loading 用透明文字 + ::after 环，避免切换时宽度跳动。
+   ============================================================ */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-extra-small);
+  min-height: var(--height-control-sm);
+  padding: 0 var(--spacing-control-x);
+  border: 1px solid var(--color-outline-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-strong);
+  color: var(--color-on-surface-soft);
+  font-family: inherit;
+  font-size: var(--font-body-small);
+  font-weight: var(--weight-bold);
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease,
+    transform var(--duration-fast) ease,
+    opacity var(--duration-fast) ease;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--color-outline-hover);
+  color: var(--color-primary-strong);
+}
+
+.btn:active:not(:disabled) { transform: scale(0.985); }
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.btn > .icon { flex: 0 0 auto; }
+
+/* ---- 语义档 ---- */
+.btn--primary {
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-primary-low);
+}
+
+.btn--primary:hover:not(:disabled) {
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--color-primary-hover-a), var(--color-primary-hover-b));
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-primary-high);
+}
+
+.btn--ghost {
+  border-color: transparent;
+  background: transparent;
+}
+
+.btn--ghost:hover:not(:disabled) { background: var(--color-primary-soft); }
+
+.btn--danger {
+  border-color: var(--color-outline-error);
+  background: var(--color-error-soft);
+  color: var(--color-error-strong);
+}
+
+.btn--danger:hover:not(:disabled) {
+  border-color: var(--color-outline-error-strong);
+  background: var(--color-error-softer);
+  color: var(--color-error-strong-deep);
+}
+
+.btn--sm {
+  min-height: var(--height-control-xs);
+  padding: 0 var(--spacing-control-x-sm);
+  border-radius: var(--radius-control-sm);
+  font-size: var(--font-label-small);
+}
+
+/* 登录、空状态等主行动按钮：48px 档，字号升到正文档 */
+.btn--lg {
+  min-height: var(--height-tab);
+  padding: 0 var(--spacing-huge);
+  font-size: var(--font-body-medium);
+  font-weight: var(--weight-heavy);
+}
+
+/* 占满一行（表单尾部主按钮） */
+.btn--block {
+  width: 100%;
+}
+
+/* ---- loading：文字透明 + 环形伪元素，尺寸不变 ---- */
+.btn.is-loading {
+  color: transparent !important;
+  pointer-events: none;
+}
+
+.btn.is-loading::after {
+  content: "";
+  position: absolute;
+  width: var(--size-spinner);
+  height: var(--size-spinner);
+  border: var(--stroke-medium) solid var(--color-on-dark-hairline);
+  border-top-color: var(--color-on-primary);
+  border-radius: var(--radius-pill);
+  animation: spin 720ms linear infinite;
+}
+
+.btn:not(.btn--primary).is-loading::after {
+  border-color: var(--color-primary-deep);
+  border-top-color: var(--color-primary-strong);
+}
+
+/* ---- 图标按钮 ---- */
+.icon-btn {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--height-chip);
+  height: var(--height-chip);
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: var(--radius-control-sm);
+  background: transparent;
+  color: var(--color-on-surface-soft);
+  font-family: inherit;
+  font-size: var(--size-icon-extra-small);
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+/* 视觉 32px，命中区靠负 inset 扩到 44px */
+.icon-btn::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+}
+
+.icon-btn:hover:not(:disabled) {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+}
+
+.icon-btn:active:not(:disabled) { transform: scale(0.94); }
+
+.icon-btn:disabled {
+  color: var(--color-text-hint);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.icon-btn:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+.icon-btn.is-on,
+.icon-btn[aria-pressed="true"] {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+}
+
+@media (pointer: coarse) {
+  .icon-btn {
+    width: var(--tap-target);
+    height: var(--tap-target);
+  }
+
+  .icon-btn::after { inset: 0; }
+
+  .btn,
+  .btn--sm { min-height: var(--tap-target); }
+}

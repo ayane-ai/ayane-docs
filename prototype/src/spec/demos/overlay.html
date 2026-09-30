@@ -1,0 +1,279 @@
+<!-- ============================================================
+   示例片段 · 浮层
+   显隐机制统一：模态 / 抽屉 / 气泡用 .is-open，遮罩与 toast 用 .is-visible。
+   两区落位差异只改旋钮（--overlay-inset-top、--toast-* 等），不复制规则。
+   ============================================================ -->
+<section class="demo-card">
+  <div class="demo-meta">
+    <span class="demo-no">09</span>
+    <h4>浮层 Overlay</h4>
+    <p class="spec-note">
+      登录、模态、抽屉、气泡、提示共用一套显隐机制与 <code>--z-index-*</code> 阶梯。
+      画布（<code>.demo-frame</code>）同时是容器查询容器与定位包含块，因此下面的浮层
+      与两个原型里的表现同源：绝对定位、不越界、按画布宽度取档。
+    </p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame demo-frame--block demo-frame--canvas demo-frame--tall">
+      <span class="demo-label">登录壳：画布内居中，窄档收成单列</span>
+      <div class="login-shell">
+        <div class="login-card">
+          <div class="login-brand">
+            <span class="brand-mark">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-spark"></use></svg>
+            </span>
+            <div>
+              <h1>绫音 · 管理后台</h1>
+              <p>Admin Console 交互原型</p>
+            </div>
+          </div>
+          <form class="login-form">
+            <div class="field">
+              <label for="demo-login-account">管理员账号</label>
+              <input class="field-ctl" id="demo-login-account" type="text" value="admin@ayane.local" autocomplete="username">
+            </div>
+            <div class="field">
+              <label for="demo-login-pass">口令</label>
+              <span class="field-inline">
+                <input class="field-ctl" id="demo-login-pass" type="password" value="ayane2026" autocomplete="current-password">
+                <button class="icon-btn" type="button" data-demo="reveal" aria-controls="demo-login-pass"
+                        aria-pressed="false" aria-label="显示口令">
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-eye"></use></svg>
+                </button>
+              </span>
+            </div>
+            <div class="field">
+              <label for="demo-login-error">回调地址</label>
+              <input class="field-ctl" id="demo-login-error" type="text" value="ayane-local" aria-invalid="true"
+                     aria-describedby="demo-login-error-msg">
+              <p class="field-error" id="demo-login-error-msg">
+                <svg class="icon icon-inline" aria-hidden="true" focusable="false"><use href="#i-alert"></use></svg>
+                需要以 https:// 开头
+              </p>
+            </div>
+            <button class="btn btn--primary btn--lg btn--block" type="submit">进入控制台</button>
+            <p class="login-note">单文件原型：数据全部本地 mock，不连接 Admin API</p>
+            <p class="login-error" role="alert">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x-circle"></use></svg>
+              口令少于 6 位
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+    <p class="demo-hint">客户端形态会把卡片文字基线改到居中（<code>--login-card-align</code>），并把表单仍按左基线排。</p>
+
+    <div class="demo-frame demo-frame--canvas">
+      <span class="demo-label">模态：点遮罩、点关闭、按 ESC 都能退出</span>
+      <div class="demo-row">
+        <button class="btn btn--primary" type="button" data-demo="open" aria-controls="demo-modal" aria-expanded="false">表单模态</button>
+        <button class="btn" type="button" data-demo="open" aria-controls="demo-modal-lg" aria-expanded="false">宽模态 780</button>
+        <button class="btn btn--danger" type="button" data-demo="open" aria-controls="demo-modal-danger" aria-expanded="false">危险确认</button>
+      </div>
+
+      <div class="modal-layer" id="demo-modal" data-demo="scrim" role="dialog"
+           aria-modal="true" aria-labelledby="demo-modal-title">
+        <section class="form-modal">
+          <header class="modal-head">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pencil"></use></svg>
+            <div class="modal-head-copy">
+              <h2 id="demo-modal-title">编辑智能体</h2>
+              <p>改动在下一次会话生效，历史消息不受影响。</p>
+            </div>
+            <button class="icon-btn" type="button" data-demo="close" aria-controls="demo-modal" aria-label="关闭">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
+            </button>
+          </header>
+          <div class="modal-body">
+            <label class="field">
+              <span class="field-label">名称</span>
+              <input class="field-ctl" id="demo-modal-name" type="text" value="绫音 · 晚间陪伴">
+            </label>
+            <label class="field">
+              <span class="field-label">语气强度</span>
+              <input class="field-ctl" id="demo-modal-tone" type="text" value="0.62">
+              <span class="field-hint">0–1，越高越主动</span>
+            </label>
+          </div>
+          <footer class="modal-foot">
+            <button class="btn btn--ghost" type="button" data-demo="close" aria-controls="demo-modal">取消</button>
+            <button class="btn btn--primary" type="button" data-demo="close" aria-controls="demo-modal">保存</button>
+          </footer>
+        </section>
+      </div>
+
+      <div class="modal-layer" id="demo-modal-lg" data-demo="scrim" role="dialog"
+           aria-modal="true" aria-labelledby="demo-modal-lg-title">
+        <section class="form-modal form-modal--lg">
+          <header class="modal-head">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-layers"></use></svg>
+            <div class="modal-head-copy">
+              <h2 id="demo-modal-lg-title">模型对比</h2>
+              <p>宽档 780px 用于并排字段与表格。</p>
+            </div>
+            <button class="icon-btn" type="button" data-demo="close" aria-controls="demo-modal-lg" aria-label="关闭">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
+            </button>
+          </header>
+          <div class="modal-body">
+            <div class="demo-pair">
+              <label class="field">
+                <span class="field-label">当前模型</span>
+                <select class="field-ctl" id="demo-modal-a"><option>ayane-tts-v1</option></select>
+              </label>
+              <label class="field">
+                <span class="field-label">候选模型</span>
+                <select class="field-ctl" id="demo-modal-b"><option>ayane-tts-v2</option></select>
+              </label>
+            </div>
+          </div>
+          <footer class="modal-foot">
+            <button class="btn btn--ghost" type="button" data-demo="close" aria-controls="demo-modal-lg">关闭</button>
+            <button class="btn btn--primary" type="button" data-demo="close" aria-controls="demo-modal-lg">切换</button>
+          </footer>
+        </section>
+      </div>
+
+      <div class="modal-layer" id="demo-modal-danger" data-demo="scrim" role="alertdialog"
+           aria-modal="true" aria-labelledby="demo-modal-danger-title">
+        <section class="form-modal form-modal--sm is-danger">
+          <header class="modal-head">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-alert"></use></svg>
+            <div class="modal-head-copy">
+              <h2 id="demo-modal-danger-title">回收这段会话？</h2>
+              <p>回收后 30 天内可在审计页恢复，之后彻底删除。</p>
+            </div>
+          </header>
+          <div class="modal-body">
+            <p class="muted">会话 #7741 · 晚风 · 128 条消息</p>
+          </div>
+          <footer class="modal-foot">
+            <button class="btn btn--ghost" type="button" data-demo="close" aria-controls="demo-modal-danger">留下</button>
+            <button class="btn btn--danger" type="button" data-demo="close" aria-controls="demo-modal-danger">确认回收</button>
+          </footer>
+        </section>
+      </div>
+    </div>
+
+    <div class="demo-frame demo-frame--canvas">
+      <span class="demo-label">抽屉：从右侧推入，遮罩用更深的 --color-scrim</span>
+      <div class="demo-row">
+        <button class="btn" type="button" data-demo="open" aria-controls="demo-drawer" aria-expanded="false">详情抽屉</button>
+        <button class="btn" type="button" data-demo="open" aria-controls="demo-drawer-lg" aria-expanded="false">宽抽屉 780</button>
+      </div>
+      <div class="drawer-scrim" id="demo-drawer-scrim" data-demo="close" aria-controls="demo-drawer"></div>
+      <aside class="drawer" id="demo-drawer" role="dialog" aria-modal="true" aria-labelledby="demo-drawer-title">
+        <header class="drawer-head">
+          <div class="drawer-head-copy">
+            <h2 id="demo-drawer-title">会话 #7741</h2>
+            <p>晚风 · 128 条消息 · 最近 09:41</p>
+          </div>
+          <button class="icon-btn" type="button" data-demo="close" aria-controls="demo-drawer" aria-label="关闭抽屉">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
+          </button>
+        </header>
+        <div class="drawer-tabs">
+          <div class="tabs" role="tablist" aria-label="抽屉分栏">
+            <button class="tab is-active" type="button" role="tab" aria-selected="true"
+                    data-demo="activate" data-demo-group=".tabs">消息</button>
+            <button class="tab" type="button" role="tab" aria-selected="false"
+                    data-demo="activate" data-demo-group=".tabs">调用链<span class="tab-count">12</span></button>
+            <button class="tab" type="button" role="tab" aria-selected="false"
+                    data-demo="activate" data-demo-group=".tabs">审计</button>
+          </div>
+        </div>
+        <div class="drawer-body">
+          <p>抽屉体自己拥有滚动权（<code>overflow-y: auto</code> + <code>overscroll-behavior: contain</code>），
+             滚动不会带动背后的列表。</p>
+          <div class="demo-skeleton" aria-hidden="true">
+            <span class="skeleton"></span>
+            <span class="skeleton skeleton--mid"></span>
+          </div>
+        </div>
+        <footer class="drawer-foot is-danger">
+          <span class="spacer"></span>
+          <button class="btn btn--ghost" type="button" data-demo="close" aria-controls="demo-drawer">关闭</button>
+          <button class="btn btn--danger" type="button" data-demo="close" aria-controls="demo-drawer">回收会话</button>
+        </footer>
+      </aside>
+      <div class="drawer-scrim" id="demo-drawer-lg-scrim" data-demo="close" aria-controls="demo-drawer-lg"></div>
+      <aside class="drawer drawer--lg" id="demo-drawer-lg" role="dialog" aria-modal="true" aria-labelledby="demo-drawer-lg-title">
+        <header class="drawer-head">
+          <div class="drawer-head-copy">
+            <h2 id="demo-drawer-lg-title">权限矩阵</h2>
+            <p>780px 档，用于表格与多列字段</p>
+          </div>
+          <button class="icon-btn" type="button" data-demo="close" aria-controls="demo-drawer-lg" aria-label="关闭抽屉">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
+          </button>
+        </header>
+        <div class="drawer-body">
+          <p class="muted">路由级 / 组件级 / API 级三张字典共用同一份权限源。</p>
+        </div>
+        <footer class="drawer-foot">
+          <span class="spacer"></span>
+          <button class="btn btn--primary" type="button" data-demo="close" aria-controls="demo-drawer-lg">完成</button>
+        </footer>
+      </aside>
+    </div>
+
+    <div class="demo-frame demo-frame--canvas">
+      <span class="demo-label">气泡菜单：跟随触发元素，窄画布内自动收宽</span>
+      <div class="demo-row">
+        <span class="spacer"></span>
+        <span class="popover-anchor">
+          <button class="btn btn--sm" type="button" data-demo="toggle" aria-controls="demo-popover"
+                  aria-haspopup="menu" aria-expanded="false">
+            更多操作
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
+          </button>
+          <div class="popover" id="demo-popover" role="menu" aria-label="更多操作">
+            <p class="popover-title">会话 #7741</p>
+            <button class="popover-item" type="button" role="menuitemradio" aria-checked="true">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-waveform"></use></svg>
+              <span class="popover-item-copy">
+                <strong>语音回复</strong>
+                <span>延迟更低，适合晚间</span>
+              </span>
+            </button>
+            <button class="popover-item" type="button" role="menuitemradio" aria-checked="false">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-messages"></use></svg>
+              <span class="popover-item-copy">
+                <strong>文字回复</strong>
+                <span>可在会议中静音查看</span>
+              </span>
+            </button>
+            <span class="popover-sep"></span>
+            <button class="popover-item" type="button" role="menuitem">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-copy"></use></svg>
+              <span class="popover-item-copy"><strong>复制会话 ID</strong></span>
+            </button>
+            <button class="popover-item" type="button" role="menuitem" disabled>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-ban"></use></svg>
+              <span class="popover-item-copy">
+                <strong>导出原始音频</strong>
+                <span>需 system_admin</span>
+              </span>
+            </button>
+            <p class="popover-hint">导出记录会写入审计日志</p>
+          </div>
+        </span>
+      </div>
+    </div>
+
+    <div class="demo-frame demo-frame--canvas">
+      <span class="demo-label">提示条 toast：位置由 --toast-* 旋钮给出</span>
+      <div class="demo-row">
+        <button class="btn btn--sm" type="button" data-demo="toast" aria-controls="demo-toast"
+                data-demo-message="草稿已保存">普通提示</button>
+        <button class="btn btn--sm" type="button" data-demo="toast" aria-controls="demo-toast" data-demo-tone="error"
+                data-demo-message="回收失败：会话正在通话中">错误提示</button>
+      </div>
+      <p class="demo-hint">后台在画布顶部（<code>--overlay-inset-top</code> 让开顶栏），客户端在底部上浮，两者只差旋钮值。</p>
+      <div class="toast" id="demo-toast" role="status" aria-live="polite">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check-circle"></use></svg>
+        <span class="toast-text">草稿已保存</span>
+      </div>
+    </div>
+  </div>
+</section>

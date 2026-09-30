@@ -1,0 +1,146 @@
+<div class="region-stage" data-proto="admin" data-region="admin" role="region" aria-label="管理后台原型画布">
+
+  <!-- ============================================================
+       图标 sprite：全文件零 emoji、零几何字符（规避走查 #11）。
+       stroke / fill / linecap 由 .icon 统一继承，symbol 只带 viewBox。
+       ============================================================ -->
+
+  <!-- ============================================================
+       04 · 登录页
+       ============================================================ -->
+  <section class="login-shell" id="admin-login-shell" data-layer="登录页" aria-labelledby="login-title">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-spark"></use></svg></span>
+        <div>
+          <h1 id="login-title">绫音 · 管理后台</h1>
+          <p>Admin Console 交互原型</p>
+        </div>
+      </div>
+
+      <form class="login-form" id="admin-login-form" novalidate>
+        <div class="field">
+          <label for="admin-login-account">管理员账号</label>
+          <input class="field-ctl" id="admin-login-account" name="account" type="text" autocomplete="username" spellcheck="false" placeholder="admin@ayane.local">
+          <p class="field-error" id="login-account-error" hidden></p>
+        </div>
+
+        <div class="field">
+          <label for="admin-login-password">口令</label>
+          <div class="field-inline">
+            <input class="field-ctl" id="admin-login-password" name="password" type="password" autocomplete="current-password" placeholder="任意 6 位以上">
+            <button class="icon-btn" type="button" id="admin-login-password-toggle" aria-pressed="false" aria-label="显示口令">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-eye"></use></svg>
+            </button>
+          </div>
+          <p class="field-error" id="login-password-error" hidden></p>
+        </div>
+
+        <div class="field">
+          <label id="role-group-label">演示角色</label>
+          <div class="role-grid" id="role-grid" role="radiogroup" aria-labelledby="role-group-label"></div>
+          <p class="field-hint">角色同时决定路由级、组件级与 API 级权限；登录后仍可在顶栏随时切换，所有页面会立即重算。</p>
+        </div>
+
+        <p class="login-error" id="admin-login-error" role="alert" hidden>
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-alert"></use></svg>
+          <span id="login-error-text"></span>
+        </p>
+
+        <button class="btn btn--primary" type="submit" id="admin-login-submit">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg>
+          进入后台
+        </button>
+      </form>
+
+      <p class="login-note">
+        本文件是 <span class="mono">ayane-admin-web</span> 的高保真交互原型：单文件、零依赖、全部数据为本地 mock。
+        它不连接 Admin API，也不接触任何真实用户数据；所有写操作只写入本页内存中的审计演示队列。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       05 · 框架
+       ============================================================ -->
+  <div class="admin-shell" id="admin-shell" data-layer="控制台外壳" hidden>
+    <header class="topbar" data-layer="顶栏">
+      <div class="topbar-lead">
+        <button class="icon-btn hamburger" type="button" id="nav-toggle" aria-label="打开导航" aria-expanded="false" aria-controls="sidenav">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg>
+        </button>
+        <span class="topbar-crumb" id="topbar-crumb">绫音 · 管理后台</span>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="popover-anchor">
+          <button class="role-pill" type="button" id="role-switch" data-action="popover.toggle" data-pop="role-popover" aria-haspopup="menu" aria-expanded="false" aria-controls="role-popover">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shield" id="role-pill-icon"></use></svg>
+            <span class="role-pill-label" id="role-pill-label">系统管理员</span>
+            <svg class="icon icon-caret" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
+          </button>
+          <div class="popover" id="role-popover" role="menu" aria-label="切换演示角色"></div>
+        </div>
+
+        <div class="popover-anchor">
+          <button class="icon-btn" type="button" id="chaos-toggle" data-action="popover.toggle" data-pop="chaos-popover" aria-label="演示注入" aria-haspopup="menu" aria-expanded="false" aria-controls="chaos-popover">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-flask"></use></svg>
+          </button>
+          <div class="popover" id="chaos-popover" role="menu" aria-label="演示注入"></div>
+        </div>
+
+        <button class="icon-btn" type="button" id="topbar-bell" data-action="nav.go" data-module="logs" data-sub="audit" aria-label="审计日志未读">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-bell"></use></svg>
+          <span class="nav-badge" id="topbar-bell-badge" hidden>0</span>
+        </button>
+
+        <button class="icon-btn" type="button" data-action="auth.logout" aria-label="退出登录">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-logout"></use></svg>
+        </button>
+      </div>
+    </header>
+
+    <aside class="sidenav" id="sidenav" data-layer="侧栏" aria-label="主导航">
+      <div class="sidenav-brand">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-spark"></use></svg></span>
+        <span class="brand-copy"><strong>绫音</strong><span>Admin Console</span></span>
+      </div>
+      <nav class="nav-scroll" id="nav-scroll"></nav>
+      <div class="sidenav-foot">
+        <div class="chip-user">
+          <span class="admin-avatar"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-user"></use></svg></span>
+          <span class="admin-copy"><strong id="admin-name">未登录</strong><span id="admin-role">—</span></span>
+        </div>
+        <button class="btn btn--sm btn--ghost" type="button" data-action="auth.logout">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-logout"></use></svg>
+          退出登录
+        </button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div class="page-head" id="page-head" data-layer="页头" tabindex="-1">
+        <div class="page-head-copy">
+          <h1 id="page-title">概览</h1>
+          <p id="page-desc"></p>
+        </div>
+        <div class="page-head-actions" id="page-actions"></div>
+      </div>
+      <div class="page-body is-scroll" id="page-body" data-layer="内容区"></div>
+    </main>
+  </div>
+
+  <!-- ============================================================
+       06 · 浮层
+       ============================================================ -->
+  <div class="nav-scrim" id="nav-scrim" data-layer="侧栏遮罩"></div>
+  <div class="drawer-scrim" id="drawer-scrim" data-layer="抽屉遮罩"></div>
+
+  <aside class="drawer" id="drawer" data-layer="抽屉" role="dialog" aria-modal="true" aria-labelledby="drawer-title"></aside>
+
+  <div class="modal-layer" id="modal-layer" data-layer="模态层">
+    <section class="form-modal" id="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title"></section>
+  </div>
+
+  <div class="toast" id="admin-toast" data-layer="提示条" role="status" aria-live="polite"></div>
+</div>

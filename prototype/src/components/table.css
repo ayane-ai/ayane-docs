@@ -1,0 +1,130 @@
+/* ============================================================
+   数据表格（唯一源）
+   ------------------------------------------------------------
+   正本取自管理后台，类名由 .admin-table 改为中性 .data-table，
+   后台的表体生成函数与自检注释同步更新。
+   表头 sticky 的底色必须不透明（--color-table-head），否则滚动内容
+   会透出；打印档把 sticky 与固定行高一起解掉，避免截断。
+   ============================================================ */
+
+.table-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.data-table {
+  width: 100%;
+  table-layout: fixed;
+  font-size: var(--font-body-small);
+}
+
+.data-table th,
+.data-table td {
+  height: var(--height-row);
+  padding: 0 10px;
+  border-bottom: 1px solid var(--color-outline);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.data-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  height: var(--height-field);
+  background: var(--color-table-head);
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-caption);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  box-shadow: inset 0 calc(var(--stroke-thin) * -1) 0 var(--color-outline-strong);
+}
+
+.data-table tbody tr { transition: background var(--duration-fast) ease; }
+
+.data-table tbody tr:hover { background: var(--color-row-hover); }
+
+.data-table tbody tr.is-selected { background: var(--color-primary-soft); }
+
+.data-table tbody tr:last-child td { border-bottom: 0; }
+
+.data-table tbody tr.is-new { animation: row-flash 1.8s ease; }
+
+.data-table .cell-actions { padding-right: 6px; }
+
+.data-table .cell-actions > .row {
+  justify-content: flex-end;
+  gap: var(--spacing-tiny);
+}
+
+.data-table td > .ellipsis {
+  display: block;
+  min-width: 0;
+}
+
+.data-table td > .row-link { min-height: calc(var(--height-row) - var(--stroke-thin) * 2); }
+
+.cell-mono {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-caption);
+}
+
+/* 行内可点区域：整行链接。只有直接落在单元格里的才撑满行高，
+   嵌进复合单元格（如 .cell-id-copy）时不额外拉高行。 */
+.row-link {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-primary-strong);
+  font-weight: var(--weight-bold);
+}
+
+.row-link:hover { text-decoration: underline; }
+
+.row-link:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring);
+}
+
+.table-foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  padding: var(--spacing-small) var(--spacing-medium);
+  border-top: 1px solid var(--color-outline);
+  background: var(--color-surface-solid);
+  color: var(--color-text-hint);
+  font-size: var(--font-label-small);
+}
+
+/* 窄容器下让表格横向滚动，而不是把列压到不可读 */
+@container region (max-width: 899px) {
+  .table-scroll > table { min-width: 720px; }
+}
+
+@media (pointer: coarse) {
+  .data-table .row-link { min-height: var(--tap-target); }
+}
+
+@media print {
+  .table-scroll {
+    overflow: visible;
+    background: var(--color-surface-strong);
+  }
+
+  .data-table thead th { position: static; }
+
+  .data-table th,
+  .data-table td {
+    height: auto;
+    padding: 5px 8px;
+  }
+}

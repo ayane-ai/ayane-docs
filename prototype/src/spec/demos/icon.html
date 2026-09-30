@@ -1,0 +1,62 @@
+<!-- ============================================================
+   示例片段 · 图标
+   精灵本体在 src/base/icons.svg.html（82 个 symbol），这里只演示消费方式。
+   ============================================================ -->
+<section class="demo-card">
+  <div class="demo-meta">
+    <span class="demo-no">01</span>
+    <h4>图标 Icon</h4>
+    <p class="spec-note">
+      尺寸走 <code>em</code>：档位类只改 <code>font-size</code>，<code>.icon</code> 统一继承
+      描边、线帽与 <code>currentColor</code>。全库禁止 emoji 与几何字符，避免跨平台字形不一致。
+    </p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame">
+      <span class="demo-label">尺寸档位</span>
+      <div class="demo-row">
+        <svg class="icon icon-xs" aria-hidden="true" focusable="false"><use href="#i-mic"></use></svg>
+        <svg class="icon icon-sm" aria-hidden="true" focusable="false"><use href="#i-mic"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-mic"></use></svg>
+        <svg class="icon icon-lg" aria-hidden="true" focusable="false"><use href="#i-mic"></use></svg>
+        <svg class="icon icon-xl" aria-hidden="true" focusable="false"><use href="#i-mic"></use></svg>
+        <span class="demo-label">14 / 16 / 18 / 24 / 40</span>
+      </div>
+      <p class="demo-row">
+        <svg class="icon icon-inline" aria-hidden="true" focusable="false"><use href="#i-alert"></use></svg>
+        <span>与文字同排用 <code>.icon-inline</code>，块级 svg 会顶开基线。</span>
+      </p>
+    </div>
+    <div class="demo-frame">
+      <span class="demo-label">语义色随宿主</span>
+      <div class="demo-row">
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-gauge"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-users"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-agent"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-messages"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-plug"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-shield"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-database"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-scroll"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-activity"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-waveform"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-gear"></use></svg>
+        <svg class="icon icon-md" aria-hidden="true" focusable="false"><use href="#i-spark"></use></svg>
+      </div>
+      <span class="demo-label"><code>.btn--danger &gt; .icon</code> 自动继承危险色</span>
+      <div class="demo-row">
+        <button class="btn btn--danger" type="button">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-trash"></use></svg>
+          删除会话
+        </button>
+        <button class="icon-btn" type="button" aria-label="刷新">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-refresh"></use></svg>
+        </button>
+        <button class="icon-btn" type="button" aria-pressed="true" aria-label="静音">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-mic-off"></use></svg>
+        </button>
+      </div>
+    </div>
+    <p class="demo-hint">状态图标一律成对：<code>i-mic / i-mic-off</code>、<code>i-eye / i-eye-off</code>、<code>i-phone / i-phone-off</code>。</p>
+  </div>
+</section>

@@ -1,0 +1,95 @@
+<!-- ============================================================
+   示例片段 · 卡片与空态
+   ============================================================ -->
+<section class="demo-card">
+  <div class="demo-meta">
+    <span class="demo-no">06</span>
+    <h4>卡片 Card / Stat / Empty</h4>
+    <p class="spec-note">
+      半透面板 + <code>backdrop-filter</code> + 1px 高光描边是这套暖色的既有质感，
+      描边色收在 <code>--color-surface-hairline</code>。打印档会关掉透明与模糊，换成实底。
+    </p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame demo-frame--wide">
+      <span class="demo-label">基础卡：头 / 内容 / 脚</span>
+      <section class="card">
+        <header class="card-head">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-activity"></use></svg>
+          <h2>今日用量</h2>
+          <span class="muted ellipsis" title="09:00 更新">09:00 更新</span>
+          <span class="spacer"></span>
+          <button class="btn btn--sm" type="button">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-refresh"></use></svg>
+            刷新
+          </button>
+        </header>
+        <div class="card-body">
+          <p>卡片头放标题、时间戳与右侧动作；内容区用 <code>.card-body</code>，需要贴边时加 <code>.is-flush</code>。</p>
+          <div class="demo-row">
+            <span class="status-tag is-info">同步中</span>
+            <span class="progress" style="--progress-value: 48%"><span class="progress-bar"></span></span>
+          </div>
+        </div>
+        <footer class="table-foot">
+          <span>共 6 个模型</span>
+          <span class="spacer"></span>
+          <button class="btn btn--ghost btn--sm" type="button">查看明细</button>
+        </footer>
+      </section>
+    </div>
+
+    <div class="demo-frame demo-frame--wide">
+      <span class="demo-label">统计卡 .stat-grid（auto-fit，窄容器自动折行）</span>
+      <div class="stat-grid">
+        <button class="stat-card" type="button">
+          <span class="stat-label">活跃会话</span>
+          <span class="stat-value">128</span>
+          <span class="stat-foot">
+            <svg class="icon icon-inline" aria-hidden="true" focusable="false"><use href="#i-activity"></use></svg>
+            较昨日 +12
+          </span>
+        </button>
+        <button class="stat-card" type="button">
+          <span class="stat-label">待审核</span>
+          <span class="stat-value">6</span>
+          <span class="stat-foot">最早 2 小时前</span>
+        </button>
+        <button class="stat-card is-alert" type="button">
+          <span class="stat-label">失败任务</span>
+          <span class="stat-value">3</span>
+          <span class="stat-foot">
+            <svg class="icon icon-inline" aria-hidden="true" focusable="false"><use href="#i-alert"></use></svg>
+            需要处理
+          </span>
+        </button>
+        <button class="stat-card" type="button" disabled>
+          <span class="stat-label">配额（只读角色不可点）</span>
+          <span class="stat-value">97%</span>
+          <span class="stat-foot">已达上限</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="demo-frame">
+      <span class="demo-label">空态与权限拦截</span>
+      <div class="empty-state">
+        <svg class="icon icon-xl" aria-hidden="true" focusable="false"><use href="#i-inbox"></use></svg>
+        <strong>还没有会话</strong>
+        <p>新建一段陪伴对话后，这里会按时间倒序列出记录。历史会话在「已归档」分栏里保留 30 天。</p>
+        <div class="row">
+          <button class="btn btn--primary" type="button">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-plus"></use></svg>
+            新建会话
+          </button>
+          <button class="btn" type="button">导入</button>
+        </div>
+      </div>
+      <div class="empty-state is-403">
+        <svg class="icon icon-xl" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg>
+        <strong>当前角色无权访问</strong>
+        <p>read_only_admin 只能查看概览与审计日志。需要调整权限请提交变更单。</p>
+      </div>
+    </div>
+  </div>
+</section>

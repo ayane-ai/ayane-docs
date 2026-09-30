@@ -1,0 +1,423 @@
+/* ============================================================
+   外壳层：顶栏 / 左侧菜单与层级树 / 画布 / 缩放 HUD
+   ------------------------------------------------------------
+   这一层是「看原型的工具」，不是产品界面，因此它自己定义尺寸常量
+   （--tree-width、--canvas-pad 等），不占用 tokens.css 的产品令牌位。
+   与 region.css 同类，是全页允许出现视口宽度 @media 的两个文件之一：
+   画布不属于任何区域容器，容器查询在这里无从解算。
+
+   画布只做一件事：把当前页作为一个可平移、可缩放的表面。
+   缩放一律走 transform，不用 CSS zoom —— zoom 会重解布局，
+   实测祖先 zoom:.5 时画布自认 1578px 宽，容器查询档位当场跳档。
+   ============================================================ */
+
+/* 外壳要撑满窗口又不用 vh：body 变纵向 flex，shell 吃掉剩余高度 */
+html,
+body { height: 100%; }
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.suite-shell {
+  --tree-width: 234px;      /* 左栏宽度：工具 chrome，不进产品令牌 */
+  --canvas-pad: var(--spacing-massive);
+
+  display: grid;
+  grid-template-columns: var(--tree-width) minmax(0, 1fr);
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+}
+
+/* ------------------------------------------------------------
+   顶栏
+   ------------------------------------------------------------ */
+.suite-nav { gap: var(--spacing-small); flex-wrap: nowrap; }
+
+.suite-brand { margin-right: 0; }
+
+.suite-view-label {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-text-hint);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-caption);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.suite-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-extra-small);
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+/* 窄屏才出现的左栏开关 */
+.tree-toggle {
+  display: none;
+  place-items: center;
+  width: var(--height-chip);
+  height: var(--height-chip);
+  flex: 0 0 auto;
+  border: 1px solid var(--color-outline-strong);
+  border-radius: var(--radius-control-sm);
+  background: var(--color-surface-strong);
+  color: var(--color-on-surface-soft);
+}
+
+/* ------------------------------------------------------------
+   左栏：菜单 + 层级树
+   ------------------------------------------------------------ */
+.suite-tree {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--color-outline);
+  background: var(--color-surface-strong);
+}
+
+.tree-menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-tiny);
+  flex: 0 0 auto;
+  padding: var(--spacing-small);
+  border-bottom: 1px solid var(--color-outline);
+}
+
+.tree-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  width: 100%;
+  min-height: var(--height-control-sm);
+  padding: 0 var(--spacing-small);
+  border: 0;
+  border-radius: var(--radius-field);
+  background: transparent;
+  color: var(--color-on-surface-soft);
+  font-family: inherit;
+  font-size: var(--font-body-small);
+  text-align: left;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.tree-menu-item:hover { background: var(--color-primary-soft); color: var(--color-primary-strong); }
+
+.tree-menu-item:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring);
+}
+
+.tree-menu-item[aria-selected="true"] {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+  font-weight: var(--weight-bold);
+}
+
+.tree-menu-item .no {
+  flex: 0 0 auto;
+  font-family: var(--font-family-mono);
+  font-size: var(--font-caption);
+  color: var(--color-text-hint);
+}
+
+.tree-menu-item[aria-selected="true"] .no { color: var(--color-primary-strong); }
+
+.tree-menu-item .nm {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tree-menu-item .cnt {
+  margin-left: auto;
+  flex: 0 0 auto;
+  color: var(--color-text-hint);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-caption);
+}
+
+/* 层级区自己滚动，菜单固定在上方 */
+.tree-layers {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  padding: var(--spacing-small) 0 var(--spacing-huge);
+}
+
+.tree-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-small);
+  padding: var(--spacing-extra-small) var(--spacing-medium) var(--spacing-small);
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+}
+
+.tree-head b { color: var(--color-on-surface); font-size: var(--font-label-small); }
+
+/* 一级树：唯一条目样式，右侧计数表示该节点自身的规模 */
+.tree-node {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-extra-small);
+  width: 100%;
+  min-height: var(--height-control-xs);
+  padding: 0 var(--spacing-medium) 0 calc(var(--spacing-medium) - var(--stroke-medium));
+  border: 0;
+  border-left: var(--stroke-medium) solid transparent;
+  background: transparent;
+  color: var(--color-on-surface-soft);
+  font-family: inherit;
+  font-size: var(--font-label-small);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.tree-node + .tree-node { margin-top: 1px; }
+
+.tree-node:hover { background: var(--color-neutral-soft); color: var(--color-primary-strong); }
+
+.tree-node:focus-visible {
+  outline: 0;
+  box-shadow: inset 0 0 0 var(--stroke-thick) var(--color-focus-ring);
+}
+
+.tree-node[aria-current="true"] {
+  border-left-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+  font-weight: var(--weight-bold);
+}
+
+.tree-node .nm {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tree-node .cnt {
+  margin-left: auto;
+  flex: 0 0 auto;
+  color: var(--color-text-hint);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-caption);
+}
+
+.tree-empty {
+  padding: var(--spacing-medium);
+  color: var(--color-text-hint);
+  font-size: var(--font-label-small);
+  line-height: var(--line-height-normal);
+}
+
+/* ------------------------------------------------------------
+   画布
+   ------------------------------------------------------------ */
+.canvas {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background-color: var(--color-bg-deep);
+  background-image: radial-gradient(var(--color-outline-strong) var(--stroke-thin), transparent var(--stroke-thin));
+  background-size: var(--spacing-huge) var(--spacing-huge);
+  cursor: grab;
+}
+
+.canvas.is-grabbing { cursor: grabbing; }
+
+/* 只做平移与缩放，不参与布局；页面宽度仍以画布为基准（width:100%） */
+.canvas-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--canvas-pad);
+  padding: var(--canvas-pad);
+  transform-origin: 0 0;
+}
+
+/* 画布页必须显式给宽：分区自带 margin-inline:auto，会让 flex 交叉轴从
+   stretch 退回 shrink-to-fit，整页被压成 min-content 宽（实测约 50px）。 */
+.canvas-page {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.canvas-page--doc { max-width: var(--size-doc-max); }
+
+.canvas-page--proto { max-width: none; }
+
+/* 组件库页：整张卡片固定宽，比窗口宽时靠画布平移看。
+   固定宽是「变体横向不塌」的前提，禁止给它加视口 @media。 */
+.canvas-page--board {
+  width: var(--size-demo-board);
+  max-width: none;
+}
+
+/* 层级定位描边：只描边，不改变盒模型 */
+.is-located {
+  outline: var(--stroke-thick) solid var(--color-primary-strong);
+  outline-offset: var(--spacing-extra-small);
+  border-radius: var(--radius-extra-small);
+}
+
+.canvas-hud {
+  position: absolute;
+  right: var(--spacing-large);
+  bottom: var(--spacing-large);
+  z-index: var(--z-index-canvas-hud);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-tiny);
+  padding: var(--spacing-extra-small);
+  border: 1px solid var(--color-outline-strong);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-low);
+}
+
+.canvas-hud button {
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--height-control-xs);
+  min-height: var(--height-control-xs);
+  padding: 0 var(--spacing-small);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-on-surface-soft);
+  font-family: inherit;
+  font-size: var(--font-label-small);
+  font-weight: var(--weight-bold);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
+}
+
+.canvas-hud button:hover { background: var(--color-primary-soft); color: var(--color-primary-strong); }
+
+.canvas-hud button:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 var(--stroke-thin) var(--color-focus-ring);
+}
+
+.canvas-hud .pct {
+  min-width: 52px;
+  text-align: center;
+  color: var(--color-on-surface);
+  font-variant-numeric: tabular-nums;
+}
+
+.canvas-hud .sepv {
+  width: 1px;
+  align-self: stretch;
+  margin: var(--spacing-extra-small) var(--spacing-extra-small);
+  background: var(--color-outline);
+}
+
+.canvas-hint {
+  position: absolute;
+  left: var(--spacing-large);
+  bottom: var(--spacing-large);
+  z-index: var(--z-index-canvas-hud);
+  padding: var(--spacing-extra-small) var(--spacing-medium);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-strong);
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+}
+
+.canvas-hint kbd {
+  padding: 0 var(--spacing-extra-small);
+  border: 1px solid var(--color-outline-strong);
+  border-radius: var(--radius-tiny);
+  background: var(--color-surface-inset);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-caption);
+}
+
+/* ------------------------------------------------------------
+   窄屏：左栏变抽屉，把宽度让给画布
+   ------------------------------------------------------------ */
+@media (max-width: 820px) {
+  .suite-shell { grid-template-columns: minmax(0, 1fr); }
+
+  .suite-tree {
+    position: absolute;
+    z-index: var(--z-index-tree-drawer);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--tree-width);
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-drawer);
+    transition: transform var(--duration-base) var(--easing-standard);
+  }
+
+  .suite-shell.is-tree-open .suite-tree { transform: none; }
+
+  .suite-shell.is-tree-open::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-index-tree-scrim);
+    background: var(--color-scrim);
+  }
+
+  .tree-toggle { display: grid; }
+
+  .suite-brand span { display: none; }
+
+  .canvas-hint { display: none; }
+}
+
+/* ------------------------------------------------------------
+   打印：回到长文档形态，四页全出、画布不偏移
+   ------------------------------------------------------------ */
+@media print {
+  body { display: block; overflow: visible; }
+
+  .suite-shell { display: block; height: auto; }
+
+  .suite-tree,
+  .canvas-hud,
+  .canvas-hint,
+  .tree-toggle { display: none !important; }
+
+  .canvas {
+    overflow: visible;
+    background-image: none;
+    cursor: auto;
+  }
+
+  .canvas-layer {
+    position: static;
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    transform: none !important;
+  }
+
+  .canvas-page[hidden] { display: block !important; }
+
+  /* 固定宽卡片在 A4 上会被裁掉右侧，打印时交回文档流 */
+  .canvas-page--board { width: auto; }
+}

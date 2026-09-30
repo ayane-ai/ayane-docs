@@ -1,0 +1,427 @@
+/* ============================================================
+   规范区样式（文档层，不进原型）
+   ------------------------------------------------------------
+   只负责令牌表、别名表、旋钮表与示例画布的排布。所有示例画布都
+   显式声明为 region 容器，因此组件在规范区里的表现与在两个原型里
+   完全同源：同一份 CSS，只是容器宽度不同。
+   本文件不写颜色字面量，不写视口单位，不需要断点（网格走 auto-fit）。
+   ============================================================ */
+
+.spec-block { margin: 0 0 var(--spacing-massive); }
+
+.spec-block > h3 {
+  margin: 0 0 var(--spacing-small);
+  color: var(--color-on-surface);
+  font-size: var(--font-title-medium);
+  font-weight: var(--weight-bold);
+}
+
+.spec-note {
+  margin: 0 0 var(--spacing-medium);
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-body-small);
+  line-height: var(--line-height-normal);
+}
+
+.spec-note code,
+.cell-name code { font-family: var(--font-family-mono); }
+
+/* ---- 令牌表：直接复用组件层的 .data-table，规范区自己也吃自己的狗粮 ---- */
+.token-table-wrap {
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-card);
+  background: var(--color-surface-strong);
+  overflow-x: auto;
+}
+
+/* 前四列是固定宽度，容器一窄剩下的「对照 / 深色覆写」就会被压到只剩字宽；
+   给整表一个可读下限，窄容器里横向滚，而不是把两列挤成竖排。 */
+.token-group .token-table { min-width: 900px; }
+
+.token-group + .token-group { margin-top: var(--spacing-huge); }
+
+.token-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-small);
+  flex-wrap: wrap;
+  padding: var(--spacing-medium) var(--spacing-medium) var(--spacing-small);
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-label-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.04em;
+}
+
+.token-group-head .count {
+  color: var(--color-text-hint);
+  font-family: var(--font-family-mono);
+  font-weight: var(--weight-regular);
+}
+
+.token-group-head .group-note {
+  flex: 1 1 260px;
+  font-weight: var(--weight-regular);
+  letter-spacing: 0;
+  line-height: var(--line-height-normal);
+}
+
+.token-table { font-size: var(--font-label-small); }
+
+/* 规范区长表按分组各自带表头，粘性表头会贴在页面上沿，这里关掉 */
+.token-table thead th { position: static; }
+
+/* 令牌在前、样本紧随其后：样本列要并排放浅色与深色两块，给足宽度 */
+.token-group .token-table th:nth-child(1) { width: 232px; }
+.token-group .token-table th:nth-child(2) { width: 116px; }
+.token-group .token-table th:nth-child(3) { width: 190px; }
+.token-group .token-table th:nth-child(4) { width: 168px; }
+
+/* 别名表没有样本列，列宽单独给，不被上面的分组宽度波及 */
+.compat-table th:nth-child(1) { width: 232px; }
+.compat-table th:nth-child(2) { width: 250px; }
+.compat-table th:nth-child(3) { width: 250px; }
+
+.token-table td {
+  height: auto;
+  padding: var(--spacing-small) 10px;
+  vertical-align: top;
+  line-height: var(--line-height-normal);
+}
+
+/* 样本格：JS 只写一个 --sample-v，形状由类别决定，规范区因此能直接
+   把令牌画出来，而不是只列十六进制值。--sample-v 必须有兜底声明，
+   否则 tools/check.mjs 的令牌门禁会把它算成悬空引用。 */
+.sample {
+  --sample-v: 0px;
+
+  display: block;
+  flex: 0 0 auto;
+}
+
+.sample--color {
+  width: var(--size-icon-extra-large);
+  height: var(--size-icon-extra-large);
+  border-radius: var(--radius-extra-small);
+  box-shadow: inset 0 0 0 var(--stroke-thin) var(--color-outline-strong);
+  background: var(--sample-v);
+}
+
+.sample--space {
+  width: var(--sample-v);
+  height: var(--size-icon-extra-small);
+  border: var(--stroke-thin) solid var(--color-primary);
+  border-radius: var(--radius-tiny);
+  background: var(--color-primary-soft);
+}
+
+.sample--radius {
+  width: var(--size-icon-huge);
+  height: var(--size-icon-huge);
+  border: var(--stroke-thin) solid var(--color-primary);
+  border-radius: var(--sample-v);
+  background: var(--color-primary-soft);
+}
+
+.sample--stroke {
+  width: var(--size-icon-huge);
+  border-top: var(--sample-v) solid var(--color-primary);
+}
+
+.sample--box {
+  width: var(--sample-v);
+  height: var(--sample-v);
+  border: var(--stroke-thin) solid var(--color-primary);
+  border-radius: var(--radius-extra-small);
+  background: var(--color-primary-soft);
+}
+
+.sample--shadow {
+  width: var(--size-icon-huge);
+  height: var(--size-icon-huge);
+  border-radius: var(--radius-extra-small);
+  background: var(--color-surface-strong);
+  box-shadow: var(--sample-v);
+}
+
+.sample--font {
+  color: var(--color-on-surface);
+  font-size: var(--sample-v);
+  font-weight: var(--weight-bold);
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+}
+
+.sample-empty {
+  width: var(--size-icon-extra-large);
+  height: var(--size-icon-extra-large);
+  border: 1px dashed var(--color-outline-strong);
+  border-radius: var(--radius-extra-small);
+}
+
+.swatch-pair {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-extra-small);
+}
+
+/* 深色端样本用一圈主色描边标注，避免读者把两块当成同一个值 */
+.sample.is-dark-end {
+  box-shadow: inset 0 0 0 var(--stroke-thin) var(--color-outline-strong),
+    0 0 0 var(--stroke-thin) var(--color-primary);
+}
+
+.cell-name {
+  font-family: var(--font-family-mono);
+  color: var(--color-on-surface);
+  word-break: break-all;
+}
+
+.cell-value {
+  font-family: var(--font-family-mono);
+  color: var(--color-primary-strong);
+  word-break: break-all;
+}
+
+.cell-nomi {
+  font-family: var(--font-family-mono);
+  color: var(--color-on-surface-soft);
+  word-break: break-all;
+}
+
+.cell-desc { color: var(--color-on-surface-soft); }
+
+/* ---- 示例区：一张固定宽的大卡片，卡内先分类，类内「一行一组件 + 变体横向」 ---- */
+.demo-board {
+  /* 左元信息栏宽与画布间隔属于文档 chrome，写在局部变量里，不占用产品令牌位（同 shell.css 的 --tree-width） */
+  --demo-meta-w: 216px;
+  --demo-gap: var(--spacing-large);
+
+  /* 卡片外观与 .card 同源：同一套令牌，不给文档区另造一层视觉 */
+  border: 1px solid var(--color-surface-hairline);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-low);
+  backdrop-filter: blur(18px);
+  padding: var(--spacing-huge) var(--spacing-large);
+}
+
+/* ---- 分类：卡片内的顶层分组，标题带一条强下边线 ---- */
+.demo-cat + .demo-cat {
+  margin-top: var(--spacing-huge);
+  padding-top: var(--spacing-large);
+  border-top: 1px solid var(--color-outline);
+}
+
+.demo-cat-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+  margin: 0 0 var(--spacing-medium);
+  padding-bottom: var(--spacing-extra-small);
+  border-bottom: 2px solid var(--color-outline-strong);
+  color: var(--color-on-surface);
+  font-size: var(--font-body-medium);
+  font-weight: var(--weight-bold);
+}
+
+.demo-cat-note {
+  color: var(--color-text-hint);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-caption);
+  font-weight: var(--weight-regular);
+}
+
+.demo-card {
+  /* 卡片固定宽 1420，容器宽度恒定，因此左右两栏直接作基础规则，不再需要 @container 档位 */
+  display: grid;
+  grid-template-columns: var(--demo-meta-w) minmax(0, 1fr);
+  gap: var(--spacing-large);
+  align-items: start;
+  padding: var(--spacing-medium) 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* 行间细线归分类所有：只有相邻行之间有线，末行不留线 */
+.demo-cat > .demo-card + .demo-card { border-top: 1px solid var(--color-outline); }
+
+.demo-meta {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--spacing-extra-small);
+}
+
+.demo-no {
+  color: var(--color-primary-strong);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-caption);
+}
+
+/* 分类占 h3，组件标题降到 h4 */
+.demo-meta h4 {
+  margin: 0;
+  font-size: var(--font-body-medium);
+  font-weight: var(--weight-bold);
+}
+
+.demo-meta .spec-note { margin: 0; }
+
+.demo-vars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--demo-gap);
+  align-items: flex-start;
+}
+
+/* 卡片级的补充说明独占一行，不能跟着画布并排 */
+.demo-vars > .demo-hint { flex: 1 1 100%; }
+
+.demo-frame {
+  --viewport-h: 260px;
+
+  container-type: inline-size;
+  container-name: region;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+  min-width: 0;
+  /* 画布是容器查询容器，内在尺寸被归零，只能显式给宽（见 tokens.css 的 --size-demo-*）。
+     禁掉 flex 收缩：允许收缩时同一行的画布会被一起压扁，放不下要靠换行而不是挤压。 */
+  flex: 0 0 auto;
+  width: var(--demo-w, var(--size-demo-tile));
+  max-width: 100%;
+  padding: var(--spacing-large);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-control);
+  background: var(--color-bg);
+  color: var(--color-on-surface);
+  font-size: var(--font-body-small);
+  line-height: var(--line-height-normal);
+}
+
+.demo-frame--tall { --viewport-h: 420px; }
+
+/* 浮层示例需要一块有高度的画布：绝对定位的遮罩按 padding 盒铺满，
+   所以画布保留内边距，只把最小高度交给同一个 --viewport-h 旋钮。
+   宽度必须显式给：模态 / 抽屉 / 气泡 / toast 都是 absolute，撑不出内容宽。 */
+.demo-frame--canvas {
+  --demo-w: var(--size-modal-width);
+
+  min-height: var(--viewport-h);
+}
+
+/* 表格这类要整行宽才看得出列关系。写成两级类选择器，是为了和 --canvas 同时出现时
+   结果确定、不依赖规则先后：--canvas 只负责最小高度，宽度由这里覆盖。 */
+.demo-frame.demo-frame--full { --demo-w: 100%; }
+
+/* 宽档：双列字段、卡中卡、248px 侧栏这类 */
+.demo-frame--wide { --demo-w: var(--size-demo-tile-wide); }
+
+/* 图标轨档：按轨宽 + 画布内边距给，留白不至于空一半 */
+.demo-frame--rail { --demo-w: calc(var(--size-nav-rail-width) + 2 * var(--spacing-large) + 2px); }
+
+/* 表格里有整块内容需要撑满画布时，取消默认的纵向堆叠 */
+.demo-frame--block { display: block; }
+
+.demo-frame .demo-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-medium);
+  flex-wrap: wrap;
+}
+
+/* 并排展示两档宽度时用大间隔，避免示例之间互相贴住 */
+.demo-row--loose { gap: var(--spacing-huge); align-items: flex-start; }
+
+/* 侧栏示例按真实宽度排：宽度取自布局常量令牌，不写魔数 */
+.demo-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-extra-small);
+  width: var(--size-nav-width);
+  max-width: 100%;
+}
+
+.demo-nav--rail { width: var(--size-nav-rail-width); }
+
+.demo-nav--rail .demo-label { display: none; }
+
+.demo-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-extra-small);
+  width: 100%;
+}
+
+/* 骨架屏示例：真实视图里 .skeleton-row 负责行高，这里给一份等价容器 */
+.demo-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+  width: 100%;
+}
+
+.demo-skeleton .skeleton { height: var(--size-icon-extra-small); }
+
+.demo-skeleton .skeleton--mid { width: 66%; }
+.demo-skeleton .skeleton--short { width: 34%; }
+
+.demo-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-extra-small);
+  width: 100%;
+}
+
+.demo-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--spacing-medium);
+  width: 100%;
+}
+
+.demo-label {
+  color: var(--color-text-hint);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-caption);
+}
+
+.demo-hint {
+  margin: var(--spacing-extra-small) 0 0;
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+  line-height: var(--line-height-normal);
+}
+
+/* ---- 旋钮表：把两区实测值并排列出 ---- */
+.knob-table th:nth-child(2),
+.knob-table th:nth-child(3),
+.knob-table th:nth-child(4) { width: 168px; }
+
+.knob-table td:nth-child(n+2) {
+  font-family: var(--font-family-mono);
+  color: var(--color-primary-strong);
+  word-break: break-all;
+}
+
+.knob-diff { color: var(--color-warning); font-weight: var(--weight-bold); }
+
+/* ---- 页脚自检清单 ---- */
+.foot-list {
+  margin: var(--spacing-medium) 0 0;
+  padding-left: var(--spacing-large);
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+  line-height: var(--line-height-loose);
+}
+
+@media print {
+  .demo-frame,
+  .token-table-wrap { break-inside: avoid; }
+}

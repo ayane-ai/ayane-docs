@@ -1,0 +1,119 @@
+<!-- ============================================================
+   示例片段 · 表单控件
+   ============================================================ -->
+<section class="demo-card">
+  <div class="demo-meta">
+    <span class="demo-no">05</span>
+    <h4>表单 Field</h4>
+    <p class="spec-note">
+      控件高度走旋钮 <code>--field-height</code>：后台 38px、客户端 48px，同一条
+      <code>.field-ctl</code> 规则。错误态用 <code>.field.is-invalid</code> +
+      <code>aria-invalid</code>，文案由 <code>.field-error</code> 以
+      <code>aria-describedby</code> 关联；禁用态用 <code>:has()</code> 连带淡化 label。
+    </p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame demo-frame--wide">
+      <span class="demo-label">字段六态（普通 / 错误 / 内联 / 下拉 / 多行 / 禁用）</span>
+      <div class="demo-pair">
+        <label class="field">
+          <span class="field-label">会话标题<span class="req" aria-hidden="true">*</span></span>
+          <input class="field-ctl" id="demo-field-title" type="text" value="晚间陪伴" placeholder="输入标题">
+          <span class="field-hint">普通字段：说明走 .field-hint</span>
+        </label>
+        <label class="field is-invalid">
+          <span class="field-label">回调地址</span>
+          <input class="field-ctl" id="demo-field-url" type="text" value="not-a-url"
+                 aria-invalid="true" aria-describedby="demo-field-url-error">
+          <span class="field-error" id="demo-field-url-error">
+            <svg class="icon icon-inline" aria-hidden="true" focusable="false"><use href="#i-alert"></use></svg>
+            需要以 https:// 开头
+          </span>
+        </label>
+      </div>
+      <div class="demo-pair">
+        <label class="field">
+          <span class="field-label">口令</span>
+          <span class="field-inline">
+            <input class="field-ctl" id="demo-field-pass" type="password" value="ayane2026" placeholder="任意 6 位以上">
+            <button class="icon-btn" type="button" id="demo-field-pass-toggle" aria-pressed="false" aria-label="显示口令">
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-eye"></use></svg>
+            </button>
+          </span>
+          <span class="field-hint">.field-inline 把控件与按钮并到一行</span>
+        </label>
+        <label class="field">
+          <span class="field-label">回复密度</span>
+          <select class="field-ctl" id="demo-field-density">
+            <option>简洁</option>
+            <option selected>标准</option>
+            <option>详细</option>
+          </select>
+          <span class="field-hint">箭头是内联 data-uri，无法引用令牌，已在源码注明例外</span>
+        </label>
+      </div>
+      <div class="demo-pair">
+        <label class="field">
+          <span class="field-label">备注</span>
+          <textarea class="field-ctl" id="demo-field-note" rows="2" placeholder="支持多行"></textarea>
+        </label>
+        <label class="field">
+          <span class="field-label">已锁定的模型</span>
+          <input class="field-ctl" id="demo-field-disabled" type="text" value="ayane-tts-v2" disabled>
+        </label>
+      </div>
+    </div>
+
+    <div class="demo-frame demo-frame--wide">
+      <span class="demo-label">开关：role="switch"，视觉 40×23，命中区靠 ::after 撑高</span>
+      <div class="demo-row">
+        <button class="switch" type="button" role="switch" aria-checked="true" data-demo="switch" aria-label="实时转写">
+          <span class="switch-knob"></span>
+        </button>
+        <button class="switch" type="button" role="switch" aria-checked="false" data-demo="switch" aria-label="自动归档">
+          <span class="switch-knob"></span>
+        </button>
+        <button class="switch" type="button" role="switch" aria-checked="false" disabled aria-label="不可用开关">
+          <span class="switch-knob"></span>
+        </button>
+        <span class="demo-label">点一下即切换</span>
+      </div>
+      <span class="demo-label">进度条：宽度由宿主写 --progress-value</span>
+      <div class="demo-progress">
+        <div class="progress" style="--progress-value: 62%"><span class="progress-bar"></span></div>
+        <div class="progress is-warn" style="--progress-value: 84%"><span class="progress-bar"></span></div>
+        <div class="progress is-danger" style="--progress-value: 97%"><span class="progress-bar"></span></div>
+        <span class="progress-label">配额占用 97%，已进入危险档</span>
+      </div>
+      <span class="demo-label">骨架屏</span>
+      <div class="demo-skeleton" aria-hidden="true">
+        <span class="skeleton"></span>
+        <span class="skeleton skeleton--mid"></span>
+        <span class="skeleton skeleton--short"></span>
+      </div>
+    </div>
+
+    <div class="demo-frame demo-frame--wide">
+      <span class="demo-label">筛选条 .filter-bar（后台列表页顶部，窄容器自动换行）</span>
+      <div class="filter-bar">
+        <span class="filter-field">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg>
+          <input class="filter-input" id="demo-filter-q" type="search" placeholder="用户 / 会话 ID" aria-label="按用户或会话 ID 搜索">
+        </span>
+        <select class="filter-select" id="demo-filter-status" aria-label="状态筛选">
+          <option>全部状态</option>
+          <option selected>进行中</option>
+          <option>已归档</option>
+        </select>
+        <select class="filter-select" id="demo-filter-role" aria-label="角色筛选">
+          <option>全部角色</option>
+          <option>content_admin</option>
+          <option>read_only_admin</option>
+        </select>
+        <button class="chip is-on" type="button" aria-pressed="true">需修正<span class="tab-count">3</span></button>
+        <button class="chip" type="button" aria-pressed="false">在线</button>
+        <span class="filter-summary">命中 12 条 / 共 128 条</span>
+      </div>
+    </div>
+  </div>
+</section>

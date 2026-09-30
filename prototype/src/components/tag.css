@@ -1,0 +1,99 @@
+/* ============================================================
+   标签与状态（唯一源）
+   ------------------------------------------------------------
+   .status-tag 是胶囊状语义标签，配色一律走语义令牌对（solid 文字 +
+   soft 底），is-live 靠共享 pulse 关键帧给出呼吸点。
+   .chip 是筛选/多选用的可点胶囊（正本为后台的 .chip），带 checkbox 时
+   整块即命中区。侧栏的"头像 + 名字"身份块是另一回事，见 nav.css 的
+   .chip-user，两者不要混用。
+   ============================================================ */
+
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-extra-small);
+  max-width: 100%;
+  padding: var(--spacing-tiny) var(--spacing-small);
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-soft);
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-caption);
+  font-weight: var(--weight-bold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.status-tag.is-ok { background: var(--color-success-soft); color: var(--color-success); }
+.status-tag.is-info { background: var(--color-info-soft); color: var(--color-info); }
+.status-tag.is-warn { background: var(--color-warning-soft); color: var(--color-warning); }
+.status-tag.is-danger { background: var(--color-error-soft); color: var(--color-error); }
+.status-tag.is-primary { background: var(--color-primary-soft); color: var(--color-primary-strong); }
+.status-tag.is-muted { background: var(--color-neutral-soft); color: var(--color-text-hint); }
+
+.status-tag.is-deferred {
+  border: 1px dashed var(--color-outline-strong);
+  background: var(--color-neutral-soft);
+  color: var(--color-on-surface-soft);
+}
+
+.status-tag.is-live::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: var(--radius-pill);
+  background: var(--color-success);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+/* ---- 筛选芯片：可点胶囊，带 checkbox 时整块就是命中区 ---- */
+.chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: var(--height-chip);
+  padding: 0 var(--spacing-medium);
+  border: 1px solid var(--color-outline-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-label-small);
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+/* 视觉 32px，上下各扩 4px 命中区，不影响行高 */
+.chip::after {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--spacing-extra-small)) 0;
+}
+
+.chip:hover {
+  border-color: var(--color-outline-hover-soft);
+  color: var(--color-primary-strong);
+}
+
+.chip.is-on,
+.chip:has(input:checked) {
+  border-color: transparent;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+  font-weight: var(--weight-bold);
+}
+
+.chip input[type="checkbox"] {
+  width: var(--spacing-control-x);
+  height: var(--spacing-control-x);
+  margin: 0;
+  accent-color: var(--color-primary);
+}
+
+@media (pointer: coarse) {
+  .chip { min-height: var(--height-row); }
+}

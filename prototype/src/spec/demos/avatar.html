@@ -1,0 +1,45 @@
+<!-- ============================================================
+   示例片段 · 头像
+   依赖网络：下方一枚真实头像取自 https://avatars.githubusercontent.com/
+   （与客户端原型同一素材）。取图失败时由渐变底兜住，不留空白。
+   ============================================================ -->
+<section class="demo-card">
+  <div class="demo-meta">
+    <span class="demo-no">02</span>
+    <h4>头像 Avatar</h4>
+    <p class="spec-note">
+      四档组件尺寸 34 / 44 / 118 / 166 加 42px 基准，圆角随尺寸同步放大。
+      这几档与九级刻度没有整数倍关系，按「组件档」并列保留，不为凑刻度改掉已验证的视觉。
+    </p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame">
+      <span class="demo-label">组件档 34 / 44 / 42 / 118</span>
+      <div class="demo-row">
+        <span class="avatar avatar-xs"><img src="https://avatars.githubusercontent.com/u/44569870?s=200&v=4" alt="访客头像" loading="lazy"></span>
+        <span class="avatar avatar-sm"><img src="https://avatars.githubusercontent.com/u/44569870?s=200&v=4" alt="我的头像" loading="lazy"></span>
+        <span class="avatar"><img src="https://avatars.githubusercontent.com/u/326977819?s=200&v=4" alt="绫音头像" loading="lazy"></span>
+        <span class="avatar avatar-lg"><img src="https://avatars.githubusercontent.com/u/326977819?s=200&v=4" alt="绫音大头像" loading="lazy"></span>
+      </div>
+      <div class="demo-row">
+        <span class="avatar avatar-xl"><img src="https://avatars.githubusercontent.com/u/326977819?s=200&v=4" alt="资料页大头像" loading="lazy"></span>
+        <span class="demo-label">166px 档：客户端资料卡</span>
+      </div>
+    </div>
+    <div class="demo-frame">
+      <span class="demo-label">圆形档与无图兜底</span>
+      <div class="demo-row">
+        <span class="avatar avatar--circle"><img src="https://avatars.githubusercontent.com/u/326977819?s=200&v=4" alt="圆形头像" loading="lazy"></span>
+        <span class="avatar avatar-sm avatar--circle"><img src="https://avatars.githubusercontent.com/u/44569870?s=200&v=4" alt="圆形小头像" loading="lazy"></span>
+        <span class="demo-label">圆形档与方档正交，任意尺寸可叠</span>
+      </div>
+      <div class="demo-row">
+        <span class="avatar avatar-xs" role="img" aria-label="无图兜底"></span>
+        <span class="avatar" role="img" aria-label="无图兜底"></span>
+        <span class="avatar avatar-lg" role="img" aria-label="无图兜底"></span>
+        <span class="demo-label">无图时走渐变底，不留空白</span>
+      </div>
+      <p class="demo-hint">图片一律 <code>object-fit: cover</code> + 居中裁切；底与描边走 <code>--color-avatar-wash-*</code> 与 <code>--shadow-avatar-inset</code>。</p>
+    </div>
+  </div>
+</section>

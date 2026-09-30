@@ -1,0 +1,278 @@
+/* ============================================================
+   表单控件（唯一源）
+   ------------------------------------------------------------
+   正本取自管理后台的 .field / .field-ctl / .filter-*。
+   错误态用 .field.is-invalid + aria-invalid，错误文案由 .field-error
+   承载并用 aria-describedby 关联；禁用态用 :has() 连带淡化 label。
+   select 的下拉箭头是内联 data-uri，取 --color-text-hint 同色。
+   ============================================================ */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.field.is-full { grid-column: 1 / -1; }
+
+.field > label,
+.field > .field-label {
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-caption);
+  font-weight: var(--weight-bold);
+}
+
+.field > label .req,
+.field > .field-label .req { color: var(--color-error); }
+
+.field:has(.field-ctl:disabled) > label { color: var(--color-text-hint); }
+
+.field-ctl {
+  width: 100%;
+  min-height: var(--field-height, var(--height-field));
+  padding: var(--spacing-small) var(--spacing-control-x-sm);
+  border: 1px solid var(--color-outline-strong);
+  border-radius: var(--radius-control);
+  background: var(--color-surface-strong);
+  color: var(--color-on-surface);
+  font-family: inherit;
+  font-size: var(--font-body-small);
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.field-ctl::placeholder { color: var(--color-text-placeholder); }
+
+.field-ctl:focus-visible {
+  outline: 0;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring-soft);
+}
+
+.field-ctl:disabled {
+  background: var(--color-neutral-soft);
+  color: var(--color-text-hint);
+  cursor: not-allowed;
+}
+
+textarea.field-ctl {
+  min-height: 84px;
+  resize: vertical;
+  line-height: var(--line-height-loose);
+}
+
+/* 一行内并排控件（口令 + 显隐按钮） */
+.field-inline {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-extra-small);
+  min-width: 0;
+}
+
+.field-inline > .field-ctl {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* select 箭头只能是 data-uri：url() 内部不解析 var()，色值与
+   --color-text-placeholder 手工对齐，改主题时一并改这里。 */
+select.field-ctl {
+  padding-right: calc(var(--spacing-control-x) + var(--spacing-extra-small));
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a29488' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9.5 12 15.5 18 9.5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right var(--spacing-control-x-sm) center;
+  background-size: var(--size-icon-tiny) var(--size-icon-tiny);
+  cursor: pointer;
+}
+
+.field.is-invalid .field-ctl {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring-error);
+}
+
+.field-error {
+  color: var(--color-error);
+  font-size: var(--font-caption);
+  line-height: var(--line-height-normal);
+}
+
+.field-hint {
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+  line-height: 1.55;
+}
+
+/* ---- 筛选条：整条是一个半透明面板，字段框自带描边，内部输入无描边 ---- */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+  flex: 0 0 auto;
+  padding: var(--spacing-control-x-sm) var(--spacing-medium);
+  border: 1px solid var(--color-surface-hairline);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-low);
+  backdrop-filter: blur(18px);
+}
+
+.filter-field {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-extra-small);
+  min-width: 0;
+  min-height: var(--height-control-sm);
+  padding: 0 var(--spacing-control-x-sm);
+  border: 1px solid var(--color-outline-strong);
+  border-radius: var(--radius-field);
+  background: var(--color-surface-strong);
+  color: var(--color-text-hint);
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.filter-field:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-focus-ring-soft);
+}
+
+.filter-input {
+  min-width: 130px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-on-surface);
+  font-family: inherit;
+  font-size: var(--font-body-small);
+}
+
+.filter-input::placeholder { color: var(--color-text-placeholder); }
+
+.filter-select {
+  min-height: var(--height-control-sm);
+  padding: 0 calc(var(--spacing-control-x) * 2) 0 var(--spacing-control-x-sm);
+  border: 1px solid var(--color-outline-strong);
+  border-radius: var(--radius-field);
+  background: var(--color-surface-strong) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a29488' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9.5 12 15.5 18 9.5'/></svg>") no-repeat right var(--spacing-small) center / var(--size-icon-tiny) var(--size-icon-tiny);
+  color: var(--color-on-surface-soft);
+  font-family: inherit;
+  font-size: var(--font-body-small);
+  appearance: none;
+  cursor: pointer;
+}
+
+.filter-select:focus-visible {
+  outline: var(--stroke-thick) solid var(--color-focus-ring);
+  outline-offset: 1px;
+}
+
+.filter-summary {
+  margin-left: auto;
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+}
+
+/* ---- 开关：role="switch"，视觉 40×23，命中区靠 ::after 撑高 ---- */
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: var(--size-switch-width);
+  height: var(--size-switch-height);
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-outline-strong-wash);
+  transition: background var(--duration-fast) ease;
+}
+
+.switch::after {
+  content: "";
+  position: absolute;
+  inset: -11px -2px;
+}
+
+.switch[aria-checked="true"] { background: var(--color-primary); }
+
+.switch:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring);
+}
+
+.switch-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: var(--size-switch-knob);
+  height: var(--size-switch-knob);
+  border-radius: var(--radius-pill);
+  background: var(--color-on-primary);
+  box-shadow: var(--shadow-knob);
+  transition: transform var(--duration-fast) ease;
+}
+
+.switch[aria-checked="true"] .switch-knob { transform: translateX(var(--size-switch-knob)); }
+
+.switch:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ---- 进度条：宽度由宿主以 --progress-value 传入 ---- */
+.progress {
+  --progress-value: 0%;
+
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-track);
+  overflow: hidden;
+}
+
+.progress-bar {
+  /* 宿主给的是行内 span：不设 block，width 百分比根本不参与布局（实测宽度 0） */
+  display: block;
+  width: var(--progress-value, 0%);
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+  transition: width var(--duration-base) ease;
+}
+
+.progress.is-warn .progress-bar {
+  background: linear-gradient(90deg, var(--color-warning-light-a), var(--color-warning-light-b));
+}
+
+.progress.is-danger .progress-bar {
+  background: linear-gradient(90deg, var(--color-error-light-a), var(--color-error-light-b));
+}
+
+.progress-label {
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- 骨架屏 ---- */
+.skeleton {
+  border-radius: var(--radius-small);
+  background: linear-gradient(90deg,
+    var(--color-skeleton-base) 25%,
+    var(--color-skeleton-shine) 37%,
+    var(--color-skeleton-base) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+.skeleton-row .skeleton { height: 11px; }
+
+@media (pointer: coarse) {
+  .filter-input,
+  .filter-select { min-height: var(--tap-target); }
+}

@@ -1,0 +1,199 @@
+/* ============================================================
+   区域隔离层
+   ------------------------------------------------------------
+   - .spec-region 是文档流里的一个区域；.region-stage 是原型真正
+     渲染的画布，也是容器查询容器。
+   - 容器名 region 同时挂在区域、画布和全屏层上：画布的普通后代
+     查到的是画布自身，而画布的 ::before/::after 会跳过自身查到
+     外层，两者宽度相同，档位一致。
+   - 原型内部高度一律走 --viewport-h；本文件是唯一的定义点，
+     视图里禁止再出现 vh / dvh / cqh。
+   ============================================================ */
+
+.spec-region {
+  container-type: inline-size;
+  container-name: region;
+  scroll-margin-top: calc(var(--height-appbar) + var(--spacing-large));
+}
+
+.region--doc {
+  max-width: var(--size-doc-max);
+  margin: 0 auto;
+  padding: var(--spacing-huge) var(--spacing-large) var(--spacing-massive);
+}
+
+.spec-region[data-region] {
+  width: min(100%, var(--size-region-max));
+  margin: 0 auto;
+  padding: 0 var(--spacing-large) var(--spacing-massive);
+}
+
+/* ------------------------------------------------------------
+   区域标题条
+   ------------------------------------------------------------ */
+.region-head {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-medium);
+  flex-wrap: wrap;
+  padding: var(--spacing-huge) 0 var(--spacing-medium);
+}
+
+.region-head h2 {
+  /* 标题独占一行：画布页里 lede 常有四五行长文，与标题同排会挤在一起 */
+  flex: 1 1 100%;
+  margin: 0;
+  color: var(--color-on-surface);
+  font-size: var(--font-headline-large);
+  font-weight: var(--weight-bold);
+}
+
+.region-lede {
+  flex: 1 1 320px;
+  margin: 0;
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-body-small);
+  line-height: var(--line-height-normal);
+}
+
+.region-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+}
+
+.region-band {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--spacing-medium);
+  border-radius: var(--radius-pill);
+  background: var(--color-neutral-soft);
+  color: var(--color-on-surface-soft);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-caption);
+}
+
+/* ------------------------------------------------------------
+   原型画布：唯一的高度与包含块来源
+   ------------------------------------------------------------ */
+.region-stage {
+  --viewport-h: clamp(560px, 78vh, 900px);
+
+  container-type: inline-size;
+  container-name: region;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: var(--viewport-h);
+  overflow: hidden;
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-card);
+  background: var(--color-bg);
+  color: var(--color-on-surface);
+  font-size: var(--font-body-small);
+  line-height: var(--line-height-normal);
+}
+
+/* 原型原来的 body::before/::after 装饰改挂在画布上；
+   isolation: isolate 让它们位于画布底色之上、内容之下。 */
+.region-stage::before,
+.region-stage::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: var(--radius-pill);
+}
+
+.region-meta {
+  display: flex;
+  gap: var(--spacing-medium);
+  flex-wrap: wrap;
+  margin: var(--spacing-small) 0 0;
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+}
+
+.region-meta code { font-family: var(--font-family-mono); }
+
+/* ------------------------------------------------------------
+   全屏层：popover 只换高度来源，原型标记本身不复制
+   ------------------------------------------------------------ */
+.region-fullscreen-layer {
+  --viewport-h: 100dvh;
+
+  container-type: inline-size;
+  container-name: region;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
+  background: var(--color-bg);
+  color: var(--color-on-surface);
+}
+
+/* 画布自身声明过 --viewport-h，嵌入档的高度必须由画布自己给出；
+   进入全屏层后要在同一处换掉，否则 .login-shell 这类
+   min-height: var(--viewport-h) 的内容仍按嵌入档算，撑不满全屏。 */
+.region-fullscreen-layer .region-stage {
+  --viewport-h: 100dvh;
+
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+}
+
+.region-fullscreen-close {
+  position: absolute;
+  z-index: 5;
+  top: var(--spacing-medium);
+  right: var(--spacing-medium);
+  display: grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-low);
+  color: var(--color-on-surface-soft);
+}
+
+.region-fullscreen-close:hover { color: var(--color-primary-strong); }
+
+/* ------------------------------------------------------------
+   窄视口：原型画布有 320px 下限，去掉区域左右内边距让它贴边，
+   避免整页再长出第二条横向滚动条。
+   ------------------------------------------------------------ */
+@media (max-width: 352px) {
+  .spec-region[data-region] { padding: 0; }
+
+  .region-stage {
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+}
+
+/* ------------------------------------------------------------
+   打印：关掉全屏层与操作条
+   ------------------------------------------------------------ */
+@media print {
+  .suite-nav,
+  .region-actions,
+  .region-fullscreen-layer { display: none !important; }
+
+  .region-stage {
+    height: auto;
+    overflow: visible;
+    border: 0;
+    break-inside: avoid;
+  }
+}

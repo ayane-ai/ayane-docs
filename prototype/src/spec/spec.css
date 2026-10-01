@@ -197,7 +197,7 @@
   --demo-gap: var(--spacing-large);
 
   /* 卡片外观与 .card 同源：同一套令牌，不给文档区另造一层视觉 */
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--color-surface);
   box-shadow: var(--shadow-low);

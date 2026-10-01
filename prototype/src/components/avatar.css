@@ -15,7 +15,7 @@
   overflow: hidden;
   border: 0;
   border-radius: var(--radius-large);
-  background: linear-gradient(145deg, var(--color-avatar-wash-a), var(--color-avatar-wash-b));
+  background: linear-gradient(145deg, var(--color-primary-soft), var(--color-primary-soft));
   box-shadow: var(--shadow-avatar-inset);
 }
 
@@ -63,7 +63,7 @@
   height: var(--size-avatar-colossal);
   margin: 0 auto var(--spacing-large);
   overflow: hidden;
-  border: 5px solid var(--color-surface-hairline-strong);
+  border: 5px solid var(--color-outline-strong);
   border-radius: var(--radius-massive);
   background: var(--color-surface-soft);
   box-shadow: var(--shadow-avatar-inset);
@@ -110,8 +110,8 @@
   width: var(--size-icon-colossal);
   height: var(--size-icon-colossal);
   border-radius: 50%;
-  background: linear-gradient(145deg, var(--color-primary-soft), var(--color-primary-wash));
-  box-shadow: 0 8px 20px var(--color-nav-active-ring), 0 0 0 4px var(--color-surface-hairline-strong);
+  background: linear-gradient(145deg, var(--color-primary-soft), var(--color-primary-soft));
+  box-shadow: 0 8px 20px var(--color-focus-ring), 0 0 0 4px var(--color-outline-strong);
   overflow: hidden;
 
 }

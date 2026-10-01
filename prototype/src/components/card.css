@@ -3,7 +3,7 @@
    ------------------------------------------------------------
    正本取自管理后台的 .card / .card-head / .card-body 与 .stat-card。
    半透面板 + backdrop-filter + 1px 高光描边是这套暖色的既有质感，
-   描边色收在 --color-surface-hairline，不再各处写 rgba。
+   描边色统一使用公共 --color-outline，不再各处写颜色字面量。
    .table-card 是同一外壳的「撑满剩余高度」变体。
    ============================================================ */
 
@@ -11,7 +11,7 @@
 .table-card,
 .stat-card {
   min-width: 0;
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--background-user-card);
   box-shadow: var(--shadow-low);
@@ -64,7 +64,7 @@
 button.stat-card { cursor: pointer; }
 
 button.stat-card:hover {
-  border-color: var(--color-outline-hover-soft);
+  border-color: var(--color-row-hover);
   box-shadow: var(--shadow-card-hover);
   transform: translateY(-1px);
 }
@@ -77,8 +77,8 @@ button.stat-card:disabled {
 }
 
 .stat-card.is-alert {
-  border-color: var(--color-outline-error-soft);
-  background: linear-gradient(135deg, var(--color-error-wash), var(--color-surface));
+  border-color: var(--color-error-soft);
+  background: linear-gradient(135deg, var(--color-error-soft), var(--color-surface));
 }
 
 .stat-label {

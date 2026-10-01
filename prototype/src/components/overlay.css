@@ -25,9 +25,9 @@
 .login-card {
   width: min(100%, var(--size-login-card-width));
   padding: var(--spacing-massive) var(--spacing-massive) var(--spacing-huge);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
-  background: var(--color-login-card-bg);
+  background: var(--color-surface-solid);
   box-shadow: var(--shadow-high);
   text-align: var(--login-card-align);
   backdrop-filter: blur(22px);
@@ -61,7 +61,7 @@
   width: var(--size-avatar-medium);
   height: var(--size-avatar-medium);
   border-radius: var(--radius-medium);
-  background: linear-gradient(140deg, var(--color-primary), var(--color-primary-light));
+  background: linear-gradient(140deg, var(--color-primary), var(--color-primary-strong));
   color: var(--color-on-primary);
   font-size: var(--size-icon-medium);
   box-shadow: var(--shadow-primary-high);
@@ -127,7 +127,7 @@
   max-height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-surface-hairline-strong);
+  border: 1px solid var(--color-outline-strong);
   border-radius: var(--radius-huge);
   background: var(--color-surface-solid);
   box-shadow: var(--shadow-high);
@@ -177,7 +177,7 @@
 }
 
 .form-modal.is-danger .modal-head {
-  border-bottom-color: var(--color-outline-error-hair);
+  border-bottom-color: var(--color-error-soft);
   background: var(--color-error-soft);
 }
 
@@ -248,7 +248,7 @@
   flex-direction: column;
   width: min(var(--size-drawer-width), 92cqi);
   min-width: 0;
-  border-left: 1px solid var(--color-surface-hairline);
+  border-left: 1px solid var(--color-outline);
   border-radius: var(--radius-huge) 0 0 var(--radius-huge);
   background: var(--color-surface-solid);
   box-shadow: var(--shadow-drawer);
@@ -331,7 +331,7 @@
 }
 
 .drawer-foot.is-danger {
-  border-top-color: var(--color-outline-error-soft);
+  border-top-color: var(--color-error-soft);
   background: var(--color-error-soft);
 }
 
@@ -350,7 +350,7 @@
   min-width: var(--size-popover-min-width);
   max-width: min(var(--size-popover-max-width), calc(100cqi - var(--spacing-huge)));
   padding: var(--spacing-extra-small);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
   background: var(--color-surface-solid);
   box-shadow: var(--shadow-high);
@@ -464,7 +464,7 @@
   gap: var(--spacing-small);
   max-width: var(--toast-max-width);
   padding: var(--spacing-medium) var(--spacing-large);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-pill);
   background: var(--color-toast-bg);
   color: var(--color-on-dark);
@@ -482,8 +482,8 @@
 }
 
 .toast.is-error {
-  background: var(--color-toast-error-bg);
-  border-color: var(--color-on-dark-hairline);
+  background: var(--color-error-soft);
+  border-color: var(--color-outline-strong);
 }
 
 .toast > .icon {

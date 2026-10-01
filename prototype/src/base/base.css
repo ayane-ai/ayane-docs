@@ -77,7 +77,7 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--color-status-live); opacity: 1; }
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-success); opacity: 1; }
   50% { box-shadow: 0 0 0 4px transparent; opacity: 0.65; }
 }
 
@@ -87,7 +87,7 @@ body {
 }
 
 @keyframes row-flash {
-  0%, 40% { background: var(--color-row-flash); }
+  0%, 40% { background: var(--color-row-hover); }
   100% { background: transparent; }
 }
 

@@ -23,8 +23,8 @@
   --color-on-primary: #ffffffff; /* 主色上的文字 @nomikit AppColorScheme.onPrimary */
   --color-primary-strong: #bf7665ff; /* 主色强调：按下与链接 @nomikit AppColorScheme.primaryContainer 的深色端 */
   --color-primary-soft: #fff0e9ff; /* 主色浅底：选中态背景 @nomikit AppColorScheme.primaryContainer */
-  --color-primary-container: #e6a18dff; /* 主色容器：渐变与装饰端 @nomikit AppColorScheme.secondaryContainer */
-  --color-on-primary-container: #4a4038ff; /* 主色容器上的文字 */
+
+
 
   /* group: 颜色 · 中性面 */
   --color-bg: #fbf7efff; /* 页面底色 @nomikit AppColorScheme.background */
@@ -33,7 +33,7 @@
   --color-surface-strong: #fffffff2; /* 面板：纯白最高层 @nomikit AppColorScheme.surfaceLower */
   --color-surface-soft: #fff9f2ff; /* 面板：暖白浅层 @nomikit AppColorScheme.surfaceLow */
   --color-surface-solid: #fffdf9f0; /* 面板：不透明，sticky 头与弹层底栏用 @nomikit AppColorScheme.surface */
-  --color-surface-high: #f7efe6ff; /* 面板：抬高层，hover 底色 @nomikit AppColorScheme.surfaceHigh */
+
 
   /* group: 颜色 · 文字 */
   --color-on-surface: #4a4038ff; /* 正文 @nomikit AppColorScheme.onSurface */
@@ -56,10 +56,10 @@
   --color-error: #cf6d72ff; /* 危险 @nomikit AppColorScheme.error */
   --color-error-soft: #fdecedff; /* 危险浅底 */
   --color-neutral-soft: #f0eae2ff; /* 中性状态浅底：已归档与暂缓 */
-  --color-accent-mint: #dceee0ff; /* 装饰：薄荷气泡 */
-  --color-accent-yellow: #fff2cfff; /* 装饰：奶黄气泡 */
 
-  /* group: 颜色 · 特殊表面 */
+
+
+  /* group: 颜色 · 特殊表面与背景 */
   --color-table-head: #fdf6eeff; /* 表头底色，必须不透明 @nomikit AppColorScheme.surfaceContainer */
   --color-row-hover: #e6a18d12; /* 行 hover 底色 */
   --color-scrim: #4a403852; /* 遮罩 @nomikit AppColorScheme.scrim */
@@ -68,97 +68,94 @@
   --color-focus-ring: #e3a08b4d; /* focus-visible 描边 */
   --color-focus-ring-soft: #e6a18d33; /* 输入控件聚焦环，比通用环浅一档 */
 
-  /* group: 颜色 · 组件专用（从组件样式里收上来的字面色，组件层不得再写死） */
-  --color-surface-hairline: #fffffff0; /* 半透明面板上的 1px 描边 */
-  --color-surface-hairline-strong: #fffdf9e6; /* 弹层描边 */
-  --color-surface-inset: #fffdf9eb; /* 内嵌芯片与浅轨道底色 */
-  --color-outline-hover: #e3a08bb8; /* 控件 hover 描边 */
-  --color-outline-error: #cf6d7266; /* 危险控件描边 */
-  --color-outline-error-soft: #cf6d7259; /* 告警卡片描边 */
-  --color-outline-hover-soft: #e6a18d29; /* 卡片 hover 描边 */
-  --color-error-wash: #fff6f6ff; /* 告警卡片渐变亮端 */
-  --color-outline-error-strong: #cf6d72b3; /* 危险控件 hover 描边 */
-  --color-outline-error-hair: #cf6d7242; /* 危险弹层头部分隔线 */
-  --color-primary-light: #efb59eff; /* 主色渐变亮端：同步客户端品牌亮端 */
-  --color-primary-hover-a: #dd8f77ff; /* 主色按钮 hover 渐变起 */
-  --color-primary-hover-b: #e79c85ff; /* 主色按钮 hover 渐变止 */
-  --color-primary-deep: #e6a18d38; /* 主色按钮 loading 环 */
-  --color-error-strong: #a4484eff; /* 危险按钮文字 */
-  --color-error-strong-deep: #8f3b41ff; /* 危险按钮 hover 文字 */
-  --color-error-softer: #fbdfe1ff; /* 危险按钮 hover 底色 */
-  --color-warning-light-a: #d8ab5cff; /* 告警进度条渐变起 */
-  --color-warning-light-b: #e6c079ff; /* 告警进度条渐变止 */
-  --color-error-light-a: #cf6d72ff; /* 危险进度条渐变起 */
-  --color-error-light-b: #e08b8fff; /* 危险进度条渐变止 */
-  --color-tab-track: #f7efe4c7; /* 分段控件轨道 */
-  --color-tab-count: #decfc299; /* 分段计数徽标底 */
-  --color-skeleton-base: #eee2d68c; /* 骨架屏暗端 */
-  --color-skeleton-shine: #f8f0e8d9; /* 骨架屏亮端 */
-  --color-on-dark-hairline: #ffffff80; /* 深色浮层上的描边与 loading 环 */
-  --color-primary-wash: #ffe7d8ff; /* 头像与图标底渐变亮端 */
-  --color-avatar-wash-a: #ffe3d6ff; /* 头像渐变起 */
-  --color-avatar-wash-b: #e6f0e5ff; /* 头像渐变止 */
-  --color-nav-active-a: #e3a08b38; /* 导航选中渐变起 */
-  --color-nav-active-b: #f0ab941a; /* 导航选中渐变止 */
-  --color-nav-active-ring: #e6a18d3d; /* 导航选中描边 */
-  --color-neutral-wash: #f0eae2b8; /* 禁用项 hover 底 */
-  --color-status-live: #5f9e7766; /* 实时状态点脉冲 */
-  --color-row-flash: #e6a18d4d; /* 新行高亮起始底色 */
-  --color-outline-strong-wash: #decfc2bf; /* 开关关闭态轨道 */
-  --color-track: #decfc280; /* 进度条轨道 */
-  --color-focus-ring-error: #cf6d7224; /* 错误控件聚焦环 */
-  --color-toast-error-bg: #b04c52f5; /* 错误 toast 底 */
-  --color-login-card-bg: #fffcf7ed; /* 登录卡底：两原型 0.94/0.90 合档 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   --background-contact-card: linear-gradient(135deg, #fff0e5ff, #fff9f1ff); /* 共享组件背景：从客户端卡片背景提升，保留原型渐变。 @nomikit — */
   --background-user-card: radial-gradient(circle at 12% 0%, #ffe8d880, #00000000 42%),
   #fffffff7; /* 共享组件背景：从客户端用户卡片背景提升，保留原型渐变。 @nomikit — */
   --background-user-card-action: linear-gradient(135deg, var(--color-primary), #eba48dff); /* 共享组件背景：从客户端动作背景提升，保留原型渐变。 @nomikit — */
-  --background-user-card-action-hover: linear-gradient(135deg, var(--color-primary-hover-a), #e09a83ff); /* 共享组件背景：从客户端动作 hover 背景提升，保留原型渐变。 @nomikit — */
+  --background-user-card-action-hover: linear-gradient(135deg, var(--color-primary), #e09a83ff); /* 共享组件背景：从客户端动作 hover 背景提升，保留原型渐变。 @nomikit — */
   --background-ai-panel: linear-gradient(180deg, #ffffffd1, #fff8efd1), radial-gradient(circle at 20% 8%, #ffe2d273, #00000000 35%); /* 共享组件背景：由 --background-ai-panel 提升，保留原型渐变。 @nomikit — */
 
-  /* group: 颜色 · 原型视图专用 */
-  --color-prototype-bg-glow-a: #e6a18d38; /* 客户端与后台背景光晕起始层，原型视图专用。 @nomikit — */
-  --color-prototype-bg-glow-b: #e6a18d29; /* 客户端与后台背景光晕次级层，原型视图专用。 @nomikit — */
-  --color-prototype-bg-mid: #fffaf5ff; /* 客户端与后台背景渐变中间色，原型视图专用。 @nomikit — */
-  --color-prototype-orb-light: #ffffffb3; /* 原型背景浅色装饰球，原型视图专用。 @nomikit — */
-  --color-prototype-orb-warm: #f8dcceb3; /* 原型背景暖色装饰球，原型视图专用。 @nomikit — */
-  --color-admin-focus-ring: #e6a18d57; /* 后台原型焦点环，原型视图专用。 @nomikit — */
-  --color-admin-live-ring-clear: #5f9e7700; /* 后台实时状态脉冲透明端，原型视图专用。 @nomikit — */
-  --color-admin-live-ring: #5f9e7729; /* 后台实时状态脉冲，原型视图专用。 @nomikit — */
-  --color-admin-connecting-ring: #b98a3c29; /* 后台连接中状态脉冲，原型视图专用。 @nomikit — */
-  --color-admin-console-background: #fffcf8eb; /* 后台实时流面板底色，原型视图专用。 @nomikit — */
-  --color-admin-error-text: #9d4a50ff; /* 后台错误日志与危险提示文字，原型视图专用。 @nomikit — */
-  --color-admin-error-text-strong: #96464cff; /* 后台错误日志强调文字，原型视图专用。 @nomikit — */
-  --color-admin-info-border: #5f86a847; /* 后台信息提示描边，原型视图专用。 @nomikit — */
-  --color-admin-info-text: #4a6d8cff; /* 后台信息提示文字，原型视图专用。 @nomikit — */
-  --color-admin-warning-border: #b98a3c4d; /* 后台告警提示描边，原型视图专用。 @nomikit — */
-  --color-admin-warning-text: #8a6528ff; /* 后台告警提示文字，原型视图专用。 @nomikit — */
-  --color-admin-danger-border: #cf6d7252; /* 后台危险提示描边，原型视图专用。 @nomikit — */
-  --color-admin-chip-hover: #bf76652e; /* 后台标签 hover 底色，原型视图专用。 @nomikit — */
-  --color-admin-code-background: #fffcf7e6; /* 后台代码块底色，原型视图专用。 @nomikit — */
-  --color-admin-card-background: #fffdf9e6; /* 后台卡片浅表面，原型视图专用。 @nomikit — */
-  --color-admin-topbar-background: #fffcf7e0; /* 后台顶栏底色，原型视图专用。 @nomikit — */
-  --color-admin-role-pill-background: #ffffffdb; /* 后台角色标签底色，原型视图专用。 @nomikit — */
-  --color-admin-role-pill-hover-border: #e3a08b99; /* 后台角色标签 hover 描边，原型视图专用。 @nomikit — */
-  --color-admin-sidenav-background: #fffcf7b8; /* 后台侧栏底色，原型视图专用。 @nomikit — */
-  --color-admin-page-head-border: #eee2d6bf; /* 后台页面头部分隔线，原型视图专用。 @nomikit — */
-  --color-admin-card-background-muted: #fffdf9db; /* 后台次级卡片底色，原型视图专用。 @nomikit — */
-  --color-admin-secret-mask-background: #f7efe499; /* 后台密钥遮罩底色，原型视图专用。 @nomikit — */
-  --color-admin-hit-preview-background: #f7efe46b; /* 后台命中预览底色，原型视图专用。 @nomikit — */
-  --color-admin-connection-warning-border: #b98a3c57; /* 后台连接告警描边，原型视图专用。 @nomikit — */
-  --color-admin-connection-warning-text: #7d5c22ff; /* 后台连接告警文字，原型视图专用。 @nomikit — */
-  --color-admin-connection-danger-border: #cf6d7257; /* 后台连接异常描边，原型视图专用。 @nomikit — */
-  --color-admin-connection-danger-text: #96474bff; /* 后台连接异常文字，原型视图专用。 @nomikit — */
-  --color-admin-trace-chip-background: #f7efe4cc; /* 后台追踪标签底色，原型视图专用。 @nomikit — */
-  --color-admin-error-detail-background: #fdf6eeb8; /* 后台错误详情行底色，原型视图专用。 @nomikit — */
-  --color-admin-signed-box-background: #f7efe480; /* 后台签名信息块底色，原型视图专用。 @nomikit — */
-  --color-admin-signed-url-background: #ffffffdb; /* 后台签名 URL 底色，原型视图专用。 @nomikit — */
-  --color-print-border: #ccccccff; /* 打印态卡片边框，原型视图专用。 @nomikit — */
 
-  /* group: 阴影 · 原型视图专用 */
-  --shadow-admin-brand-mark: 0 6px 16px #e6a18d47; /* 后台品牌标记阴影，原型视图专用。 @nomikit — */
-  --shadow-admin-sidenav-open: 18px 0 50px #704f3b33; /* 后台展开侧栏阴影，原型视图专用。 @nomikit — */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /* group: 阴影 */
   --shadow-low: 0 10px 24px #704f3b12; /* 卡片与列表 @nomikit Shadows.low */
@@ -223,7 +220,7 @@
 
   /* group: 控件高度 */
   --height-appbar: 56px; /* 顶栏 @nomikit Heights.appBar */
-  --height-bottombar: 56px; /* 底部导航 @nomikit Heights.bottomBar */
+
   --height-tab: 48px; /* 标签与主按钮 */
   --height-chip: 32px; /* 标签芯片 */
   --height-badge: 18px; /* 计数徽标 */
@@ -276,7 +273,7 @@
   --z-index-modal: 70;
   --z-index-popover: 80;
   --z-index-toast: 90;
-  --z-index-region-head: 10;
+
   --z-index-suite-nav: 100;
   /* 外壳 chrome：画布上的 HUD / 提示条，与窄屏抽屉式左栏 */
   --z-index-canvas-hud: 20;
@@ -286,9 +283,9 @@
   /* group: 时长与曲线 */
   --duration-fast: 160ms;
   --duration-base: 240ms;
-  --duration-slow: 420ms;
+
   --easing-standard: cubic-bezier(0.22, 0.8, 0.3, 1);
-  --easing-exit: cubic-bezier(0.4, 0, 1, 1);
+
 
   /* group: 布局常量 */
   --size-nav-width: 248px; /* 后台侧栏展开宽度 */
@@ -314,7 +311,7 @@
   --size-drawer-width-lg: 780px; /* 宽抽屉 */
   --size-popover-min-width: 216px; /* 气泡菜单下限 */
   --size-popover-max-width: 330px; /* 气泡菜单上限 */
-  --size-toast-max-width: 470px; /* toast 宽度上限，后台档；客户端在区域里收窄 */
+
   --size-toast-max-width-sm: 360px; /* toast 宽度上限的紧凑档（移动端与客户端） */
 
   /* group: 区域旋钮（同一组件在两区的落位差异，只允许改这些值，
@@ -324,7 +321,7 @@
   --toast-inset-start: calc(var(--overlay-inset-top) + var(--spacing-medium)); /* toast 上沿（后台档） */
   --toast-inset-end: auto; /* 与 --toast-inset-start 二选一，客户端换用这一头 */
   --toast-shift: calc(-1 * var(--spacing-medium)); /* 未显时的滑入方向，客户端取正值从下往上 */
-  --toast-max-width: min(92cqi, var(--size-toast-max-width));
+  --toast-max-width: min(92cqi, 470px);
   --field-height: var(--height-field); /* 输入控件高度：客户端登录表单覆写为 48px 档 */
   --login-card-align: left; /* 登录卡文字基准：客户端是居中的头像式卡片，后台是左对齐表单 */
 
@@ -342,8 +339,8 @@
   --color-on-primary: #3a2318ff;
   --color-primary-strong: #f0bda7ff;
   --color-primary-soft: #43302aff;
-  --color-primary-container: #6b4a3dff;
-  --color-on-primary-container: #f6e6dcff;
+
+
 
   --color-bg: #1d1714ff;
   --color-bg-deep: #241d19ff;
@@ -351,7 +348,7 @@
   --color-surface-strong: #2e2621ff;
   --color-surface-soft: #26201cff;
   --color-surface-solid: var(--color-surface-strong);
-  --color-surface-high: #382f29ff;
+
 
   --color-on-surface: #ece0d6ff;
   --color-on-surface-soft: #c3b3a7ff;
@@ -371,8 +368,8 @@
   --color-error: #e38b90ff;
   --color-error-soft: #442a2cff;
   --color-neutral-soft: #38302aff;
-  --color-accent-mint: #2f4438ff;
-  --color-accent-yellow: #463a22ff;
+
+
 
   --color-table-head: #332a24ff;
   --color-row-hover: #e8a99214;
@@ -381,48 +378,47 @@
   --color-toast-bg: #f0e4d9f5;
   --color-focus-ring: #e8a99257;
 
-  /* 组件专用色：深色端全部覆写，缺一个就会让组件在深色评审视图里落回 unset */
-  --color-focus-ring-soft: #e8a99238;
-  --color-surface-hairline: var(--color-outline);
-  --color-surface-hairline-strong: var(--color-outline);
-  --color-surface-inset: var(--color-surface-strong);
-  --color-outline-hover: var(--color-outline);
-  --color-outline-hover-soft: var(--color-outline);
-  --color-outline-error: #e38b9073;
-  --color-outline-error-soft: #e38b9061;
-  --color-outline-error-strong: #e38b90b8;
-  --color-outline-error-hair: #e38b9047;
-  --color-error-wash: #3a2628ff;
-  --color-primary-light: #f0bda7ff;
-  --color-primary-hover-a: #efb39aff;
-  --color-primary-hover-b: #f6c6b1ff;
-  --color-primary-deep: var(--color-on-surface-soft);
-  --color-error-strong: #f0a9adff;
-  --color-error-strong-deep: #f6c1c4ff;
-  --color-error-softer: #5b3237ff;
-  --color-warning-light-a: #e0b877ff;
-  --color-warning-light-b: #eccc8fff;
-  --color-error-light-a: #e38b90ff;
-  --color-error-light-b: #eda3a7ff;
-  --color-tab-track: var(--color-surface-strong);
-  --color-tab-count: #54473d99;
-  --color-skeleton-base: #3d332cb3;
-  --color-skeleton-shine: #56483ed9;
-  --color-on-dark-hairline: #241d1952;
-  --color-primary-wash: #4a332bff;
-  --color-avatar-wash-a: #4d362dff;
-  --color-avatar-wash-b: #33443aff;
-  --color-nav-active-a: #e8a99233;
-  --color-nav-active-b: #f0bda714;
-  --color-nav-active-ring: var(--color-on-surface-soft);
-  --color-neutral-wash: #382f29b8;
-  --color-status-live: #79bb9273;
-  --color-row-flash: #e8a99238;
-  --color-outline-strong-wash: #54473dcc;
-  --color-track: #54473d99;
-  --color-focus-ring-error: #e38b902e;
-  --color-toast-error-bg: #d67c82f5;
-  --color-login-card-bg: #2e2621eb;
+    --color-focus-ring-soft: #e8a99238;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   --shadow-low: 0 12px 32px #0000005c;
   --shadow-high: var(--shadow-low);

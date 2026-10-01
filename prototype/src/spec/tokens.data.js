@@ -1,9 +1,9 @@
 /* 生成物 · 请勿手改
    由 tools/tokens-report.mjs 解析 src/base/tokens.css 生成
-   source-sha256: 7e265a37b43d03d1612e1fcbbf5f8b93d71ea1ee8f8078e79b1f9344665613ba
+   source-sha256: c99a9ec73df024a8138965d7a2f84315fb7eccc856dde810b31b48eb6183cd2f
 */
 window.AyaneTokens = {
-  "total": 256,
+  "total": 167,
   "groups": [
     {
       "title": "字体族",
@@ -54,20 +54,6 @@ window.AyaneTokens = {
           "desc": "主色浅底：选中态背景",
           "nomikit": "AppColorScheme.primaryContainer",
           "dark": "#43302aff"
-        },
-        {
-          "name": "--color-primary-container",
-          "value": "#e6a18dff",
-          "desc": "主色容器：渐变与装饰端",
-          "nomikit": "AppColorScheme.secondaryContainer",
-          "dark": "#6b4a3dff"
-        },
-        {
-          "name": "--color-on-primary-container",
-          "value": "#4a4038ff",
-          "desc": "主色容器上的文字",
-          "nomikit": "",
-          "dark": "#f6e6dcff"
         }
       ]
     },
@@ -115,13 +101,6 @@ window.AyaneTokens = {
           "desc": "面板：不透明，sticky 头与弹层底栏用",
           "nomikit": "AppColorScheme.surface",
           "dark": "var(--color-surface-strong)"
-        },
-        {
-          "name": "--color-surface-high",
-          "value": "#f7efe6ff",
-          "desc": "面板：抬高层，hover 底色",
-          "nomikit": "AppColorScheme.surfaceHigh",
-          "dark": "#382f29ff"
         }
       ]
     },
@@ -249,25 +228,11 @@ window.AyaneTokens = {
           "desc": "中性状态浅底：已归档与暂缓",
           "nomikit": "",
           "dark": "#38302aff"
-        },
-        {
-          "name": "--color-accent-mint",
-          "value": "#dceee0ff",
-          "desc": "装饰：薄荷气泡",
-          "nomikit": "",
-          "dark": "#2f4438ff"
-        },
-        {
-          "name": "--color-accent-yellow",
-          "value": "#fff2cfff",
-          "desc": "装饰：奶黄气泡",
-          "nomikit": "",
-          "dark": "#463a22ff"
         }
       ]
     },
     {
-      "title": "颜色 · 特殊表面",
+      "title": "颜色 · 特殊表面与背景",
       "tokens": [
         {
           "name": "--color-table-head",
@@ -317,291 +282,6 @@ window.AyaneTokens = {
           "desc": "输入控件聚焦环，比通用环浅一档",
           "nomikit": "",
           "dark": "#e8a99238"
-        }
-      ]
-    },
-    {
-      "title": "颜色 · 组件专用（从组件样式里收上来的字面色，组件层不得再写死）",
-      "tokens": [
-        {
-          "name": "--color-surface-hairline",
-          "value": "#fffffff0",
-          "desc": "半透明面板上的 1px 描边",
-          "nomikit": "",
-          "dark": "var(--color-outline)"
-        },
-        {
-          "name": "--color-surface-hairline-strong",
-          "value": "#fffdf9e6",
-          "desc": "弹层描边",
-          "nomikit": "",
-          "dark": "var(--color-outline)"
-        },
-        {
-          "name": "--color-surface-inset",
-          "value": "#fffdf9eb",
-          "desc": "内嵌芯片与浅轨道底色",
-          "nomikit": "",
-          "dark": "var(--color-surface-strong)"
-        },
-        {
-          "name": "--color-outline-hover",
-          "value": "#e3a08bb8",
-          "desc": "控件 hover 描边",
-          "nomikit": "",
-          "dark": "var(--color-outline)"
-        },
-        {
-          "name": "--color-outline-error",
-          "value": "#cf6d7266",
-          "desc": "危险控件描边",
-          "nomikit": "",
-          "dark": "#e38b9073"
-        },
-        {
-          "name": "--color-outline-error-soft",
-          "value": "#cf6d7259",
-          "desc": "告警卡片描边",
-          "nomikit": "",
-          "dark": "#e38b9061"
-        },
-        {
-          "name": "--color-outline-hover-soft",
-          "value": "#e6a18d29",
-          "desc": "卡片 hover 描边",
-          "nomikit": "",
-          "dark": "var(--color-outline)"
-        },
-        {
-          "name": "--color-error-wash",
-          "value": "#fff6f6ff",
-          "desc": "告警卡片渐变亮端",
-          "nomikit": "",
-          "dark": "#3a2628ff"
-        },
-        {
-          "name": "--color-outline-error-strong",
-          "value": "#cf6d72b3",
-          "desc": "危险控件 hover 描边",
-          "nomikit": "",
-          "dark": "#e38b90b8"
-        },
-        {
-          "name": "--color-outline-error-hair",
-          "value": "#cf6d7242",
-          "desc": "危险弹层头部分隔线",
-          "nomikit": "",
-          "dark": "#e38b9047"
-        },
-        {
-          "name": "--color-primary-light",
-          "value": "#efb59eff",
-          "desc": "主色渐变亮端：同步客户端品牌亮端",
-          "nomikit": "",
-          "dark": "#f0bda7ff"
-        },
-        {
-          "name": "--color-primary-hover-a",
-          "value": "#dd8f77ff",
-          "desc": "主色按钮 hover 渐变起",
-          "nomikit": "",
-          "dark": "#efb39aff"
-        },
-        {
-          "name": "--color-primary-hover-b",
-          "value": "#e79c85ff",
-          "desc": "主色按钮 hover 渐变止",
-          "nomikit": "",
-          "dark": "#f6c6b1ff"
-        },
-        {
-          "name": "--color-primary-deep",
-          "value": "#e6a18d38",
-          "desc": "主色按钮 loading 环",
-          "nomikit": "",
-          "dark": "var(--color-on-surface-soft)"
-        },
-        {
-          "name": "--color-error-strong",
-          "value": "#a4484eff",
-          "desc": "危险按钮文字",
-          "nomikit": "",
-          "dark": "#f0a9adff"
-        },
-        {
-          "name": "--color-error-strong-deep",
-          "value": "#8f3b41ff",
-          "desc": "危险按钮 hover 文字",
-          "nomikit": "",
-          "dark": "#f6c1c4ff"
-        },
-        {
-          "name": "--color-error-softer",
-          "value": "#fbdfe1ff",
-          "desc": "危险按钮 hover 底色",
-          "nomikit": "",
-          "dark": "#5b3237ff"
-        },
-        {
-          "name": "--color-warning-light-a",
-          "value": "#d8ab5cff",
-          "desc": "告警进度条渐变起",
-          "nomikit": "",
-          "dark": "#e0b877ff"
-        },
-        {
-          "name": "--color-warning-light-b",
-          "value": "#e6c079ff",
-          "desc": "告警进度条渐变止",
-          "nomikit": "",
-          "dark": "#eccc8fff"
-        },
-        {
-          "name": "--color-error-light-a",
-          "value": "#cf6d72ff",
-          "desc": "危险进度条渐变起",
-          "nomikit": "",
-          "dark": "#e38b90ff"
-        },
-        {
-          "name": "--color-error-light-b",
-          "value": "#e08b8fff",
-          "desc": "危险进度条渐变止",
-          "nomikit": "",
-          "dark": "#eda3a7ff"
-        },
-        {
-          "name": "--color-tab-track",
-          "value": "#f7efe4c7",
-          "desc": "分段控件轨道",
-          "nomikit": "",
-          "dark": "var(--color-surface-strong)"
-        },
-        {
-          "name": "--color-tab-count",
-          "value": "#decfc299",
-          "desc": "分段计数徽标底",
-          "nomikit": "",
-          "dark": "#54473d99"
-        },
-        {
-          "name": "--color-skeleton-base",
-          "value": "#eee2d68c",
-          "desc": "骨架屏暗端",
-          "nomikit": "",
-          "dark": "#3d332cb3"
-        },
-        {
-          "name": "--color-skeleton-shine",
-          "value": "#f8f0e8d9",
-          "desc": "骨架屏亮端",
-          "nomikit": "",
-          "dark": "#56483ed9"
-        },
-        {
-          "name": "--color-on-dark-hairline",
-          "value": "#ffffff80",
-          "desc": "深色浮层上的描边与 loading 环",
-          "nomikit": "",
-          "dark": "#241d1952"
-        },
-        {
-          "name": "--color-primary-wash",
-          "value": "#ffe7d8ff",
-          "desc": "头像与图标底渐变亮端",
-          "nomikit": "",
-          "dark": "#4a332bff"
-        },
-        {
-          "name": "--color-avatar-wash-a",
-          "value": "#ffe3d6ff",
-          "desc": "头像渐变起",
-          "nomikit": "",
-          "dark": "#4d362dff"
-        },
-        {
-          "name": "--color-avatar-wash-b",
-          "value": "#e6f0e5ff",
-          "desc": "头像渐变止",
-          "nomikit": "",
-          "dark": "#33443aff"
-        },
-        {
-          "name": "--color-nav-active-a",
-          "value": "#e3a08b38",
-          "desc": "导航选中渐变起",
-          "nomikit": "",
-          "dark": "#e8a99233"
-        },
-        {
-          "name": "--color-nav-active-b",
-          "value": "#f0ab941a",
-          "desc": "导航选中渐变止",
-          "nomikit": "",
-          "dark": "#f0bda714"
-        },
-        {
-          "name": "--color-nav-active-ring",
-          "value": "#e6a18d3d",
-          "desc": "导航选中描边",
-          "nomikit": "",
-          "dark": "var(--color-on-surface-soft)"
-        },
-        {
-          "name": "--color-neutral-wash",
-          "value": "#f0eae2b8",
-          "desc": "禁用项 hover 底",
-          "nomikit": "",
-          "dark": "#382f29b8"
-        },
-        {
-          "name": "--color-status-live",
-          "value": "#5f9e7766",
-          "desc": "实时状态点脉冲",
-          "nomikit": "",
-          "dark": "#79bb9273"
-        },
-        {
-          "name": "--color-row-flash",
-          "value": "#e6a18d4d",
-          "desc": "新行高亮起始底色",
-          "nomikit": "",
-          "dark": "#e8a99238"
-        },
-        {
-          "name": "--color-outline-strong-wash",
-          "value": "#decfc2bf",
-          "desc": "开关关闭态轨道",
-          "nomikit": "",
-          "dark": "#54473dcc"
-        },
-        {
-          "name": "--color-track",
-          "value": "#decfc280",
-          "desc": "进度条轨道",
-          "nomikit": "",
-          "dark": "#54473d99"
-        },
-        {
-          "name": "--color-focus-ring-error",
-          "value": "#cf6d7224",
-          "desc": "错误控件聚焦环",
-          "nomikit": "",
-          "dark": "#e38b902e"
-        },
-        {
-          "name": "--color-toast-error-bg",
-          "value": "#b04c52f5",
-          "desc": "错误 toast 底",
-          "nomikit": "",
-          "dark": "#d67c82f5"
-        },
-        {
-          "name": "--color-login-card-bg",
-          "value": "#fffcf7ed",
-          "desc": "登录卡底：两原型 0.94/0.90 合档",
-          "nomikit": "",
-          "dark": "#2e2621eb"
         },
         {
           "name": "--background-contact-card",
@@ -626,7 +306,7 @@ window.AyaneTokens = {
         },
         {
           "name": "--background-user-card-action-hover",
-          "value": "linear-gradient(135deg, var(--color-primary-hover-a), #e09a83ff)",
+          "value": "linear-gradient(135deg, var(--color-primary), #e09a83ff)",
           "desc": "共享组件背景：从客户端动作 hover 背景提升，保留原型渐变。",
           "nomikit": "",
           "dark": "var(--color-surface)"
@@ -637,289 +317,6 @@ window.AyaneTokens = {
           "desc": "共享组件背景：由 --background-ai-panel 提升，保留原型渐变。",
           "nomikit": "",
           "dark": "var(--color-surface)"
-        }
-      ]
-    },
-    {
-      "title": "颜色 · 原型视图专用",
-      "tokens": [
-        {
-          "name": "--color-prototype-bg-glow-a",
-          "value": "#e6a18d38",
-          "desc": "客户端与后台背景光晕起始层，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-prototype-bg-glow-b",
-          "value": "#e6a18d29",
-          "desc": "客户端与后台背景光晕次级层，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-prototype-bg-mid",
-          "value": "#fffaf5ff",
-          "desc": "客户端与后台背景渐变中间色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-prototype-orb-light",
-          "value": "#ffffffb3",
-          "desc": "原型背景浅色装饰球，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-prototype-orb-warm",
-          "value": "#f8dcceb3",
-          "desc": "原型背景暖色装饰球，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-focus-ring",
-          "value": "#e6a18d57",
-          "desc": "后台原型焦点环，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-live-ring-clear",
-          "value": "#5f9e7700",
-          "desc": "后台实时状态脉冲透明端，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-live-ring",
-          "value": "#5f9e7729",
-          "desc": "后台实时状态脉冲，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-connecting-ring",
-          "value": "#b98a3c29",
-          "desc": "后台连接中状态脉冲，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-console-background",
-          "value": "#fffcf8eb",
-          "desc": "后台实时流面板底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-error-text",
-          "value": "#9d4a50ff",
-          "desc": "后台错误日志与危险提示文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-error-text-strong",
-          "value": "#96464cff",
-          "desc": "后台错误日志强调文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-info-border",
-          "value": "#5f86a847",
-          "desc": "后台信息提示描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-info-text",
-          "value": "#4a6d8cff",
-          "desc": "后台信息提示文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-warning-border",
-          "value": "#b98a3c4d",
-          "desc": "后台告警提示描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-warning-text",
-          "value": "#8a6528ff",
-          "desc": "后台告警提示文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-danger-border",
-          "value": "#cf6d7252",
-          "desc": "后台危险提示描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-chip-hover",
-          "value": "#bf76652e",
-          "desc": "后台标签 hover 底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-code-background",
-          "value": "#fffcf7e6",
-          "desc": "后台代码块底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-card-background",
-          "value": "#fffdf9e6",
-          "desc": "后台卡片浅表面，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-topbar-background",
-          "value": "#fffcf7e0",
-          "desc": "后台顶栏底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-role-pill-background",
-          "value": "#ffffffdb",
-          "desc": "后台角色标签底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-role-pill-hover-border",
-          "value": "#e3a08b99",
-          "desc": "后台角色标签 hover 描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-sidenav-background",
-          "value": "#fffcf7b8",
-          "desc": "后台侧栏底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-page-head-border",
-          "value": "#eee2d6bf",
-          "desc": "后台页面头部分隔线，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-card-background-muted",
-          "value": "#fffdf9db",
-          "desc": "后台次级卡片底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-secret-mask-background",
-          "value": "#f7efe499",
-          "desc": "后台密钥遮罩底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-hit-preview-background",
-          "value": "#f7efe46b",
-          "desc": "后台命中预览底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-connection-warning-border",
-          "value": "#b98a3c57",
-          "desc": "后台连接告警描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-connection-warning-text",
-          "value": "#7d5c22ff",
-          "desc": "后台连接告警文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-connection-danger-border",
-          "value": "#cf6d7257",
-          "desc": "后台连接异常描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-connection-danger-text",
-          "value": "#96474bff",
-          "desc": "后台连接异常文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-trace-chip-background",
-          "value": "#f7efe4cc",
-          "desc": "后台追踪标签底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-error-detail-background",
-          "value": "#fdf6eeb8",
-          "desc": "后台错误详情行底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-signed-box-background",
-          "value": "#f7efe480",
-          "desc": "后台签名信息块底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-signed-url-background",
-          "value": "#ffffffdb",
-          "desc": "后台签名 URL 底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-print-border",
-          "value": "#ccccccff",
-          "desc": "打印态卡片边框，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        }
-      ]
-    },
-    {
-      "title": "阴影 · 原型视图专用",
-      "tokens": [
-        {
-          "name": "--shadow-admin-brand-mark",
-          "value": "0 6px 16px #e6a18d47",
-          "desc": "后台品牌标记阴影，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--shadow-admin-sidenav-open",
-          "value": "18px 0 50px #704f3b33",
-          "desc": "后台展开侧栏阴影，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
         }
       ]
     },
@@ -1307,13 +704,6 @@ window.AyaneTokens = {
           "dark": ""
         },
         {
-          "name": "--height-bottombar",
-          "value": "56px",
-          "desc": "底部导航",
-          "nomikit": "Heights.bottomBar",
-          "dark": ""
-        },
-        {
           "name": "--height-tab",
           "value": "48px",
           "desc": "标签与主按钮",
@@ -1651,13 +1041,6 @@ window.AyaneTokens = {
           "dark": ""
         },
         {
-          "name": "--z-index-region-head",
-          "value": "10",
-          "desc": "",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
           "name": "--z-index-suite-nav",
           "value": "100",
           "desc": "",
@@ -1705,22 +1088,8 @@ window.AyaneTokens = {
           "dark": ""
         },
         {
-          "name": "--duration-slow",
-          "value": "420ms",
-          "desc": "",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
           "name": "--easing-standard",
           "value": "cubic-bezier(0.22, 0.8, 0.3, 1)",
-          "desc": "",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--easing-exit",
-          "value": "cubic-bezier(0.4, 0, 1, 1)",
           "desc": "",
           "nomikit": "",
           "dark": ""
@@ -1841,13 +1210,6 @@ window.AyaneTokens = {
           "dark": ""
         },
         {
-          "name": "--size-toast-max-width",
-          "value": "470px",
-          "desc": "toast 宽度上限，后台档；客户端在区域里收窄",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
           "name": "--size-toast-max-width-sm",
           "value": "360px",
           "desc": "toast 宽度上限的紧凑档（移动端与客户端）",
@@ -1896,7 +1258,7 @@ window.AyaneTokens = {
         },
         {
           "name": "--toast-max-width",
-          "value": "min(92cqi, var(--size-toast-max-width))",
+          "value": "min(92cqi, 470px)",
           "desc": "",
           "nomikit": "",
           "dark": ""

@@ -34,7 +34,7 @@
   padding: var(--spacing-small) var(--spacing-medium);
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
-  background: var(--color-surface-inset);
+  background: var(--color-surface-soft);
   color: var(--color-on-surface);
   font-family: inherit;
   font-size: var(--font-body-small);
@@ -89,7 +89,7 @@ select.field-ctl {
 .field.is-invalid .field-ctl,
 .field.is-invalid .password-field > .password-input {
   border-color: var(--color-error);
-  box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring-error);
+  box-shadow: 0 0 0 var(--stroke-thick) var(--color-error);
 }
 
 .field-error {
@@ -112,7 +112,7 @@ select.field-ctl {
   gap: var(--spacing-small);
   flex: 0 0 auto;
   padding: var(--spacing-small) var(--spacing-medium);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--color-surface);
   box-shadow: var(--shadow-low);
@@ -185,7 +185,7 @@ select.field-ctl {
   flex: 0 0 auto;
   border: 0;
   border-radius: var(--radius-pill);
-  background: var(--color-outline-strong-wash);
+  background: var(--color-outline-strong);
   transition: opacity var(--duration-fast) ease;
 }
 
@@ -229,7 +229,7 @@ select.field-ctl {
   width: 100%;
   height: 6px;
   border-radius: var(--radius-pill);
-  background: var(--color-track);
+  background: var(--color-outline);
   overflow: hidden;
 }
 
@@ -239,16 +239,16 @@ select.field-ctl {
   width: var(--progress-value, 0%);
   height: 100%;
   border-radius: var(--radius-pill);
-  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-strong));
   transition: opacity var(--duration-fast) ease;
 }
 
 .progress.is-warn .progress-bar {
-  background: linear-gradient(90deg, var(--color-warning-light-a), var(--color-warning-light-b));
+  background: linear-gradient(90deg, var(--color-warning), var(--color-warning));
 }
 
 .progress.is-danger .progress-bar {
-  background: linear-gradient(90deg, var(--color-error-light-a), var(--color-error-light-b));
+  background: linear-gradient(90deg, var(--color-error), var(--color-error));
 }
 
 .progress-label {
@@ -261,9 +261,9 @@ select.field-ctl {
 .skeleton {
   border-radius: var(--radius-small);
   background: linear-gradient(90deg,
-    var(--color-skeleton-base) 25%,
-    var(--color-skeleton-shine) 37%,
-    var(--color-skeleton-base) 63%);
+    var(--color-surface-soft) 25%,
+    var(--color-surface-strong) 37%,
+    var(--color-surface-soft) 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
 }
@@ -305,7 +305,7 @@ select.field-ctl {
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
   outline: none;
-  background: var(--color-surface-inset);
+  background: var(--color-surface-soft);
   color: var(--color-on-surface);
   font-size: var(--font-body-small);
   transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
@@ -322,7 +322,7 @@ select.field-ctl {
 .password-field > .password-input:focus,
 :is([data-proto="client"], [data-client-components]) .login-input:focus {
   outline: none;
-  border-color: var(--color-outline-hover);
+  border-color: var(--color-outline-strong);
   box-shadow: var(--shadow-inset-hair);
 
 }
@@ -381,7 +381,7 @@ select.field-ctl {
 .filter-select-option[aria-selected="true"] { color: var(--color-primary-strong); font-weight: var(--weight-bold); background: var(--color-primary-soft); }
 .filter-select-option[aria-selected="true"] > .icon { visibility: visible; }
 .filter-select-option.is-active:not([aria-disabled="true"]), .filter-select-option:hover:not([aria-disabled="true"]) { background: var(--color-primary-soft); color: var(--color-primary-strong); }
-.filter-select-option.is-active { outline: var(--stroke-thin) solid var(--color-outline-hover-soft); outline-offset: calc(-1 * var(--stroke-thin)); }
+.filter-select-option.is-active { outline: var(--stroke-thin) solid var(--color-row-hover); outline-offset: calc(-1 * var(--stroke-thin)); }
 .filter-select-option[aria-disabled="true"] { color: var(--color-text-hint); cursor: not-allowed; opacity: 0.5; }
 @media (prefers-reduced-motion: reduce) { .filter-select-control > .filter-select-trigger > .icon { transition: none; } }
 

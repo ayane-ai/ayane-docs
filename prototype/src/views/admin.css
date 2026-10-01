@@ -26,9 +26,9 @@
   font-size: var(--font-body-small);
   line-height: 1.5;
   background:
-  radial-gradient(circle at 9% 8%, var(--color-prototype-bg-glow-a), transparent 30%),
-  radial-gradient(circle at 93% 84%, var(--color-prototype-bg-glow-b), transparent 31%),
-  linear-gradient(135deg, var(--color-bg), var(--color-prototype-bg-mid) 52%, var(--color-bg-deep));
+  radial-gradient(circle at 9% 8%, var(--color-primary-soft), transparent 30%),
+  radial-gradient(circle at 93% 84%, var(--color-primary-soft), transparent 31%),
+  linear-gradient(135deg, var(--color-bg), var(--color-surface-soft) 52%, var(--color-bg-deep));
   overflow-x: hidden;
 }
 
@@ -47,7 +47,7 @@
   height: 260px;
   top: 10%;
   right: 3%;
-  background: var(--color-prototype-orb-light);
+  background: var(--color-surface);
 }
 
 [data-proto="admin"]::after {
@@ -55,7 +55,7 @@
   height: 190px;
   bottom: 4%;
   left: 3%;
-  background: var(--color-prototype-orb-warm);
+  background: var(--color-primary-soft);
 }
 /* 后台框架占满视口时，装饰圆不应透出到内容区之上 */
 [data-proto="admin"].is-app::before, [data-proto="admin"].is-app::after {
@@ -78,7 +78,7 @@
 }
 
 [data-proto="admin"] button:focus-visible, [data-proto="admin"] input:focus-visible, [data-proto="admin"] select:focus-visible, [data-proto="admin"] textarea:focus-visible, [data-proto="admin"] [tabindex]:focus-visible {
-  outline: 3px solid var(--color-admin-focus-ring);
+  outline: 3px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 /* 页头是路由切换后的焦点落点，不画焦点环（规避走查 #2：滚动容器焦点环） */
@@ -151,7 +151,7 @@
 }
 @keyframes row-flash {
   0%, 40% {
-    background: var(--color-row-flash);
+    background: var(--color-row-hover);
   }
   100% {
     background: transparent;
@@ -193,11 +193,11 @@
 /* Phase 1 内延后项：虚线边，与「禁用 / 失败」在视觉上区分开 */
 @keyframes pulse {
   0%, 100% {
-    box-shadow: 0 0 0 0 var(--color-status-live);
+    box-shadow: 0 0 0 0 var(--color-success);
     opacity: 1;
   }
   50% {
-    box-shadow: 0 0 0 4px var(--color-admin-live-ring-clear);
+    box-shadow: 0 0 0 4px var(--color-success);
     opacity: 0.65;
   }
 }
@@ -333,9 +333,9 @@
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
-  background: var(--color-admin-console-background);
+  background: var(--color-surface-solid);
   box-shadow: var(--shadow-low);
 }
 
@@ -368,12 +368,12 @@
 
 [data-proto="admin"] .stream-state.is-open .stream-dot {
   background: var(--color-success);
-  box-shadow: 0 0 0 3px var(--color-admin-live-ring);
+  box-shadow: 0 0 0 3px var(--color-success);
 }
 
 [data-proto="admin"] .stream-state.is-connecting .stream-dot, [data-proto="admin"] .stream-state.is-reconnecting .stream-dot {
   background: var(--color-warning);
-  box-shadow: 0 0 0 3px var(--color-admin-connecting-ring);
+  box-shadow: 0 0 0 3px var(--color-warning);
   animation: pulse 1.2s ease-in-out infinite;
 }
 
@@ -435,7 +435,7 @@
 }
 
 [data-proto="admin"] .log-line.level-error > .log-msg {
-  color: var(--color-admin-error-text);
+  color: var(--color-error);
 }
 
 [data-proto="admin"] .log-line.level-warn > .log-level {
@@ -465,10 +465,10 @@
   grid-column: 3;
   margin: 2px 0 6px;
   padding: 7px 9px;
-  border-left: 2px solid var(--color-outline-error);
+  border-left: 2px solid var(--color-error);
   border-radius: 0 8px 8px 0;
   background: var(--color-error-soft);
-  color: var(--color-admin-error-text-strong);
+  color: var(--color-error);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -552,10 +552,10 @@
   align-items: flex-start;
   gap: 9px;
   padding: 10px 13px;
-  border: 1px solid var(--color-admin-info-border);
+  border: 1px solid var(--color-info);
   border-radius: var(--radius-huge);
   background: var(--color-info-soft);
-  color: var(--color-admin-info-text);
+  color: var(--color-info);
   font-size: var(--font-label-small);
   line-height: 1.65;
   flex: 0 0 auto;
@@ -578,9 +578,9 @@
 }
 
 [data-proto="admin"] .notice-bar.is-warn {
-  border-color: var(--color-admin-warning-border);
+  border-color: var(--color-warning);
   background: var(--color-warning-soft);
-  color: var(--color-admin-warning-text);
+  color: var(--color-warning);
 }
 
 [data-proto="admin"] .notice-bar.is-deferred {
@@ -591,9 +591,9 @@
 }
 
 [data-proto="admin"] .notice-bar.is-danger {
-  border-color: var(--color-admin-danger-border);
+  border-color: var(--color-error);
   background: var(--color-error-soft);
-  color: var(--color-admin-error-text);
+  color: var(--color-error);
 }
 /* ---- 03.16 组件级权限包裹 ---- */
 [data-proto="admin"] .permission-guard {
@@ -719,7 +719,7 @@
 }
 
 [data-proto="admin"] .chip-tag button:hover {
-  background: var(--color-admin-chip-hover);
+  background: var(--color-primary-soft);
 }
 /* ---- 03.18 分段 tab ---- */
 /* ---- 03.19 代码 / 模板预览 ---- */
@@ -727,7 +727,7 @@
   padding: 12px 13px;
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
-  background: var(--color-admin-code-background);
+  background: var(--color-surface-solid);
   color: var(--color-on-surface-soft);
   font-family: var(--font-family-mono);
   font-size: var(--font-caption);
@@ -795,13 +795,13 @@
   padding: 10px 12px;
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
-  background: var(--color-admin-card-background);
+  background: var(--color-surface-strong);
   text-align: left;
   transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 [data-proto="admin"] .role-card:hover {
-  border-color: var(--color-outline-hover);
+  border-color: var(--color-outline-strong);
   transform: translateY(-1px);
 }
 
@@ -821,7 +821,7 @@
   width: 34px;
   height: 34px;
   border-radius: 11px;
-  background: var(--color-surface-hairline);
+  background: var(--color-outline);
   color: var(--color-primary-strong);
   font-size: 17px;
 }
@@ -881,7 +881,7 @@
   min-width: 0;
   padding: 0 14px;
   border-bottom: 1px solid var(--color-outline);
-  background: var(--color-admin-topbar-background);
+  background: var(--color-surface-solid);
   backdrop-filter: blur(20px);
 }
 
@@ -916,7 +916,7 @@
   padding: 0 11px;
   border: 1px solid var(--color-outline-strong);
   border-radius: 999px;
-  background: var(--color-admin-role-pill-background);
+  background: var(--color-surface);
   color: var(--color-on-surface-soft);
   font-size: var(--font-label-small);
   font-weight: 600;
@@ -925,7 +925,7 @@
 }
 
 [data-proto="admin"] .role-pill:hover {
-  border-color: var(--color-admin-role-pill-hover-border);
+  border-color: var(--color-outline-strong);
   color: var(--color-primary-strong);
 }
 
@@ -949,7 +949,7 @@
   flex-direction: column;
   overflow: hidden;
   border-right: 1px solid var(--color-outline);
-  background: var(--color-admin-sidenav-background);
+  background: var(--color-surface);
   backdrop-filter: blur(18px);
 }
 
@@ -968,7 +968,7 @@
   height: 32px;
   border-radius: 11px;
   font-size: 16px;
-  box-shadow: var(--shadow-admin-brand-mark);
+  box-shadow: var(--shadow-primary-low);
 }
 
 [data-proto="admin"] .brand-copy {
@@ -1052,7 +1052,7 @@
   height: 30px;
   flex: 0 0 auto;
   border-radius: 10px;
-  background: linear-gradient(140deg, var(--color-primary-soft), var(--color-primary-wash));
+  background: linear-gradient(140deg, var(--color-primary-soft), var(--color-primary-soft));
   color: var(--color-primary-strong);
   font-size: 14px;
 }
@@ -1104,7 +1104,7 @@
 [data-proto="admin"] .sidenav.is-open {
   transform: translateX(0);
   visibility: visible;
-  box-shadow: var(--shadow-admin-sidenav-open);
+  box-shadow: var(--shadow-drawer);
 }
 /* ---- 05.4 内容区 ---- */
 [data-proto="admin"] .content {
@@ -1122,7 +1122,7 @@
   align-items: flex-start;
   gap: 12px;
   padding: 13px 18px 11px;
-  border-bottom: 1px solid var(--color-admin-page-head-border);
+  border-bottom: 1px solid var(--color-outline);
 }
 
 [data-proto="admin"] .page-head:focus {
@@ -1221,13 +1221,13 @@
   padding: 12px;
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
-  background: var(--color-admin-card-background);
+  background: var(--color-surface-strong);
   text-align: left;
   transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
 [data-proto="admin"] .quick-card:hover:not(:disabled) {
-  border-color: var(--color-outline-hover);
+  border-color: var(--color-outline-strong);
   box-shadow: var(--shadow-low);
   transform: translateY(-1px);
 }
@@ -1371,7 +1371,7 @@
   height: 26px;
   flex: 0 0 auto;
   border-radius: 9px;
-  background: linear-gradient(140deg, var(--color-primary-soft), var(--color-primary-wash));
+  background: linear-gradient(140deg, var(--color-primary-soft), var(--color-primary-soft));
   color: var(--color-primary-strong);
   font-size: 11px;
   font-weight: 800;
@@ -1413,7 +1413,7 @@
   padding: 9px 11px;
   border: 1px solid var(--color-outline);
   border-radius: 10px;
-  background: var(--color-admin-card-background);
+  background: var(--color-surface-strong);
   font-size: var(--font-label-small);
 }
 
@@ -1489,7 +1489,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--color-surface);
   box-shadow: var(--shadow-low);
@@ -1529,7 +1529,7 @@
   padding: 9px 11px;
   border: 1px solid var(--color-outline);
   border-radius: 10px;
-  background: var(--color-admin-card-background-muted);
+  background: var(--color-surface-soft);
 }
 
 [data-proto="admin"] .recall-item + .recall-item {
@@ -1562,7 +1562,7 @@
   padding: 9px 11px;
   border: 1px solid var(--color-outline);
   border-radius: 10px;
-  background: var(--color-admin-card-background-muted);
+  background: var(--color-surface-soft);
 }
 
 [data-proto="admin"] .buffer-slot + .buffer-slot {
@@ -1668,7 +1668,7 @@
   padding: 3px 8px;
   border: 1px dashed var(--color-outline-strong);
   border-radius: 8px;
-  background: var(--color-admin-secret-mask-background);
+  background: var(--color-surface-soft);
   color: var(--color-on-surface-soft);
   font-family: var(--font-family-mono);
   font-size: var(--font-caption);
@@ -1742,7 +1742,7 @@
   padding: 12px;
   border: 1px dashed var(--color-outline-strong);
   border-radius: var(--radius-medium);
-  background: var(--color-admin-hit-preview-background);
+  background: var(--color-surface-soft);
   display: grid;
   gap: 9px;
 }
@@ -1766,18 +1766,18 @@
   align-items: center;
   gap: 9px;
   padding: 9px 12px;
-  border: 1px solid var(--color-admin-connection-warning-border);
+  border: 1px solid var(--color-warning);
   border-radius: var(--radius-medium);
   background: var(--color-warning-soft);
-  color: var(--color-admin-connection-warning-text);
+  color: var(--color-warning);
   font-size: var(--font-label-small);
   flex-wrap: wrap;
 }
 
 [data-proto="admin"] .conn-banner.is-bad {
-  border-color: var(--color-admin-connection-danger-border);
+  border-color: var(--color-error);
   background: var(--color-error-soft);
-  color: var(--color-admin-connection-danger-text);
+  color: var(--color-error);
 }
 
 [data-proto="admin"] .conn-banner > .icon {
@@ -1811,7 +1811,7 @@
   padding: 12px;
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
-  background: var(--color-admin-card-background-muted);
+  background: var(--color-surface-soft);
 }
 
 [data-proto="admin"] .loop-card h4 {
@@ -1866,7 +1866,7 @@
   gap: 5px;
   padding: 2px 7px;
   border-radius: 7px;
-  background: var(--color-admin-trace-chip-background);
+  background: var(--color-surface-soft);
   color: var(--color-on-surface-soft);
   font-family: var(--font-family-mono);
   font-size: 10px;
@@ -1899,7 +1899,7 @@
 [data-proto="admin"] .error-detail-row > td {
   height: auto;
   padding: 12px 14px;
-  background: var(--color-admin-error-detail-background);
+  background: var(--color-error-soft);
 }
 
 [data-proto="admin"] .error-detail-row .log-stack {
@@ -1979,14 +1979,14 @@
   padding: 10px 11px;
   border: 1px solid var(--color-outline);
   border-radius: 10px;
-  background: var(--color-admin-signed-box-background);
+  background: var(--color-surface-soft);
 }
 
 [data-proto="admin"] .signed-url {
   display: block;
   padding: 7px 9px;
   border-radius: 8px;
-  background: var(--color-admin-signed-url-background);
+  background: var(--color-surface);
   color: var(--color-on-surface-soft);
   font-family: var(--font-family-mono);
   font-size: 10.5px;
@@ -2262,7 +2262,7 @@ td、td > .row-link、.skeleton-row 会一起跟上，不用逐个补。 */
     box-shadow: none;
     backdrop-filter: none;
     background: var(--color-on-primary);
-    border-color: var(--color-print-border);
+    border-color: var(--color-outline);
   }
   [data-proto="admin"] .data-table thead th {
     position: static;

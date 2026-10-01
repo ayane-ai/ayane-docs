@@ -2,7 +2,7 @@
 <!--
   生成物 · 请勿手改 · dist 只是 src/ 的快照
   源：src/design-system.html + 40 个 include
-  sha256: 1a146c079c218a55adc2228bf0483fb5ec5e8164114c3ae7df891617b4ba00a7
+  sha256: 66a1dae4dd84266f37e5d38144271d238d3e742143c489e09824b4832a2004e9
   重建：node tools/build.mjs
 -->
 <!-- ============================================================
@@ -33,7 +33,7 @@
 
    依赖网络：仅头像素材取自 https://avatars.githubusercontent.com/
    （u/326977819 与 u/44569870）。离线打开时图片请求会失败，头像由
-   --color-avatar-wash-* 渐变底兜住，布局与交互不受影响。
+   公共主色渐变底兜住，布局与交互不受影响。
 
    深色主题：只在「设计令牌」「组件库」两个文档分区提供评审开关
    （data-theme 挂在分区元素上，不污染画布）。两个原型本次不接入深色。
@@ -72,8 +72,8 @@
   --color-on-primary: #ffffffff; /* 主色上的文字 @nomikit AppColorScheme.onPrimary */
   --color-primary-strong: #bf7665ff; /* 主色强调：按下与链接 @nomikit AppColorScheme.primaryContainer 的深色端 */
   --color-primary-soft: #fff0e9ff; /* 主色浅底：选中态背景 @nomikit AppColorScheme.primaryContainer */
-  --color-primary-container: #e6a18dff; /* 主色容器：渐变与装饰端 @nomikit AppColorScheme.secondaryContainer */
-  --color-on-primary-container: #4a4038ff; /* 主色容器上的文字 */
+
+
 
   /* group: 颜色 · 中性面 */
   --color-bg: #fbf7efff; /* 页面底色 @nomikit AppColorScheme.background */
@@ -82,7 +82,7 @@
   --color-surface-strong: #fffffff2; /* 面板：纯白最高层 @nomikit AppColorScheme.surfaceLower */
   --color-surface-soft: #fff9f2ff; /* 面板：暖白浅层 @nomikit AppColorScheme.surfaceLow */
   --color-surface-solid: #fffdf9f0; /* 面板：不透明，sticky 头与弹层底栏用 @nomikit AppColorScheme.surface */
-  --color-surface-high: #f7efe6ff; /* 面板：抬高层，hover 底色 @nomikit AppColorScheme.surfaceHigh */
+
 
   /* group: 颜色 · 文字 */
   --color-on-surface: #4a4038ff; /* 正文 @nomikit AppColorScheme.onSurface */
@@ -105,10 +105,10 @@
   --color-error: #cf6d72ff; /* 危险 @nomikit AppColorScheme.error */
   --color-error-soft: #fdecedff; /* 危险浅底 */
   --color-neutral-soft: #f0eae2ff; /* 中性状态浅底：已归档与暂缓 */
-  --color-accent-mint: #dceee0ff; /* 装饰：薄荷气泡 */
-  --color-accent-yellow: #fff2cfff; /* 装饰：奶黄气泡 */
 
-  /* group: 颜色 · 特殊表面 */
+
+
+  /* group: 颜色 · 特殊表面与背景 */
   --color-table-head: #fdf6eeff; /* 表头底色，必须不透明 @nomikit AppColorScheme.surfaceContainer */
   --color-row-hover: #e6a18d12; /* 行 hover 底色 */
   --color-scrim: #4a403852; /* 遮罩 @nomikit AppColorScheme.scrim */
@@ -117,97 +117,94 @@
   --color-focus-ring: #e3a08b4d; /* focus-visible 描边 */
   --color-focus-ring-soft: #e6a18d33; /* 输入控件聚焦环，比通用环浅一档 */
 
-  /* group: 颜色 · 组件专用（从组件样式里收上来的字面色，组件层不得再写死） */
-  --color-surface-hairline: #fffffff0; /* 半透明面板上的 1px 描边 */
-  --color-surface-hairline-strong: #fffdf9e6; /* 弹层描边 */
-  --color-surface-inset: #fffdf9eb; /* 内嵌芯片与浅轨道底色 */
-  --color-outline-hover: #e3a08bb8; /* 控件 hover 描边 */
-  --color-outline-error: #cf6d7266; /* 危险控件描边 */
-  --color-outline-error-soft: #cf6d7259; /* 告警卡片描边 */
-  --color-outline-hover-soft: #e6a18d29; /* 卡片 hover 描边 */
-  --color-error-wash: #fff6f6ff; /* 告警卡片渐变亮端 */
-  --color-outline-error-strong: #cf6d72b3; /* 危险控件 hover 描边 */
-  --color-outline-error-hair: #cf6d7242; /* 危险弹层头部分隔线 */
-  --color-primary-light: #efb59eff; /* 主色渐变亮端：同步客户端品牌亮端 */
-  --color-primary-hover-a: #dd8f77ff; /* 主色按钮 hover 渐变起 */
-  --color-primary-hover-b: #e79c85ff; /* 主色按钮 hover 渐变止 */
-  --color-primary-deep: #e6a18d38; /* 主色按钮 loading 环 */
-  --color-error-strong: #a4484eff; /* 危险按钮文字 */
-  --color-error-strong-deep: #8f3b41ff; /* 危险按钮 hover 文字 */
-  --color-error-softer: #fbdfe1ff; /* 危险按钮 hover 底色 */
-  --color-warning-light-a: #d8ab5cff; /* 告警进度条渐变起 */
-  --color-warning-light-b: #e6c079ff; /* 告警进度条渐变止 */
-  --color-error-light-a: #cf6d72ff; /* 危险进度条渐变起 */
-  --color-error-light-b: #e08b8fff; /* 危险进度条渐变止 */
-  --color-tab-track: #f7efe4c7; /* 分段控件轨道 */
-  --color-tab-count: #decfc299; /* 分段计数徽标底 */
-  --color-skeleton-base: #eee2d68c; /* 骨架屏暗端 */
-  --color-skeleton-shine: #f8f0e8d9; /* 骨架屏亮端 */
-  --color-on-dark-hairline: #ffffff80; /* 深色浮层上的描边与 loading 环 */
-  --color-primary-wash: #ffe7d8ff; /* 头像与图标底渐变亮端 */
-  --color-avatar-wash-a: #ffe3d6ff; /* 头像渐变起 */
-  --color-avatar-wash-b: #e6f0e5ff; /* 头像渐变止 */
-  --color-nav-active-a: #e3a08b38; /* 导航选中渐变起 */
-  --color-nav-active-b: #f0ab941a; /* 导航选中渐变止 */
-  --color-nav-active-ring: #e6a18d3d; /* 导航选中描边 */
-  --color-neutral-wash: #f0eae2b8; /* 禁用项 hover 底 */
-  --color-status-live: #5f9e7766; /* 实时状态点脉冲 */
-  --color-row-flash: #e6a18d4d; /* 新行高亮起始底色 */
-  --color-outline-strong-wash: #decfc2bf; /* 开关关闭态轨道 */
-  --color-track: #decfc280; /* 进度条轨道 */
-  --color-focus-ring-error: #cf6d7224; /* 错误控件聚焦环 */
-  --color-toast-error-bg: #b04c52f5; /* 错误 toast 底 */
-  --color-login-card-bg: #fffcf7ed; /* 登录卡底：两原型 0.94/0.90 合档 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   --background-contact-card: linear-gradient(135deg, #fff0e5ff, #fff9f1ff); /* 共享组件背景：从客户端卡片背景提升，保留原型渐变。 @nomikit — */
   --background-user-card: radial-gradient(circle at 12% 0%, #ffe8d880, #00000000 42%),
   #fffffff7; /* 共享组件背景：从客户端用户卡片背景提升，保留原型渐变。 @nomikit — */
   --background-user-card-action: linear-gradient(135deg, var(--color-primary), #eba48dff); /* 共享组件背景：从客户端动作背景提升，保留原型渐变。 @nomikit — */
-  --background-user-card-action-hover: linear-gradient(135deg, var(--color-primary-hover-a), #e09a83ff); /* 共享组件背景：从客户端动作 hover 背景提升，保留原型渐变。 @nomikit — */
+  --background-user-card-action-hover: linear-gradient(135deg, var(--color-primary), #e09a83ff); /* 共享组件背景：从客户端动作 hover 背景提升，保留原型渐变。 @nomikit — */
   --background-ai-panel: linear-gradient(180deg, #ffffffd1, #fff8efd1), radial-gradient(circle at 20% 8%, #ffe2d273, #00000000 35%); /* 共享组件背景：由 --background-ai-panel 提升，保留原型渐变。 @nomikit — */
 
-  /* group: 颜色 · 原型视图专用 */
-  --color-prototype-bg-glow-a: #e6a18d38; /* 客户端与后台背景光晕起始层，原型视图专用。 @nomikit — */
-  --color-prototype-bg-glow-b: #e6a18d29; /* 客户端与后台背景光晕次级层，原型视图专用。 @nomikit — */
-  --color-prototype-bg-mid: #fffaf5ff; /* 客户端与后台背景渐变中间色，原型视图专用。 @nomikit — */
-  --color-prototype-orb-light: #ffffffb3; /* 原型背景浅色装饰球，原型视图专用。 @nomikit — */
-  --color-prototype-orb-warm: #f8dcceb3; /* 原型背景暖色装饰球，原型视图专用。 @nomikit — */
-  --color-admin-focus-ring: #e6a18d57; /* 后台原型焦点环，原型视图专用。 @nomikit — */
-  --color-admin-live-ring-clear: #5f9e7700; /* 后台实时状态脉冲透明端，原型视图专用。 @nomikit — */
-  --color-admin-live-ring: #5f9e7729; /* 后台实时状态脉冲，原型视图专用。 @nomikit — */
-  --color-admin-connecting-ring: #b98a3c29; /* 后台连接中状态脉冲，原型视图专用。 @nomikit — */
-  --color-admin-console-background: #fffcf8eb; /* 后台实时流面板底色，原型视图专用。 @nomikit — */
-  --color-admin-error-text: #9d4a50ff; /* 后台错误日志与危险提示文字，原型视图专用。 @nomikit — */
-  --color-admin-error-text-strong: #96464cff; /* 后台错误日志强调文字，原型视图专用。 @nomikit — */
-  --color-admin-info-border: #5f86a847; /* 后台信息提示描边，原型视图专用。 @nomikit — */
-  --color-admin-info-text: #4a6d8cff; /* 后台信息提示文字，原型视图专用。 @nomikit — */
-  --color-admin-warning-border: #b98a3c4d; /* 后台告警提示描边，原型视图专用。 @nomikit — */
-  --color-admin-warning-text: #8a6528ff; /* 后台告警提示文字，原型视图专用。 @nomikit — */
-  --color-admin-danger-border: #cf6d7252; /* 后台危险提示描边，原型视图专用。 @nomikit — */
-  --color-admin-chip-hover: #bf76652e; /* 后台标签 hover 底色，原型视图专用。 @nomikit — */
-  --color-admin-code-background: #fffcf7e6; /* 后台代码块底色，原型视图专用。 @nomikit — */
-  --color-admin-card-background: #fffdf9e6; /* 后台卡片浅表面，原型视图专用。 @nomikit — */
-  --color-admin-topbar-background: #fffcf7e0; /* 后台顶栏底色，原型视图专用。 @nomikit — */
-  --color-admin-role-pill-background: #ffffffdb; /* 后台角色标签底色，原型视图专用。 @nomikit — */
-  --color-admin-role-pill-hover-border: #e3a08b99; /* 后台角色标签 hover 描边，原型视图专用。 @nomikit — */
-  --color-admin-sidenav-background: #fffcf7b8; /* 后台侧栏底色，原型视图专用。 @nomikit — */
-  --color-admin-page-head-border: #eee2d6bf; /* 后台页面头部分隔线，原型视图专用。 @nomikit — */
-  --color-admin-card-background-muted: #fffdf9db; /* 后台次级卡片底色，原型视图专用。 @nomikit — */
-  --color-admin-secret-mask-background: #f7efe499; /* 后台密钥遮罩底色，原型视图专用。 @nomikit — */
-  --color-admin-hit-preview-background: #f7efe46b; /* 后台命中预览底色，原型视图专用。 @nomikit — */
-  --color-admin-connection-warning-border: #b98a3c57; /* 后台连接告警描边，原型视图专用。 @nomikit — */
-  --color-admin-connection-warning-text: #7d5c22ff; /* 后台连接告警文字，原型视图专用。 @nomikit — */
-  --color-admin-connection-danger-border: #cf6d7257; /* 后台连接异常描边，原型视图专用。 @nomikit — */
-  --color-admin-connection-danger-text: #96474bff; /* 后台连接异常文字，原型视图专用。 @nomikit — */
-  --color-admin-trace-chip-background: #f7efe4cc; /* 后台追踪标签底色，原型视图专用。 @nomikit — */
-  --color-admin-error-detail-background: #fdf6eeb8; /* 后台错误详情行底色，原型视图专用。 @nomikit — */
-  --color-admin-signed-box-background: #f7efe480; /* 后台签名信息块底色，原型视图专用。 @nomikit — */
-  --color-admin-signed-url-background: #ffffffdb; /* 后台签名 URL 底色，原型视图专用。 @nomikit — */
-  --color-print-border: #ccccccff; /* 打印态卡片边框，原型视图专用。 @nomikit — */
 
-  /* group: 阴影 · 原型视图专用 */
-  --shadow-admin-brand-mark: 0 6px 16px #e6a18d47; /* 后台品牌标记阴影，原型视图专用。 @nomikit — */
-  --shadow-admin-sidenav-open: 18px 0 50px #704f3b33; /* 后台展开侧栏阴影，原型视图专用。 @nomikit — */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /* group: 阴影 */
   --shadow-low: 0 10px 24px #704f3b12; /* 卡片与列表 @nomikit Shadows.low */
@@ -272,7 +269,7 @@
 
   /* group: 控件高度 */
   --height-appbar: 56px; /* 顶栏 @nomikit Heights.appBar */
-  --height-bottombar: 56px; /* 底部导航 @nomikit Heights.bottomBar */
+
   --height-tab: 48px; /* 标签与主按钮 */
   --height-chip: 32px; /* 标签芯片 */
   --height-badge: 18px; /* 计数徽标 */
@@ -325,7 +322,7 @@
   --z-index-modal: 70;
   --z-index-popover: 80;
   --z-index-toast: 90;
-  --z-index-region-head: 10;
+
   --z-index-suite-nav: 100;
   /* 外壳 chrome：画布上的 HUD / 提示条，与窄屏抽屉式左栏 */
   --z-index-canvas-hud: 20;
@@ -335,9 +332,9 @@
   /* group: 时长与曲线 */
   --duration-fast: 160ms;
   --duration-base: 240ms;
-  --duration-slow: 420ms;
+
   --easing-standard: cubic-bezier(0.22, 0.8, 0.3, 1);
-  --easing-exit: cubic-bezier(0.4, 0, 1, 1);
+
 
   /* group: 布局常量 */
   --size-nav-width: 248px; /* 后台侧栏展开宽度 */
@@ -363,7 +360,7 @@
   --size-drawer-width-lg: 780px; /* 宽抽屉 */
   --size-popover-min-width: 216px; /* 气泡菜单下限 */
   --size-popover-max-width: 330px; /* 气泡菜单上限 */
-  --size-toast-max-width: 470px; /* toast 宽度上限，后台档；客户端在区域里收窄 */
+
   --size-toast-max-width-sm: 360px; /* toast 宽度上限的紧凑档（移动端与客户端） */
 
   /* group: 区域旋钮（同一组件在两区的落位差异，只允许改这些值，
@@ -373,7 +370,7 @@
   --toast-inset-start: calc(var(--overlay-inset-top) + var(--spacing-medium)); /* toast 上沿（后台档） */
   --toast-inset-end: auto; /* 与 --toast-inset-start 二选一，客户端换用这一头 */
   --toast-shift: calc(-1 * var(--spacing-medium)); /* 未显时的滑入方向，客户端取正值从下往上 */
-  --toast-max-width: min(92cqi, var(--size-toast-max-width));
+  --toast-max-width: min(92cqi, 470px);
   --field-height: var(--height-field); /* 输入控件高度：客户端登录表单覆写为 48px 档 */
   --login-card-align: left; /* 登录卡文字基准：客户端是居中的头像式卡片，后台是左对齐表单 */
 
@@ -391,8 +388,8 @@
   --color-on-primary: #3a2318ff;
   --color-primary-strong: #f0bda7ff;
   --color-primary-soft: #43302aff;
-  --color-primary-container: #6b4a3dff;
-  --color-on-primary-container: #f6e6dcff;
+
+
 
   --color-bg: #1d1714ff;
   --color-bg-deep: #241d19ff;
@@ -400,7 +397,7 @@
   --color-surface-strong: #2e2621ff;
   --color-surface-soft: #26201cff;
   --color-surface-solid: var(--color-surface-strong);
-  --color-surface-high: #382f29ff;
+
 
   --color-on-surface: #ece0d6ff;
   --color-on-surface-soft: #c3b3a7ff;
@@ -420,8 +417,8 @@
   --color-error: #e38b90ff;
   --color-error-soft: #442a2cff;
   --color-neutral-soft: #38302aff;
-  --color-accent-mint: #2f4438ff;
-  --color-accent-yellow: #463a22ff;
+
+
 
   --color-table-head: #332a24ff;
   --color-row-hover: #e8a99214;
@@ -430,48 +427,47 @@
   --color-toast-bg: #f0e4d9f5;
   --color-focus-ring: #e8a99257;
 
-  /* 组件专用色：深色端全部覆写，缺一个就会让组件在深色评审视图里落回 unset */
-  --color-focus-ring-soft: #e8a99238;
-  --color-surface-hairline: var(--color-outline);
-  --color-surface-hairline-strong: var(--color-outline);
-  --color-surface-inset: var(--color-surface-strong);
-  --color-outline-hover: var(--color-outline);
-  --color-outline-hover-soft: var(--color-outline);
-  --color-outline-error: #e38b9073;
-  --color-outline-error-soft: #e38b9061;
-  --color-outline-error-strong: #e38b90b8;
-  --color-outline-error-hair: #e38b9047;
-  --color-error-wash: #3a2628ff;
-  --color-primary-light: #f0bda7ff;
-  --color-primary-hover-a: #efb39aff;
-  --color-primary-hover-b: #f6c6b1ff;
-  --color-primary-deep: var(--color-on-surface-soft);
-  --color-error-strong: #f0a9adff;
-  --color-error-strong-deep: #f6c1c4ff;
-  --color-error-softer: #5b3237ff;
-  --color-warning-light-a: #e0b877ff;
-  --color-warning-light-b: #eccc8fff;
-  --color-error-light-a: #e38b90ff;
-  --color-error-light-b: #eda3a7ff;
-  --color-tab-track: var(--color-surface-strong);
-  --color-tab-count: #54473d99;
-  --color-skeleton-base: #3d332cb3;
-  --color-skeleton-shine: #56483ed9;
-  --color-on-dark-hairline: #241d1952;
-  --color-primary-wash: #4a332bff;
-  --color-avatar-wash-a: #4d362dff;
-  --color-avatar-wash-b: #33443aff;
-  --color-nav-active-a: #e8a99233;
-  --color-nav-active-b: #f0bda714;
-  --color-nav-active-ring: var(--color-on-surface-soft);
-  --color-neutral-wash: #382f29b8;
-  --color-status-live: #79bb9273;
-  --color-row-flash: #e8a99238;
-  --color-outline-strong-wash: #54473dcc;
-  --color-track: #54473d99;
-  --color-focus-ring-error: #e38b902e;
-  --color-toast-error-bg: #d67c82f5;
-  --color-login-card-bg: #2e2621eb;
+    --color-focus-ring-soft: #e8a99238;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   --shadow-low: 0 12px 32px #0000005c;
   --shadow-high: var(--shadow-low);
@@ -573,7 +569,7 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--color-status-live); opacity: 1; }
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-success); opacity: 1; }
   50% { box-shadow: 0 0 0 4px transparent; opacity: 0.65; }
 }
 
@@ -583,7 +579,7 @@ body {
 }
 
 @keyframes row-flash {
-  0%, 40% { background: var(--color-row-flash); }
+  0%, 40% { background: var(--color-row-hover); }
   100% { background: transparent; }
 }
 
@@ -745,9 +741,9 @@ body {
   gap: var(--spacing-extra-small);
   min-height: var(--height-control-sm);
   padding: 0 var(--spacing-medium);
-  border: 1px solid var(--color-outline-hover-soft);
+  border: 1px solid var(--color-row-hover);
   border-radius: var(--radius-medium);
-  background: var(--color-surface-inset);
+  background: var(--color-surface-soft);
   color: var(--color-on-surface-soft);
   font-family: inherit;
   font-size: var(--font-label-small);
@@ -757,7 +753,7 @@ body {
 }
 
 .btn:hover:not(:disabled) {
-  border-color: var(--color-outline-hover);
+  border-color: var(--color-outline-strong);
   color: var(--color-primary-strong);
 }
 
@@ -778,14 +774,14 @@ body {
 /* ---- 语义档 ---- */
 .btn--primary {
   border-color: transparent;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
   color: var(--color-on-primary);
   box-shadow: var(--shadow-primary-low);
 }
 
 .btn--primary:hover:not(:disabled) {
   border-color: transparent;
-  background: linear-gradient(135deg, var(--color-primary-hover-a), var(--color-primary-hover-b));
+  background: linear-gradient(135deg, var(--color-primary-strong), var(--color-primary));
   color: var(--color-on-primary);
   box-shadow: var(--shadow-primary-high);
 }
@@ -798,15 +794,15 @@ body {
 .btn--ghost:hover:not(:disabled) { background: var(--color-primary-soft); }
 
 .btn--danger {
-  border-color: var(--color-outline-error);
+  border-color: var(--color-error);
   background: var(--color-error-soft);
-  color: var(--color-error-strong);
+  color: var(--color-error);
 }
 
 .btn--danger:hover:not(:disabled) {
-  border-color: var(--color-outline-error-strong);
-  background: var(--color-error-softer);
-  color: var(--color-error-strong-deep);
+  border-color: var(--color-error);
+  background: var(--color-error);
+  color: var(--color-on-primary);
 }
 
 .btn--sm {
@@ -841,14 +837,14 @@ body {
   position: absolute;
   width: var(--size-spinner);
   height: var(--size-spinner);
-  border: var(--stroke-medium) solid var(--color-on-dark-hairline);
+  border: var(--stroke-medium) solid var(--color-outline-strong);
   border-top-color: var(--color-on-primary);
   border-radius: var(--radius-pill);
   animation: spin 720ms linear infinite;
 }
 
 .btn:not(.btn--primary).is-loading::after {
-  border-color: var(--color-primary-deep);
+  border-color: var(--color-primary-soft);
   border-top-color: var(--color-primary-strong);
 }
 
@@ -914,7 +910,7 @@ body {
 
 /* 实色主操作：旧资料动作与发送，不与登录渐变主操作混为一档。 */
 .btn--solid { border-color: transparent; background: var(--color-primary); color: var(--color-on-primary); }
-.btn--solid:hover:not(:disabled) { background: var(--color-primary-hover-a); color: var(--color-on-primary); }
+.btn--solid:hover:not(:disabled) { background: var(--color-primary-strong); color: var(--color-on-primary); }
 .btn::before, .tap-target::before { content: ""; position: absolute; inset-inline: 0; top: 50%; height: max(100%, var(--tap-target)); min-width: var(--tap-target); transform: translateY(-50%); }
 
 
@@ -975,7 +971,7 @@ body {
   min-height: var(--size-icon-massive);
   margin-top: var(--spacing-extra-small);
   border-radius: var(--radius-medium);
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
   color: var(--color-on-primary);
   font-size: var(--font-body-medium);
   font-weight: 800;
@@ -1040,7 +1036,7 @@ body {
   flex: 1;
   min-height: var(--size-avatar-medium);
   border-radius: var(--radius-medium);
-  background: var(--color-surface-inset);
+  background: var(--color-surface-soft);
   border: 1px solid var(--color-outline);
   color: var(--color-on-surface-soft);
   font-size: var(--font-label-small);
@@ -1098,7 +1094,7 @@ body {
 
 :is([data-proto="client"], [data-client-components]) .user-card-actions button:hover {
 
-  border-color: var(--color-outline-hover);
+  border-color: var(--color-outline-strong);
   color: var(--color-primary-strong);
 
 }
@@ -1114,7 +1110,7 @@ body {
   border-color: transparent;
   background: var(--background-user-card-action);
   color: var(--color-on-primary);
-  box-shadow: 0 10px 22px var(--color-row-flash);
+  box-shadow: 0 10px 22px var(--color-row-hover);
 
 }
 
@@ -1211,7 +1207,7 @@ body {
   padding: var(--spacing-small) var(--spacing-medium);
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
-  background: var(--color-surface-inset);
+  background: var(--color-surface-soft);
   color: var(--color-on-surface);
   font-family: inherit;
   font-size: var(--font-body-small);
@@ -1266,7 +1262,7 @@ select.field-ctl {
 .field.is-invalid .field-ctl,
 .field.is-invalid .password-field > .password-input {
   border-color: var(--color-error);
-  box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring-error);
+  box-shadow: 0 0 0 var(--stroke-thick) var(--color-error);
 }
 
 .field-error {
@@ -1289,7 +1285,7 @@ select.field-ctl {
   gap: var(--spacing-small);
   flex: 0 0 auto;
   padding: var(--spacing-small) var(--spacing-medium);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--color-surface);
   box-shadow: var(--shadow-low);
@@ -1362,7 +1358,7 @@ select.field-ctl {
   flex: 0 0 auto;
   border: 0;
   border-radius: var(--radius-pill);
-  background: var(--color-outline-strong-wash);
+  background: var(--color-outline-strong);
   transition: opacity var(--duration-fast) ease;
 }
 
@@ -1406,7 +1402,7 @@ select.field-ctl {
   width: 100%;
   height: 6px;
   border-radius: var(--radius-pill);
-  background: var(--color-track);
+  background: var(--color-outline);
   overflow: hidden;
 }
 
@@ -1416,16 +1412,16 @@ select.field-ctl {
   width: var(--progress-value, 0%);
   height: 100%;
   border-radius: var(--radius-pill);
-  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-strong));
   transition: opacity var(--duration-fast) ease;
 }
 
 .progress.is-warn .progress-bar {
-  background: linear-gradient(90deg, var(--color-warning-light-a), var(--color-warning-light-b));
+  background: linear-gradient(90deg, var(--color-warning), var(--color-warning));
 }
 
 .progress.is-danger .progress-bar {
-  background: linear-gradient(90deg, var(--color-error-light-a), var(--color-error-light-b));
+  background: linear-gradient(90deg, var(--color-error), var(--color-error));
 }
 
 .progress-label {
@@ -1438,9 +1434,9 @@ select.field-ctl {
 .skeleton {
   border-radius: var(--radius-small);
   background: linear-gradient(90deg,
-    var(--color-skeleton-base) 25%,
-    var(--color-skeleton-shine) 37%,
-    var(--color-skeleton-base) 63%);
+    var(--color-surface-soft) 25%,
+    var(--color-surface-strong) 37%,
+    var(--color-surface-soft) 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
 }
@@ -1482,7 +1478,7 @@ select.field-ctl {
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
   outline: none;
-  background: var(--color-surface-inset);
+  background: var(--color-surface-soft);
   color: var(--color-on-surface);
   font-size: var(--font-body-small);
   transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
@@ -1499,7 +1495,7 @@ select.field-ctl {
 .password-field > .password-input:focus,
 :is([data-proto="client"], [data-client-components]) .login-input:focus {
   outline: none;
-  border-color: var(--color-outline-hover);
+  border-color: var(--color-outline-strong);
   box-shadow: var(--shadow-inset-hair);
 
 }
@@ -1558,7 +1554,7 @@ select.field-ctl {
 .filter-select-option[aria-selected="true"] { color: var(--color-primary-strong); font-weight: var(--weight-bold); background: var(--color-primary-soft); }
 .filter-select-option[aria-selected="true"] > .icon { visibility: visible; }
 .filter-select-option.is-active:not([aria-disabled="true"]), .filter-select-option:hover:not([aria-disabled="true"]) { background: var(--color-primary-soft); color: var(--color-primary-strong); }
-.filter-select-option.is-active { outline: var(--stroke-thin) solid var(--color-outline-hover-soft); outline-offset: calc(-1 * var(--stroke-thin)); }
+.filter-select-option.is-active { outline: var(--stroke-thin) solid var(--color-row-hover); outline-offset: calc(-1 * var(--stroke-thin)); }
 .filter-select-option[aria-disabled="true"] { color: var(--color-text-hint); cursor: not-allowed; opacity: 0.5; }
 @media (prefers-reduced-motion: reduce) { .filter-select-control > .filter-select-trigger > .icon { transition: none; } }
 
@@ -1582,7 +1578,7 @@ select.field-ctl {
   overflow: hidden;
   border: 0;
   border-radius: var(--radius-large);
-  background: linear-gradient(145deg, var(--color-avatar-wash-a), var(--color-avatar-wash-b));
+  background: linear-gradient(145deg, var(--color-primary-soft), var(--color-primary-soft));
   box-shadow: var(--shadow-avatar-inset);
 }
 
@@ -1630,7 +1626,7 @@ select.field-ctl {
   height: var(--size-avatar-colossal);
   margin: 0 auto var(--spacing-large);
   overflow: hidden;
-  border: 5px solid var(--color-surface-hairline-strong);
+  border: 5px solid var(--color-outline-strong);
   border-radius: var(--radius-massive);
   background: var(--color-surface-soft);
   box-shadow: var(--shadow-avatar-inset);
@@ -1677,8 +1673,8 @@ select.field-ctl {
   width: var(--size-icon-colossal);
   height: var(--size-icon-colossal);
   border-radius: 50%;
-  background: linear-gradient(145deg, var(--color-primary-soft), var(--color-primary-wash));
-  box-shadow: 0 8px 20px var(--color-nav-active-ring), 0 0 0 4px var(--color-surface-hairline-strong);
+  background: linear-gradient(145deg, var(--color-primary-soft), var(--color-primary-soft));
+  box-shadow: 0 8px 20px var(--color-focus-ring), 0 0 0 4px var(--color-outline-strong);
   overflow: hidden;
 
 }
@@ -1801,7 +1797,7 @@ select.field-ctl {
 }
 
 .chip:hover {
-  border-color: var(--color-outline-hover-soft);
+  border-color: var(--color-row-hover);
   color: var(--color-primary-strong);
 }
 
@@ -1878,7 +1874,7 @@ select.field-ctl {
    ------------------------------------------------------------
    正本取自管理后台的 .card / .card-head / .card-body 与 .stat-card。
    半透面板 + backdrop-filter + 1px 高光描边是这套暖色的既有质感，
-   描边色收在 --color-surface-hairline，不再各处写 rgba。
+   描边色统一使用公共 --color-outline，不再各处写颜色字面量。
    .table-card 是同一外壳的「撑满剩余高度」变体。
    ============================================================ */
 
@@ -1886,7 +1882,7 @@ select.field-ctl {
 .table-card,
 .stat-card {
   min-width: 0;
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--background-user-card);
   box-shadow: var(--shadow-low);
@@ -1939,7 +1935,7 @@ select.field-ctl {
 button.stat-card { cursor: pointer; }
 
 button.stat-card:hover {
-  border-color: var(--color-outline-hover-soft);
+  border-color: var(--color-row-hover);
   box-shadow: var(--shadow-card-hover);
   transform: translateY(-1px);
 }
@@ -1952,8 +1948,8 @@ button.stat-card:disabled {
 }
 
 .stat-card.is-alert {
-  border-color: var(--color-outline-error-soft);
-  background: linear-gradient(135deg, var(--color-error-wash), var(--color-surface));
+  border-color: var(--color-error-soft);
+  background: linear-gradient(135deg, var(--color-error-soft), var(--color-surface));
 }
 
 .stat-label {
@@ -2213,16 +2209,16 @@ button.stat-card:disabled {
 
 .nav-item.is-active,
 .nav-item[aria-current="page"] {
-  background: linear-gradient(135deg, var(--color-nav-active-a), var(--color-nav-active-b));
+  background: linear-gradient(135deg, var(--color-primary-soft), var(--color-primary));
   color: var(--color-primary-strong);
   font-weight: var(--weight-bold);
-  box-shadow: inset 0 0 0 1px var(--color-nav-active-ring);
+  box-shadow: inset 0 0 0 1px var(--color-focus-ring);
 }
 
 .nav-item[aria-disabled="true"] { color: var(--color-text-hint); }
 
 .nav-item[aria-disabled="true"]:hover {
-  background: var(--color-neutral-wash);
+  background: var(--color-neutral-soft);
   color: var(--color-text-hint);
 }
 
@@ -2240,7 +2236,7 @@ button.stat-card:disabled {
   min-width: 0;
   padding: var(--spacing-small);
   border-radius: var(--radius-medium);
-  background: var(--color-surface-inset);
+  background: var(--color-surface-soft);
 }
 
 .is-rail .chip-user {
@@ -2277,11 +2273,11 @@ button.stat-card:disabled {
   background: var(--color-primary-soft);
   color: var(--color-primary-strong);
   font-weight: var(--weight-bold);
-  box-shadow: inset 0 0 0 1px var(--color-nav-active-ring);
+  box-shadow: inset 0 0 0 1px var(--color-focus-ring);
 }
 
 .side-tab.is-active .tab-count {
-  background: var(--color-surface-inset);
+  background: var(--color-surface-soft);
   color: var(--color-primary-strong);
 }
 
@@ -2291,7 +2287,7 @@ button.stat-card:disabled {
   gap: 3px;
   padding: var(--spacing-extra-small);
   border-radius: var(--radius-medium);
-  background: var(--color-tab-track);
+  background: var(--color-surface-soft);
   flex-wrap: wrap;
 }
 
@@ -2340,7 +2336,7 @@ button.stat-card:disabled {
 .tab-count {
   padding: 0 var(--spacing-extra-small);
   border-radius: var(--radius-pill);
-  background: var(--color-tab-count);
+  background: var(--color-surface-soft);
   color: var(--color-on-surface-soft);
   font-size: 10px;
   font-weight: var(--weight-bold);
@@ -2419,7 +2415,7 @@ button.stat-card:disabled {
 }
 
 .page-btn:hover:not(:disabled):not([aria-current="page"]) {
-  border-color: var(--color-outline-hover);
+  border-color: var(--color-outline-strong);
   color: var(--color-primary-strong);
 }
 
@@ -2474,7 +2470,7 @@ button.stat-card:disabled {
 
 
 /* 紧凑双段是 Tabs 的通用变体，不绑定业务列表或路由。 */
-.tabs.tabs--segmented { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-extra-small); border-radius: var(--radius-medium); background: var(--color-tab-track); }
+.tabs.tabs--segmented { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-extra-small); border-radius: var(--radius-medium); background: var(--color-surface-soft); }
 .tabs--segmented > .tab { justify-content: center; min-height: var(--tap-target); }
 .tabs--segmented > .tab::after { inset: 0; }
 .tabs--segmented > .tab:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -2512,9 +2508,9 @@ button.stat-card:disabled {
 .login-card {
   width: min(100%, var(--size-login-card-width));
   padding: var(--spacing-massive) var(--spacing-massive) var(--spacing-huge);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
-  background: var(--color-login-card-bg);
+  background: var(--color-surface-solid);
   box-shadow: var(--shadow-high);
   text-align: var(--login-card-align);
   backdrop-filter: blur(22px);
@@ -2548,7 +2544,7 @@ button.stat-card:disabled {
   width: var(--size-avatar-medium);
   height: var(--size-avatar-medium);
   border-radius: var(--radius-medium);
-  background: linear-gradient(140deg, var(--color-primary), var(--color-primary-light));
+  background: linear-gradient(140deg, var(--color-primary), var(--color-primary-strong));
   color: var(--color-on-primary);
   font-size: var(--size-icon-medium);
   box-shadow: var(--shadow-primary-high);
@@ -2614,7 +2610,7 @@ button.stat-card:disabled {
   max-height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--color-surface-hairline-strong);
+  border: 1px solid var(--color-outline-strong);
   border-radius: var(--radius-huge);
   background: var(--color-surface-solid);
   box-shadow: var(--shadow-high);
@@ -2664,7 +2660,7 @@ button.stat-card:disabled {
 }
 
 .form-modal.is-danger .modal-head {
-  border-bottom-color: var(--color-outline-error-hair);
+  border-bottom-color: var(--color-error-soft);
   background: var(--color-error-soft);
 }
 
@@ -2735,7 +2731,7 @@ button.stat-card:disabled {
   flex-direction: column;
   width: min(var(--size-drawer-width), 92cqi);
   min-width: 0;
-  border-left: 1px solid var(--color-surface-hairline);
+  border-left: 1px solid var(--color-outline);
   border-radius: var(--radius-huge) 0 0 var(--radius-huge);
   background: var(--color-surface-solid);
   box-shadow: var(--shadow-drawer);
@@ -2818,7 +2814,7 @@ button.stat-card:disabled {
 }
 
 .drawer-foot.is-danger {
-  border-top-color: var(--color-outline-error-soft);
+  border-top-color: var(--color-error-soft);
   background: var(--color-error-soft);
 }
 
@@ -2837,7 +2833,7 @@ button.stat-card:disabled {
   min-width: var(--size-popover-min-width);
   max-width: min(var(--size-popover-max-width), calc(100cqi - var(--spacing-huge)));
   padding: var(--spacing-extra-small);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
   background: var(--color-surface-solid);
   box-shadow: var(--shadow-high);
@@ -2951,7 +2947,7 @@ button.stat-card:disabled {
   gap: var(--spacing-small);
   max-width: var(--toast-max-width);
   padding: var(--spacing-medium) var(--spacing-large);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-pill);
   background: var(--color-toast-bg);
   color: var(--color-on-dark);
@@ -2969,8 +2965,8 @@ button.stat-card:disabled {
 }
 
 .toast.is-error {
-  background: var(--color-toast-error-bg);
-  border-color: var(--color-on-dark-hairline);
+  background: var(--color-error-soft);
+  border-color: var(--color-outline-strong);
 }
 
 .toast > .icon {
@@ -3015,7 +3011,7 @@ button.stat-card:disabled {
 
 :is([data-proto="client"], [data-client-components]) button:where(:not(.btn):not(.icon-btn)):focus-visible, :is([data-proto="client"], [data-client-components]) textarea:not(.field-ctl):focus-visible {
 
-  outline: 3px solid var(--color-row-flash);
+  outline: 3px solid var(--color-row-hover);
   outline-offset: 2px;
 
 }
@@ -3124,9 +3120,9 @@ button.stat-card:disabled {
   right: 0;
   width: var(--size-popover-min-width);
   padding: var(--spacing-small);
-  border: 1px solid var(--color-surface-hairline-strong);
+  border: 1px solid var(--color-outline-strong);
   border-radius: var(--radius-large);
-  background: var(--color-surface-hairline-strong);
+  background: var(--color-outline-strong);
   box-shadow: var(--shadow-low);
   backdrop-filter: blur(18px);
 
@@ -3244,7 +3240,7 @@ button.stat-card:disabled {
 
 :is([data-proto="client"], [data-client-components]) .contact-card.is-active {
 
-  border-color: var(--color-outline-hover-soft);
+  border-color: var(--color-row-hover);
   background: var(--background-contact-card);
   box-shadow: var(--shadow-card-hover);
 
@@ -3288,7 +3284,7 @@ button.stat-card:disabled {
   padding: var(--spacing-medium);
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-extra-large);
-  background: var(--color-surface-hairline-strong);
+  background: var(--color-outline-strong);
   box-shadow: var(--shadow-low);
   text-align: left;
 
@@ -3328,7 +3324,7 @@ button.stat-card:disabled {
   position: relative;
   width: min(100%, 390px);
   padding: var(--spacing-huge);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--color-surface-strong);
   box-shadow: var(--shadow-high);
@@ -3363,7 +3359,7 @@ button.stat-card:disabled {
   position: relative;
   width: min(100%, 400px);
   padding: var(--spacing-huge) var(--spacing-huge) var(--spacing-huge);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--background-user-card);
   box-shadow: var(--shadow-high);
@@ -3417,7 +3413,7 @@ button.stat-card:disabled {
 :is([data-proto="client"], [data-client-components]) .user-card-row > * {
 
   padding-bottom: var(--spacing-medium);
-  border-bottom: 1px solid var(--color-nav-active-ring);
+  border-bottom: 1px solid var(--color-focus-ring);
 
 }
 
@@ -3467,7 +3463,7 @@ button.stat-card:disabled {
   margin: var(--spacing-tiny) 0 var(--spacing-medium);
   border-radius: var(--radius-huge);
   background: var(--color-on-primary);
-  box-shadow: 0 10px 24px var(--color-primary-deep), 0 0 0 4px var(--color-surface-hairline-strong);
+  box-shadow: 0 10px 24px var(--color-primary-soft), 0 0 0 4px var(--color-outline-strong);
   vertical-align: top;
 
 }
@@ -3511,7 +3507,7 @@ button.stat-card:disabled {
 
   height: var(--stroke-thin);
   margin: var(--spacing-extra-large) var(--spacing-massive);
-  background: var(--color-nav-active-ring);
+  background: var(--color-focus-ring);
 
 }
 
@@ -3641,7 +3637,7 @@ button.stat-card:disabled {
 :is([data-proto="client"], [data-client-components]) .is-sent .message-bubble {
 
   border-radius: var(--radius-large) var(--radius-large) var(--radius-extra-small) var(--radius-large);
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
   color: var(--color-on-primary);
   box-shadow: var(--shadow-primary-low);
 
@@ -4140,7 +4136,7 @@ button.stat-card:disabled {
   --demo-gap: var(--spacing-large);
 
   /* 卡片外观与 .card 同源：同一套令牌，不给文档区另造一层视觉 */
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--color-surface);
   box-shadow: var(--shadow-low);
@@ -4742,7 +4738,7 @@ body {
   padding: 0 var(--spacing-extra-small);
   border: 1px solid var(--color-outline-strong);
   border-radius: var(--radius-tiny);
-  background: var(--color-surface-inset);
+  background: var(--color-surface-soft);
   font-family: var(--font-family-mono);
   font-size: var(--font-caption);
 }
@@ -4851,9 +4847,9 @@ body {
   min-width: 320px;
   color: var(--color-on-surface);
   background:
-  radial-gradient(circle at 9% 8%, var(--color-prototype-bg-glow-a), transparent 30%),
-  radial-gradient(circle at 93% 84%, var(--color-prototype-bg-glow-b), transparent 31%),
-  linear-gradient(135deg, var(--color-bg), var(--color-prototype-bg-mid) 52%, var(--color-bg-deep));
+  radial-gradient(circle at 9% 8%, var(--color-primary-soft), transparent 30%),
+  radial-gradient(circle at 93% 84%, var(--color-primary-soft), transparent 31%),
+  linear-gradient(135deg, var(--color-bg), var(--color-surface-soft) 52%, var(--color-bg-deep));
   overflow-x: hidden;
 
 }
@@ -4876,7 +4872,7 @@ body {
   height: 260px;
   top: 12%;
   right: 4%;
-  background: var(--color-prototype-orb-light);
+  background: var(--color-surface);
 
 }
 
@@ -4886,7 +4882,7 @@ body {
   height: 190px;
   bottom: 5%;
   left: 4%;
-  background: var(--color-prototype-orb-warm);
+  background: var(--color-primary-soft);
 
 }
 
@@ -4894,7 +4890,7 @@ body {
 
   min-width: 44px;
   min-height: 44px;
-  background: linear-gradient(145deg, var(--color-primary), var(--color-primary-light));
+  background: linear-gradient(145deg, var(--color-primary), var(--color-primary-strong));
   color: var(--color-on-primary);
   font-weight: 800;
   box-shadow: var(--shadow-primary-low);
@@ -4947,7 +4943,7 @@ body {
   position: relative; display: grid;
   grid-template-columns: var(--size-nav-width) minmax(0, 1fr);
   height: 100%; min-height: 0; overflow: hidden;
-  border: var(--stroke-thin) solid var(--color-surface-hairline);
+  border: var(--stroke-thin) solid var(--color-outline);
   border-radius: var(--radius-huge); background: var(--color-surface);
   box-shadow: var(--shadow-high);
 
@@ -5144,9 +5140,9 @@ body {
   font-size: var(--font-body-small);
   line-height: 1.5;
   background:
-  radial-gradient(circle at 9% 8%, var(--color-prototype-bg-glow-a), transparent 30%),
-  radial-gradient(circle at 93% 84%, var(--color-prototype-bg-glow-b), transparent 31%),
-  linear-gradient(135deg, var(--color-bg), var(--color-prototype-bg-mid) 52%, var(--color-bg-deep));
+  radial-gradient(circle at 9% 8%, var(--color-primary-soft), transparent 30%),
+  radial-gradient(circle at 93% 84%, var(--color-primary-soft), transparent 31%),
+  linear-gradient(135deg, var(--color-bg), var(--color-surface-soft) 52%, var(--color-bg-deep));
   overflow-x: hidden;
 }
 
@@ -5165,7 +5161,7 @@ body {
   height: 260px;
   top: 10%;
   right: 3%;
-  background: var(--color-prototype-orb-light);
+  background: var(--color-surface);
 }
 
 [data-proto="admin"]::after {
@@ -5173,7 +5169,7 @@ body {
   height: 190px;
   bottom: 4%;
   left: 3%;
-  background: var(--color-prototype-orb-warm);
+  background: var(--color-primary-soft);
 }
 /* 后台框架占满视口时，装饰圆不应透出到内容区之上 */
 [data-proto="admin"].is-app::before, [data-proto="admin"].is-app::after {
@@ -5196,7 +5192,7 @@ body {
 }
 
 [data-proto="admin"] button:focus-visible, [data-proto="admin"] input:focus-visible, [data-proto="admin"] select:focus-visible, [data-proto="admin"] textarea:focus-visible, [data-proto="admin"] [tabindex]:focus-visible {
-  outline: 3px solid var(--color-admin-focus-ring);
+  outline: 3px solid var(--color-focus-ring);
   outline-offset: 2px;
 }
 /* 页头是路由切换后的焦点落点，不画焦点环（规避走查 #2：滚动容器焦点环） */
@@ -5269,7 +5265,7 @@ body {
 }
 @keyframes row-flash {
   0%, 40% {
-    background: var(--color-row-flash);
+    background: var(--color-row-hover);
   }
   100% {
     background: transparent;
@@ -5311,11 +5307,11 @@ body {
 /* Phase 1 内延后项：虚线边，与「禁用 / 失败」在视觉上区分开 */
 @keyframes pulse {
   0%, 100% {
-    box-shadow: 0 0 0 0 var(--color-status-live);
+    box-shadow: 0 0 0 0 var(--color-success);
     opacity: 1;
   }
   50% {
-    box-shadow: 0 0 0 4px var(--color-admin-live-ring-clear);
+    box-shadow: 0 0 0 4px var(--color-success);
     opacity: 0.65;
   }
 }
@@ -5451,9 +5447,9 @@ body {
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
-  background: var(--color-admin-console-background);
+  background: var(--color-surface-solid);
   box-shadow: var(--shadow-low);
 }
 
@@ -5486,12 +5482,12 @@ body {
 
 [data-proto="admin"] .stream-state.is-open .stream-dot {
   background: var(--color-success);
-  box-shadow: 0 0 0 3px var(--color-admin-live-ring);
+  box-shadow: 0 0 0 3px var(--color-success);
 }
 
 [data-proto="admin"] .stream-state.is-connecting .stream-dot, [data-proto="admin"] .stream-state.is-reconnecting .stream-dot {
   background: var(--color-warning);
-  box-shadow: 0 0 0 3px var(--color-admin-connecting-ring);
+  box-shadow: 0 0 0 3px var(--color-warning);
   animation: pulse 1.2s ease-in-out infinite;
 }
 
@@ -5553,7 +5549,7 @@ body {
 }
 
 [data-proto="admin"] .log-line.level-error > .log-msg {
-  color: var(--color-admin-error-text);
+  color: var(--color-error);
 }
 
 [data-proto="admin"] .log-line.level-warn > .log-level {
@@ -5583,10 +5579,10 @@ body {
   grid-column: 3;
   margin: 2px 0 6px;
   padding: 7px 9px;
-  border-left: 2px solid var(--color-outline-error);
+  border-left: 2px solid var(--color-error);
   border-radius: 0 8px 8px 0;
   background: var(--color-error-soft);
-  color: var(--color-admin-error-text-strong);
+  color: var(--color-error);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -5670,10 +5666,10 @@ body {
   align-items: flex-start;
   gap: 9px;
   padding: 10px 13px;
-  border: 1px solid var(--color-admin-info-border);
+  border: 1px solid var(--color-info);
   border-radius: var(--radius-huge);
   background: var(--color-info-soft);
-  color: var(--color-admin-info-text);
+  color: var(--color-info);
   font-size: var(--font-label-small);
   line-height: 1.65;
   flex: 0 0 auto;
@@ -5696,9 +5692,9 @@ body {
 }
 
 [data-proto="admin"] .notice-bar.is-warn {
-  border-color: var(--color-admin-warning-border);
+  border-color: var(--color-warning);
   background: var(--color-warning-soft);
-  color: var(--color-admin-warning-text);
+  color: var(--color-warning);
 }
 
 [data-proto="admin"] .notice-bar.is-deferred {
@@ -5709,9 +5705,9 @@ body {
 }
 
 [data-proto="admin"] .notice-bar.is-danger {
-  border-color: var(--color-admin-danger-border);
+  border-color: var(--color-error);
   background: var(--color-error-soft);
-  color: var(--color-admin-error-text);
+  color: var(--color-error);
 }
 /* ---- 03.16 组件级权限包裹 ---- */
 [data-proto="admin"] .permission-guard {
@@ -5837,7 +5833,7 @@ body {
 }
 
 [data-proto="admin"] .chip-tag button:hover {
-  background: var(--color-admin-chip-hover);
+  background: var(--color-primary-soft);
 }
 /* ---- 03.18 分段 tab ---- */
 /* ---- 03.19 代码 / 模板预览 ---- */
@@ -5845,7 +5841,7 @@ body {
   padding: 12px 13px;
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
-  background: var(--color-admin-code-background);
+  background: var(--color-surface-solid);
   color: var(--color-on-surface-soft);
   font-family: var(--font-family-mono);
   font-size: var(--font-caption);
@@ -5913,13 +5909,13 @@ body {
   padding: 10px 12px;
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
-  background: var(--color-admin-card-background);
+  background: var(--color-surface-strong);
   text-align: left;
   transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 [data-proto="admin"] .role-card:hover {
-  border-color: var(--color-outline-hover);
+  border-color: var(--color-outline-strong);
   transform: translateY(-1px);
 }
 
@@ -5939,7 +5935,7 @@ body {
   width: 34px;
   height: 34px;
   border-radius: 11px;
-  background: var(--color-surface-hairline);
+  background: var(--color-outline);
   color: var(--color-primary-strong);
   font-size: 17px;
 }
@@ -5999,7 +5995,7 @@ body {
   min-width: 0;
   padding: 0 14px;
   border-bottom: 1px solid var(--color-outline);
-  background: var(--color-admin-topbar-background);
+  background: var(--color-surface-solid);
   backdrop-filter: blur(20px);
 }
 
@@ -6034,7 +6030,7 @@ body {
   padding: 0 11px;
   border: 1px solid var(--color-outline-strong);
   border-radius: 999px;
-  background: var(--color-admin-role-pill-background);
+  background: var(--color-surface);
   color: var(--color-on-surface-soft);
   font-size: var(--font-label-small);
   font-weight: 600;
@@ -6043,7 +6039,7 @@ body {
 }
 
 [data-proto="admin"] .role-pill:hover {
-  border-color: var(--color-admin-role-pill-hover-border);
+  border-color: var(--color-outline-strong);
   color: var(--color-primary-strong);
 }
 
@@ -6067,7 +6063,7 @@ body {
   flex-direction: column;
   overflow: hidden;
   border-right: 1px solid var(--color-outline);
-  background: var(--color-admin-sidenav-background);
+  background: var(--color-surface);
   backdrop-filter: blur(18px);
 }
 
@@ -6086,7 +6082,7 @@ body {
   height: 32px;
   border-radius: 11px;
   font-size: 16px;
-  box-shadow: var(--shadow-admin-brand-mark);
+  box-shadow: var(--shadow-primary-low);
 }
 
 [data-proto="admin"] .brand-copy {
@@ -6170,7 +6166,7 @@ body {
   height: 30px;
   flex: 0 0 auto;
   border-radius: 10px;
-  background: linear-gradient(140deg, var(--color-primary-soft), var(--color-primary-wash));
+  background: linear-gradient(140deg, var(--color-primary-soft), var(--color-primary-soft));
   color: var(--color-primary-strong);
   font-size: 14px;
 }
@@ -6222,7 +6218,7 @@ body {
 [data-proto="admin"] .sidenav.is-open {
   transform: translateX(0);
   visibility: visible;
-  box-shadow: var(--shadow-admin-sidenav-open);
+  box-shadow: var(--shadow-drawer);
 }
 /* ---- 05.4 内容区 ---- */
 [data-proto="admin"] .content {
@@ -6240,7 +6236,7 @@ body {
   align-items: flex-start;
   gap: 12px;
   padding: 13px 18px 11px;
-  border-bottom: 1px solid var(--color-admin-page-head-border);
+  border-bottom: 1px solid var(--color-outline);
 }
 
 [data-proto="admin"] .page-head:focus {
@@ -6339,13 +6335,13 @@ body {
   padding: 12px;
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
-  background: var(--color-admin-card-background);
+  background: var(--color-surface-strong);
   text-align: left;
   transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
 [data-proto="admin"] .quick-card:hover:not(:disabled) {
-  border-color: var(--color-outline-hover);
+  border-color: var(--color-outline-strong);
   box-shadow: var(--shadow-low);
   transform: translateY(-1px);
 }
@@ -6489,7 +6485,7 @@ body {
   height: 26px;
   flex: 0 0 auto;
   border-radius: 9px;
-  background: linear-gradient(140deg, var(--color-primary-soft), var(--color-primary-wash));
+  background: linear-gradient(140deg, var(--color-primary-soft), var(--color-primary-soft));
   color: var(--color-primary-strong);
   font-size: 11px;
   font-weight: 800;
@@ -6531,7 +6527,7 @@ body {
   padding: 9px 11px;
   border: 1px solid var(--color-outline);
   border-radius: 10px;
-  background: var(--color-admin-card-background);
+  background: var(--color-surface-strong);
   font-size: var(--font-label-small);
 }
 
@@ -6607,7 +6603,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--color-surface);
   box-shadow: var(--shadow-low);
@@ -6647,7 +6643,7 @@ body {
   padding: 9px 11px;
   border: 1px solid var(--color-outline);
   border-radius: 10px;
-  background: var(--color-admin-card-background-muted);
+  background: var(--color-surface-soft);
 }
 
 [data-proto="admin"] .recall-item + .recall-item {
@@ -6680,7 +6676,7 @@ body {
   padding: 9px 11px;
   border: 1px solid var(--color-outline);
   border-radius: 10px;
-  background: var(--color-admin-card-background-muted);
+  background: var(--color-surface-soft);
 }
 
 [data-proto="admin"] .buffer-slot + .buffer-slot {
@@ -6786,7 +6782,7 @@ body {
   padding: 3px 8px;
   border: 1px dashed var(--color-outline-strong);
   border-radius: 8px;
-  background: var(--color-admin-secret-mask-background);
+  background: var(--color-surface-soft);
   color: var(--color-on-surface-soft);
   font-family: var(--font-family-mono);
   font-size: var(--font-caption);
@@ -6860,7 +6856,7 @@ body {
   padding: 12px;
   border: 1px dashed var(--color-outline-strong);
   border-radius: var(--radius-medium);
-  background: var(--color-admin-hit-preview-background);
+  background: var(--color-surface-soft);
   display: grid;
   gap: 9px;
 }
@@ -6884,18 +6880,18 @@ body {
   align-items: center;
   gap: 9px;
   padding: 9px 12px;
-  border: 1px solid var(--color-admin-connection-warning-border);
+  border: 1px solid var(--color-warning);
   border-radius: var(--radius-medium);
   background: var(--color-warning-soft);
-  color: var(--color-admin-connection-warning-text);
+  color: var(--color-warning);
   font-size: var(--font-label-small);
   flex-wrap: wrap;
 }
 
 [data-proto="admin"] .conn-banner.is-bad {
-  border-color: var(--color-admin-connection-danger-border);
+  border-color: var(--color-error);
   background: var(--color-error-soft);
-  color: var(--color-admin-connection-danger-text);
+  color: var(--color-error);
 }
 
 [data-proto="admin"] .conn-banner > .icon {
@@ -6929,7 +6925,7 @@ body {
   padding: 12px;
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-medium);
-  background: var(--color-admin-card-background-muted);
+  background: var(--color-surface-soft);
 }
 
 [data-proto="admin"] .loop-card h4 {
@@ -6984,7 +6980,7 @@ body {
   gap: 5px;
   padding: 2px 7px;
   border-radius: 7px;
-  background: var(--color-admin-trace-chip-background);
+  background: var(--color-surface-soft);
   color: var(--color-on-surface-soft);
   font-family: var(--font-family-mono);
   font-size: 10px;
@@ -7017,7 +7013,7 @@ body {
 [data-proto="admin"] .error-detail-row > td {
   height: auto;
   padding: 12px 14px;
-  background: var(--color-admin-error-detail-background);
+  background: var(--color-error-soft);
 }
 
 [data-proto="admin"] .error-detail-row .log-stack {
@@ -7097,14 +7093,14 @@ body {
   padding: 10px 11px;
   border: 1px solid var(--color-outline);
   border-radius: 10px;
-  background: var(--color-admin-signed-box-background);
+  background: var(--color-surface-soft);
 }
 
 [data-proto="admin"] .signed-url {
   display: block;
   padding: 7px 9px;
   border-radius: 8px;
-  background: var(--color-admin-signed-url-background);
+  background: var(--color-surface);
   color: var(--color-on-surface-soft);
   font-family: var(--font-family-mono);
   font-size: 10.5px;
@@ -7380,7 +7376,7 @@ td、td > .row-link、.skeleton-row 会一起跟上，不用逐个补。 */
     box-shadow: none;
     backdrop-filter: none;
     background: var(--color-on-primary);
-    border-color: var(--color-print-border);
+    border-color: var(--color-outline);
   }
   [data-proto="admin"] .data-table thead th {
     position: static;
@@ -7731,7 +7727,7 @@ td、td > .row-link、.skeleton-row 会一起跟上，不用逐个补。 */
         <span class="avatar avatar-lg" role="img" aria-label="无图兜底"></span>
         <span class="demo-label">无图时走渐变底，不留空白</span>
       </div>
-      <p class="demo-hint">图片一律 <code>object-fit: cover</code> + 居中裁切；底与描边走 <code>--color-avatar-wash-*</code> 与 <code>--shadow-avatar-inset</code>。</p>
+      <p class="demo-hint">图片一律 <code>object-fit: cover</code> + 居中裁切；底与描边走公共品牌色与 <code>--shadow-avatar-inset</code>。</p>
     </div>
   </div>
 </section>
@@ -7998,7 +7994,7 @@ td、td > .row-link、.skeleton-row 会一起跟上，不用逐个补。 */
     <h4>卡片 Card / Stat / Empty</h4>
     <p class="spec-note">
       半透面板 + <code>backdrop-filter</code> + 1px 高光描边是这套暖色的既有质感，
-      描边色收在 <code>--color-surface-hairline</code>。打印档会关掉透明与模糊，换成实底。
+      描边色统一使用公共 <code>--color-outline</code>。打印档会关掉透明与模糊，换成实底。
     </p>
   </div>
   <div class="demo-vars">
@@ -9367,10 +9363,10 @@ td、td > .row-link、.skeleton-row 会一起跟上，不用逐个补。 */
 <script data-source="src/spec/tokens.data.js">
 /* 生成物 · 请勿手改
    由 tools/tokens-report.mjs 解析 src/base/tokens.css 生成
-   source-sha256: 7e265a37b43d03d1612e1fcbbf5f8b93d71ea1ee8f8078e79b1f9344665613ba
+   source-sha256: c99a9ec73df024a8138965d7a2f84315fb7eccc856dde810b31b48eb6183cd2f
 */
 window.AyaneTokens = {
-  "total": 256,
+  "total": 167,
   "groups": [
     {
       "title": "字体族",
@@ -9421,20 +9417,6 @@ window.AyaneTokens = {
           "desc": "主色浅底：选中态背景",
           "nomikit": "AppColorScheme.primaryContainer",
           "dark": "#43302aff"
-        },
-        {
-          "name": "--color-primary-container",
-          "value": "#e6a18dff",
-          "desc": "主色容器：渐变与装饰端",
-          "nomikit": "AppColorScheme.secondaryContainer",
-          "dark": "#6b4a3dff"
-        },
-        {
-          "name": "--color-on-primary-container",
-          "value": "#4a4038ff",
-          "desc": "主色容器上的文字",
-          "nomikit": "",
-          "dark": "#f6e6dcff"
         }
       ]
     },
@@ -9482,13 +9464,6 @@ window.AyaneTokens = {
           "desc": "面板：不透明，sticky 头与弹层底栏用",
           "nomikit": "AppColorScheme.surface",
           "dark": "var(--color-surface-strong)"
-        },
-        {
-          "name": "--color-surface-high",
-          "value": "#f7efe6ff",
-          "desc": "面板：抬高层，hover 底色",
-          "nomikit": "AppColorScheme.surfaceHigh",
-          "dark": "#382f29ff"
         }
       ]
     },
@@ -9616,25 +9591,11 @@ window.AyaneTokens = {
           "desc": "中性状态浅底：已归档与暂缓",
           "nomikit": "",
           "dark": "#38302aff"
-        },
-        {
-          "name": "--color-accent-mint",
-          "value": "#dceee0ff",
-          "desc": "装饰：薄荷气泡",
-          "nomikit": "",
-          "dark": "#2f4438ff"
-        },
-        {
-          "name": "--color-accent-yellow",
-          "value": "#fff2cfff",
-          "desc": "装饰：奶黄气泡",
-          "nomikit": "",
-          "dark": "#463a22ff"
         }
       ]
     },
     {
-      "title": "颜色 · 特殊表面",
+      "title": "颜色 · 特殊表面与背景",
       "tokens": [
         {
           "name": "--color-table-head",
@@ -9684,291 +9645,6 @@ window.AyaneTokens = {
           "desc": "输入控件聚焦环，比通用环浅一档",
           "nomikit": "",
           "dark": "#e8a99238"
-        }
-      ]
-    },
-    {
-      "title": "颜色 · 组件专用（从组件样式里收上来的字面色，组件层不得再写死）",
-      "tokens": [
-        {
-          "name": "--color-surface-hairline",
-          "value": "#fffffff0",
-          "desc": "半透明面板上的 1px 描边",
-          "nomikit": "",
-          "dark": "var(--color-outline)"
-        },
-        {
-          "name": "--color-surface-hairline-strong",
-          "value": "#fffdf9e6",
-          "desc": "弹层描边",
-          "nomikit": "",
-          "dark": "var(--color-outline)"
-        },
-        {
-          "name": "--color-surface-inset",
-          "value": "#fffdf9eb",
-          "desc": "内嵌芯片与浅轨道底色",
-          "nomikit": "",
-          "dark": "var(--color-surface-strong)"
-        },
-        {
-          "name": "--color-outline-hover",
-          "value": "#e3a08bb8",
-          "desc": "控件 hover 描边",
-          "nomikit": "",
-          "dark": "var(--color-outline)"
-        },
-        {
-          "name": "--color-outline-error",
-          "value": "#cf6d7266",
-          "desc": "危险控件描边",
-          "nomikit": "",
-          "dark": "#e38b9073"
-        },
-        {
-          "name": "--color-outline-error-soft",
-          "value": "#cf6d7259",
-          "desc": "告警卡片描边",
-          "nomikit": "",
-          "dark": "#e38b9061"
-        },
-        {
-          "name": "--color-outline-hover-soft",
-          "value": "#e6a18d29",
-          "desc": "卡片 hover 描边",
-          "nomikit": "",
-          "dark": "var(--color-outline)"
-        },
-        {
-          "name": "--color-error-wash",
-          "value": "#fff6f6ff",
-          "desc": "告警卡片渐变亮端",
-          "nomikit": "",
-          "dark": "#3a2628ff"
-        },
-        {
-          "name": "--color-outline-error-strong",
-          "value": "#cf6d72b3",
-          "desc": "危险控件 hover 描边",
-          "nomikit": "",
-          "dark": "#e38b90b8"
-        },
-        {
-          "name": "--color-outline-error-hair",
-          "value": "#cf6d7242",
-          "desc": "危险弹层头部分隔线",
-          "nomikit": "",
-          "dark": "#e38b9047"
-        },
-        {
-          "name": "--color-primary-light",
-          "value": "#efb59eff",
-          "desc": "主色渐变亮端：同步客户端品牌亮端",
-          "nomikit": "",
-          "dark": "#f0bda7ff"
-        },
-        {
-          "name": "--color-primary-hover-a",
-          "value": "#dd8f77ff",
-          "desc": "主色按钮 hover 渐变起",
-          "nomikit": "",
-          "dark": "#efb39aff"
-        },
-        {
-          "name": "--color-primary-hover-b",
-          "value": "#e79c85ff",
-          "desc": "主色按钮 hover 渐变止",
-          "nomikit": "",
-          "dark": "#f6c6b1ff"
-        },
-        {
-          "name": "--color-primary-deep",
-          "value": "#e6a18d38",
-          "desc": "主色按钮 loading 环",
-          "nomikit": "",
-          "dark": "var(--color-on-surface-soft)"
-        },
-        {
-          "name": "--color-error-strong",
-          "value": "#a4484eff",
-          "desc": "危险按钮文字",
-          "nomikit": "",
-          "dark": "#f0a9adff"
-        },
-        {
-          "name": "--color-error-strong-deep",
-          "value": "#8f3b41ff",
-          "desc": "危险按钮 hover 文字",
-          "nomikit": "",
-          "dark": "#f6c1c4ff"
-        },
-        {
-          "name": "--color-error-softer",
-          "value": "#fbdfe1ff",
-          "desc": "危险按钮 hover 底色",
-          "nomikit": "",
-          "dark": "#5b3237ff"
-        },
-        {
-          "name": "--color-warning-light-a",
-          "value": "#d8ab5cff",
-          "desc": "告警进度条渐变起",
-          "nomikit": "",
-          "dark": "#e0b877ff"
-        },
-        {
-          "name": "--color-warning-light-b",
-          "value": "#e6c079ff",
-          "desc": "告警进度条渐变止",
-          "nomikit": "",
-          "dark": "#eccc8fff"
-        },
-        {
-          "name": "--color-error-light-a",
-          "value": "#cf6d72ff",
-          "desc": "危险进度条渐变起",
-          "nomikit": "",
-          "dark": "#e38b90ff"
-        },
-        {
-          "name": "--color-error-light-b",
-          "value": "#e08b8fff",
-          "desc": "危险进度条渐变止",
-          "nomikit": "",
-          "dark": "#eda3a7ff"
-        },
-        {
-          "name": "--color-tab-track",
-          "value": "#f7efe4c7",
-          "desc": "分段控件轨道",
-          "nomikit": "",
-          "dark": "var(--color-surface-strong)"
-        },
-        {
-          "name": "--color-tab-count",
-          "value": "#decfc299",
-          "desc": "分段计数徽标底",
-          "nomikit": "",
-          "dark": "#54473d99"
-        },
-        {
-          "name": "--color-skeleton-base",
-          "value": "#eee2d68c",
-          "desc": "骨架屏暗端",
-          "nomikit": "",
-          "dark": "#3d332cb3"
-        },
-        {
-          "name": "--color-skeleton-shine",
-          "value": "#f8f0e8d9",
-          "desc": "骨架屏亮端",
-          "nomikit": "",
-          "dark": "#56483ed9"
-        },
-        {
-          "name": "--color-on-dark-hairline",
-          "value": "#ffffff80",
-          "desc": "深色浮层上的描边与 loading 环",
-          "nomikit": "",
-          "dark": "#241d1952"
-        },
-        {
-          "name": "--color-primary-wash",
-          "value": "#ffe7d8ff",
-          "desc": "头像与图标底渐变亮端",
-          "nomikit": "",
-          "dark": "#4a332bff"
-        },
-        {
-          "name": "--color-avatar-wash-a",
-          "value": "#ffe3d6ff",
-          "desc": "头像渐变起",
-          "nomikit": "",
-          "dark": "#4d362dff"
-        },
-        {
-          "name": "--color-avatar-wash-b",
-          "value": "#e6f0e5ff",
-          "desc": "头像渐变止",
-          "nomikit": "",
-          "dark": "#33443aff"
-        },
-        {
-          "name": "--color-nav-active-a",
-          "value": "#e3a08b38",
-          "desc": "导航选中渐变起",
-          "nomikit": "",
-          "dark": "#e8a99233"
-        },
-        {
-          "name": "--color-nav-active-b",
-          "value": "#f0ab941a",
-          "desc": "导航选中渐变止",
-          "nomikit": "",
-          "dark": "#f0bda714"
-        },
-        {
-          "name": "--color-nav-active-ring",
-          "value": "#e6a18d3d",
-          "desc": "导航选中描边",
-          "nomikit": "",
-          "dark": "var(--color-on-surface-soft)"
-        },
-        {
-          "name": "--color-neutral-wash",
-          "value": "#f0eae2b8",
-          "desc": "禁用项 hover 底",
-          "nomikit": "",
-          "dark": "#382f29b8"
-        },
-        {
-          "name": "--color-status-live",
-          "value": "#5f9e7766",
-          "desc": "实时状态点脉冲",
-          "nomikit": "",
-          "dark": "#79bb9273"
-        },
-        {
-          "name": "--color-row-flash",
-          "value": "#e6a18d4d",
-          "desc": "新行高亮起始底色",
-          "nomikit": "",
-          "dark": "#e8a99238"
-        },
-        {
-          "name": "--color-outline-strong-wash",
-          "value": "#decfc2bf",
-          "desc": "开关关闭态轨道",
-          "nomikit": "",
-          "dark": "#54473dcc"
-        },
-        {
-          "name": "--color-track",
-          "value": "#decfc280",
-          "desc": "进度条轨道",
-          "nomikit": "",
-          "dark": "#54473d99"
-        },
-        {
-          "name": "--color-focus-ring-error",
-          "value": "#cf6d7224",
-          "desc": "错误控件聚焦环",
-          "nomikit": "",
-          "dark": "#e38b902e"
-        },
-        {
-          "name": "--color-toast-error-bg",
-          "value": "#b04c52f5",
-          "desc": "错误 toast 底",
-          "nomikit": "",
-          "dark": "#d67c82f5"
-        },
-        {
-          "name": "--color-login-card-bg",
-          "value": "#fffcf7ed",
-          "desc": "登录卡底：两原型 0.94/0.90 合档",
-          "nomikit": "",
-          "dark": "#2e2621eb"
         },
         {
           "name": "--background-contact-card",
@@ -9993,7 +9669,7 @@ window.AyaneTokens = {
         },
         {
           "name": "--background-user-card-action-hover",
-          "value": "linear-gradient(135deg, var(--color-primary-hover-a), #e09a83ff)",
+          "value": "linear-gradient(135deg, var(--color-primary), #e09a83ff)",
           "desc": "共享组件背景：从客户端动作 hover 背景提升，保留原型渐变。",
           "nomikit": "",
           "dark": "var(--color-surface)"
@@ -10004,289 +9680,6 @@ window.AyaneTokens = {
           "desc": "共享组件背景：由 --background-ai-panel 提升，保留原型渐变。",
           "nomikit": "",
           "dark": "var(--color-surface)"
-        }
-      ]
-    },
-    {
-      "title": "颜色 · 原型视图专用",
-      "tokens": [
-        {
-          "name": "--color-prototype-bg-glow-a",
-          "value": "#e6a18d38",
-          "desc": "客户端与后台背景光晕起始层，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-prototype-bg-glow-b",
-          "value": "#e6a18d29",
-          "desc": "客户端与后台背景光晕次级层，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-prototype-bg-mid",
-          "value": "#fffaf5ff",
-          "desc": "客户端与后台背景渐变中间色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-prototype-orb-light",
-          "value": "#ffffffb3",
-          "desc": "原型背景浅色装饰球，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-prototype-orb-warm",
-          "value": "#f8dcceb3",
-          "desc": "原型背景暖色装饰球，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-focus-ring",
-          "value": "#e6a18d57",
-          "desc": "后台原型焦点环，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-live-ring-clear",
-          "value": "#5f9e7700",
-          "desc": "后台实时状态脉冲透明端，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-live-ring",
-          "value": "#5f9e7729",
-          "desc": "后台实时状态脉冲，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-connecting-ring",
-          "value": "#b98a3c29",
-          "desc": "后台连接中状态脉冲，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-console-background",
-          "value": "#fffcf8eb",
-          "desc": "后台实时流面板底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-error-text",
-          "value": "#9d4a50ff",
-          "desc": "后台错误日志与危险提示文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-error-text-strong",
-          "value": "#96464cff",
-          "desc": "后台错误日志强调文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-info-border",
-          "value": "#5f86a847",
-          "desc": "后台信息提示描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-info-text",
-          "value": "#4a6d8cff",
-          "desc": "后台信息提示文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-warning-border",
-          "value": "#b98a3c4d",
-          "desc": "后台告警提示描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-warning-text",
-          "value": "#8a6528ff",
-          "desc": "后台告警提示文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-danger-border",
-          "value": "#cf6d7252",
-          "desc": "后台危险提示描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-chip-hover",
-          "value": "#bf76652e",
-          "desc": "后台标签 hover 底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-code-background",
-          "value": "#fffcf7e6",
-          "desc": "后台代码块底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-card-background",
-          "value": "#fffdf9e6",
-          "desc": "后台卡片浅表面，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-topbar-background",
-          "value": "#fffcf7e0",
-          "desc": "后台顶栏底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-role-pill-background",
-          "value": "#ffffffdb",
-          "desc": "后台角色标签底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-role-pill-hover-border",
-          "value": "#e3a08b99",
-          "desc": "后台角色标签 hover 描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-sidenav-background",
-          "value": "#fffcf7b8",
-          "desc": "后台侧栏底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-page-head-border",
-          "value": "#eee2d6bf",
-          "desc": "后台页面头部分隔线，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-card-background-muted",
-          "value": "#fffdf9db",
-          "desc": "后台次级卡片底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-secret-mask-background",
-          "value": "#f7efe499",
-          "desc": "后台密钥遮罩底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-hit-preview-background",
-          "value": "#f7efe46b",
-          "desc": "后台命中预览底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-connection-warning-border",
-          "value": "#b98a3c57",
-          "desc": "后台连接告警描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-connection-warning-text",
-          "value": "#7d5c22ff",
-          "desc": "后台连接告警文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-connection-danger-border",
-          "value": "#cf6d7257",
-          "desc": "后台连接异常描边，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-connection-danger-text",
-          "value": "#96474bff",
-          "desc": "后台连接异常文字，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-trace-chip-background",
-          "value": "#f7efe4cc",
-          "desc": "后台追踪标签底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-error-detail-background",
-          "value": "#fdf6eeb8",
-          "desc": "后台错误详情行底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-signed-box-background",
-          "value": "#f7efe480",
-          "desc": "后台签名信息块底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-admin-signed-url-background",
-          "value": "#ffffffdb",
-          "desc": "后台签名 URL 底色，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--color-print-border",
-          "value": "#ccccccff",
-          "desc": "打印态卡片边框，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        }
-      ]
-    },
-    {
-      "title": "阴影 · 原型视图专用",
-      "tokens": [
-        {
-          "name": "--shadow-admin-brand-mark",
-          "value": "0 6px 16px #e6a18d47",
-          "desc": "后台品牌标记阴影，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--shadow-admin-sidenav-open",
-          "value": "18px 0 50px #704f3b33",
-          "desc": "后台展开侧栏阴影，原型视图专用。",
-          "nomikit": "",
-          "dark": ""
         }
       ]
     },
@@ -10674,13 +10067,6 @@ window.AyaneTokens = {
           "dark": ""
         },
         {
-          "name": "--height-bottombar",
-          "value": "56px",
-          "desc": "底部导航",
-          "nomikit": "Heights.bottomBar",
-          "dark": ""
-        },
-        {
           "name": "--height-tab",
           "value": "48px",
           "desc": "标签与主按钮",
@@ -11018,13 +10404,6 @@ window.AyaneTokens = {
           "dark": ""
         },
         {
-          "name": "--z-index-region-head",
-          "value": "10",
-          "desc": "",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
           "name": "--z-index-suite-nav",
           "value": "100",
           "desc": "",
@@ -11072,22 +10451,8 @@ window.AyaneTokens = {
           "dark": ""
         },
         {
-          "name": "--duration-slow",
-          "value": "420ms",
-          "desc": "",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
           "name": "--easing-standard",
           "value": "cubic-bezier(0.22, 0.8, 0.3, 1)",
-          "desc": "",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--easing-exit",
-          "value": "cubic-bezier(0.4, 0, 1, 1)",
           "desc": "",
           "nomikit": "",
           "dark": ""
@@ -11208,13 +10573,6 @@ window.AyaneTokens = {
           "dark": ""
         },
         {
-          "name": "--size-toast-max-width",
-          "value": "470px",
-          "desc": "toast 宽度上限，后台档；客户端在区域里收窄",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
           "name": "--size-toast-max-width-sm",
           "value": "360px",
           "desc": "toast 宽度上限的紧凑档（移动端与客户端）",
@@ -11263,7 +10621,7 @@ window.AyaneTokens = {
         },
         {
           "name": "--toast-max-width",
-          "value": "min(92cqi, var(--size-toast-max-width))",
+          "value": "min(92cqi, 470px)",
           "desc": "",
           "nomikit": "",
           "dark": ""

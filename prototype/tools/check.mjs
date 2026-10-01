@@ -123,7 +123,31 @@ gate('02 令牌表数据新鲜度', async function () {
     return fail.call(this, `${target} 的源码指纹落后，重跑 node tools/tokens-report.mjs`);
   }
   if (current !== js) return fail.call(this, `${target} 内容与解析结果不一致，重跑 node tools/tokens-report.mjs`);
-  return note.call(this, `${parsed.total} 个令牌 / ${parsed.groups.length} 组`);
+
+  const protectedScale = {
+    '间距（九级）': [['--spacing-tiny', '2px'], ['--spacing-extra-small', '4px'], ['--spacing-small', '8px'], ['--spacing-medium', '12px'], ['--spacing-large', '16px'], ['--spacing-extra-large', '20px'], ['--spacing-huge', '24px'], ['--spacing-massive', '32px'], ['--spacing-colossal', '48px']],
+    '圆角（九级）': [['--radius-tiny', '2px'], ['--radius-extra-small', '4px'], ['--radius-small', '8px'], ['--radius-medium', '12px'], ['--radius-large', '16px'], ['--radius-extra-large', '20px'], ['--radius-huge', '24px'], ['--radius-massive', '32px'], ['--radius-colossal', '48px'], ['--radius-pill', '999px']],
+    '图标尺寸（九级）': [['--size-icon-tiny', '14px'], ['--size-icon-extra-small', '16px'], ['--size-icon-small', '18px'], ['--size-icon-medium', '20px'], ['--size-icon-large', '24px'], ['--size-icon-extra-large', '32px'], ['--size-icon-huge', '40px'], ['--size-icon-massive', '48px'], ['--size-icon-colossal', '56px']],
+    '头像尺寸（九级）': [['--size-avatar-tiny', '18px'], ['--size-avatar-extra-small', '24px'], ['--size-avatar-small', '32px'], ['--size-avatar-medium', '40px'], ['--size-avatar-large', '48px'], ['--size-avatar-extra-large', '56px'], ['--size-avatar-huge', '64px'], ['--size-avatar-massive', '72px'], ['--size-avatar-colossal', '96px']],
+  };
+  if (parsed.total !== 167 || parsed.groups.length !== 21) {
+    fail.call(this, `公共令牌收敛结果应为 167 个令牌 / 21 组，实际为 ${parsed.total} 个令牌 / ${parsed.groups.length} 组`);
+  }
+  for (const [title, expected] of Object.entries(protectedScale)) {
+    const group = parsed.groups.find((item) => item.title === title);
+    const actual = group?.tokens.map((token) => [token.name, token.value]);
+    if (!group || JSON.stringify(actual) !== JSON.stringify(expected)) {
+      fail.call(this, `${title} 九级刻度、值或顺序发生变化`);
+    }
+  }
+  const tokenSource = ctx.files.get('src/base/tokens.css') || '';
+  if (/--color-(?:admin|prototype)-|--(?:color-(?:surface-hairline|outline-error|primary-hover|error-strong|warning-light|error-light|tab|skeleton|avatar-wash|nav-active|track|focus-ring-error|toast-error-bg|login-card-bg)|shadow-admin)-/.test(tokenSource)) {
+    fail.call(this, '专用颜色或原型阴影令牌未完成公共化删除');
+  }
+  if (/颜色 · (?:组件专用|原型视图专用)|阴影 · 原型视图专用/.test(tokenSource)) {
+    fail.call(this, '专用颜色/阴影分组未删除');
+  }
+  return note.call(this, `${parsed.total} 个令牌 / ${parsed.groups.length} 组 · 四组九级刻度保持不变`);
 });
 
 /* ---------------------------------------------------------------- 03 */

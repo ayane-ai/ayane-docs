@@ -15,7 +15,7 @@
 
 :is([data-proto="client"], [data-client-components]) button:where(:not(.btn):not(.icon-btn)):focus-visible, :is([data-proto="client"], [data-client-components]) textarea:not(.field-ctl):focus-visible {
 
-  outline: 3px solid var(--color-row-flash);
+  outline: 3px solid var(--color-row-hover);
   outline-offset: 2px;
 
 }
@@ -124,9 +124,9 @@
   right: 0;
   width: var(--size-popover-min-width);
   padding: var(--spacing-small);
-  border: 1px solid var(--color-surface-hairline-strong);
+  border: 1px solid var(--color-outline-strong);
   border-radius: var(--radius-large);
-  background: var(--color-surface-hairline-strong);
+  background: var(--color-outline-strong);
   box-shadow: var(--shadow-low);
   backdrop-filter: blur(18px);
 
@@ -244,7 +244,7 @@
 
 :is([data-proto="client"], [data-client-components]) .contact-card.is-active {
 
-  border-color: var(--color-outline-hover-soft);
+  border-color: var(--color-row-hover);
   background: var(--background-contact-card);
   box-shadow: var(--shadow-card-hover);
 
@@ -288,7 +288,7 @@
   padding: var(--spacing-medium);
   border: 1px solid var(--color-outline);
   border-radius: var(--radius-extra-large);
-  background: var(--color-surface-hairline-strong);
+  background: var(--color-outline-strong);
   box-shadow: var(--shadow-low);
   text-align: left;
 
@@ -328,7 +328,7 @@
   position: relative;
   width: min(100%, 390px);
   padding: var(--spacing-huge);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--color-surface-strong);
   box-shadow: var(--shadow-high);
@@ -363,7 +363,7 @@
   position: relative;
   width: min(100%, 400px);
   padding: var(--spacing-huge) var(--spacing-huge) var(--spacing-huge);
-  border: 1px solid var(--color-surface-hairline);
+  border: 1px solid var(--color-outline);
   border-radius: var(--radius-huge);
   background: var(--background-user-card);
   box-shadow: var(--shadow-high);
@@ -417,7 +417,7 @@
 :is([data-proto="client"], [data-client-components]) .user-card-row > * {
 
   padding-bottom: var(--spacing-medium);
-  border-bottom: 1px solid var(--color-nav-active-ring);
+  border-bottom: 1px solid var(--color-focus-ring);
 
 }
 
@@ -467,7 +467,7 @@
   margin: var(--spacing-tiny) 0 var(--spacing-medium);
   border-radius: var(--radius-huge);
   background: var(--color-on-primary);
-  box-shadow: 0 10px 24px var(--color-primary-deep), 0 0 0 4px var(--color-surface-hairline-strong);
+  box-shadow: 0 10px 24px var(--color-primary-soft), 0 0 0 4px var(--color-outline-strong);
   vertical-align: top;
 
 }
@@ -511,7 +511,7 @@
 
   height: var(--stroke-thin);
   margin: var(--spacing-extra-large) var(--spacing-massive);
-  background: var(--color-nav-active-ring);
+  background: var(--color-focus-ring);
 
 }
 
@@ -641,7 +641,7 @@
 :is([data-proto="client"], [data-client-components]) .is-sent .message-bubble {
 
   border-radius: var(--radius-large) var(--radius-large) var(--radius-extra-small) var(--radius-large);
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
   color: var(--color-on-primary);
   box-shadow: var(--shadow-primary-low);
 

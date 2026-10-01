@@ -75,7 +75,7 @@
 }
 
 .chip:hover {
-  border-color: var(--color-outline-hover-soft);
+  border-color: var(--color-row-hover);
   color: var(--color-primary-strong);
 }
 

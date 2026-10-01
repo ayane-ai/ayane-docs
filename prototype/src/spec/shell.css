@@ -349,7 +349,7 @@ body {
   padding: 0 var(--spacing-extra-small);
   border: 1px solid var(--color-outline-strong);
   border-radius: var(--radius-tiny);
-  background: var(--color-surface-inset);
+  background: var(--color-surface-soft);
   font-family: var(--font-family-mono);
   font-size: var(--font-caption);
 }

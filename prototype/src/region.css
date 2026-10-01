@@ -87,7 +87,7 @@
   height: var(--viewport-h);
   overflow: hidden;
   border: 1px solid var(--color-outline);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-huge);
   background: var(--color-bg);
   color: var(--color-on-surface);
   font-size: var(--font-body-small);

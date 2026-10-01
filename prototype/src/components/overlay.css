@@ -26,7 +26,7 @@
   width: min(100%, var(--size-login-card-width));
   padding: var(--spacing-massive) var(--spacing-massive) var(--spacing-huge);
   border: 1px solid var(--color-surface-hairline);
-  border-radius: var(--radius-app-window);
+  border-radius: var(--radius-huge);
   background: var(--color-login-card-bg);
   box-shadow: var(--shadow-high);
   text-align: var(--login-card-align);
@@ -58,9 +58,9 @@
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  width: var(--size-avatar-default);
-  height: var(--size-avatar-default);
-  border-radius: var(--radius-control);
+  width: var(--size-avatar-medium);
+  height: var(--size-avatar-medium);
+  border-radius: var(--radius-medium);
   background: linear-gradient(140deg, var(--color-primary), var(--color-primary-light));
   color: var(--color-on-primary);
   font-size: var(--size-icon-medium);
@@ -128,7 +128,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid var(--color-surface-hairline-strong);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-huge);
   background: var(--color-surface-solid);
   box-shadow: var(--shadow-high);
   opacity: 0;
@@ -154,7 +154,7 @@
   gap: var(--spacing-small);
   padding: var(--spacing-large) var(--spacing-large) var(--spacing-medium);
   border-bottom: 1px solid var(--color-outline);
-  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  border-radius: var(--radius-huge) var(--radius-huge) 0 0;
   background: var(--color-surface-soft);
 }
 
@@ -204,7 +204,7 @@
   gap: var(--spacing-small);
   padding: var(--spacing-medium) var(--spacing-large);
   border-top: 1px solid var(--color-outline);
-  border-radius: 0 0 var(--radius-card) var(--radius-card);
+  border-radius: 0 0 var(--radius-huge) var(--radius-huge);
   background: var(--color-surface-solid);
 }
 
@@ -249,7 +249,7 @@
   width: min(var(--size-drawer-width), 92cqi);
   min-width: 0;
   border-left: 1px solid var(--color-surface-hairline);
-  border-radius: var(--radius-card) 0 0 var(--radius-card);
+  border-radius: var(--radius-huge) 0 0 var(--radius-huge);
   background: var(--color-surface-solid);
   box-shadow: var(--shadow-drawer);
   transform: translateX(102%);
@@ -351,7 +351,7 @@
   max-width: min(var(--size-popover-max-width), calc(100cqi - var(--spacing-huge)));
   padding: var(--spacing-extra-small);
   border: 1px solid var(--color-surface-hairline);
-  border-radius: var(--radius-field);
+  border-radius: var(--radius-medium);
   background: var(--color-surface-solid);
   box-shadow: var(--shadow-high);
   opacity: 0;
@@ -383,7 +383,7 @@
   width: 100%;
   min-height: var(--height-row);
   padding: 0 var(--spacing-small);
-  border-radius: var(--radius-control-sm);
+  border-radius: var(--radius-small);
   color: var(--color-on-surface-soft);
   font-size: var(--font-body-small);
   text-align: left;
@@ -440,7 +440,7 @@
 
 .popover-hint {
   margin: 0;
-  padding: var(--spacing-small) var(--spacing-control-x-sm) var(--spacing-extra-small);
+  padding: var(--spacing-small) var(--spacing-small) var(--spacing-extra-small);
   color: var(--color-text-hint);
   font-size: var(--font-caption);
   line-height: var(--line-height-normal);
@@ -505,3 +505,7 @@
     display: none !important;
   }
 }
+
+/* 方向是浮层语义变体，不另写客户端/后台两套抽屉。 */
+.drawer[data-side="start"] { right: auto; left: 0; transform: translateX(-100%); }
+.drawer[data-side="start"].is-open { transform: translateX(0); }

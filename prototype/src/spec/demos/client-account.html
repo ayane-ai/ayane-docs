@@ -1,0 +1,159 @@
+<section class="demo-card" id="demo-component-09">
+  <div class="demo-meta">
+    <span class="demo-no">09</span>
+    <h4>账号与资料 Account</h4>
+    <p class="spec-note">账号条、我的、资料与关于共用客户端组合定义；入口在示例内反馈，不更改真实登录状态。</p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame demo-frame--wide" id="demo-client-identity" data-client-components >
+      <span class="demo-label">账号条与手机我的</span>
+      <div class="sidebar-top">
+        <button class="user-block" type="button" data-demo="toast" aria-controls="demo-client-identity-toast" data-demo-message="此处演示账号入口；实际页面打开我的资料">
+          <span class="user-avatar avatar avatar-sm">
+            <img src="https://avatars.githubusercontent.com/u/44569870?s=200&v=4" alt="我的头像" loading="lazy">
+          </span>
+          <span class="user-copy">
+            <strong>绫音的伙伴</strong>
+            <p>今天也想听听你的声音</p>
+          </span>
+        </button>
+        <div class="sidebar-menu-wrap">
+          <button class="icon-btn" type="button" data-demo="toggle" aria-controls="demo-client-identity-menu" aria-haspopup="menu" aria-expanded="false" aria-label="账号更多菜单">
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="#i-more">
+              </use>
+            </svg>
+          </button>
+          <div class="sidebar-menu" id="demo-client-identity-menu" role="menu">
+            <button class="sidebar-menu-item" role="menuitem" data-demo="toast" aria-controls="demo-client-identity-toast">
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="#i-user">
+                </use>
+              </svg>查看绫音资料</button>
+            <button class="sidebar-menu-item" role="menuitem" data-demo="toast" aria-controls="demo-client-identity-toast">
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="#i-heart">
+                </use>
+              </svg>关于绫音</button>
+            <div class="sidebar-menu-divider" role="separator">
+            </div>
+            <button class="sidebar-menu-item" role="menuitem" data-demo="toast" aria-controls="demo-client-identity-toast">
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="#i-gear">
+                </use>
+              </svg>更多设置</button>
+          </div>
+        </div>
+      </div>
+      <button class="mobile-user-card" type="button" data-demo="toast" aria-controls="demo-client-identity-toast" data-demo-message="实际我的页面打开原资料模态">
+        <span class="user-avatar avatar avatar-sm">
+          <img src="https://avatars.githubusercontent.com/u/44569870?s=200&v=4" alt="我的头像" loading="lazy">
+        </span>
+        <span class="user-copy">
+          <strong>绫音的伙伴</strong>
+          <span>今天也想听听你的声音</span>
+        </span>
+        <span class="mobile-user-hint">我的账号</span>
+      </button>
+      <div class="mobile-user-actions">
+        <button class="action-button" type="button" data-demo="toast" aria-controls="demo-client-identity-toast" data-demo-message="关于入口示例">关于绫音</button>
+        <button class="action-button" type="button" data-demo="toast" aria-controls="demo-client-identity-toast" data-demo-message="更多设置会在后续版本开放">更多设置</button>
+      </div>
+      <div class="toast" id="demo-client-identity-toast" role="status" aria-live="polite">
+      </div>
+    </div>
+    <div class="demo-frame demo-frame--canvas demo-frame--tall" id="demo-client-profile" data-client-components >
+      <span class="demo-label">AI 资料模态</span>
+      <button class="btn btn--solid" type="button" data-demo="open" aria-controls="demo-client-profile-dialog" aria-expanded="false">查看绫音资料</button>
+      <div class="modal-layer" id="demo-client-profile-dialog" data-demo="scrim">
+        <section class="profile-modal" role="dialog" aria-modal="true" aria-labelledby="demo-client-profile-title">
+          <button class="close-button" type="button" data-demo="close" aria-controls="demo-client-profile-dialog" aria-label="关闭资料">
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="#i-x">
+              </use>
+            </svg>
+          </button>
+          <span class="avatar avatar-lg">
+            <img src="https://avatars.githubusercontent.com/u/326977819?s=200&v=4" alt="绫音头像" loading="lazy">
+          </span>
+          <h2 id="demo-client-profile-title">绫音</h2>
+          <p>今天也想听听你的声音</p>
+          <div class="profile-tags">
+            <span>喜欢慢慢聊天</span>
+            <span>会记得你的故事</span>
+            <span>偶尔主动来找你</span>
+          </div>
+          <div class="profile-actions">
+            <button class="" type="button" data-demo="toast" aria-controls="demo-client-profile-toast" data-demo-message="演示：返回与绫音的对话">发消息</button>
+            <button class="secondary" type="button" data-demo="toast" aria-controls="demo-client-profile-toast" data-demo-message="演示：进入 3D 图片模式，不加载真实模型">打开 3D 形象</button>
+          </div>
+        </section>
+      </div>
+      <div class="toast" id="demo-client-profile-toast" role="status" aria-live="polite">
+      </div>
+    </div>
+    <div class="demo-frame demo-frame--canvas demo-frame--tall" id="demo-client-user" data-client-components >
+      <span class="demo-label">我的资料模态</span>
+      <button class="btn btn--primary" type="button" data-demo="open" aria-controls="demo-client-user-dialog" aria-expanded="false">打开我的资料</button>
+      <div class="modal-layer" id="demo-client-user-dialog" data-demo="scrim">
+        <section class="user-card" role="dialog" aria-modal="true" aria-label="我的资料示例">
+          <div class="user-card-identity">
+            <span class="user-card-avatar is-online">
+              <img src="https://avatars.githubusercontent.com/u/44569870?s=200&v=4" alt="我的头像" loading="lazy">
+            </span>
+            <div>
+              <strong>绫音的伙伴</strong>
+              <p>今天也想听听你的声音</p>
+            </div>
+          </div>
+          <dl class="user-card-table">
+            <div class="user-card-row">
+              <dt>账号</dt>
+              <dd>ayane@example.com</dd>
+            </div>
+            <div class="user-card-row">
+              <dt>昵称</dt>
+              <dd>绫音的伙伴</dd>
+            </div>
+            <div class="user-card-row">
+              <dt>和绫音认识</dt>
+              <dd>第 1 天</dd>
+            </div>
+          </dl>
+          <div class="user-card-actions">
+            <button class="primary" type="button" data-demo="toast" aria-controls="demo-client-user-toast" data-demo-message="编辑资料会在后续版本开放">编辑资料</button>
+            <button class="" type="button" data-demo="toast" aria-controls="demo-client-user-toast" data-demo-message="此处仅展示反馈，不退出实际客户端">退出登录</button>
+          </div>
+          <button class="btn btn--ghost" type="button" data-demo="close" aria-controls="demo-client-user-dialog">关闭示例</button>
+        </section>
+      </div>
+      <div class="toast" id="demo-client-user-toast" role="status" aria-live="polite">
+      </div>
+    </div>
+    <div class="demo-frame demo-frame--wide demo-frame--canvas demo-frame--tall" id="demo-client-about" data-client-components >
+      <span class="demo-label">关于绫音</span>
+      <button class="btn" type="button" data-demo="open" aria-controls="demo-client-about-dialog" aria-expanded="false">关于绫音</button>
+      <div class="modal-layer" id="demo-client-about-dialog" data-demo="scrim">
+        <section class="user-card about-card" role="dialog" aria-modal="true" aria-label="关于绫音示例">
+          <span class="avatar about-avatar">
+            <img src="https://avatars.githubusercontent.com/u/326977819?s=200&v=4" alt="ayane-ai 组织头像" loading="lazy">
+          </span>
+          <h2 class="about-name">绫音</h2>
+          <p class="about-version">版本 1.0.0</p>
+          <p class="about-tagline">一个陪你慢慢说话的桌面伙伴</p>
+          <div class="about-divider">
+          </div>
+          <div class="about-links">
+            <button class="" type="button" data-demo="toast" aria-controls="demo-client-about-toast" data-demo-message="检查更新会在后续版本开放">检查更新</button>
+            <button class="" type="button" data-demo="toast" aria-controls="demo-client-about-toast" data-demo-message="开源许可会在后续版本开放">开源许可</button>
+          </div>
+          <div class="user-card-actions about-actions">
+            <button class="primary" type="button" data-demo="close" aria-controls="demo-client-about-dialog">关闭</button>
+          </div>
+        </section>
+      </div>
+      <div class="toast" id="demo-client-about-toast" role="status" aria-live="polite">
+      </div>
+    </div>
+  </div>
+</section>

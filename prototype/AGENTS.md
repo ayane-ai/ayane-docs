@@ -9,10 +9,10 @@
 面向人阅读的 HTML 只有 `src/design-system.html` 一个（构建产物是 `dist/绫音设计规范与交互原型.html`）。它不是长文档，而是一个工作台：**左侧菜单切换「设计令牌 / 组件库 / 客户端原型 / 管理后台原型」四个页面，同一栏下方用层级树导航当前页的子结构，右侧是可平移可缩放的画布**。四个分区仍各自保留 `#sec-*` id 与 `.canvas-page` 类，非当前页用 `hidden` 收起。
 
 - `src/base/`：`tokens.css`（唯一取值源）、`tokens.compat.css`（`@deprecated` 别名）、`base.css`（重置与工具类）、`util.js`（共享运行时）、`icons.svg.html`（图标精灵唯一源）。
-- `src/components/`：九份组件源，两份原型共用 —— `icon button field avatar tag card table nav overlay`。
+- `src/components/`：九类基础组件源，两份原型共用 —— `icon button field avatar tag card table nav overlay`；`client.css` 是客户端与组件库同源的业务组合，AI 选择、最近对话与底部导航都由实际客户端和示例共同消费。
 - `src/region.css`：画布、容器查询容器与全屏层；`--viewport-h` 的区域与全屏档在这里。
 - `src/views/`：`client.*` / `admin.*`（`markup.html` + `css` + `script.js`），只放该区域的增量；`*.root-tokens.json` 是当前无人引用的快照残留（`src/` 与 `tools/` 里都搜不到引用），清理或接回前不要当数据源用。
-- `src/spec/`：规范区样式、`suite.js`（令牌表 / 旋钮表 / 全屏 / 示例委托）、`shell.css` + `shell.js`（外壳：左侧菜单、层级树、画布平移缩放）、`demos/*.html`（组件示例片段）、`tokens.data.js`（生成物）。
+- `src/spec/`：规范区样式、`suite.js`（令牌表 / 旋钮表 / 全屏 / 示例委托）、`shell.css` + `shell.js`（外壳：左侧菜单、层级树、画布平移缩放）、`demos/*.html`（组件示例片段）、`tokens.data.js`（生成物）、`components.data.js`（当前组件来源与用途清单唯一数据源）。
 - 组件库页是**一张固定宽（`--size-demo-board` 1420）的大卡片 `.demo-board`**，卡片外观复用 `.card` 的同一套令牌；卡内先分 4 类（`.demo-cat`，标题 `h3` + `.demo-cat-note` 副标题），类内一行一组件：
   `.demo-card` = `.demo-meta`（`.demo-no` 编号 + `h4` 组件名 + `.spec-note`）+ `.demo-vars`（变体画布横向铺开、放不下才换行）。
   固定宽是「横向不塌」的前提：卡片比窗口宽时靠画布平移与 `fit` 看，页面宽度策略类是 `shell.css` 的 `canvas-page--board`，**禁止给它加视口 `@media`**（打印那一处除外）。
@@ -35,6 +35,10 @@
 - 语义色一律成对给出（`--color-x` + `--color-x-soft`）；深色评审视图需要覆写的组件色不能漏，漏一个组件就会在深色档落回 unset。
 - 触控热区 ≥44×44：保持视觉尺寸不变，用 `::after` 负 inset 扩展命中区。
 - 每个可点元素必须有 hover / active / disabled 态，状态用 `aria-pressed` / `aria-expanded` / `aria-current` / `aria-selected` 表达并与视觉同步。
+
+### 多端 UI 共用与范围判定
+
+客户端多端 UI 默认共用业务组件、状态与交互逻辑；需求仅提及某一终端，不视为明确排除其他终端。制定方案前必须检查共享实现及各端影响，必要差异优先通过响应式布局、参数或平台适配表达，不得复制整套界面。未经用户明确限定，不得自行加入「其他端不动」等范围限制；若是否跨端同步会影响共用交互或交付范围，必须先询问。修改共享组件后须检查所有受影响端，并明确未验证部分。
 
 ## 5. 区域隔离（不用 iframe）
 - 画布是 `.region-stage`，同时是容器查询容器（`container-name: region`）与定位包含块，因此区域内**禁止** `position: fixed`，浮层一律 `absolute`。
@@ -64,6 +68,7 @@
 node tools/tokens-report.mjs   # 改了 tokens.css 后重生成令牌表数据
 node tools/build.mjs           # 展开 @include → dist/绫音设计规范与交互原型.html（头部带 sha256 指纹）
 node tools/check.mjs           # 全部子命令与条数以 check.mjs 头部清单为准，退出码必须为 0
+node tools/check-components.mjs # 29 项当前组件覆盖、13 类展示与组件来源隔离
 pwsh .review/run.ps1 -Region both -Mode both   # 两区 × 嵌入/全屏，截图 + 几何审计
 ```
 

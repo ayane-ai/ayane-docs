@@ -1,0 +1,46 @@
+<!-- 示例片段 · AI 选择与最近对话。实例状态独立，组件定义与客户端共用。 -->
+<section class="demo-card" id="demo-component-conversation">
+  <div class="demo-meta">
+    <span class="demo-no">10</span><h4>AI 选择与对话 Conversation</h4>
+    <p class="spec-note">常驻 AI 列表与手机抽屉使用同一条目；最近对话与完整记录使用同一份消息数据。各示例的状态互不影响。</p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame demo-frame--wide" id="demo-client-list-desktop" data-client-components>
+      <span class="demo-label">桌面 AI 列表</span>
+      <div class="ai-choice-panel" aria-label="桌面 AI 选择示例">
+        <div class="contact-list" data-demo-ai-choices></div>
+      </div>
+      <p class="demo-hint">常驻显示；条目包含头像、名称、简介、在线与选中状态。</p>
+    </div>
+    <div class="demo-frame demo-frame--canvas demo-frame--tall demo-frame--compact" id="demo-client-list-phone" data-client-components>
+      <span class="demo-label">手机 AI 抽屉</span>
+      <button class="btn" type="button" id="demo-ai-drawer-open" data-demo="open" aria-controls="demo-ai-drawer" aria-expanded="false"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg>选择 AI</button>
+      <div class="client-ai-scrim" id="demo-ai-drawer-scrim" data-demo="scrim" data-demo-state="is-visible" aria-controls="demo-ai-drawer"></div>
+      <aside class="ai-choice-panel ai-choice-drawer" id="demo-ai-drawer" role="dialog" aria-modal="true" aria-labelledby="demo-ai-drawer-title">
+        <header class="ai-drawer-head"><h2 id="demo-ai-drawer-title">切换 AI</h2><button class="btn btn--ghost client-icon-control" type="button" data-demo="close" aria-controls="demo-ai-drawer" aria-label="关闭 AI 列表"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg></button></header>
+        <div class="contact-list" data-demo-ai-choices></div>
+      </aside>
+    </div>
+    <div class="demo-frame demo-frame--wide demo-frame--canvas demo-frame--tall" id="demo-client-messages" data-client-components data-demo-conversation>
+      <span class="demo-label">最近对话与反馈</span>
+      <div class="demo-row" aria-label="反馈状态演示">
+        <button class="btn btn--sm" type="button" data-demo="feedback" data-feedback="thinking" aria-pressed="false">等待回复</button>
+        <button class="btn btn--sm" type="button" data-demo="feedback" data-feedback="playback" aria-pressed="false">模拟播报</button>
+      </div>
+      <div class="conversation-dock">
+        <div class="recent-messages" data-demo-recent aria-label="最近对话" aria-live="polite"></div>
+        <div class="conversation-meta">
+          <span class="conversation-thinking" data-demo-thinking role="status" hidden>绫音正在想…</span>
+          <span data-demo-playback role="status" hidden>模拟播报中 · 无声音</span>
+          <button class="btn" type="button" data-demo="history" aria-controls="demo-client-history-layer" aria-expanded="false"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-history"></use></svg>对话记录</button>
+        </div>
+      </div>
+      <div class="modal-layer client-history-layer" id="demo-client-history-layer" data-demo="scrim">
+        <section class="form-modal client-history-sheet" role="dialog" aria-modal="true" aria-labelledby="demo-client-history-title">
+          <header class="modal-head"><div class="modal-head-copy"><h2 id="demo-client-history-title">与绫音的对话记录</h2><p>同一份对话，完整显示所有消息。</p></div><button class="btn btn--ghost client-icon-control" type="button" data-demo="close" aria-controls="demo-client-history-layer" aria-label="关闭对话记录"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg></button></header>
+          <div class="modal-body messages" data-demo-records tabindex="0" aria-label="完整对话记录"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>

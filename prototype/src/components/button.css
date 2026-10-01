@@ -2,7 +2,7 @@
    按钮（唯一源）
    ------------------------------------------------------------
    正本取自管理后台原型的 .btn / .icon-btn 实现。四种语义：默认描边、
-   主操作渐变、弱化幽灵、危险。图标按钮视觉 32px，用 ::after 负 inset
+   主操作渐变、弱化幽灵、危险。图标按钮视觉 40px，用 ::after 负 inset
    把命中区撑到 44px，因此不改变布局又能满足触控下限。
    is-loading 用透明文字 + ::after 环，避免切换时宽度跳动。
    ============================================================ */
@@ -14,22 +14,16 @@
   justify-content: center;
   gap: var(--spacing-extra-small);
   min-height: var(--height-control-sm);
-  padding: 0 var(--spacing-control-x);
-  border: 1px solid var(--color-outline-strong);
-  border-radius: var(--radius-control);
-  background: var(--color-surface-strong);
+  padding: 0 var(--spacing-medium);
+  border: 1px solid var(--color-outline-hover-soft);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface-inset);
   color: var(--color-on-surface-soft);
   font-family: inherit;
-  font-size: var(--font-body-small);
+  font-size: var(--font-label-small);
   font-weight: var(--weight-bold);
   white-space: nowrap;
-  transition:
-    background var(--duration-fast) ease,
-    border-color var(--duration-fast) ease,
-    color var(--duration-fast) ease,
-    box-shadow var(--duration-fast) ease,
-    transform var(--duration-fast) ease,
-    opacity var(--duration-fast) ease;
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
 }
 
 .btn:hover:not(:disabled) {
@@ -87,13 +81,14 @@
 
 .btn--sm {
   min-height: var(--height-control-xs);
-  padding: 0 var(--spacing-control-x-sm);
-  border-radius: var(--radius-control-sm);
+  padding: 0 var(--spacing-small);
+  border-radius: var(--radius-small);
   font-size: var(--font-label-small);
 }
 
 /* 登录、空状态等主行动按钮：48px 档，字号升到正文档 */
 .btn--lg {
+  border-radius: var(--radius-medium);
   min-height: var(--height-tab);
   padding: 0 var(--spacing-huge);
   font-size: var(--font-body-medium);
@@ -132,26 +127,23 @@
   position: relative;
   display: inline-grid;
   place-items: center;
-  width: var(--height-chip);
-  height: var(--height-chip);
+  width: var(--size-avatar-medium);
+  height: var(--size-avatar-medium);
   flex: 0 0 auto;
   border: 0;
-  border-radius: var(--radius-control-sm);
+  border-radius: var(--radius-small);
   background: transparent;
   color: var(--color-on-surface-soft);
   font-family: inherit;
   font-size: var(--size-icon-extra-small);
-  transition:
-    background var(--duration-fast) ease,
-    color var(--duration-fast) ease,
-    transform var(--duration-fast) ease;
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
 }
 
-/* 视觉 32px，命中区靠负 inset 扩到 44px */
+/* 视觉 40px，命中区靠 2px 负 inset 扩到 44px */
 .icon-btn::after {
   content: "";
   position: absolute;
-  inset: -6px;
+  inset: -2px;
 }
 
 .icon-btn:hover:not(:disabled) {
@@ -189,3 +181,265 @@
   .btn,
   .btn--sm { min-height: var(--tap-target); }
 }
+
+/* 实色主操作：旧资料动作与发送，不与登录渐变主操作混为一档。 */
+.btn--solid { border-color: transparent; background: var(--color-primary); color: var(--color-on-primary); }
+.btn--solid:hover:not(:disabled) { background: var(--color-primary-hover-a); color: var(--color-on-primary); }
+.btn::before, .tap-target::before { content: ""; position: absolute; inset-inline: 0; top: 50%; height: max(100%, var(--tap-target)); min-width: var(--tap-target); transform: translateY(-50%); }
+
+
+/* 从旧客户端抽取的语义变体；客户端与组件库共用此定义，视图不再复制。 */
+.password-field > .password-toggle,
+:is([data-proto="client"], [data-client-components]) .login-password-toggle {
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: var(--size-icon-huge);
+  height: var(--size-icon-huge);
+  border-radius: var(--radius-medium);
+  background: transparent;
+  color: var(--color-text-hint);
+  font-size: var(--font-body-large);
+
+}
+
+.password-field > .password-toggle:hover,
+:is([data-proto="client"], [data-client-components]) .login-password-toggle:hover {
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+
+}
+
+.password-field > .password-toggle::after,
+:is([data-proto="client"], [data-client-components]) .login-password-toggle::after {
+
+  content: "";
+  position: absolute;
+  inset: -2px;
+
+}
+
+.password-field > .password-toggle:active,
+:is([data-proto="client"], [data-client-components]) .login-password-toggle:active {
+ transform: scale(0.94);
+}
+
+.password-field > .password-toggle:focus-visible,
+:is([data-proto="client"], [data-client-components]) .login-password-toggle:focus-visible {
+
+  outline: 0;
+  box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .login-submit {
+
+  width: 100%;
+  min-height: var(--size-icon-massive);
+  margin-top: var(--spacing-extra-small);
+  border-radius: var(--radius-medium);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: var(--color-on-primary);
+  font-size: var(--font-body-medium);
+  font-weight: 800;
+  box-shadow: var(--shadow-primary-low);
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .login-submit:hover:not(:disabled) {
+
+  filter: brightness(0.98);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .login-submit:active:not(:disabled) {
+
+  transform: scale(0.985);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .login-submit:disabled {
+
+  cursor: wait;
+  opacity: 0.72;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .icon-button,
+:is([data-proto="client"], [data-client-components]) .brand-button,
+:is([data-proto="client"], [data-client-components]) .close-button {
+
+  display: inline-grid;
+  place-items: center;
+  min-width: var(--size-icon-huge);
+  min-height: var(--size-icon-huge);
+  border-radius: var(--radius-medium);
+  background: transparent;
+  color: var(--color-on-surface-soft);
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .icon-button:hover,
+:is([data-proto="client"], [data-client-components]) .brand-button:hover,
+:is([data-proto="client"], [data-client-components]) .close-button:hover {
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .icon-button:active,
+:is([data-proto="client"], [data-client-components]) .brand-button:active,
+:is([data-proto="client"], [data-client-components]) .close-button:active {
+
+  transform: scale(0.95);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .action-button {
+
+  flex: 1;
+  min-height: var(--size-avatar-medium);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface-inset);
+  border: 1px solid var(--color-outline);
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-label-small);
+  font-weight: 700;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .action-button:hover {
+
+  border-color: var(--color-outline-strong);
+  color: var(--color-primary-strong);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .profile-modal .close-button {
+
+  position: absolute;
+  top: 13px;
+  right: 13px;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .profile-actions button {
+
+  flex: 1;
+  min-height: var(--size-avatar-medium);
+  border-radius: var(--radius-medium);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: var(--font-label-small);
+  font-weight: 700;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .profile-actions button.secondary {
+
+  background: var(--color-surface-soft);
+  color: var(--color-on-surface-soft);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-actions button {
+
+  flex: 1;
+  min-height: var(--height-head);
+  border: 1px solid var(--color-focus-ring);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface-solid);
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-body-small);
+  font-weight: 700;
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-actions button:hover {
+
+  border-color: var(--color-outline-hover);
+  color: var(--color-primary-strong);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-actions button:active {
+
+  transform: scale(0.98);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-actions button.primary {
+
+  border-color: transparent;
+  background: var(--background-user-card-action);
+  color: var(--color-on-primary);
+  box-shadow: 0 10px 22px var(--color-row-flash);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-actions button.primary:hover {
+
+  background: var(--background-user-card-action-hover);
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-primary-high);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-links button {
+
+  min-height: var(--size-icon-huge);
+  border-radius: var(--radius-medium);
+  background: transparent;
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-body-small);
+  font-weight: 600;
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-links button:hover {
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+
+}
+
+@media (pointer: coarse) {
+:is([data-proto="client"], [data-client-components]) .icon-button,
+:is([data-proto="client"], [data-client-components]) .brand-button,
+:is([data-proto="client"], [data-client-components]) .close-button {
+
+    min-width: var(--tap-target);
+    min-height: var(--tap-target);
+
+}
+:is([data-proto="client"], [data-client-components]) .profile-actions button.secondary,
+:is([data-proto="client"], [data-client-components]) .user-card-actions button {
+
+    min-height: var(--tap-target);
+
+}
+}
+
+:is([data-proto="client"], [data-client-components]) .client-icon-control {
+ width: var(--tap-target); min-width: var(--tap-target); min-height: var(--tap-target); padding: 0;
+}
+
+/* 复合按钮复用同一热区扩展，不改变已有视觉尺寸。 */
+.tap-target { position: relative; }
+
+.password-field > .password-toggle:disabled { color: var(--color-text-hint); opacity: 0.5; cursor: not-allowed; }
+
+/* 可按下按钮的共享选中态，状态由 aria-pressed 表达。 */
+.btn[aria-pressed="true"] { background: var(--color-primary-soft); border-color: var(--color-primary); color: var(--color-primary-strong); }

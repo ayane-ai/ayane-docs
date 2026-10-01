@@ -6,15 +6,15 @@
     <span class="demo-no">05</span>
     <h4>表单 Field</h4>
     <p class="spec-note">
-      控件高度走旋钮 <code>--field-height</code>：后台 38px、客户端 48px，同一条
+      控件高度走旋钮 <code>--field-height</code>：默认 48px，由宿主按需调整密度；口令复用内嵌密码组合，其余字段沿用同一条
       <code>.field-ctl</code> 规则。错误态用 <code>.field.is-invalid</code> +
       <code>aria-invalid</code>，文案由 <code>.field-error</code> 以
       <code>aria-describedby</code> 关联；禁用态用 <code>:has()</code> 连带淡化 label。
     </p>
   </div>
   <div class="demo-vars">
-    <div class="demo-frame demo-frame--wide">
-      <span class="demo-label">字段六态（普通 / 错误 / 内联 / 下拉 / 多行 / 禁用）</span>
+    <div class="demo-frame demo-frame--wide" id="demo-client-fields" >
+      <span class="demo-label">字段六态（普通 / 错误 / 密码 / 下拉 / 多行 / 禁用）</span>
       <div class="demo-pair">
         <label class="field">
           <span class="field-label">会话标题<span class="req" aria-hidden="true">*</span></span>
@@ -34,13 +34,13 @@
       <div class="demo-pair">
         <label class="field">
           <span class="field-label">口令</span>
-          <span class="field-inline">
-            <input class="field-ctl" id="demo-field-pass" type="password" value="ayane2026" placeholder="任意 6 位以上">
-            <button class="icon-btn" type="button" id="demo-field-pass-toggle" aria-pressed="false" aria-label="显示口令">
+          <span class="password-field">
+            <input class="field-ctl password-input" id="demo-field-pass" type="password" value="ayane2026" placeholder="任意 6 位以上">
+            <button class="password-toggle" type="button" id="demo-field-pass-toggle" data-demo="reveal" aria-controls="demo-field-pass" aria-pressed="false" aria-label="显示口令">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-eye"></use></svg>
             </button>
           </span>
-          <span class="field-hint">.field-inline 把控件与按钮并到一行</span>
+          <span class="field-hint">密码框与客户端同源，显隐按钮内嵌于输入框右侧</span>
         </label>
         <label class="field">
           <span class="field-label">回复密度</span>
@@ -93,7 +93,7 @@
       </div>
     </div>
 
-    <div class="demo-frame demo-frame--wide">
+    <div class="demo-frame demo-frame--wide demo-frame--canvas demo-frame--tall" id="demo-filter-bar">
       <span class="demo-label">筛选条 .filter-bar（后台列表页顶部，窄容器自动换行）</span>
       <div class="filter-bar">
         <span class="filter-field">
@@ -107,8 +107,8 @@
         </select>
         <select class="filter-select" id="demo-filter-role" aria-label="角色筛选">
           <option>全部角色</option>
-          <option>content_admin</option>
-          <option>read_only_admin</option>
+          <option value="content_admin">内容管理员</option>
+          <option value="read_only_admin">只读管理员</option>
         </select>
         <button class="chip is-on" type="button" aria-pressed="true">需修正<span class="tab-count">3</span></button>
         <button class="chip" type="button" aria-pressed="false">在线</button>

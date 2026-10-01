@@ -8,13 +8,13 @@
    ============================================================ */
 
 .avatar {
-  width: var(--size-avatar-default);
-  height: var(--size-avatar-default);
+  width: var(--size-avatar-medium);
+  height: var(--size-avatar-medium);
   flex: 0 0 auto;
   display: block;
   overflow: hidden;
   border: 0;
-  border-radius: var(--radius-avatar-sm);
+  border-radius: var(--radius-large);
   background: linear-gradient(145deg, var(--color-avatar-wash-a), var(--color-avatar-wash-b));
   box-shadow: var(--shadow-avatar-inset);
 }
@@ -29,28 +29,129 @@
 }
 
 .avatar-xs {
-  width: var(--size-avatar-xs);
-  height: var(--size-avatar-xs);
-  border-radius: var(--radius-avatar-xs);
+  width: var(--size-avatar-small);
+  height: var(--size-avatar-small);
+  border-radius: var(--radius-medium);
 }
 
 .avatar-sm {
-  width: var(--size-avatar-sm);
-  height: var(--size-avatar-sm);
-  border-radius: var(--radius-avatar-sm);
+  width: var(--size-avatar-large);
+  height: var(--size-avatar-large);
+  border-radius: var(--radius-large);
 }
 
 .avatar-lg {
-  width: var(--size-avatar-lg);
-  height: var(--size-avatar-lg);
-  border-radius: var(--radius-avatar-lg);
+  width: var(--size-avatar-colossal);
+  height: var(--size-avatar-colossal);
+  border-radius: var(--radius-massive);
 }
 
 .avatar-xl {
-  width: var(--size-avatar-xl);
-  height: var(--size-avatar-xl);
-  border-radius: var(--radius-avatar-xl);
+  width: var(--size-avatar-colossal);
+  height: var(--size-avatar-colossal);
+  border-radius: var(--radius-colossal);
 }
 
 /* 圆形档：与方档正交，任意尺寸都可叠 */
 .avatar--circle { border-radius: var(--radius-pill); }
+
+
+/* 从旧客户端抽取的语义变体；客户端与组件库共用此定义，视图不再复制。 */
+:is([data-proto="client"], [data-client-components]) .login-avatar {
+
+  width: var(--size-avatar-colossal);
+  height: var(--size-avatar-colossal);
+  margin: 0 auto var(--spacing-large);
+  overflow: hidden;
+  border: 5px solid var(--color-surface-hairline-strong);
+  border-radius: var(--radius-massive);
+  background: var(--color-surface-soft);
+  box-shadow: var(--shadow-avatar-inset);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .login-avatar img {
+
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-avatar {
+
+  position: relative;
+  flex: 0 0 auto;
+  border-radius: var(--radius-large);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-avatar::after {
+
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: var(--size-icon-tiny);
+  height: var(--size-icon-tiny);
+  border: 2px solid var(--color-surface-strong);
+  border-radius: 50%;
+  background: var(--color-success);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-avatar {
+
+  position: relative;
+  flex: 0 0 auto;
+  display: block;
+  width: var(--size-icon-colossal);
+  height: var(--size-icon-colossal);
+  border-radius: 50%;
+  background: linear-gradient(145deg, var(--color-primary-soft), var(--color-primary-wash));
+  box-shadow: 0 8px 20px var(--color-nav-active-ring), 0 0 0 4px var(--color-surface-hairline-strong);
+  overflow: hidden;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-avatar img {
+
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-avatar.is-online::after {
+
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: var(--size-icon-tiny);
+  height: var(--size-icon-tiny);
+  border: 2.5px solid var(--color-on-primary);
+  border-radius: 50%;
+  background: var(--color-success);
+
+}
+
+@container region (max-width: 767px) {
+:is([data-proto="client"], [data-client-components]) .login-avatar {
+
+    width: var(--size-avatar-colossal);
+    height: var(--size-avatar-colossal);
+    margin-bottom: var(--spacing-extra-large);
+
+}
+:is([data-proto="client"], [data-client-components]) .user-card-avatar {
+
+    width: var(--size-avatar-large);
+    height: var(--size-avatar-large);
+
+}
+}

@@ -13,12 +13,12 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--spacing-control-x-sm);
+  gap: var(--spacing-small);
   width: 100%;
   min-height: var(--height-control);
-  padding: 0 var(--spacing-control-x-sm);
+  padding: 0 var(--spacing-small);
   border: 0;
-  border-radius: var(--radius-field);
+  border-radius: var(--radius-medium);
   background: transparent;
   color: var(--color-on-surface-soft);
   font-family: inherit;
@@ -71,7 +71,7 @@
   gap: var(--spacing-small);
   min-width: 0;
   padding: var(--spacing-small);
-  border-radius: var(--radius-field);
+  border-radius: var(--radius-medium);
   background: var(--color-surface-inset);
 }
 
@@ -87,9 +87,9 @@
   gap: var(--spacing-small);
   width: 100%;
   min-height: var(--height-control);
-  padding: 0 var(--spacing-control-x-sm);
+  padding: 0 var(--spacing-small);
   border: 0;
-  border-radius: var(--radius-field);
+  border-radius: var(--radius-medium);
   background: transparent;
   color: var(--color-on-surface-soft);
   font-family: inherit;
@@ -122,7 +122,7 @@
   display: inline-flex;
   gap: 3px;
   padding: var(--spacing-extra-small);
-  border-radius: var(--radius-tab);
+  border-radius: var(--radius-medium);
   background: var(--color-tab-track);
   flex-wrap: wrap;
 }
@@ -135,7 +135,7 @@
   min-height: var(--height-chip);
   padding: 0 var(--spacing-medium);
   border: 0;
-  border-radius: var(--radius-control-sm);
+  border-radius: var(--radius-small);
   background: transparent;
   color: var(--color-text-hint);
   font-family: inherit;
@@ -232,7 +232,7 @@
   min-height: var(--height-chip);
   padding: 0 var(--spacing-small);
   border: 1px solid var(--color-outline-strong);
-  border-radius: var(--radius-control-sm);
+  border-radius: var(--radius-small);
   background: var(--color-surface-strong);
   color: var(--color-on-surface-soft);
   font-family: inherit;
@@ -303,3 +303,15 @@
     min-height: var(--tap-target);
   }
 }
+
+
+/* 紧凑双段是 Tabs 的通用变体，不绑定业务列表或路由。 */
+.tabs.tabs--segmented { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-extra-small); border-radius: var(--radius-medium); background: var(--color-tab-track); }
+.tabs--segmented > .tab { justify-content: center; min-height: var(--tap-target); }
+.tabs--segmented > .tab::after { inset: 0; }
+.tabs--segmented > .tab:disabled { opacity: 0.5; cursor: not-allowed; }
+.tabs--segmented > .tab:active:not(:disabled) { transform: scale(0.985); }
+/* 绫音/我的：视觉和选中语义共用；宿主负责是否显示及页面位置。 */
+.client-bottom-nav { display: grid; grid-template-columns: 1fr 1fr; padding: var(--spacing-extra-small) var(--spacing-large) var(--safe-inset-bottom); border-top: var(--stroke-thin) solid var(--color-outline); background: var(--color-surface-solid); }
+.client-bottom-nav > .btn { min-height: var(--tap-target); }
+.client-bottom-nav [aria-current="page"] { background: var(--color-primary-soft); color: var(--color-primary-strong); }

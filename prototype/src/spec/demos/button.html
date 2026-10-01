@@ -1,67 +1,52 @@
-<!-- ============================================================
-   示例片段 · 按钮
-   ============================================================ -->
-<section class="demo-card">
+<!-- 示例片段 · 按钮。所有变体在同一个展示画布内，样式只来自共享按钮源。 -->
+<section class="demo-card" id="demo-component-button">
   <div class="demo-meta">
-    <span class="demo-no">04</span>
-    <h4>按钮 Button</h4>
-    <p class="spec-note">
-      四档语义（默认描边 / 主操作渐变 / 幽灵 / 危险）×三档高度（30 / 36 / 48）。
-      状态用 <code>:disabled</code>、<code>aria-pressed</code>、<code>.is-loading</code> 表达，
-      与视觉同步；动画只动 <code>transform</code> 与 <code>opacity</code>。
-    </p>
+    <span class="demo-no">04</span><h4>按钮 Button</h4>
+    <p class="spec-note">五种语义、三档尺寸及常用状态。点击区域至少 44×44；图标按钮使用无障碍名称，选中态与 aria-pressed 同步。</p>
   </div>
   <div class="demo-vars">
-    <div class="demo-frame">
-      <span class="demo-label">语义四档</span>
-      <div class="demo-row">
-        <button class="btn btn--primary" type="button">保存草稿</button>
-        <button class="btn" type="button">导出</button>
-        <button class="btn btn--ghost" type="button">取消</button>
-        <button class="btn btn--danger" type="button">回收会话</button>
+    <div class="demo-frame demo-frame--full" id="demo-client-buttons" data-client-components>
+      <span class="demo-label">按钮：语义、尺寸与状态</span>
+      <div class="demo-button-section">
+        <h5>语义</h5>
+        <div class="demo-row" data-button-group="semantics">
+          <button class="btn" type="button">默认</button>
+          <button class="btn btn--primary" type="button">渐变主操作</button>
+          <button class="btn btn--solid" type="button">实色主操作</button>
+          <button class="btn btn--ghost" type="button">幽灵</button>
+          <button class="btn btn--danger" type="button">危险</button>
+        </div>
       </div>
-      <span class="demo-label">高度三档 30 / 36 / 48</span>
-      <div class="demo-row">
-        <button class="btn btn--primary btn--sm" type="button">小号 30</button>
-        <button class="btn btn--primary" type="button">标准 36</button>
-        <button class="btn btn--primary btn--lg" type="button">大号 48</button>
+      <div class="demo-button-section">
+        <h5>尺寸</h5>
+        <div class="demo-row" data-button-group="sizes">
+          <button class="btn btn--sm" type="button">小号 30</button>
+          <button class="btn" type="button">标准 42</button>
+          <button class="btn btn--lg" type="button">大号 48</button>
+        </div>
       </div>
-      <span class="demo-label">状态</span>
-      <div class="demo-row">
-        <button class="btn btn--primary" type="button">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-plus"></use></svg>
-          带图标
-        </button>
-        <button class="btn" type="button" disabled>已禁用</button>
-        <button class="btn btn--primary is-loading" type="button">提交中</button>
+      <div class="demo-button-section">
+        <h5>状态</h5>
+        <div class="demo-row" data-button-group="states">
+          <button class="btn" type="button" data-demo="press" aria-pressed="false">普通</button>
+          <button class="btn" type="button" data-demo="press" aria-pressed="true">选中</button>
+          <button class="btn" type="button" disabled>已禁用</button>
+          <button class="btn btn--primary is-loading" type="button" disabled>提交中</button>
+        </div>
       </div>
-    </div>
-    <div class="demo-frame">
-      <span class="demo-label">块级与图标按钮</span>
-      <div class="demo-row">
-        <button class="btn btn--primary btn--lg btn--block" type="submit">占满一行（登录、空状态主行动）</button>
+      <div class="demo-button-section">
+        <h5>形式</h5>
+        <div class="demo-row" data-button-group="forms">
+          <button class="btn" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-plus"></use></svg>带图标</button>
+          <button class="btn btn--solid client-send" type="button" aria-label="发送"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-send"></use></svg></button>
+          <button class="icon-btn" type="button" aria-label="关闭"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg></button>
+          <button class="icon-btn" type="button" aria-label="搜索"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg></button>
+          <button class="icon-btn" type="button" aria-label="设置"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-gear"></use></svg></button>
+          <button class="icon-btn" type="button" aria-label="通知，3 条未读"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-bell"></use></svg><span class="nav-badge">3</span></button>
+        </div>
+        <button class="btn btn--primary btn--lg btn--block" type="button">块级按钮：占满一行</button>
       </div>
-      <span class="demo-label">图标按钮：视觉 32px，命中区靠 <code>::after</code> 负 inset 撑到 44px</span>
-      <div class="demo-row">
-        <button class="icon-btn" type="button" aria-label="搜索">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg>
-        </button>
-        <button class="icon-btn" type="button" aria-label="设置">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-gear"></use></svg>
-        </button>
-        <button class="icon-btn" type="button" aria-pressed="true" aria-label="显示口令">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-eye"></use></svg>
-        </button>
-        <button class="icon-btn" type="button" disabled aria-label="不可用">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-lock"></use></svg>
-        </button>
-        <span class="demo-label">带角标</span>
-        <button class="icon-btn" type="button" aria-label="通知，3 条未读">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-bell"></use></svg>
-          <span class="nav-badge">3</span>
-        </button>
-      </div>
-      <p class="demo-hint"><code>.is-loading</code> 用透明文字 + 伪元素环，切换时宽度不跳动。</p>
+      <p class="demo-hint">图标按钮视觉 40px，点击区域至少 44px；Tab 查看焦点，Enter／Space 操作。加载态保留按钮宽度。</p>
     </div>
   </div>
 </section>

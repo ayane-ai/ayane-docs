@@ -27,9 +27,9 @@
 
         <div class="field">
           <label for="admin-login-password">口令</label>
-          <div class="field-inline">
-            <input class="field-ctl" id="admin-login-password" name="password" type="password" autocomplete="current-password" placeholder="任意 6 位以上">
-            <button class="icon-btn" type="button" id="admin-login-password-toggle" aria-pressed="false" aria-label="显示口令">
+          <div class="password-field">
+            <input class="field-ctl password-input" id="admin-login-password" name="password" type="password" autocomplete="current-password" placeholder="任意 6 位以上">
+            <button class="password-toggle" type="button" id="admin-login-password-toggle" aria-pressed="false" aria-label="显示口令">
               <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-eye"></use></svg>
             </button>
           </div>
@@ -74,7 +74,7 @@
 
       <div class="topbar-actions">
         <div class="popover-anchor">
-          <button class="role-pill" type="button" id="role-switch" data-action="popover.toggle" data-pop="role-popover" aria-haspopup="menu" aria-expanded="false" aria-controls="role-popover">
+          <button class="role-pill tap-target" type="button" id="role-switch" data-action="popover.toggle" data-pop="role-popover" aria-haspopup="menu" aria-expanded="false" aria-controls="role-popover">
             <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shield" id="role-pill-icon"></use></svg>
             <span class="role-pill-label" id="role-pill-label">系统管理员</span>
             <svg class="icon icon-caret" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>

@@ -88,12 +88,60 @@
 }
 
 .chip input[type="checkbox"] {
-  width: var(--spacing-control-x);
-  height: var(--spacing-control-x);
+  width: var(--spacing-medium);
+  height: var(--spacing-medium);
   margin: 0;
   accent-color: var(--color-primary);
 }
 
 @media (pointer: coarse) {
   .chip { min-height: var(--height-row); }
+}
+
+
+/* 从旧客户端抽取的语义变体；客户端与组件库共用此定义，视图不再复制。 */
+:is([data-proto="client"], [data-client-components]) .online-dot {
+
+  display: inline-block;
+  width: var(--size-icon-tiny);
+  height: var(--size-icon-tiny);
+  border-radius: 50%;
+  background: var(--color-success);
+  box-shadow: var(--shadow-knob);
+  vertical-align: middle;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .contact-status {
+
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--spacing-extra-small);
+  align-self: start;
+  padding-top: var(--spacing-tiny);
+  color: var(--color-text-hint);
+  font-size: var(--font-badge);
+  white-space: nowrap;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .profile-tags {
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+  margin: var(--spacing-extra-large) 0;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .profile-tags span {
+
+  padding: var(--spacing-small) var(--spacing-small);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+  font-size: var(--font-caption);
+
 }

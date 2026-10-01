@@ -1,0 +1,3347 @@
+{
+  "version": 1,
+  "credentials": {
+    "account": "ayane",
+    "password": "ayane"
+  },
+  "viewports": [
+    320,
+    390,
+    767,
+    768,
+    1024,
+    1199,
+    1200,
+    1440,
+    1599,
+    1600,
+    1920
+  ],
+  "client": [
+    {
+      "name": "layout-320",
+      "w": 320,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "layout-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "layout-767",
+      "w": 767,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "layout-768",
+      "w": 768,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "layout-1024",
+      "w": 1024,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "layout-1199",
+      "w": 1199,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "layout-1200",
+      "w": 1200,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "layout-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "layout-1599",
+      "w": 1599,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "layout-1600",
+      "w": 1600,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "layout-1920",
+      "w": 1920,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1"
+      ]
+    },
+    {
+      "name": "media-390-0",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "\n\n",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='false'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='false'",
+        "q('#client-vision').getAttribute('aria-checked')==='false'",
+        "visible(q('#vision-preview'))===false",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-390-1",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true);\n\n",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='false'",
+        "q('#client-vision').getAttribute('aria-checked')==='false'",
+        "visible(q('#vision-preview'))===false",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-390-2",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "\nawait media('client-voice-output',true);\n",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='false'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='true'",
+        "q('#client-vision').getAttribute('aria-checked')==='false'",
+        "visible(q('#vision-preview'))===false",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-390-3",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true);\nawait media('client-voice-output',true);\n",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='true'",
+        "q('#client-vision').getAttribute('aria-checked')==='false'",
+        "visible(q('#vision-preview'))===false",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-390-4",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "\n\nawait media('client-vision',true);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='false'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='false'",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "visible(q('#vision-preview'))===true",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-390-5",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true);\n\nawait media('client-vision',true);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='false'",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "visible(q('#vision-preview'))===true",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-390-6",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "\nawait media('client-voice-output',true);\nawait media('client-vision',true);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='false'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='true'",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "visible(q('#vision-preview'))===true",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-390-7",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true);\nawait media('client-voice-output',true);\nawait media('client-vision',true);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='true'",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "visible(q('#vision-preview'))===true",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-1440-0",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "\n\n",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='false'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='false'",
+        "q('#client-vision').getAttribute('aria-checked')==='false'",
+        "visible(q('#vision-preview'))===false",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-1440-1",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true);\n\n",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='false'",
+        "q('#client-vision').getAttribute('aria-checked')==='false'",
+        "visible(q('#vision-preview'))===false",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-1440-2",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "\nawait media('client-voice-output',true);\n",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='false'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='true'",
+        "q('#client-vision').getAttribute('aria-checked')==='false'",
+        "visible(q('#vision-preview'))===false",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-1440-3",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true);\nawait media('client-voice-output',true);\n",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='true'",
+        "q('#client-vision').getAttribute('aria-checked')==='false'",
+        "visible(q('#vision-preview'))===false",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-1440-4",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "\n\nawait media('client-vision',true);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='false'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='false'",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "visible(q('#vision-preview'))===true",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-1440-5",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true);\n\nawait media('client-vision',true);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='false'",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "visible(q('#vision-preview'))===true",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-1440-6",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "\nawait media('client-voice-output',true);\nawait media('client-vision',true);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='false'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='true'",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "visible(q('#vision-preview'))===true",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "media-1440-7",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true);\nawait media('client-voice-output',true);\nawait media('client-vision',true);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "q('#client-voice-output').getAttribute('aria-checked')==='true'",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "visible(q('#vision-preview'))===true",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "deny-retry-client-voice-input",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "click('#client-voice-input'); await wait(()=>visible(q('#client-permission-layer'))); click('#client-permission-deny'); assert(q('#client-voice-input').getAttribute('aria-checked')==='false','denial must keep off'); click('#client-voice-input'); await wait(()=>visible(q('#client-permission-layer'))); click('#client-permission-allow');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "deny-retry-client-vision",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "click('#client-vision'); await wait(()=>visible(q('#client-permission-layer'))); click('#client-permission-deny'); assert(q('#client-vision').getAttribute('aria-checked')==='false','denial must keep off'); click('#client-vision'); await wait(()=>visible(q('#client-permission-layer'))); click('#client-permission-allow');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+      ]
+    },
+    {
+      "name": "preview-collapse-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-vision',true); click('#vision-collapse');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "q('#vision-preview').hidden && !q('#vision-restore').hidden"
+      ]
+    },
+    {
+      "name": "preview-reopen-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-vision',true); click('#vision-collapse'); await media('client-vision',false); await media('client-vision',true);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "!q('#vision-preview').hidden && q('#vision-restore').hidden"
+      ]
+    },
+    {
+      "name": "mode-draft-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','保留这段未发送草稿'); await media('client-voice-input',true); click('#client-mode-toggle');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='true'",
+        "q('#message-input').value==='保留这段未发送草稿'",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D')"
+      ]
+    },
+    {
+      "name": "long-message-history-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','这是一条需要完整查看的长消息。'.repeat(30)+' <img src=x onerror=alert(1)>'); click('#client-send'); await wait(()=>qAll('#messages .message-row').length===5); await sleep(80); click('#recent-messages .message-expand:not([hidden])');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "visible(q('#client-history-layer'))",
+        "qAll('#recent-messages .message-row').length===2",
+        "q('#messages .history-target .message-text').textContent.includes('<img src=x')",
+        "!q('img[src=\"x\"]')"
+      ]
+    },
+    {
+      "name": "long-input-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','多行草稿\\n'.repeat(20));",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#message-input').scrollHeight>q('#message-input').clientHeight",
+        "visible(q('#client-send'))"
+      ]
+    },
+    {
+      "name": "continuous-send-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','第一条测试消息'); click('#client-send'); fill('#message-input','第二条测试消息'); click('#client-send'); await wait(()=>qAll('#messages .message-row').length===7);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "qAll('#recent-messages .message-row').length===2",
+        "q('#typing-indicator').hidden"
+      ]
+    },
+    {
+      "name": "playback-only-new-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-output',true); assert(q('#client-playback-status').hidden,'must not replay old messages'); fill('#message-input','你好'); click('#client-send'); await wait(()=>!q('#client-playback-status').hidden); await media('client-voice-output',false);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-playback-status').hidden",
+        "qAll('#messages .message-row').length===5"
+      ]
+    },
+    {
+      "name": "history-focus-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "click('#client-history-open'); await wait(()=>visible(q('#client-history-layer'))); const controls=qAll('#client-history-layer button,[id=messages]'); controls[controls.length-1].focus(); key('Tab'); assert(document.activeElement===q('#client-history-close'),'focus wraps forward'); key('Tab',true); assert(document.activeElement===q('#messages'),'focus wraps backward'); key('Escape');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "!visible(q('#client-history-layer'))",
+        "document.activeElement===q('#client-history-open')"
+      ]
+    },
+    {
+      "name": "ai-profile-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "if(isPhone()) click('#chat-person'); else {click('#sidebar-menu-button');click('#sidebar-profile');}",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "visible(q('#profile-modal'))"
+      ]
+    },
+    {
+      "name": "user-profile-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "if(isPhone()){click('#mobile-profile');click('#mobile-user-block');}else click('#user-block');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "visible(q('#user-card-modal'))"
+      ],
+      "baseline": true
+    },
+    {
+      "name": "about-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "if(isPhone()){click('#mobile-profile');click('#mobile-user-about');}else{click('#sidebar-menu-button');click('#sidebar-about');}",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "visible(q('#about-modal'))"
+      ],
+      "baseline": true
+    },
+    {
+      "name": "region-submit-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','检查区域隔离');click('#client-send');await wait(()=>qAll('#messages .message-row').length===5);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "!document.querySelector('[data-proto=admin] .toast').textContent.includes('message-form')"
+      ]
+    },
+    {
+      "name": "preview-collapse-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-vision',true); click('#vision-collapse');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "q('#vision-preview').hidden && !q('#vision-restore').hidden"
+      ]
+    },
+    {
+      "name": "preview-reopen-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-vision',true); click('#vision-collapse'); await media('client-vision',false); await media('client-vision',true);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "!q('#vision-preview').hidden && q('#vision-restore').hidden"
+      ]
+    },
+    {
+      "name": "mode-draft-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','保留这段未发送草稿'); await media('client-voice-input',true); click('#client-mode-toggle');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='true'",
+        "q('#message-input').value==='保留这段未发送草稿'",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D')"
+      ]
+    },
+    {
+      "name": "long-message-history-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','这是一条需要完整查看的长消息。'.repeat(30)+' <img src=x onerror=alert(1)>'); click('#client-send'); await wait(()=>qAll('#messages .message-row').length===5); await sleep(80); click('#recent-messages .message-expand:not([hidden])');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "visible(q('#client-history-layer'))",
+        "qAll('#recent-messages .message-row').length===2",
+        "q('#messages .history-target .message-text').textContent.includes('<img src=x')",
+        "!q('img[src=\"x\"]')"
+      ]
+    },
+    {
+      "name": "long-input-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','多行草稿\\n'.repeat(20));",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#message-input').scrollHeight>q('#message-input').clientHeight",
+        "visible(q('#client-send'))"
+      ]
+    },
+    {
+      "name": "continuous-send-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','第一条测试消息'); click('#client-send'); fill('#message-input','第二条测试消息'); click('#client-send'); await wait(()=>qAll('#messages .message-row').length===7);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "qAll('#recent-messages .message-row').length===2",
+        "q('#typing-indicator').hidden"
+      ]
+    },
+    {
+      "name": "playback-only-new-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-output',true); assert(q('#client-playback-status').hidden,'must not replay old messages'); fill('#message-input','你好'); click('#client-send'); await wait(()=>!q('#client-playback-status').hidden); await media('client-voice-output',false);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-playback-status').hidden",
+        "qAll('#messages .message-row').length===5"
+      ]
+    },
+    {
+      "name": "history-focus-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "click('#client-history-open'); await wait(()=>visible(q('#client-history-layer'))); const controls=qAll('#client-history-layer button,[id=messages]'); controls[controls.length-1].focus(); key('Tab'); assert(document.activeElement===q('#client-history-close'),'focus wraps forward'); key('Tab',true); assert(document.activeElement===q('#messages'),'focus wraps backward'); key('Escape');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "!visible(q('#client-history-layer'))",
+        "document.activeElement===q('#client-history-open')"
+      ]
+    },
+    {
+      "name": "ai-profile-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "if(isPhone()) click('#chat-person'); else {click('#sidebar-menu-button');click('#sidebar-profile');}",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "visible(q('#profile-modal'))"
+      ]
+    },
+    {
+      "name": "user-profile-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "if(isPhone()){click('#mobile-profile');click('#mobile-user-block');}else click('#user-block');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "visible(q('#user-card-modal'))"
+      ],
+      "baseline": true
+    },
+    {
+      "name": "about-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "if(isPhone()){click('#mobile-profile');click('#mobile-user-about');}else{click('#sidebar-menu-button');click('#sidebar-about');}",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "visible(q('#about-modal'))"
+      ],
+      "baseline": true
+    },
+    {
+      "name": "region-submit-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','检查区域隔离');click('#client-send');await wait(()=>qAll('#messages .message-row').length===5);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "!document.querySelector('[data-proto=admin] .toast').textContent.includes('message-form')"
+      ]
+    },
+    {
+      "name": "my-page-preserves-state",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true); await media('client-voice-output',true); await media('client-vision',true);click('#vision-collapse');fill('#message-input','我的页切换草稿');click('#mobile-profile');assert(visible(q('#mobile-profile-panel')),'my page visible');assert(!q('#mobile-profile-panel [role=switch]'),'no media controls on my page');click('#mobile-user-settings');assert(q('.toast').textContent.includes('更多设置'),'settings keeps existing feedback');click('#mobile-companion');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#message-input').value==='我的页切换草稿'",
+        "q('#client-vision').getAttribute('aria-checked')==='true'",
+        "!q('#vision-restore').hidden"
+      ]
+    },
+    {
+      "name": "ai-drawer-focus",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "click('#sidebar-toggle');assert(visible(q('#sidebar')),'drawer open');q('#ai-ayane').focus();key('Tab');assert(document.activeElement===q('#ai-selector-close'),'drawer focus wrap');key('Escape');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "!visible(q('#sidebar'))",
+        "document.activeElement===q('#sidebar-toggle')"
+      ]
+    },
+    {
+      "name": "logout-cleans-demo",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true);await media('client-vision',true);fill('#message-input','退出前的待回复消息');click('#client-send');click('#mobile-profile');click('#mobile-user-block');await wait(()=>visible(q('#user-card-signout')));click('#user-card-signout');await sleep(800);",
+      "expect": [
+        "visible(q('#login-shell'))",
+        "q('#app-frame').hidden",
+        "q('#client-voice-input').getAttribute('aria-checked')==='false'",
+        "q('#client-vision').getAttribute('aria-checked')==='false'",
+        "qAll('#messages .message-row').length===4"
+      ],
+      "expectBase": false
+    },
+    {
+      "name": "resize-preserves-page-and-draft",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "await media('client-voice-input',true);await media('client-vision',true);click('#vision-collapse');click('#client-mode-toggle');fill('#message-input','跨断点保留草稿');click('#mobile-profile');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#message-input').value==='跨断点保留草稿'",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='true'",
+        "visible(q('#mobile-profile-panel'))===isPhone()",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D')"
+      ],
+      "resize": [
+        {
+          "w": 1440,
+          "h": 900
+        },
+        {
+          "w": 390,
+          "h": 844
+        }
+      ]
+    },
+    {
+      "name": "fullscreen-same-node",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "click('#client-mode-toggle');await media('client-voice-input',true);fill('#message-input','全屏节点保留');const before=root;const wasFull=!!root.closest('.region-fullscreen-layer');click(wasFull?'#fullscreen-client-close':'#fullscreen-client-open',document);await sleep(100);assert(root===document.querySelector('[data-proto=client]'),'same node after first move');click(wasFull?'#fullscreen-client-open':'#fullscreen-client-close',document);await sleep(100);assert(root===document.querySelector('[data-proto=client]'),'same node after return');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#message-input').value==='全屏节点保留'",
+        "q('#client-voice-input').getAttribute('aria-checked')==='true'",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D')"
+      ]
+    },
+    {
+      "name": "login-390-default",
+      "region": "client",
+      "w": 390,
+      "h": 844,
+      "auth": false,
+      "setup": "",
+      "expect": [
+        "visible(q('#login-shell'))",
+        "q('#login-account').value==='ayane' && q('#login-password').value==='ayane'"
+      ],
+      "settle": 80,
+      "baseline": true
+    },
+    {
+      "name": "login-390-empty",
+      "region": "client",
+      "w": 390,
+      "h": 844,
+      "auth": false,
+      "setup": "fill('#login-account','');fill('#login-password','');click('#login-submit');",
+      "expect": [
+        "q('#login-error').textContent==='请输入账号'",
+        "!q('#login-error').hidden"
+      ],
+      "settle": 80,
+      "baseline": true
+    },
+    {
+      "name": "login-390-wrong",
+      "region": "client",
+      "w": 390,
+      "h": 844,
+      "auth": false,
+      "setup": "fill('#login-account','ayane');fill('#login-password','wrong');click('#login-submit');",
+      "expect": [
+        "q('#login-error').textContent.includes('预置账号')"
+      ],
+      "settle": 80,
+      "baseline": true
+    },
+    {
+      "name": "login-390-shown",
+      "region": "client",
+      "w": 390,
+      "h": 844,
+      "auth": false,
+      "setup": "fill('#login-account','ayane');fill('#login-password','ayane');click('#login-password-toggle');",
+      "expect": [
+        "q('#login-password').type==='text'"
+      ],
+      "settle": 80,
+      "baseline": true
+    },
+    {
+      "name": "login-390-submitting",
+      "region": "client",
+      "w": 390,
+      "h": 844,
+      "auth": false,
+      "setup": "fill('#login-account','ayane');fill('#login-password','ayane');click('#login-submit');",
+      "expect": [
+        "q('#login-submit').disabled"
+      ],
+      "settle": 30,
+      "baseline": true
+    },
+    {
+      "name": "login-1440-default",
+      "region": "client",
+      "w": 1440,
+      "h": 900,
+      "auth": false,
+      "setup": "",
+      "expect": [
+        "visible(q('#login-shell'))",
+        "q('#login-account').value==='ayane' && q('#login-password').value==='ayane'"
+      ],
+      "settle": 80,
+      "baseline": true
+    },
+    {
+      "name": "login-1440-empty",
+      "region": "client",
+      "w": 1440,
+      "h": 900,
+      "auth": false,
+      "setup": "fill('#login-account','');fill('#login-password','');click('#login-submit');",
+      "expect": [
+        "q('#login-error').textContent==='请输入账号'",
+        "!q('#login-error').hidden"
+      ],
+      "settle": 80,
+      "baseline": true
+    },
+    {
+      "name": "login-1440-wrong",
+      "region": "client",
+      "w": 1440,
+      "h": 900,
+      "auth": false,
+      "setup": "fill('#login-account','ayane');fill('#login-password','wrong');click('#login-submit');",
+      "expect": [
+        "q('#login-error').textContent.includes('预置账号')"
+      ],
+      "settle": 80,
+      "baseline": true
+    },
+    {
+      "name": "login-1440-shown",
+      "region": "client",
+      "w": 1440,
+      "h": 900,
+      "auth": false,
+      "setup": "fill('#login-account','ayane');fill('#login-password','ayane');click('#login-password-toggle');",
+      "expect": [
+        "q('#login-password').type==='text'"
+      ],
+      "settle": 80,
+      "baseline": true
+    },
+    {
+      "name": "login-1440-submitting",
+      "region": "client",
+      "w": 1440,
+      "h": 900,
+      "auth": false,
+      "setup": "fill('#login-account','ayane');fill('#login-password','ayane');click('#login-submit');",
+      "expect": [
+        "q('#login-submit').disabled"
+      ],
+      "settle": 30,
+      "baseline": true
+    },
+    {
+      "name": "mode-roundtrip-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','图标切换保留草稿');await media('client-voice-input',true);await media('client-voice-output',true);await media('client-vision',true);click('#vision-collapse');const messages=q('#recent-messages').textContent;assert(q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D'),'default 2D icon');click('#client-mode-toggle');assert(q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D'),'switch to 3D');click('#client-mode-toggle');assert(q('#recent-messages').textContent===messages,'messages retained');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='true')",
+        "q('#message-input').value==='图标切换保留草稿'",
+        "visible(q('#vision-restore')) && !visible(q('#vision-preview'))"
+      ]
+    },
+    {
+      "name": "profile-forces-3d-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "const openProfile=async()=>{if(isPhone())click('#chat-person');else{click('#sidebar-menu-button');click('#sidebar-profile');}await wait(()=>visible(q('#profile-modal')));};await openProfile();click('#profile-3d');assert(q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D'),'profile switches 2D to 3D');await openProfile();click('#profile-3d');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D')",
+        "!q('#profile-modal').classList.contains('is-open')",
+        "visible(q('#companion-page'))"
+      ]
+    },
+    {
+      "name": "mode-roundtrip-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','图标切换保留草稿');await media('client-voice-input',true);await media('client-voice-output',true);await media('client-vision',true);click('#vision-collapse');const messages=q('#recent-messages').textContent;assert(q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D'),'default 2D icon');click('#client-mode-toggle');assert(q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D'),'switch to 3D');click('#client-mode-toggle');assert(q('#recent-messages').textContent===messages,'messages retained');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='true')",
+        "q('#message-input').value==='图标切换保留草稿'",
+        "visible(q('#vision-restore')) && !visible(q('#vision-preview'))"
+      ]
+    },
+    {
+      "name": "profile-forces-3d-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const openProfile=async()=>{if(isPhone())click('#chat-person');else{click('#sidebar-menu-button');click('#sidebar-profile');}await wait(()=>visible(q('#profile-modal')));};await openProfile();click('#profile-3d');assert(q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D'),'profile switches 2D to 3D');await openProfile();click('#profile-3d');",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D')",
+        "!q('#profile-modal').classList.contains('is-open')",
+        "visible(q('#companion-page'))"
+      ]
+    },
+    {
+      "name": "toolbar-keyboard-320",
+      "w": 320,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "q('#client-mode-toggle').focus({preventScroll:true});",
+      "keyboard": [
+        {
+          "key": "Enter",
+          "expect": [
+            "q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D')",
+            "document.activeElement===q('#client-mode-toggle') && q('#client-mode-toggle').matches(':focus-visible') && getComputedStyle(q('#client-mode-toggle')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Space",
+          "expect": [
+            "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')"
+          ]
+        },
+        {
+          "key": "Tab",
+          "expect": [
+            "document.activeElement===q('#client-voice-input') && q('#client-voice-input').matches(':focus-visible') && getComputedStyle(q('#client-voice-input')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Enter",
+          "expect": [
+            "q('#client-permission-layer').classList.contains('is-open')",
+            "q('#client-voice-input').getAttribute('aria-checked')==='false'"
+          ]
+        },
+        {
+          "key": "Escape",
+          "expect": [
+            "!q('#client-permission-layer').classList.contains('is-open')",
+            "document.activeElement===q('#client-voice-input') && q('#client-voice-input').matches(':focus-visible') && getComputedStyle(q('#client-voice-input')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Tab",
+          "expect": [
+            "document.activeElement===q('#client-voice-output') && q('#client-voice-output').matches(':focus-visible') && getComputedStyle(q('#client-voice-output')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Enter",
+          "expect": [
+            "q('#client-voice-output').getAttribute('aria-checked')==='true'",
+            "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+          ]
+        },
+        {
+          "key": "Tab",
+          "expect": [
+            "document.activeElement===q('#client-vision') && q('#client-vision').matches(':focus-visible') && getComputedStyle(q('#client-vision')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Enter",
+          "expect": [
+            "q('#client-permission-layer').classList.contains('is-open')",
+            "q('#client-vision').getAttribute('aria-checked')==='false'"
+          ]
+        },
+        {
+          "key": "Escape",
+          "expect": [
+            "!q('#client-permission-layer').classList.contains('is-open')",
+            "document.activeElement===q('#client-vision') && q('#client-vision').matches(':focus-visible') && getComputedStyle(q('#client-vision')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Tab",
+          "shift": true,
+          "expect": [
+            "document.activeElement===q('#client-voice-output') && q('#client-voice-output').matches(':focus-visible') && getComputedStyle(q('#client-voice-output')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Space",
+          "expect": [
+            "q('#client-voice-output').getAttribute('aria-checked')==='false'",
+            "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+          ]
+        }
+      ],
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "document.activeElement===q('#client-voice-output') && q('#client-voice-output').matches(':focus-visible') && getComputedStyle(q('#client-voice-output')).boxShadow!=='none'"
+      ]
+    },
+    {
+      "name": "toolbar-keyboard-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "q('#client-mode-toggle').focus({preventScroll:true});",
+      "keyboard": [
+        {
+          "key": "Enter",
+          "expect": [
+            "q('#client-mode-toggle').getAttribute('aria-pressed')==='true' && q('#client-mode-toggle use').getAttribute('href')==='#i-cube' && q('#companion-page').dataset.avatarMode==='3d' && q('#client-mode-toggle').title.includes('当前：3D') && q('#client-mode-toggle').title.includes('点击切换至 2D')",
+            "document.activeElement===q('#client-mode-toggle') && q('#client-mode-toggle').matches(':focus-visible') && getComputedStyle(q('#client-mode-toggle')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Space",
+          "expect": [
+            "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')"
+          ]
+        },
+        {
+          "key": "Tab",
+          "expect": [
+            "document.activeElement===q('#client-voice-input') && q('#client-voice-input').matches(':focus-visible') && getComputedStyle(q('#client-voice-input')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Enter",
+          "expect": [
+            "q('#client-permission-layer').classList.contains('is-open')",
+            "q('#client-voice-input').getAttribute('aria-checked')==='false'"
+          ]
+        },
+        {
+          "key": "Escape",
+          "expect": [
+            "!q('#client-permission-layer').classList.contains('is-open')",
+            "document.activeElement===q('#client-voice-input') && q('#client-voice-input').matches(':focus-visible') && getComputedStyle(q('#client-voice-input')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Tab",
+          "expect": [
+            "document.activeElement===q('#client-voice-output') && q('#client-voice-output').matches(':focus-visible') && getComputedStyle(q('#client-voice-output')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Enter",
+          "expect": [
+            "q('#client-voice-output').getAttribute('aria-checked')==='true'",
+            "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+          ]
+        },
+        {
+          "key": "Tab",
+          "expect": [
+            "document.activeElement===q('#client-vision') && q('#client-vision').matches(':focus-visible') && getComputedStyle(q('#client-vision')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Enter",
+          "expect": [
+            "q('#client-permission-layer').classList.contains('is-open')",
+            "q('#client-vision').getAttribute('aria-checked')==='false'"
+          ]
+        },
+        {
+          "key": "Escape",
+          "expect": [
+            "!q('#client-permission-layer').classList.contains('is-open')",
+            "document.activeElement===q('#client-vision') && q('#client-vision').matches(':focus-visible') && getComputedStyle(q('#client-vision')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Tab",
+          "shift": true,
+          "expect": [
+            "document.activeElement===q('#client-voice-output') && q('#client-voice-output').matches(':focus-visible') && getComputedStyle(q('#client-voice-output')).boxShadow!=='none'"
+          ]
+        },
+        {
+          "key": "Space",
+          "expect": [
+            "q('#client-voice-output').getAttribute('aria-checked')==='false'",
+            "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})"
+          ]
+        }
+      ],
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "document.activeElement===q('#client-voice-output') && q('#client-voice-output').matches(':focus-visible') && getComputedStyle(q('#client-voice-output')).boxShadow!=='none'"
+      ]
+    },
+    {
+      "name": "canvas-width-320",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(320+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===320);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===320"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 320
+    },
+    {
+      "name": "canvas-width-390",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(390+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===390);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===390"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 390
+    },
+    {
+      "name": "canvas-width-767",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(767+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===767);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===767"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 767
+    },
+    {
+      "name": "canvas-width-768",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(768+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===768);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===768"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 768
+    },
+    {
+      "name": "canvas-width-1024",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(1024+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===1024);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===1024"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 1024
+    },
+    {
+      "name": "canvas-width-1199",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(1199+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===1199);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===1199"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 1199
+    },
+    {
+      "name": "canvas-width-1200",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(1200+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===1200);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===1200"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 1200
+    },
+    {
+      "name": "canvas-width-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(1440+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===1440);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===1440"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 1440
+    },
+    {
+      "name": "canvas-width-1599",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(1599+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===1599);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===1599"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 1599
+    },
+    {
+      "name": "canvas-width-1600",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(1600+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===1600);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===1600"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 1600
+    },
+    {
+      "name": "canvas-width-1920",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "const style=getComputedStyle(root);root.style.width=(1920+parseFloat(style.borderLeftWidth)+parseFloat(style.borderRightWidth))+'px';await wait(()=>queryWidth()===1920);await sleep(120);",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "qAll('[data-agent-id]').length === 1",
+        "q('#client-demo-notice').textContent.includes('不采集')",
+        "!q('#call-button') && !q('#call-banner') && !q('#companion-window')",
+        "['client-voice-input','client-voice-output','client-vision'].every(id=>q('#'+id).getAttribute('aria-checked')==='false')",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false'",
+        "visible(q('#mobile-nav')) === isPhone()",
+        "visible(q('#sidebar-toggle')) === isPhone()",
+        "visible(q('#sidebar')) === !isPhone()",
+        "Math.abs(q('#sidebar').offsetWidth-(isPhone()?q('#sidebar').offsetWidth:queryWidth()<1200?248:270))<1",
+        "[['client-voice-input','mic'],['client-voice-output','volume'],['client-vision','camera']].every(([id,icon])=>{const button=q('#'+id),enabled=button.getAttribute('aria-checked')==='true';return button.getAttribute('role')==='switch' && button.querySelector('use').getAttribute('href')==='#i-'+icon+(enabled?'':'-off') && button.title.includes(enabled?'已开启':'已关闭') && button.title.includes(enabled?'点击关闭':'点击开启') && !button.textContent.trim();})",
+        "q('#client-mode-toggle').getAttribute('aria-pressed')==='false' && q('#client-mode-toggle use').getAttribute('href')==='#i-frame' && q('#companion-page').dataset.avatarMode==='2d' && q('#client-mode-toggle').title.includes('当前：2D') && q('#client-mode-toggle').title.includes('点击切换至 3D')",
+        "!q('#client-mode-2d') && !q('#client-mode-3d') && !q('.media-value')",
+        "qAll('.client-toolbar-controls > button').map(b=>b.id).join(',')==='client-mode-toggle,client-voice-input,client-voice-output,client-vision'",
+        "qAll('.client-toolbar-controls > button').every(b=>!b.textContent.trim() && b.getAttribute('aria-label') && b.title && b.querySelector('svg.icon-md'))",
+        "qAll('.client-toolbar-controls > button').every(b=>Math.abs(b.getBoundingClientRect().top-q('#client-mode-toggle').getBoundingClientRect().top)<1)",
+        "Math.abs(q('.client-toolbar-controls').getBoundingClientRect().right-(q('.scene-toolbar').getBoundingClientRect().right-parseFloat(getComputedStyle(q('.scene-toolbar')).paddingRight)))<1",
+        "queryWidth()===1920"
+      ],
+      "modes": [
+        "embedded"
+      ],
+      "canvasWidth": 1920
+    },
+    {
+      "name": "composer-neutral-focus-390",
+      "w": 390,
+      "h": 844,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','输入框聚焦保持原样');q('#message-input').focus({preventScroll:true});",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "q('#message-input').value==='输入框聚焦保持原样'",
+        "getComputedStyle(q('#message-input')).boxShadow==='none'",
+        "getComputedStyle(q('#message-input')).outlineStyle==='none'",
+        "parseFloat(getComputedStyle(q('#message-input')).borderTopWidth)===0"
+      ]
+    },
+    {
+      "name": "composer-neutral-focus-1440",
+      "w": 1440,
+      "h": 900,
+      "region": "client",
+      "auth": true,
+      "setup": "fill('#message-input','输入框聚焦保持原样');q('#message-input').focus({preventScroll:true});",
+      "expect": [
+        "!q('#app-frame').hidden && q('#login-shell').hidden",
+        "q('#message-input').value==='输入框聚焦保持原样'",
+        "getComputedStyle(q('#message-input')).boxShadow==='none'",
+        "getComputedStyle(q('#message-input')).outlineStyle==='none'",
+        "parseFloat(getComputedStyle(q('#message-input')).borderTopWidth)===0"
+      ]
+    }
+  ],
+  "other": {
+    "admin": [
+      {
+        "name": "a01-login-default",
+        "w": 1440,
+        "h": 900,
+        "note": "后台登录页默认态（1440×900）",
+        "expect": [
+          "visible(q('#admin-login-shell'))"
+        ]
+      },
+      {
+        "name": "a02-login-error",
+        "w": 1440,
+        "h": 900,
+        "note": "口令不足 6 位的字段错误态",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='123';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,250));",
+        "expect": [
+          "q('#admin-login-password').getAttribute('aria-invalid')==='true'"
+        ]
+      },
+      {
+        "name": "a03-login-pw-shown",
+        "w": 1440,
+        "h": 900,
+        "note": "口令明文 + 角色卡选中",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-password-toggle').click();s.querySelector('#role-grid [data-role=\"content_admin\"]').click();await new Promise(r=>setTimeout(r,200));",
+        "expect": [
+          "q('#admin-login-password').type==='text'",
+          "q('#role-grid [data-role=content_admin]').checked===true || q('#role-grid [data-role=content_admin]').getAttribute('aria-checked')==='true'"
+        ]
+      },
+      {
+        "name": "a04-dashboard-wide",
+        "w": 1920,
+        "h": 1080,
+        "note": "概览 1920 桌面档",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));",
+        "expect": [
+          "q('.page-head h1').textContent.trim()==='概览'"
+        ]
+      },
+      {
+        "name": "a05-users-desktop",
+        "w": 1440,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a06-users-rail",
+        "w": 1024,
+        "h": 768,
+        "note": "1024 图标轨档（900–1199）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a07-users-narrow",
+        "w": 899,
+        "h": 800,
+        "note": "899 抽屉式侧栏档上界",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a08-users-compact",
+        "w": 639,
+        "h": 800,
+        "note": "639 紧凑档上界（分页收起）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a09-users-320",
+        "w": 320,
+        "h": 568,
+        "mobile": true,
+        "note": "320 最小宽度列表",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a10-phone-users",
+        "w": 390,
+        "h": 844,
+        "mobile": true,
+        "note": "390 手机档列表",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a11-drawer-open",
+        "w": 1440,
+        "h": 900,
+        "note": "详情抽屉 + 遮罩",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));s.querySelector('.data-table tbody [data-action=\"row.open\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "visible(q('.drawer.is-open'))"
+        ]
+      },
+      {
+        "name": "a12-drawer-narrow",
+        "w": 899,
+        "h": 800,
+        "note": "899 档抽屉宽度收口",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));s.querySelector('.data-table tbody [data-action=\"row.open\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "visible(q('.drawer.is-open'))"
+        ]
+      },
+      {
+        "name": "a13-modal-create",
+        "w": 1440,
+        "h": 900,
+        "note": "开通用户表单模态（顶部起排可滚动）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));s.querySelector('[data-action=\"user.create\"]').click();await new Promise(r=>setTimeout(r,450));",
+        "expect": [
+          "visible(q('.modal-layer.is-open'))"
+        ]
+      },
+      {
+        "name": "a14-modal-danger",
+        "w": 1200,
+        "h": 800,
+        "note": "危险确认模态（1200 档）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));s.querySelector('.data-table tbody [data-action=\"user.disable\"]').click();await new Promise(r=>setTimeout(r,450));",
+        "expect": [
+          "visible(q('.modal-layer.is-open'))"
+        ]
+      },
+      {
+        "name": "a15-popover-role",
+        "w": 1440,
+        "h": 900,
+        "note": "角色切换气泡菜单",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#role-switch').click();await new Promise(r=>setTimeout(r,350));",
+        "expect": [
+          "visible(q('.popover.is-open'))"
+        ]
+      },
+      {
+        "name": "a16-toast-error",
+        "w": 1440,
+        "h": 900,
+        "note": "错误 toast（画布顶部让开顶栏）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));s.querySelector('#chaos-toggle').click();await new Promise(r=>setTimeout(r,300));const f=s.querySelector('#chaos-popover [data-action=\"chaos.set\"][data-mode=\"500\"]');if(!f)throw Error('Missing deterministic error injection');f.click();await new Promise(r=>setTimeout(r,900));",
+        "expect": [
+          "visible(q('.toast.is-visible.is-error'))",
+          "q('.toast').textContent.includes('500')"
+        ]
+      },
+      {
+        "name": "a17-guard-403",
+        "w": 1440,
+        "h": 900,
+        "note": "只读角色访问 system_admin 模块的 403 拦截页",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='read@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#role-grid [data-role=\"read_only_admin\"]').click();s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));location.hash='#/providers';await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "q('.page-head h1').textContent.includes('访问被拒绝')"
+        ]
+      },
+      {
+        "name": "a18-stream-console",
+        "w": 1440,
+        "h": 900,
+        "note": "实时流控制台（长列表滚动权）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"runtime\"]').click();await new Promise(r=>setTimeout(r,1200));",
+        "expect": [
+          "location.hash.startsWith('#/runtime')",
+          "q('.console-body')!==null"
+        ]
+      },
+      {
+        "name": "a19-sidenav-open",
+        "w": 639,
+        "h": 800,
+        "note": "紧凑档抽屉式侧栏展开 + 遮罩",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-toggle').click();await new Promise(r=>setTimeout(r,450));",
+        "expect": [
+          "q('#sidenav').classList.contains('is-open')",
+          "q('#nav-toggle').getAttribute('aria-expanded')==='true'"
+        ]
+      },
+      {
+        "name": "a20-providers-1439",
+        "w": 1439,
+        "h": 900,
+        "note": "1439 统计卡密度档上界",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"providers\"]').click();await new Promise(r=>setTimeout(r,600));",
+        "expect": [
+          "location.hash.startsWith('#/providers')",
+          "q('.page-head h1').textContent.includes('模型供应商')"
+        ]
+      },
+      {
+        "name": "a21-shell-anchor-login",
+        "w": 1440,
+        "h": 900,
+        "note": "从工作台 #sec-admin 登录应进入概览，不误判为 403",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));",
+        "expect": [
+          "q('.page-head h1').textContent.trim()==='概览'",
+          "!q('.page-body').textContent.includes('sec-admin ·')"
+        ]
+      },
+      {
+        "name": "a22-style-boundary-639",
+        "w": 639,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a22-style-boundary-640",
+        "w": 640,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a22-style-boundary-899",
+        "w": 899,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a22-style-boundary-900",
+        "w": 900,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a22-style-boundary-1199",
+        "w": 1199,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a22-style-boundary-1200",
+        "w": 1200,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a22-style-boundary-1439",
+        "w": 1439,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a22-style-boundary-1440",
+        "w": 1440,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0"
+        ]
+      },
+      {
+        "name": "a23-password-embedded-390",
+        "w": 390,
+        "h": 900,
+        "setup": "fill('#admin-login-password','password-demo');click('#admin-login-password-toggle');assert(q('#admin-login-password').type==='text','actual admin reveal works');click('#admin-login-password-toggle');",
+        "expect": [
+          "q('#admin-login-password').type==='password'",
+          "q('#admin-login-password').value==='password-demo'",
+          "q('#admin-login-password').parentElement.classList.contains('password-field')",
+          "(()=>{const i=q('#admin-login-password').getBoundingClientRect(),b=q('#admin-login-password-toggle').getBoundingClientRect();return b.left>=i.left&&b.right<=i.right&&b.top>=i.top&&b.bottom<=i.bottom;})()"
+        ],
+        "expectedRoute": "login"
+      },
+      {
+        "name": "a23-password-embedded-1440",
+        "w": 1440,
+        "h": 900,
+        "setup": "fill('#admin-login-password','password-demo');click('#admin-login-password-toggle');assert(q('#admin-login-password').type==='text','actual admin reveal works');click('#admin-login-password-toggle');",
+        "expect": [
+          "q('#admin-login-password').type==='password'",
+          "q('#admin-login-password').value==='password-demo'",
+          "q('#admin-login-password').parentElement.classList.contains('password-field')",
+          "(()=>{const i=q('#admin-login-password').getBoundingClientRect(),b=q('#admin-login-password-toggle').getBoundingClientRect();return b.left>=i.left&&b.right<=i.right&&b.top>=i.top&&b.bottom<=i.bottom;})()"
+        ],
+        "expectedRoute": "login"
+      },
+      {
+        "name": "a24-styled-filter-320",
+        "w": 320,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));await wait(()=>!!q('#fsel-users-kind-trigger'));click('#fsel-users-kind-trigger');await wait(()=>visible(q('.filter-select-menu.is-open')));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0",
+          "q('#fsel-users-kind-trigger').getAttribute('aria-expanded')==='true'",
+          "qAll('.filter-select-menu.is-open [role=option]').length===4",
+          "(()=>{const m=q('.filter-select-menu.is-open').getBoundingClientRect(),r=root.getBoundingClientRect();return m.left>=r.left && m.right<=r.right+1 && m.top>=r.top && m.bottom<=r.bottom+1;})()",
+          "parseFloat(getComputedStyle(q('#fsel-users-kind-trigger')).borderTopWidth)>0"
+        ]
+      },
+      {
+        "name": "a24-styled-filter-390",
+        "w": 390,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));await wait(()=>!!q('#fsel-users-kind-trigger'));click('#fsel-users-kind-trigger');await wait(()=>visible(q('.filter-select-menu.is-open')));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0",
+          "q('#fsel-users-kind-trigger').getAttribute('aria-expanded')==='true'",
+          "qAll('.filter-select-menu.is-open [role=option]').length===4",
+          "(()=>{const m=q('.filter-select-menu.is-open').getBoundingClientRect(),r=root.getBoundingClientRect();return m.left>=r.left && m.right<=r.right+1 && m.top>=r.top && m.bottom<=r.bottom+1;})()",
+          "parseFloat(getComputedStyle(q('#fsel-users-kind-trigger')).borderTopWidth)>0"
+        ]
+      },
+      {
+        "name": "a24-styled-filter-768",
+        "w": 768,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));await wait(()=>!!q('#fsel-users-kind-trigger'));click('#fsel-users-kind-trigger');await wait(()=>visible(q('.filter-select-menu.is-open')));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0",
+          "q('#fsel-users-kind-trigger').getAttribute('aria-expanded')==='true'",
+          "qAll('.filter-select-menu.is-open [role=option]').length===4",
+          "(()=>{const m=q('.filter-select-menu.is-open').getBoundingClientRect(),r=root.getBoundingClientRect();return m.left>=r.left && m.right<=r.right+1 && m.top>=r.top && m.bottom<=r.bottom+1;})()",
+          "parseFloat(getComputedStyle(q('#fsel-users-kind-trigger')).borderTopWidth)>0"
+        ]
+      },
+      {
+        "name": "a24-styled-filter-1440",
+        "w": 1440,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));await wait(()=>!!q('#fsel-users-kind-trigger'));click('#fsel-users-kind-trigger');await wait(()=>visible(q('.filter-select-menu.is-open')));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0",
+          "q('#fsel-users-kind-trigger').getAttribute('aria-expanded')==='true'",
+          "qAll('.filter-select-menu.is-open [role=option]').length===4",
+          "(()=>{const m=q('.filter-select-menu.is-open').getBoundingClientRect(),r=root.getBoundingClientRect();return m.left>=r.left && m.right<=r.right+1 && m.top>=r.top && m.bottom<=r.bottom+1;})()",
+          "parseFloat(getComputedStyle(q('#fsel-users-kind-trigger')).borderTopWidth)>0"
+        ]
+      },
+      {
+        "name": "a25-filter-change-and-reset",
+        "w": 1440,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));await wait(()=>!!q('#fsel-users-kind-trigger'));click('#fsel-users-kind-trigger');click('.filter-select-menu [data-option-index=\"1\"]');await wait(()=>q('#fsel-users-kind').value==='public');await sleep(600);assert(qAll('.data-table tbody tr').every(row=>!row.querySelector('td.col-optional .status-tag')||row.querySelector('td.col-optional .status-tag').textContent==='正式用户'),'table respects selected type');click('#fsel-users-kind-trigger');click('.filter-select-menu [data-option-index=\"0\"]');",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0",
+          "q('#fsel-users-kind').value==='all'",
+          "q('#fsel-users-kind-trigger .filter-select-value').textContent==='全部类型'",
+          "q('#fsel-users-kind-trigger').getAttribute('aria-expanded')==='false'"
+        ]
+      },
+      {
+        "name": "a26-filter-esc-order",
+        "w": 1440,
+        "h": 900,
+        "note": "用户列表 1440（侧栏展开）",
+        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"users\"]').click();await new Promise(r=>setTimeout(r,500));await wait(()=>!!q('#fsel-users-kind-trigger'));click('#fsel-users-kind-trigger');root.dataset.startedFullscreen=String(!!root.closest('.region-fullscreen-layer'));",
+        "expect": [
+          "location.hash.startsWith('#/users')",
+          "qAll('.data-table tbody tr').length>0",
+          "q('#fsel-users-kind-trigger').getAttribute('aria-expanded')==='false'",
+          "document.activeElement===q('#fsel-users-kind-trigger')"
+        ],
+        "keyboard": [
+          {
+            "key": "Escape",
+            "expect": [
+              "!q('.filter-select-menu.is-open')",
+              "String(!!root.closest('.region-fullscreen-layer'))===root.dataset.startedFullscreen"
+            ]
+          }
+        ]
+      }
+    ],
+    "components": [
+      {
+        "name": "c01-win-1920",
+        "w": 1920,
+        "h": 1080,
+        "note": "宽窗口：卡片 1420 完整落进视口，一行放得下三枚默认画布",
+        "expect": [
+          "qAll('.demo-cat').length===4"
+        ]
+      },
+      {
+        "name": "c02-win-1440",
+        "w": 1440,
+        "h": 900,
+        "note": "常见评审窗口：卡片比视口宽，右侧靠平移看",
+        "expect": [
+          "qAll('.demo-cat').length===4"
+        ]
+      },
+      {
+        "name": "c03-win-1200",
+        "w": 1200,
+        "h": 900,
+        "note": "卡片仍固定 1420，不随窗口收缩（这是横向不塌的前提）",
+        "expect": [
+          "qAll('.demo-cat').length===4"
+        ]
+      },
+      {
+        "name": "c04-win-1100",
+        "w": 1100,
+        "h": 900,
+        "note": "上一轮会在此宽退回竖排，现在应仍是横向",
+        "expect": [
+          "qAll('.demo-cat').length===4"
+        ]
+      },
+      {
+        "name": "c05-win-1024",
+        "w": 1024,
+        "h": 800,
+        "note": "笔记本档：卡片超出部分不得撑出文档横向滚动",
+        "expect": [
+          "qAll('.demo-cat').length===4"
+        ]
+      },
+      {
+        "name": "c06-win-900",
+        "w": 900,
+        "h": 900,
+        "note": "外壳抽屉临界点之上：左栏仍在，卡片宽度策略不变",
+        "expect": [
+          "qAll('.demo-cat').length===4"
+        ]
+      },
+      {
+        "name": "c07-win-800",
+        "w": 800,
+        "h": 900,
+        "note": "≤820 后左栏收进抽屉，卡片仍固定 1420",
+        "expect": [
+          "qAll('.demo-cat').length===4"
+        ]
+      },
+      {
+        "name": "c08-phone-390",
+        "w": 390,
+        "h": 844,
+        "mobile": true,
+        "note": "手机窗口 + 粗指针：卡片仍 1420，靠 fit 与平移看全貌",
+        "expect": [
+          "qAll('.demo-cat').length===4"
+        ]
+      },
+      {
+        "name": "c09-min-320",
+        "w": 320,
+        "h": 568,
+        "mobile": true,
+        "note": "最窄档：任何画布都不得撑破卡片，文档不得出第二条横向滚动",
+        "expect": [
+          "qAll('.demo-cat').length===4"
+        ]
+      },
+      {
+        "name": "c10-modal-open",
+        "w": 1440,
+        "h": 900,
+        "settle": 340,
+        "note": "示例模态打开：absolute 遮罩必须被画布裁住、不出画布",
+        "setup": "document.getElementById('sec-components').querySelector('[aria-controls=demo-modal]').click();await new Promise(r=>setTimeout(r,240));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "visible(q('#demo-modal.is-open'))"
+        ]
+      },
+      {
+        "name": "c11-drawer-open",
+        "w": 1440,
+        "h": 900,
+        "settle": 340,
+        "note": "示例抽屉打开（560 宽抽屉在 520 画布内）",
+        "setup": "document.getElementById('sec-components').querySelector('[aria-controls=demo-drawer]').click();await new Promise(r=>setTimeout(r,240));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "visible(q('#demo-drawer.is-open'))"
+        ]
+      },
+      {
+        "name": "c12-popover-open",
+        "w": 1024,
+        "h": 800,
+        "settle": 340,
+        "note": "气泡菜单在 520 画布内展开，窄档自动收宽",
+        "setup": "document.getElementById('sec-components').querySelector('[aria-controls=demo-popover]').click();await new Promise(r=>setTimeout(r,240));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "visible(q('#demo-popover.is-open'))"
+        ]
+      },
+      {
+        "name": "c13-toast-shown",
+        "w": 1440,
+        "h": 900,
+        "settle": 220,
+        "note": "提示条出现瞬间：位置由 --toast-* 旋钮给出",
+        "setup": "document.getElementById('sec-components').querySelector('[aria-controls=demo-toast]').click();",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "visible(q('#demo-toast.is-visible'))"
+        ]
+      },
+      {
+        "name": "c14-cat-locate",
+        "w": 1920,
+        "h": 1080,
+        "settle": 260,
+        "note": "分类作为层级树一级定位目标：点第 4 类应恰好描边一处",
+        "setup": "document.querySelectorAll('#tree-layers .tree-node')[3].click();",
+        "expect": [
+          "qAll('.demo-cat').length===4"
+        ]
+      },
+      {
+        "name": "c15-inventory",
+        "w": 1440,
+        "h": 1000,
+        "focus": "component-inventory",
+        "setup": "",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "window.AyaneComponentInventory.components.length===29",
+          "qAll('#component-inventory-body tr').length===29",
+          "window.AyaneComponentInventory.components.every(item=>!!q('#'+item.demo))",
+          "document.querySelectorAll('[data-proto=client]').length===1",
+          "document.querySelectorAll('[data-proto=admin]').length===1",
+          "document.getElementById('component-nav-count').textContent==='13'",
+          "qAll('.demo-frame').every(frame=>!!frame.querySelector('.demo-source'))"
+        ]
+      },
+      {
+        "name": "c16-client-login-error",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-login",
+        "setup": "fill('#demo-client-login-password','wrong');click('#demo-client-login [type=submit]');await wait(()=>!q('#demo-client-login [data-demo-error]').hidden);",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-client-login [data-demo-error]').textContent.includes('账号或密码不正确')",
+          "document.querySelector('[data-proto=client] #app-frame').hidden===true"
+        ]
+      },
+      {
+        "name": "c17-client-login-submitting",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-login",
+        "setup": "click('#demo-client-login [type=submit]');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-client-login [type=submit]').disabled",
+          "q('#demo-client-login [type=submit]').textContent==='登录中…'"
+        ],
+        "settle": 0
+      },
+      {
+        "name": "c18-client-login-success",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-login",
+        "setup": "click('#demo-client-login [type=submit]');await wait(()=>q('#demo-client-login-toast').classList.contains('is-visible'));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-client-login-toast').textContent.includes('实际客户端登录状态未改变')",
+          "document.querySelector('[data-proto=client] #login-shell').hidden===false"
+        ]
+      },
+      {
+        "name": "c19-password-visibility",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-login",
+        "setup": "click('#demo-client-login [data-demo=reveal]');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-client-login-password').type==='text'",
+          "q('#demo-client-login [data-demo=reveal]').getAttribute('aria-pressed')==='true'",
+          "q('#demo-client-login [data-demo=reveal] use').getAttribute('href')==='#i-eye-off'"
+        ]
+      },
+      {
+        "name": "c20-profile-focus",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-profile",
+        "setup": "click('#demo-client-profile > [data-demo=open]');await wait(()=>visible(q('#demo-client-profile-dialog')));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "!q('#demo-client-profile-dialog').classList.contains('is-open')"
+        ],
+        "keyboard": [
+          {
+            "key": "Tab",
+            "shift": true,
+            "expect": [
+              "q('#demo-client-profile-dialog').contains(document.activeElement)"
+            ]
+          },
+          {
+            "key": "Escape",
+            "expect": [
+              "!q('#demo-client-profile-dialog').classList.contains('is-open')",
+              "document.activeElement===q('#demo-client-profile > [data-demo=open]')"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "c21-user-profile",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-user",
+        "setup": "click('#demo-client-user > [data-demo=open]');await wait(()=>visible(q('#demo-client-user-dialog')));click('#demo-client-user .user-card-actions button.primary');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-client-user-toast').classList.contains('is-visible')",
+          "q('#demo-client-user-dialog').classList.contains('is-open')",
+          "document.querySelector('[data-proto=client] #user-card-modal').classList.contains('is-open')===false"
+        ]
+      },
+      {
+        "name": "c22-about-feedback",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-about",
+        "setup": "click('#demo-client-about > [data-demo=open]');await wait(()=>visible(q('#demo-client-about-dialog')));click('#demo-client-about .about-links button');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-client-about-toast').classList.contains('is-visible')"
+        ]
+      },
+      {
+        "name": "c23-ai-list-desktop",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-list-desktop",
+        "setup": "click('#demo-client-list-desktop [data-agent-id]');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "qAll('#demo-client-list-desktop [data-agent-id]').length===1",
+          "q('#demo-client-list-desktop [data-agent-id]').getAttribute('aria-pressed')==='true'",
+          "q('#demo-client-list-desktop [data-agent-id]').textContent===document.querySelector('[data-proto=client] [data-agent-id]').textContent",
+          "!q('#demo-client-list-desktop [role=tablist]') && !q('#demo-client-list-desktop .contact-time') && !q('#demo-client-list-desktop .tab-badge')",
+          "document.querySelector('[data-proto=client] #login-shell').hidden===false"
+        ]
+      },
+      {
+        "name": "c23-ai-drawer-open",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-list-phone",
+        "setup": "click('#demo-ai-drawer-open');await wait(()=>visible(q('#demo-ai-drawer')));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-ai-drawer').classList.contains('is-open')",
+          "q('#demo-ai-drawer-scrim').classList.contains('is-visible')",
+          "qAll('#demo-ai-drawer [data-agent-id]').length===1",
+          "q('#demo-ai-drawer [data-agent-id]').textContent===q('#demo-client-list-desktop [data-agent-id]').textContent",
+          "document.querySelector('[data-proto=client] #sidebar').classList.contains('is-open')===false"
+        ]
+      },
+      {
+        "name": "c24-composer",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-composer",
+        "setup": "assert(q('#demo-client-composer [data-demo-input]').value==='','composer starts empty');fill('#demo-client-composer [data-demo-input]','组件发送 <script> 不执行');click('#demo-client-composer [type=submit]');await wait(()=>qAll('#demo-client-composer .message-row').length===2);",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-client-composer [data-demo-input]').value===''",
+          "q('#demo-client-composer .message-text').textContent==='组件发送 <script> 不执行'",
+          "qAll('#demo-client-composer script').length===0",
+          "document.querySelectorAll('[data-proto=client] .recent-messages .message-row').length===2",
+          "qAll('#demo-client-messages [data-demo-recent] .message-row').length===2"
+        ]
+      },
+      {
+        "name": "c26-toolbars-isolated",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-toolbar",
+        "setup": "click('#demo-client-toolbar [data-demo=avatar-mode]');click('#demo-client-toolbar [data-media=voice-input]');click('#demo-client-toolbar [data-media=vision]');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-client-toolbar [data-demo=avatar-mode]').getAttribute('aria-pressed')==='true'",
+          "q('#demo-client-toolbar [data-media=voice-input]').getAttribute('aria-checked')==='true'",
+          "q('#demo-client-toolbar [data-media=voice-output]').getAttribute('aria-checked')==='false'",
+          "q('#demo-client-toolbar [data-media=vision]').getAttribute('aria-checked')==='true'",
+          "document.querySelector('[data-proto=client] #client-vision').getAttribute('aria-checked')==='false'"
+        ]
+      },
+      {
+        "name": "c31-dark-components",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-buttons",
+        "setup": "click('#theme-toggle',document);",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "root.dataset.theme==='dark'",
+          "!getComputedStyle(q('#demo-client-buttons')).backgroundColor.includes('255, 253')"
+        ]
+      },
+      {
+        "name": "c32-catalog-locate",
+        "w": 1440,
+        "h": 1000,
+        "focus": "component-inventory",
+        "setup": "click('#component-inventory > summary');click('[data-demo-locate=demo-client-messages]');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-client-messages').classList.contains('is-located')",
+          "qAll('#demo-client-messages [data-demo-recent] .message-row').length===2",
+          "qAll('#demo-client-messages [data-demo-records] .message-row').length===5",
+          "!q('#demo-client-messages [data-demo-recent] .message-avatar') && !q('#demo-client-messages [data-demo-recent] .message-time')",
+          "qAll('#demo-client-messages [data-demo-recent] .message-text').every(n=>n.textContent===n.textContent.trim() && n.clientHeight<=parseFloat(getComputedStyle(n).lineHeight)*3+1)"
+        ]
+      },
+      {
+        "name": "c34-button-pointer-states",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-buttons",
+        "setup": "",
+        "pointerButton": "#demo-client-buttons .btn--solid",
+        "expect": [
+          "q('#demo-client-buttons button[disabled]').disabled",
+          "q('#demo-client-buttons .is-loading').disabled",
+          "q('#demo-component-button').querySelectorAll('.demo-frame').length===1",
+          "qAll('#demo-client-buttons [data-button-group=semantics] > button').length===5",
+          "qAll('#demo-client-buttons [data-button-group=sizes] > button').length===3",
+          "qAll('#demo-client-buttons [data-button-group=states] > button').length===4"
+        ]
+      },
+      {
+        "name": "c35-menu-native-keyboard",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-identity",
+        "setup": "click('#demo-client-identity [aria-controls=demo-client-identity-menu]');await wait(()=>visible(q('#demo-client-identity-menu')));",
+        "keyboard": [
+          {
+            "key": "ArrowDown",
+            "expect": [
+              "document.activeElement.textContent.trim()==='关于绫音'"
+            ]
+          },
+          {
+            "key": "Enter",
+            "expect": [
+              "q('#demo-client-identity-toast').classList.contains('is-visible')",
+              "!q('#demo-client-identity-menu').classList.contains('is-open')",
+              "document.activeElement===q('#demo-client-identity [aria-controls=demo-client-identity-menu]')"
+            ]
+          }
+        ],
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "!q('#demo-client-identity-menu').classList.contains('is-open')"
+        ]
+      },
+      {
+        "w": 1440,
+        "h": 1000,
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "(()=>{const ids=['demo-field-pass','demo-login-pass','demo-client-login-password'];const keys=['height','borderRadius','backgroundColor','borderTopWidth','paddingLeft','paddingRight','fontSize'];const shapes=ids.map(id=>{const input=q('#'+id),button=input.parentElement.querySelector('button'),i=input.getBoundingClientRect(),b=button.getBoundingClientRect();assert(button.classList.contains('password-toggle'),'shared embedded reveal button');assert(b.left>=i.left && b.right<=i.right && b.top>=i.top && b.bottom<=i.bottom,'eye button is inside field: '+id);return keys.map(k=>getComputedStyle(input)[k]).join('|')+';'+['width','height','borderRadius','borderTopWidth','fontSize'].map(k=>getComputedStyle(button)[k]).join('|');});return shapes.every(shape=>shape===shapes[0]);})()",
+          "q('#demo-field-pass').type==='password'",
+          "q('#demo-login-pass').type==='password'"
+        ],
+        "name": "c36-password-shared-shape",
+        "focus": "demo-client-fields",
+        "setup": ""
+      },
+      {
+        "w": 1440,
+        "h": 1000,
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-field-pass').type==='password'",
+          "q('#demo-field-pass').value==='same-demo-value'",
+          "q('[aria-controls=\"demo-field-pass\"]').getAttribute('aria-pressed')==='false'",
+          "q('[aria-controls=\"demo-field-pass\"] use').getAttribute('href')==='#i-eye'"
+        ],
+        "name": "c37-password-field",
+        "focus": "demo-client-fields",
+        "setup": "const input=q('#demo-field-pass'),button=input.parentElement.querySelector('button');fill('#demo-field-pass','same-demo-value');click('[aria-controls=\"demo-field-pass\"]');assert(input.type==='text' && input.value==='same-demo-value','reveal keeps password');assert(button.getAttribute('aria-pressed')==='true','pressed sync');assert(button.querySelector('use').getAttribute('href')==='#i-eye-off','visible icon');click('[aria-controls=\"demo-field-pass\"]');"
+      },
+      {
+        "w": 1440,
+        "h": 1000,
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-login-pass').type==='password'",
+          "q('#demo-login-pass').value==='same-demo-value'",
+          "q('[aria-controls=\"demo-login-pass\"]').getAttribute('aria-pressed')==='false'",
+          "q('[aria-controls=\"demo-login-pass\"] use').getAttribute('href')==='#i-eye'"
+        ],
+        "name": "c37-password-login-shell",
+        "focus": "demo-generic-login",
+        "setup": "const input=q('#demo-login-pass'),button=input.parentElement.querySelector('button');fill('#demo-login-pass','same-demo-value');click('[aria-controls=\"demo-login-pass\"]');assert(input.type==='text' && input.value==='same-demo-value','reveal keeps password');assert(button.getAttribute('aria-pressed')==='true','pressed sync');assert(button.querySelector('use').getAttribute('href')==='#i-eye-off','visible icon');click('[aria-controls=\"demo-login-pass\"]');"
+      },
+      {
+        "w": 1440,
+        "h": 1000,
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-field-pass').value==='ayane2026'"
+        ],
+        "name": "c38-password-keyboard",
+        "focus": "demo-client-fields",
+        "setup": "q('#demo-field-pass').focus({preventScroll:true});",
+        "keyboard": [
+          {
+            "key": "Tab",
+            "expect": [
+              "document.activeElement===q('#demo-field-pass-toggle')",
+              "q('#demo-field-pass-toggle').matches(':focus-visible')"
+            ]
+          },
+          {
+            "key": "Space",
+            "expect": [
+              "q('#demo-field-pass').type==='text'"
+            ]
+          },
+          {
+            "key": "Space",
+            "expect": [
+              "q('#demo-field-pass').type==='password'"
+            ]
+          }
+        ]
+      },
+      {
+        "w": 1440,
+        "h": 1000,
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "[\"demo-client-sidebar\",\"demo-client-legacy-mode\",\"demo-client-figure-desktop\",\"demo-client-figure-phone\",\"demo-client-composer-legacy\"].every(id=>!document.getElementById(id))",
+          "window.AyaneComponentInventory.components.every(item=>![\"demo-client-sidebar\",\"demo-client-legacy-mode\",\"demo-client-figure-desktop\",\"demo-client-figure-phone\",\"demo-client-composer-legacy\"].includes(item.demo))",
+          "q('#demo-client-toolbar [data-demo=avatar-mode]')!==null",
+          "q('#demo-client-composer [data-demo-input]')!==null",
+          "q('#demo-client-list-desktop')!==null"
+        ],
+        "name": "c39-removed-examples",
+        "focus": "demo-client-toolbar",
+        "setup": ""
+      },
+      {
+        "name": "c40-ai-drawer-select",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-list-phone",
+        "setup": "click('#demo-ai-drawer-open');await wait(()=>visible(q('#demo-ai-drawer')));click('#demo-ai-drawer [data-agent-id]');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "!q('#demo-ai-drawer').classList.contains('is-open')",
+          "!q('#demo-ai-drawer-scrim').classList.contains('is-visible')",
+          "document.activeElement===q('#demo-ai-drawer-open')",
+          "q('#demo-client-list-desktop [data-agent-id]').getAttribute('aria-pressed')==='true'"
+        ]
+      },
+      {
+        "name": "c41-ai-drawer-keyboard",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-list-phone",
+        "setup": "click('#demo-ai-drawer-open');await wait(()=>visible(q('#demo-ai-drawer')));await wait(()=>document.activeElement===q('#demo-ai-drawer [data-demo=close]'));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "!q('#demo-ai-drawer').classList.contains('is-open')",
+          "document.activeElement===q('#demo-ai-drawer-open')"
+        ],
+        "keyboard": [
+          {
+            "key": "Tab",
+            "shift": true,
+            "expect": [
+              "document.activeElement===q('#demo-ai-drawer [data-agent-id]')"
+            ]
+          },
+          {
+            "key": "Tab",
+            "expect": [
+              "document.activeElement===q('#demo-ai-drawer [data-demo=close]')"
+            ]
+          },
+          {
+            "key": "Escape",
+            "expect": [
+              "!q('#demo-ai-drawer').classList.contains('is-open')"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "c42-ai-drawer-scrim",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-list-phone",
+        "setup": "click('#demo-ai-drawer-open');await wait(()=>visible(q('#demo-ai-drawer')));click('#demo-ai-drawer-scrim');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "!q('#demo-ai-drawer').classList.contains('is-open')",
+          "!q('#demo-ai-drawer-scrim').classList.contains('is-visible')",
+          "document.activeElement===q('#demo-ai-drawer-open')"
+        ]
+      },
+      {
+        "name": "c43-segmented-tabs",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-segmented-tabs",
+        "setup": "click('#demo-tab-detail-button');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-tab-detail-button').getAttribute('aria-selected')==='true'",
+          "q('#demo-tab-overview-button').getAttribute('aria-selected')==='false'",
+          "!q('#demo-tab-detail').hidden && q('#demo-tab-overview').hidden",
+          "q('#demo-tab-detail-button').tabIndex===0 && q('#demo-tab-overview-button').tabIndex===-1",
+          "document.querySelector('[data-proto=client] #mobile-companion').getAttribute('aria-current')==='page'"
+        ]
+      },
+      {
+        "name": "c44-segmented-keyboard",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-segmented-tabs",
+        "setup": "q('#demo-tab-overview-button').focus({preventScroll:true});",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-tab-detail-button').getAttribute('aria-selected')==='true'",
+          "document.activeElement===q('#demo-tab-detail-button')"
+        ],
+        "keyboard": [
+          {
+            "key": "ArrowRight",
+            "expect": [
+              "document.activeElement===q('#demo-tab-detail-button')",
+              "!q('#demo-tab-detail').hidden"
+            ]
+          },
+          {
+            "key": "ArrowRight",
+            "expect": [
+              "document.activeElement===q('#demo-tab-overview-button')"
+            ]
+          },
+          {
+            "key": "End",
+            "expect": [
+              "q('#demo-tab-detail-button').getAttribute('aria-selected')==='true'"
+            ]
+          },
+          {
+            "key": "Home",
+            "expect": [
+              "q('#demo-tab-overview-button').getAttribute('aria-selected')==='true'"
+            ]
+          },
+          {
+            "key": "ArrowLeft",
+            "expect": [
+              "document.activeElement===q('#demo-tab-detail-button')"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "c45-companion-nav",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-bottom-nav",
+        "setup": "click('#demo-client-bottom-nav [data-companion-page=profile]');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "qAll('#demo-client-bottom-nav .client-bottom-nav button').length===2",
+          "q('#demo-client-bottom-nav [data-companion-page=profile]').getAttribute('aria-current')==='page'",
+          "!q('#demo-client-bottom-nav [data-companion-page=companion]').hasAttribute('aria-current')",
+          "q('#demo-client-bottom-nav nav').textContent.trim()==='绫音我的'",
+          "document.querySelector('[data-proto=client] #mobile-companion').getAttribute('aria-current')==='page'"
+        ]
+      },
+      {
+        "name": "c46-recent-dialogue",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-messages",
+        "setup": "",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "qAll('[data-demo-recent] .message-row').length===2",
+          "q('[data-demo-recent] .message-row').classList.contains('is-sent')",
+          "q('[data-demo-recent] .message-row:last-child').dataset.messageId==='sample-m5'",
+          "q('[data-demo-recent] [data-expand-message=sample-m5]').hidden===false",
+          "q('[data-demo-recent] [data-expand-message=sample-m4]').hidden===true",
+          "!q('.chat-header') && !q('.day-divider') && !q('.welcome-card')",
+          "qAll('[data-demo-recent] .message-text').every(n=>getComputedStyle(n).webkitLineClamp==='3')"
+        ]
+      },
+      {
+        "name": "c47-record-latest",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-messages",
+        "setup": "click('#demo-client-messages [data-demo=history]');await wait(()=>visible(q('#demo-client-history-layer')));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "qAll('[data-demo-records] .message-row').length===5",
+          "(()=>{const n=q('[data-demo-records]');return n.scrollHeight-n.scrollTop-n.clientHeight<2;})()",
+          "!q('[data-demo-records] .history-target')",
+          "q('[data-demo-records] [data-message-id=sample-m5] .message-text').textContent===q('[data-demo-recent] [data-message-id=sample-m5] .message-text').textContent"
+        ]
+      },
+      {
+        "name": "c48-record-expand-focus",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-messages",
+        "setup": "await wait(()=>!q('[data-demo-recent] [data-expand-message=sample-m5]').hidden);click('[data-demo-recent] [data-expand-message=sample-m5]');await wait(()=>visible(q('#demo-client-history-layer')));assert(q('[data-demo-records] .history-target').dataset.messageId==='sample-m5','expansion targets exact record');await wait(()=>document.activeElement===q('#demo-client-history-layer [data-demo=close]'));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "!q('#demo-client-history-layer').classList.contains('is-open')",
+          "document.activeElement===q('[data-demo-recent] [data-expand-message=sample-m5]')"
+        ],
+        "keyboard": [
+          {
+            "key": "Tab",
+            "shift": true,
+            "expect": [
+              "document.activeElement===q('[data-demo-records]')"
+            ]
+          },
+          {
+            "key": "Escape",
+            "expect": [
+              "!q('#demo-client-history-layer').classList.contains('is-open')"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "c49-record-scrim",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-messages",
+        "setup": "click('#demo-client-messages [data-demo=history]');await wait(()=>visible(q('#demo-client-history-layer')));click('#demo-client-history-layer');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "!q('#demo-client-history-layer').classList.contains('is-open')",
+          "document.activeElement===q('#demo-client-messages [data-demo=history]')"
+        ]
+      },
+      {
+        "name": "c50-conversation-feedback",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-messages",
+        "setup": "click('[data-feedback=thinking]');click('[data-feedback=playback]');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "visible(q('[data-demo-thinking]')) && visible(q('[data-demo-playback]'))",
+          "q('[data-demo-playback]').textContent.includes('无声音')",
+          "document.querySelector('[data-proto=client] #client-playback-status').hidden===true",
+          "qAll('[data-demo-recent] .message-row').length===2"
+        ]
+      },
+      {
+        "name": "c51-current-copy",
+        "w": 1440,
+        "h": 1000,
+        "focus": "component-inventory",
+        "setup": "click('#component-inventory > summary');qAll('.demo-source').forEach(n=>n.open=true);",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "!/旧客户端|旧版|历史示例|不接回客户端|旧手机/.test(root.textContent)",
+          "root.textContent.includes('历史消息')",
+          "qAll('#component-inventory-body tr').length===29",
+          "window.AyaneComponentInventory.components.every(i=>i.purpose && !i.status)"
+        ]
+      },
+      {
+        "name": "c52-button-selection",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-buttons",
+        "setup": "click('#demo-client-buttons [aria-pressed=false]');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "qAll('#demo-client-buttons [data-demo=press][aria-pressed=true]').length===2",
+          "q('#demo-component-button').querySelectorAll('.demo-frame').length===1"
+        ]
+      },
+      {
+        "name": "c53-composer-neutral-focus",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-composer",
+        "setup": "q('#demo-client-composer [data-demo-input]').focus({preventScroll:true});",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "(()=>{const n=q('#demo-client-composer [data-demo-input]'),s=getComputedStyle(n);return document.activeElement===n && s.boxShadow==='none' && s.outlineStyle==='none' && parseFloat(s.borderTopWidth)===0;})()"
+        ]
+      },
+      {
+        "name": "c54-composer-keyboard",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-client-composer",
+        "setup": "q('#demo-client-composer [data-demo-input]').focus({preventScroll:true});assert(getComputedStyle(document.activeElement).boxShadow==='none','composer has no active ring');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "document.activeElement===q('#demo-client-composer [type=submit]')",
+          "q('#demo-client-composer [type=submit]').matches(':focus-visible')",
+          "getComputedStyle(q('#demo-client-composer [type=submit]')).boxShadow!=='none'"
+        ],
+        "keyboard": [
+          {
+            "key": "Tab",
+            "expect": [
+              "document.activeElement===q('#demo-client-composer [type=submit]')"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "c55-filter-menu-style",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-filter-bar",
+        "setup": "await wait(()=>!!q('#demo-filter-role-trigger'));click('#demo-filter-role-trigger');await wait(()=>visible(q('#demo-filter-bar .filter-select-menu.is-open')));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "(()=>{const menu=q('#demo-filter-bar .filter-select-menu.is-open'),frame=q('#demo-filter-bar');if(!menu)return false;const m=menu.getBoundingClientRect(),f=frame.getBoundingClientRect();return m.left>=f.left && m.right<=f.right+1 && m.top>=f.top && m.bottom<=f.bottom+1;})()",
+          "q('#demo-filter-role').hidden",
+          "q('#demo-filter-role-trigger').getAttribute('role')==='combobox'",
+          "q('#demo-filter-role-trigger').getAttribute('aria-expanded')==='true'",
+          "qAll('#demo-filter-bar [role=option]').length===3",
+          "q('#demo-filter-bar [role=option][aria-selected=true]').textContent==='全部角色'",
+          "qAll('#demo-filter-bar [role=option]').every(n=>n.offsetHeight>=44)",
+          "parseFloat(getComputedStyle(q('#demo-filter-bar .filter-select-menu')).borderRadius)>0",
+          "(()=>{const menu=q('#demo-filter-bar .filter-select-menu');return menu.scrollHeight<=menu.clientHeight+1;})()"
+        ]
+      },
+      {
+        "name": "c56-filter-select-value",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-filter-bar",
+        "setup": "await wait(()=>!!q('#demo-filter-role-trigger'));q('#demo-filter-role').addEventListener('change',()=>{q('#demo-filter-bar').dataset.changes=String(Number(q('#demo-filter-bar').dataset.changes||0)+1);});click('#demo-filter-role-trigger');click('#demo-filter-bar [data-option-index=\"1\"]');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-filter-role').value==='content_admin'",
+          "q('#demo-filter-role-trigger .filter-select-value').textContent==='内容管理员'",
+          "q('#demo-filter-role-trigger').getAttribute('aria-expanded')==='false'",
+          "!q('#demo-filter-bar .filter-select-menu.is-open')",
+          "document.activeElement===q('#demo-filter-role-trigger')",
+          "q('#demo-filter-bar').dataset.changes==='1'",
+          "document.querySelector('[data-proto=admin] #admin-login-shell').hidden===false"
+        ]
+      },
+      {
+        "name": "c57-filter-keyboard",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-filter-bar",
+        "setup": "await wait(()=>!!q('#demo-filter-role-trigger'));q('#demo-filter-role-trigger').focus({preventScroll:true});",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-filter-role').value==='read_only_admin'",
+          "q('#demo-filter-role-trigger').getAttribute('aria-expanded')==='false'",
+          "document.activeElement===q('#demo-filter-role-trigger')"
+        ],
+        "keyboard": [
+          {
+            "key": "Enter",
+            "expect": [
+              "q('#demo-filter-role-trigger').getAttribute('aria-expanded')==='true'"
+            ]
+          },
+          {
+            "key": "ArrowDown",
+            "expect": [
+              "q('#demo-filter-bar .filter-select-option.is-active').dataset.optionIndex==='1'"
+            ]
+          },
+          {
+            "key": "End",
+            "expect": [
+              "q('#demo-filter-bar .filter-select-option.is-active').dataset.optionIndex==='2'"
+            ]
+          },
+          {
+            "key": "Escape",
+            "expect": [
+              "q('#demo-filter-role').value==='全部角色'",
+              "q('#demo-filter-role-trigger').getAttribute('aria-expanded')==='false'"
+            ]
+          },
+          {
+            "key": "Space",
+            "expect": [
+              "q('#demo-filter-role-trigger').getAttribute('aria-expanded')==='true'"
+            ]
+          },
+          {
+            "key": "End",
+            "expect": [
+              "q('#demo-filter-bar .filter-select-option.is-active').dataset.optionIndex==='2'"
+            ]
+          },
+          {
+            "key": "Enter",
+            "expect": [
+              "q('#demo-filter-role').value==='read_only_admin'"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "c58-filter-tab-and-outside",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-filter-bar",
+        "setup": "await wait(()=>!!q('#demo-filter-role-trigger'));click('#demo-filter-role-trigger');await wait(()=>visible(q('#demo-filter-bar .filter-select-menu.is-open')));",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-filter-role-trigger').getAttribute('aria-expanded')==='false'",
+          "q('#demo-filter-role').value==='全部角色'"
+        ],
+        "keyboard": [
+          {
+            "key": "Tab",
+            "expect": [
+              "q('#demo-filter-role-trigger').getAttribute('aria-expanded')==='false'",
+              "document.activeElement!==q('#demo-filter-role-trigger')"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "c59-filter-disabled",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-filter-bar",
+        "setup": "await wait(()=>!!q('#demo-filter-role-trigger'));q('#demo-filter-role').disabled=true;await wait(()=>q('#demo-filter-role-trigger').disabled);",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-filter-role-trigger').disabled",
+          "!q('#demo-filter-bar .filter-select-menu.is-open')"
+        ]
+      },
+      {
+        "name": "c60-filter-options-refresh",
+        "w": 1440,
+        "h": 1000,
+        "focus": "demo-filter-bar",
+        "setup": "await wait(()=>!!q('#demo-filter-role-trigger'));const option=document.createElement('option');option.value='disabled-example';option.textContent='不可选择';option.disabled=true;q('#demo-filter-role').append(option);q('#demo-filter-role').value='content_admin';q('#demo-filter-role').dispatchEvent(new Event('change',{bubbles:true}));await sleep(0);click('#demo-filter-role-trigger');",
+        "expect": [
+          "qAll('.demo-cat').length===4",
+          "qAll('.demo-card').length===13",
+          "q('#demo-filter-role-trigger .filter-select-value').textContent==='内容管理员'",
+          "qAll('#demo-filter-bar [role=option]').length===4",
+          "q('#demo-filter-bar [data-option-index=\"3\"]').getAttribute('aria-disabled')==='true'",
+          "q('#demo-filter-bar [data-option-index=\"1\"]').getAttribute('aria-selected')==='true'",
+          "(()=>{const menu=q('#demo-filter-bar .filter-select-menu.is-open'),frame=q('#demo-filter-bar');if(!menu)return false;const m=menu.getBoundingClientRect(),f=frame.getBoundingClientRect();return m.left>=f.left && m.right<=f.right+1 && m.top>=f.top && m.bottom<=f.bottom+1;})()"
+        ]
+      }
+    ],
+    "tokens": [
+      {
+        "name": "t01-col-1180",
+        "w": 1920,
+        "h": 1080,
+        "note": "令牌页在文档列封顶宽：25 张分组长表",
+        "expect": [
+          "qAll('.token-group').length>0",
+          "q('#token-count').textContent.includes('个令牌')"
+        ]
+      },
+      {
+        "name": "t02-col-1024",
+        "w": 1024,
+        "h": 800,
+        "note": "窄一档：令牌表靠 .token-table-wrap 横向滚动，不压列宽",
+        "expect": [
+          "qAll('.token-group').length>0",
+          "q('#token-count').textContent.includes('个令牌')"
+        ]
+      },
+      {
+        "name": "t03-phone-390",
+        "w": 390,
+        "h": 844,
+        "mobile": true,
+        "note": "手机窗口：整页不得出现第二条横向滚动条",
+        "expect": [
+          "qAll('.token-group').length>0",
+          "q('#token-count').textContent.includes('个令牌')"
+        ]
+      },
+      {
+        "name": "t04-dark",
+        "w": 1440,
+        "h": 900,
+        "note": "评审深色档：语义色对与深色覆写同时可见",
+        "setup": "document.getElementById('theme-toggle').click();await new Promise(r=>setTimeout(r,220));",
+        "expect": [
+          "qAll('.token-group').length>0",
+          "q('#token-count').textContent.includes('个令牌')",
+          "root.getAttribute('data-theme')==='dark'"
+        ]
+      }
+    ]
+  }
+}

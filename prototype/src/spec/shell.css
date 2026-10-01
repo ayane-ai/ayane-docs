@@ -65,7 +65,7 @@ body {
   height: var(--height-chip);
   flex: 0 0 auto;
   border: 1px solid var(--color-outline-strong);
-  border-radius: var(--radius-control-sm);
+  border-radius: var(--radius-small);
   background: var(--color-surface-strong);
   color: var(--color-on-surface-soft);
 }
@@ -99,7 +99,7 @@ body {
   min-height: var(--height-control-sm);
   padding: 0 var(--spacing-small);
   border: 0;
-  border-radius: var(--radius-field);
+  border-radius: var(--radius-medium);
   background: transparent;
   color: var(--color-on-surface-soft);
   font-family: inherit;

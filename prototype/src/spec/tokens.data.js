@@ -1,9 +1,9 @@
 /* 生成物 · 请勿手改
-   由 tools/tokens-report.mjs 解析 src/base/tokens.css 与 src/base/tokens.compat.css 生成
-   source-sha256: f7293d925ab7e1d607f2ed4fe295b10d364fce97314b2290b8af5b8c29a87f51
+   由 tools/tokens-report.mjs 解析 src/base/tokens.css 生成
+   source-sha256: 7e265a37b43d03d1612e1fcbbf5f8b93d71ea1ee8f8078e79b1f9344665613ba
 */
 window.AyaneTokens = {
-  "total": 230,
+  "total": 256,
   "groups": [
     {
       "title": "字体族",
@@ -29,45 +29,45 @@ window.AyaneTokens = {
       "tokens": [
         {
           "name": "--color-primary",
-          "value": "#e3a08b",
+          "value": "#e3a08bff",
           "desc": "主色：暖橙粉",
           "nomikit": "AppColorScheme.primary",
-          "dark": "#e8a992"
+          "dark": "#e8a992ff"
         },
         {
           "name": "--color-on-primary",
-          "value": "#ffffff",
+          "value": "#ffffffff",
           "desc": "主色上的文字",
           "nomikit": "AppColorScheme.onPrimary",
-          "dark": "#3a2318"
+          "dark": "#3a2318ff"
         },
         {
           "name": "--color-primary-strong",
-          "value": "#bf7665",
+          "value": "#bf7665ff",
           "desc": "主色强调：按下与链接 的深色端",
           "nomikit": "AppColorScheme.primaryContainer",
-          "dark": "#f0bda7"
+          "dark": "#f0bda7ff"
         },
         {
           "name": "--color-primary-soft",
-          "value": "#fff0e9",
+          "value": "#fff0e9ff",
           "desc": "主色浅底：选中态背景",
           "nomikit": "AppColorScheme.primaryContainer",
-          "dark": "#43302a"
+          "dark": "#43302aff"
         },
         {
           "name": "--color-primary-container",
-          "value": "#e6a18d",
+          "value": "#e6a18dff",
           "desc": "主色容器：渐变与装饰端",
           "nomikit": "AppColorScheme.secondaryContainer",
-          "dark": "#6b4a3d"
+          "dark": "#6b4a3dff"
         },
         {
           "name": "--color-on-primary-container",
-          "value": "#4a4038",
+          "value": "#4a4038ff",
           "desc": "主色容器上的文字",
           "nomikit": "",
-          "dark": "#f6e6dc"
+          "dark": "#f6e6dcff"
         }
       ]
     },
@@ -76,52 +76,52 @@ window.AyaneTokens = {
       "tokens": [
         {
           "name": "--color-bg",
-          "value": "#fbf7ef",
+          "value": "#fbf7efff",
           "desc": "页面底色",
           "nomikit": "AppColorScheme.background",
-          "dark": "#1d1714"
+          "dark": "#1d1714ff"
         },
         {
           "name": "--color-bg-deep",
-          "value": "#f3e9df",
+          "value": "#f3e9dfff",
           "desc": "页面底色深端：渐变收尾",
           "nomikit": "AppColorScheme.backgroundVariant",
-          "dark": "#241d19"
+          "dark": "#241d19ff"
         },
         {
           "name": "--color-surface",
-          "value": "rgba(255, 255, 255, 0.88)",
+          "value": "#ffffffb3",
           "desc": "面板：半透明白",
           "nomikit": "AppColorScheme.surface",
-          "dark": "rgba(43, 35, 30, 0.9)"
+          "dark": "var(--color-surface-strong)"
         },
         {
           "name": "--color-surface-strong",
-          "value": "#ffffff",
+          "value": "#fffffff2",
           "desc": "面板：纯白最高层",
           "nomikit": "AppColorScheme.surfaceLower",
-          "dark": "#2e2621"
+          "dark": "#2e2621ff"
         },
         {
           "name": "--color-surface-soft",
-          "value": "#fff9f2",
+          "value": "#fff9f2ff",
           "desc": "面板：暖白浅层",
           "nomikit": "AppColorScheme.surfaceLow",
-          "dark": "#26201c"
+          "dark": "#26201cff"
         },
         {
           "name": "--color-surface-solid",
-          "value": "#fffcf8",
+          "value": "#fffdf9f0",
           "desc": "面板：不透明，sticky 头与弹层底栏用",
           "nomikit": "AppColorScheme.surface",
-          "dark": "#2a231f"
+          "dark": "var(--color-surface-strong)"
         },
         {
           "name": "--color-surface-high",
-          "value": "#f7efe6",
+          "value": "#f7efe6ff",
           "desc": "面板：抬高层，hover 底色",
           "nomikit": "AppColorScheme.surfaceHigh",
-          "dark": "#382f29"
+          "dark": "#382f29ff"
         }
       ]
     },
@@ -130,38 +130,38 @@ window.AyaneTokens = {
       "tokens": [
         {
           "name": "--color-on-surface",
-          "value": "#4a4038",
+          "value": "#4a4038ff",
           "desc": "正文",
           "nomikit": "AppColorScheme.onSurface",
-          "dark": "#ece0d6"
+          "dark": "#ece0d6ff"
         },
         {
           "name": "--color-on-surface-soft",
-          "value": "#74675d",
+          "value": "#74675dff",
           "desc": "次级文字",
           "nomikit": "AppColorScheme.onSurfaceVariant",
-          "dark": "#c3b3a7"
+          "dark": "#c3b3a7ff"
         },
         {
           "name": "--color-text-hint",
-          "value": "#a29488",
+          "value": "#a29488ff",
           "desc": "占位与提示 的浅端",
           "nomikit": "AppColorScheme.onSurfaceVariant",
-          "dark": "#93837a"
+          "dark": "#93837aff"
         },
         {
           "name": "--color-text-placeholder",
-          "value": "#b7a79b",
+          "value": "#b7a79bff",
           "desc": "输入框占位符",
           "nomikit": "",
-          "dark": "#82726a"
+          "dark": "#82726aff"
         },
         {
           "name": "--color-on-dark",
-          "value": "#ffffff",
+          "value": "#ffffffff",
           "desc": "深色浮层上的文字",
           "nomikit": "AppColorScheme.inverseOnSurface",
-          "dark": "#241d19"
+          "dark": "#241d19ff"
         }
       ]
     },
@@ -170,17 +170,17 @@ window.AyaneTokens = {
       "tokens": [
         {
           "name": "--color-outline",
-          "value": "#eee2d6",
+          "value": "#e3a08b3d",
           "desc": "常规描边",
           "nomikit": "AppColorScheme.outlineVariant",
-          "dark": "#3d332c"
+          "dark": "#3d332cff"
         },
         {
           "name": "--color-outline-strong",
-          "value": "#decfc2",
+          "value": "#e3a08b7a",
           "desc": "强调描边与分隔线",
           "nomikit": "AppColorScheme.outline",
-          "dark": "#54473d"
+          "dark": "var(--color-outline)"
         }
       ]
     },
@@ -189,80 +189,80 @@ window.AyaneTokens = {
       "tokens": [
         {
           "name": "--color-success",
-          "value": "#5f9e77",
+          "value": "#65c59bff",
           "desc": "成功",
           "nomikit": "AppColorScheme.tertiary",
-          "dark": "#79bb92"
+          "dark": "#79bb92ff"
         },
         {
           "name": "--color-success-soft",
-          "value": "#e6f2e9",
+          "value": "#e6f2e9ff",
           "desc": "成功浅底",
           "nomikit": "",
-          "dark": "#2c3d33"
+          "dark": "#2c3d33ff"
         },
         {
           "name": "--color-warning",
-          "value": "#b98a3c",
+          "value": "#b98a3cff",
           "desc": "告警 的暖色替代",
           "nomikit": "AppColorScheme.error",
-          "dark": "#dcb268"
+          "dark": "#dcb268ff"
         },
         {
           "name": "--color-warning-soft",
-          "value": "#fff4dd",
+          "value": "#fff4ddff",
           "desc": "告警浅底",
           "nomikit": "",
-          "dark": "#40351f"
+          "dark": "#40351fff"
         },
         {
           "name": "--color-info",
-          "value": "#5f86a8",
+          "value": "#5f86a8ff",
           "desc": "信息",
           "nomikit": "AppColorScheme.secondary",
-          "dark": "#86aed2"
+          "dark": "#86aed2ff"
         },
         {
           "name": "--color-info-soft",
-          "value": "#e8f0f7",
+          "value": "#e8f0f7ff",
           "desc": "信息浅底",
           "nomikit": "",
-          "dark": "#293844"
+          "dark": "#293844ff"
         },
         {
           "name": "--color-error",
-          "value": "#cf6d72",
+          "value": "#cf6d72ff",
           "desc": "危险",
           "nomikit": "AppColorScheme.error",
-          "dark": "#e38b90"
+          "dark": "#e38b90ff"
         },
         {
           "name": "--color-error-soft",
-          "value": "#fdeced",
+          "value": "#fdecedff",
           "desc": "危险浅底",
           "nomikit": "",
-          "dark": "#442a2c"
+          "dark": "#442a2cff"
         },
         {
           "name": "--color-neutral-soft",
-          "value": "#f0eae2",
+          "value": "#f0eae2ff",
           "desc": "中性状态浅底：已归档与暂缓",
           "nomikit": "",
-          "dark": "#38302a"
+          "dark": "#38302aff"
         },
         {
           "name": "--color-accent-mint",
-          "value": "#dceee0",
+          "value": "#dceee0ff",
           "desc": "装饰：薄荷气泡",
           "nomikit": "",
-          "dark": "#2f4438"
+          "dark": "#2f4438ff"
         },
         {
           "name": "--color-accent-yellow",
-          "value": "#fff2cf",
+          "value": "#fff2cfff",
           "desc": "装饰：奶黄气泡",
           "nomikit": "",
-          "dark": "#463a22"
+          "dark": "#463a22ff"
         }
       ]
     },
@@ -271,52 +271,52 @@ window.AyaneTokens = {
       "tokens": [
         {
           "name": "--color-table-head",
-          "value": "#fdf6ee",
+          "value": "#fdf6eeff",
           "desc": "表头底色，必须不透明",
           "nomikit": "AppColorScheme.surfaceContainer",
-          "dark": "#332a24"
+          "dark": "#332a24ff"
         },
         {
           "name": "--color-row-hover",
-          "value": "rgba(230, 161, 141, 0.07)",
+          "value": "#e6a18d12",
           "desc": "行 hover 底色",
           "nomikit": "",
-          "dark": "rgba(232, 169, 146, 0.08)"
+          "dark": "#e8a99214"
         },
         {
           "name": "--color-scrim",
-          "value": "rgba(74, 64, 56, 0.32)",
+          "value": "#4a403852",
           "desc": "遮罩",
           "nomikit": "AppColorScheme.scrim",
-          "dark": "rgba(8, 5, 4, 0.58)"
+          "dark": "#08050494"
         },
         {
           "name": "--color-scrim-soft",
-          "value": "rgba(74, 64, 56, 0.21)",
+          "value": "#4a403836",
           "desc": "模态遮罩：比抽屉遮罩浅一档，两原型实测 0.20/0.22 合档",
           "nomikit": "",
-          "dark": "rgba(8, 5, 4, 0.5)"
+          "dark": "#08050480"
         },
         {
           "name": "--color-toast-bg",
-          "value": "rgba(74, 64, 56, 0.94)",
+          "value": "#4a4038f0",
           "desc": "toast 深底",
           "nomikit": "AppColorScheme.inverseSurface",
-          "dark": "rgba(240, 228, 217, 0.96)"
+          "dark": "#f0e4d9f5"
         },
         {
           "name": "--color-focus-ring",
-          "value": "rgba(227, 160, 139, 0.3)",
+          "value": "#e3a08b4d",
           "desc": "focus-visible 描边",
           "nomikit": "",
-          "dark": "rgba(232, 169, 146, 0.34)"
+          "dark": "#e8a99257"
         },
         {
           "name": "--color-focus-ring-soft",
-          "value": "rgba(230, 161, 141, 0.2)",
+          "value": "#e6a18d33",
           "desc": "输入控件聚焦环，比通用环浅一档",
           "nomikit": "",
-          "dark": "rgba(232, 169, 146, 0.22)"
+          "dark": "#e8a99238"
         }
       ]
     },
@@ -325,283 +325,601 @@ window.AyaneTokens = {
       "tokens": [
         {
           "name": "--color-surface-hairline",
-          "value": "rgba(255, 255, 255, 0.92)",
+          "value": "#fffffff0",
           "desc": "半透明面板上的 1px 描边",
           "nomikit": "",
-          "dark": "rgba(236, 224, 214, 0.14)"
+          "dark": "var(--color-outline)"
         },
         {
           "name": "--color-surface-hairline-strong",
-          "value": "rgba(255, 255, 255, 0.96)",
+          "value": "#fffdf9e6",
           "desc": "弹层描边",
           "nomikit": "",
-          "dark": "rgba(236, 224, 214, 0.2)"
+          "dark": "var(--color-outline)"
         },
         {
           "name": "--color-surface-inset",
-          "value": "rgba(255, 255, 255, 0.74)",
+          "value": "#fffdf9eb",
           "desc": "内嵌芯片与浅轨道底色",
           "nomikit": "",
-          "dark": "rgba(255, 255, 255, 0.06)"
+          "dark": "var(--color-surface-strong)"
         },
         {
           "name": "--color-outline-hover",
-          "value": "rgba(227, 160, 139, 0.55)",
+          "value": "#e3a08bb8",
           "desc": "控件 hover 描边",
           "nomikit": "",
-          "dark": "rgba(232, 169, 146, 0.55)"
+          "dark": "var(--color-outline)"
         },
         {
           "name": "--color-outline-error",
-          "value": "rgba(207, 109, 114, 0.4)",
+          "value": "#cf6d7266",
           "desc": "危险控件描边",
           "nomikit": "",
-          "dark": "rgba(227, 139, 144, 0.45)"
+          "dark": "#e38b9073"
         },
         {
           "name": "--color-outline-error-soft",
-          "value": "rgba(207, 109, 114, 0.35)",
+          "value": "#cf6d7259",
           "desc": "告警卡片描边",
           "nomikit": "",
-          "dark": "rgba(227, 139, 144, 0.38)"
+          "dark": "#e38b9061"
         },
         {
           "name": "--color-outline-hover-soft",
-          "value": "rgba(227, 160, 139, 0.45)",
+          "value": "#e6a18d29",
           "desc": "卡片 hover 描边",
           "nomikit": "",
-          "dark": "rgba(232, 169, 146, 0.42)"
+          "dark": "var(--color-outline)"
         },
         {
           "name": "--color-error-wash",
-          "value": "#fff6f6",
+          "value": "#fff6f6ff",
           "desc": "告警卡片渐变亮端",
           "nomikit": "",
-          "dark": "#3a2628"
+          "dark": "#3a2628ff"
         },
         {
           "name": "--color-outline-error-strong",
-          "value": "rgba(207, 109, 114, 0.7)",
+          "value": "#cf6d72b3",
           "desc": "危险控件 hover 描边",
           "nomikit": "",
-          "dark": "rgba(227, 139, 144, 0.72)"
+          "dark": "#e38b90b8"
         },
         {
           "name": "--color-outline-error-hair",
-          "value": "rgba(207, 109, 114, 0.26)",
+          "value": "#cf6d7242",
           "desc": "危险弹层头部分隔线",
           "nomikit": "",
-          "dark": "rgba(227, 139, 144, 0.28)"
+          "dark": "#e38b9047"
         },
         {
           "name": "--color-primary-light",
-          "value": "#efa791",
-          "desc": "主色渐变亮端",
+          "value": "#efb59eff",
+          "desc": "主色渐变亮端：同步客户端品牌亮端",
           "nomikit": "",
-          "dark": "#f0bda7"
+          "dark": "#f0bda7ff"
         },
         {
           "name": "--color-primary-hover-a",
-          "value": "#dd8f77",
+          "value": "#dd8f77ff",
           "desc": "主色按钮 hover 渐变起",
           "nomikit": "",
-          "dark": "#efb39a"
+          "dark": "#efb39aff"
         },
         {
           "name": "--color-primary-hover-b",
-          "value": "#e79c85",
+          "value": "#e79c85ff",
           "desc": "主色按钮 hover 渐变止",
           "nomikit": "",
-          "dark": "#f6c6b1"
+          "dark": "#f6c6b1ff"
         },
         {
           "name": "--color-primary-deep",
-          "value": "rgba(191, 118, 101, 0.3)",
+          "value": "#e6a18d38",
           "desc": "主色按钮 loading 环",
           "nomikit": "",
-          "dark": "rgba(240, 189, 167, 0.32)"
+          "dark": "var(--color-on-surface-soft)"
         },
         {
           "name": "--color-error-strong",
-          "value": "#a4484e",
+          "value": "#a4484eff",
           "desc": "危险按钮文字",
           "nomikit": "",
-          "dark": "#f0a9ad"
+          "dark": "#f0a9adff"
         },
         {
           "name": "--color-error-strong-deep",
-          "value": "#8f3b41",
+          "value": "#8f3b41ff",
           "desc": "危险按钮 hover 文字",
           "nomikit": "",
-          "dark": "#f6c1c4"
+          "dark": "#f6c1c4ff"
         },
         {
           "name": "--color-error-softer",
-          "value": "#fbdfe1",
+          "value": "#fbdfe1ff",
           "desc": "危险按钮 hover 底色",
           "nomikit": "",
-          "dark": "#5b3237"
+          "dark": "#5b3237ff"
         },
         {
           "name": "--color-warning-light-a",
-          "value": "#d8ab5c",
+          "value": "#d8ab5cff",
           "desc": "告警进度条渐变起",
           "nomikit": "",
-          "dark": "#e0b877"
+          "dark": "#e0b877ff"
         },
         {
           "name": "--color-warning-light-b",
-          "value": "#e6c079",
+          "value": "#e6c079ff",
           "desc": "告警进度条渐变止",
           "nomikit": "",
-          "dark": "#eccc8f"
+          "dark": "#eccc8fff"
         },
         {
           "name": "--color-error-light-a",
-          "value": "#cf6d72",
+          "value": "#cf6d72ff",
           "desc": "危险进度条渐变起",
           "nomikit": "",
-          "dark": "#e38b90"
+          "dark": "#e38b90ff"
         },
         {
           "name": "--color-error-light-b",
-          "value": "#e08b8f",
+          "value": "#e08b8fff",
           "desc": "危险进度条渐变止",
           "nomikit": "",
-          "dark": "#eda3a7"
+          "dark": "#eda3a7ff"
         },
         {
           "name": "--color-tab-track",
-          "value": "rgba(247, 239, 228, 0.85)",
+          "value": "#f7efe4c7",
           "desc": "分段控件轨道",
           "nomikit": "",
-          "dark": "rgba(56, 47, 41, 0.9)"
+          "dark": "var(--color-surface-strong)"
         },
         {
           "name": "--color-tab-count",
-          "value": "rgba(222, 207, 194, 0.6)",
+          "value": "#decfc299",
           "desc": "分段计数徽标底",
           "nomikit": "",
-          "dark": "rgba(84, 71, 61, 0.6)"
+          "dark": "#54473d99"
         },
         {
           "name": "--color-skeleton-base",
-          "value": "rgba(238, 226, 214, 0.55)",
+          "value": "#eee2d68c",
           "desc": "骨架屏暗端",
           "nomikit": "",
-          "dark": "rgba(61, 51, 44, 0.7)"
+          "dark": "#3d332cb3"
         },
         {
           "name": "--color-skeleton-shine",
-          "value": "rgba(248, 240, 232, 0.85)",
+          "value": "#f8f0e8d9",
           "desc": "骨架屏亮端",
           "nomikit": "",
-          "dark": "rgba(86, 72, 62, 0.85)"
+          "dark": "#56483ed9"
         },
         {
           "name": "--color-on-dark-hairline",
-          "value": "rgba(255, 255, 255, 0.5)",
+          "value": "#ffffff80",
           "desc": "深色浮层上的描边与 loading 环",
           "nomikit": "",
-          "dark": "rgba(36, 29, 25, 0.32)"
+          "dark": "#241d1952"
         },
         {
           "name": "--color-primary-wash",
-          "value": "#ffe7d8",
+          "value": "#ffe7d8ff",
           "desc": "头像与图标底渐变亮端",
           "nomikit": "",
-          "dark": "#4a332b"
+          "dark": "#4a332bff"
         },
         {
           "name": "--color-avatar-wash-a",
-          "value": "#ffe3d6",
+          "value": "#ffe3d6ff",
           "desc": "头像渐变起",
           "nomikit": "",
-          "dark": "#4d362d"
+          "dark": "#4d362dff"
         },
         {
           "name": "--color-avatar-wash-b",
-          "value": "#e6f0e5",
+          "value": "#e6f0e5ff",
           "desc": "头像渐变止",
           "nomikit": "",
-          "dark": "#33443a"
+          "dark": "#33443aff"
         },
         {
           "name": "--color-nav-active-a",
-          "value": "rgba(227, 160, 139, 0.22)",
+          "value": "#e3a08b38",
           "desc": "导航选中渐变起",
           "nomikit": "",
-          "dark": "rgba(232, 169, 146, 0.2)"
+          "dark": "#e8a99233"
         },
         {
           "name": "--color-nav-active-b",
-          "value": "rgba(240, 171, 148, 0.1)",
+          "value": "#f0ab941a",
           "desc": "导航选中渐变止",
           "nomikit": "",
-          "dark": "rgba(240, 189, 167, 0.08)"
+          "dark": "#f0bda714"
         },
         {
           "name": "--color-nav-active-ring",
-          "value": "rgba(227, 160, 139, 0.36)",
+          "value": "#e6a18d3d",
           "desc": "导航选中描边",
           "nomikit": "",
-          "dark": "rgba(232, 169, 146, 0.36)"
+          "dark": "var(--color-on-surface-soft)"
         },
         {
           "name": "--color-neutral-wash",
-          "value": "rgba(240, 234, 226, 0.72)",
+          "value": "#f0eae2b8",
           "desc": "禁用项 hover 底",
           "nomikit": "",
-          "dark": "rgba(56, 47, 41, 0.72)"
+          "dark": "#382f29b8"
         },
         {
           "name": "--color-status-live",
-          "value": "rgba(95, 158, 119, 0.4)",
+          "value": "#5f9e7766",
           "desc": "实时状态点脉冲",
           "nomikit": "",
-          "dark": "rgba(121, 187, 146, 0.45)"
+          "dark": "#79bb9273"
         },
         {
           "name": "--color-row-flash",
-          "value": "rgba(230, 161, 141, 0.3)",
+          "value": "#e6a18d4d",
           "desc": "新行高亮起始底色",
           "nomikit": "",
-          "dark": "rgba(232, 169, 146, 0.22)"
+          "dark": "#e8a99238"
         },
         {
           "name": "--color-outline-strong-wash",
-          "value": "rgba(222, 207, 194, 0.75)",
+          "value": "#decfc2bf",
           "desc": "开关关闭态轨道",
           "nomikit": "",
-          "dark": "rgba(84, 71, 61, 0.8)"
+          "dark": "#54473dcc"
         },
         {
           "name": "--color-track",
-          "value": "rgba(222, 207, 194, 0.5)",
+          "value": "#decfc280",
           "desc": "进度条轨道",
           "nomikit": "",
-          "dark": "rgba(84, 71, 61, 0.6)"
+          "dark": "#54473d99"
         },
         {
           "name": "--color-focus-ring-error",
-          "value": "rgba(207, 109, 114, 0.14)",
+          "value": "#cf6d7224",
           "desc": "错误控件聚焦环",
           "nomikit": "",
-          "dark": "rgba(227, 139, 144, 0.18)"
+          "dark": "#e38b902e"
         },
         {
           "name": "--color-toast-error-bg",
-          "value": "rgba(176, 76, 82, 0.96)",
+          "value": "#b04c52f5",
           "desc": "错误 toast 底",
           "nomikit": "",
-          "dark": "rgba(214, 124, 130, 0.96)"
+          "dark": "#d67c82f5"
         },
         {
           "name": "--color-login-card-bg",
-          "value": "rgba(255, 252, 247, 0.93)",
+          "value": "#fffcf7ed",
           "desc": "登录卡底：两原型 0.94/0.90 合档",
           "nomikit": "",
-          "dark": "rgba(46, 38, 33, 0.92)"
+          "dark": "#2e2621eb"
+        },
+        {
+          "name": "--background-contact-card",
+          "value": "linear-gradient(135deg, #fff0e5ff, #fff9f1ff)",
+          "desc": "共享组件背景：从客户端卡片背景提升，保留原型渐变。",
+          "nomikit": "",
+          "dark": "var(--color-surface)"
+        },
+        {
+          "name": "--background-user-card",
+          "value": "radial-gradient(circle at 12% 0%, #ffe8d880, #00000000 42%),\n  #fffffff7",
+          "desc": "共享组件背景：从客户端用户卡片背景提升，保留原型渐变。",
+          "nomikit": "",
+          "dark": "var(--color-surface)"
+        },
+        {
+          "name": "--background-user-card-action",
+          "value": "linear-gradient(135deg, var(--color-primary), #eba48dff)",
+          "desc": "共享组件背景：从客户端动作背景提升，保留原型渐变。",
+          "nomikit": "",
+          "dark": "var(--color-surface)"
+        },
+        {
+          "name": "--background-user-card-action-hover",
+          "value": "linear-gradient(135deg, var(--color-primary-hover-a), #e09a83ff)",
+          "desc": "共享组件背景：从客户端动作 hover 背景提升，保留原型渐变。",
+          "nomikit": "",
+          "dark": "var(--color-surface)"
+        },
+        {
+          "name": "--background-ai-panel",
+          "value": "linear-gradient(180deg, #ffffffd1, #fff8efd1), radial-gradient(circle at 20% 8%, #ffe2d273, #00000000 35%)",
+          "desc": "共享组件背景：由 --background-ai-panel 提升，保留原型渐变。",
+          "nomikit": "",
+          "dark": "var(--color-surface)"
+        }
+      ]
+    },
+    {
+      "title": "颜色 · 原型视图专用",
+      "tokens": [
+        {
+          "name": "--color-prototype-bg-glow-a",
+          "value": "#e6a18d38",
+          "desc": "客户端与后台背景光晕起始层，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-prototype-bg-glow-b",
+          "value": "#e6a18d29",
+          "desc": "客户端与后台背景光晕次级层，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-prototype-bg-mid",
+          "value": "#fffaf5ff",
+          "desc": "客户端与后台背景渐变中间色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-prototype-orb-light",
+          "value": "#ffffffb3",
+          "desc": "原型背景浅色装饰球，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-prototype-orb-warm",
+          "value": "#f8dcceb3",
+          "desc": "原型背景暖色装饰球，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-focus-ring",
+          "value": "#e6a18d57",
+          "desc": "后台原型焦点环，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-live-ring-clear",
+          "value": "#5f9e7700",
+          "desc": "后台实时状态脉冲透明端，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-live-ring",
+          "value": "#5f9e7729",
+          "desc": "后台实时状态脉冲，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-connecting-ring",
+          "value": "#b98a3c29",
+          "desc": "后台连接中状态脉冲，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-console-background",
+          "value": "#fffcf8eb",
+          "desc": "后台实时流面板底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-error-text",
+          "value": "#9d4a50ff",
+          "desc": "后台错误日志与危险提示文字，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-error-text-strong",
+          "value": "#96464cff",
+          "desc": "后台错误日志强调文字，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-info-border",
+          "value": "#5f86a847",
+          "desc": "后台信息提示描边，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-info-text",
+          "value": "#4a6d8cff",
+          "desc": "后台信息提示文字，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-warning-border",
+          "value": "#b98a3c4d",
+          "desc": "后台告警提示描边，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-warning-text",
+          "value": "#8a6528ff",
+          "desc": "后台告警提示文字，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-danger-border",
+          "value": "#cf6d7252",
+          "desc": "后台危险提示描边，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-chip-hover",
+          "value": "#bf76652e",
+          "desc": "后台标签 hover 底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-code-background",
+          "value": "#fffcf7e6",
+          "desc": "后台代码块底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-card-background",
+          "value": "#fffdf9e6",
+          "desc": "后台卡片浅表面，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-topbar-background",
+          "value": "#fffcf7e0",
+          "desc": "后台顶栏底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-role-pill-background",
+          "value": "#ffffffdb",
+          "desc": "后台角色标签底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-role-pill-hover-border",
+          "value": "#e3a08b99",
+          "desc": "后台角色标签 hover 描边，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-sidenav-background",
+          "value": "#fffcf7b8",
+          "desc": "后台侧栏底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-page-head-border",
+          "value": "#eee2d6bf",
+          "desc": "后台页面头部分隔线，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-card-background-muted",
+          "value": "#fffdf9db",
+          "desc": "后台次级卡片底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-secret-mask-background",
+          "value": "#f7efe499",
+          "desc": "后台密钥遮罩底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-hit-preview-background",
+          "value": "#f7efe46b",
+          "desc": "后台命中预览底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-connection-warning-border",
+          "value": "#b98a3c57",
+          "desc": "后台连接告警描边，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-connection-warning-text",
+          "value": "#7d5c22ff",
+          "desc": "后台连接告警文字，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-connection-danger-border",
+          "value": "#cf6d7257",
+          "desc": "后台连接异常描边，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-connection-danger-text",
+          "value": "#96474bff",
+          "desc": "后台连接异常文字，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-trace-chip-background",
+          "value": "#f7efe4cc",
+          "desc": "后台追踪标签底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-error-detail-background",
+          "value": "#fdf6eeb8",
+          "desc": "后台错误详情行底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-signed-box-background",
+          "value": "#f7efe480",
+          "desc": "后台签名信息块底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-admin-signed-url-background",
+          "value": "#ffffffdb",
+          "desc": "后台签名 URL 底色，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--color-print-border",
+          "value": "#ccccccff",
+          "desc": "打印态卡片边框，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        }
+      ]
+    },
+    {
+      "title": "阴影 · 原型视图专用",
+      "tokens": [
+        {
+          "name": "--shadow-admin-brand-mark",
+          "value": "0 6px 16px #e6a18d47",
+          "desc": "后台品牌标记阴影，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--shadow-admin-sidenav-open",
+          "value": "18px 0 50px #704f3b33",
+          "desc": "后台展开侧栏阴影，原型视图专用。",
+          "nomikit": "",
+          "dark": ""
         }
       ]
     },
@@ -610,66 +928,66 @@ window.AyaneTokens = {
       "tokens": [
         {
           "name": "--shadow-low",
-          "value": "0 12px 32px rgba(112, 79, 59, 0.09)",
+          "value": "0 10px 24px #704f3b12",
           "desc": "卡片与列表",
           "nomikit": "Shadows.low",
-          "dark": "0 12px 32px rgba(0, 0, 0, 0.36)"
+          "dark": "0 12px 32px #0000005c"
         },
         {
           "name": "--shadow-high",
-          "value": "0 28px 80px rgba(112, 79, 59, 0.14)",
+          "value": "0 7px 17px #704f3b0f",
           "desc": "浮层与主窗口",
           "nomikit": "Shadows.high",
-          "dark": "0 28px 80px rgba(0, 0, 0, 0.5)"
+          "dark": "var(--shadow-low)"
         },
         {
           "name": "--shadow-primary-low",
-          "value": "0 8px 18px rgba(230, 161, 141, 0.22)",
+          "value": "0 10px 20px #e6a18d38",
           "desc": "主按钮",
           "nomikit": "",
-          "dark": "0 8px 18px rgba(0, 0, 0, 0.4)"
+          "dark": "var(--shadow-low)"
         },
         {
           "name": "--shadow-primary-high",
-          "value": "0 10px 22px rgba(230, 161, 141, 0.3)",
+          "value": "0 12px 26px #e6a18d5c",
           "desc": "主按钮 hover",
           "nomikit": "",
-          "dark": "0 10px 22px rgba(0, 0, 0, 0.46)"
+          "dark": "var(--shadow-low)"
         },
         {
           "name": "--shadow-card-hover",
-          "value": "0 14px 30px rgba(112, 79, 59, 0.11)",
+          "value": "0 10px 24px #e6a18d1a",
           "desc": "统计卡 hover",
           "nomikit": "",
-          "dark": "0 14px 30px rgba(0, 0, 0, 0.4)"
+          "dark": "var(--shadow-low)"
         },
         {
           "name": "--shadow-inset-hair",
-          "value": "0 4px 12px rgba(112, 79, 59, 0.08)",
+          "value": "0 0 0 4px #e3a08b21",
           "desc": "分段控件选中项",
           "nomikit": "",
-          "dark": "0 4px 12px rgba(0, 0, 0, 0.35)"
+          "dark": "var(--shadow-low)"
         },
         {
           "name": "--shadow-avatar-inset",
-          "value": "inset 0 0 0 1px rgba(255, 255, 255, 0.78), 0 6px 15px rgba(112, 79, 59, 0.12)",
+          "value": "0 12px 26px #704f3b21",
           "desc": "头像",
           "nomikit": "",
-          "dark": "inset 0 0 0 1px rgba(236, 224, 214, 0.14), 0 6px 15px rgba(0, 0, 0, 0.4)"
+          "dark": "var(--shadow-low)"
         },
         {
           "name": "--shadow-knob",
-          "value": "0 2px 5px rgba(112, 79, 59, 0.22)",
+          "value": "0 0 0 3px #65c59b26",
           "desc": "开关滑块",
           "nomikit": "",
-          "dark": "0 2px 5px rgba(0, 0, 0, 0.5)"
+          "dark": "var(--shadow-low)"
         },
         {
           "name": "--shadow-drawer",
-          "value": "-20px 0 60px rgba(112, 79, 59, 0.16)",
+          "value": "-20px 0 60px #704f3b29",
           "desc": "右侧抽屉，方向性阴影",
           "nomikit": "",
-          "dark": "-20px 0 60px rgba(0, 0, 0, 0.5)"
+          "dark": "-20px 0 60px #00000080"
         }
       ]
     },
@@ -737,25 +1055,6 @@ window.AyaneTokens = {
           "value": "48px",
           "desc": "全屏布局与安全留白",
           "nomikit": "Spacings.colossal",
-          "dark": ""
-        }
-      ]
-    },
-    {
-      "title": "间距 · 组件档（控件横向内边距不与九级重合，保留实测值）",
-      "tokens": [
-        {
-          "name": "--spacing-control-x",
-          "value": "14px",
-          "desc": "按钮与输入控件的标准横向内边距",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--spacing-control-x-sm",
-          "value": "10px",
-          "desc": "小按钮与输入控件的紧凑横向内边距",
-          "nomikit": "",
           "dark": ""
         }
       ]
@@ -830,60 +1129,6 @@ window.AyaneTokens = {
           "name": "--radius-pill",
           "value": "999px",
           "desc": "胶囊：完全圆角，非九级刻度",
-          "nomikit": "",
-          "dark": ""
-        }
-      ]
-    },
-    {
-      "title": "圆角 · 组件档（与九级刻度并列，不为凑刻度改掉已验证视觉）",
-      "tokens": [
-        {
-          "name": "--radius-app-window",
-          "value": "28px",
-          "desc": "客户端主窗口",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--radius-panel",
-          "value": "20px",
-          "desc": "面板与抽屉，等于 --radius-extra-large",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--radius-control",
-          "value": "14px",
-          "desc": "输入控件",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--radius-card",
-          "value": "16px",
-          "desc": "后台卡片，等于 --radius-large",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--radius-field",
-          "value": "12px",
-          "desc": "后台表单控件，等于 --radius-medium",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--radius-control-sm",
-          "value": "10px",
-          "desc": "图标按钮、小按钮与分页键",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--radius-tab",
-          "value": "12px",
-          "desc": "分段控件轨道，等于 --radius-medium",
           "nomikit": "",
           "dark": ""
         }
@@ -1026,74 +1271,6 @@ window.AyaneTokens = {
       ]
     },
     {
-      "title": "头像 · 组件档（客户端档位，与九级无整数倍关系）",
-      "tokens": [
-        {
-          "name": "--size-avatar-xs",
-          "value": "34px",
-          "desc": "客户端 --avatar-xs",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--size-avatar-sm",
-          "value": "44px",
-          "desc": "客户端 --avatar-sm",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--size-avatar-default",
-          "value": "42px",
-          "desc": "客户端头像基准",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--size-avatar-lg",
-          "value": "118px",
-          "desc": "客户端 --avatar-lg",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--size-avatar-xl",
-          "value": "166px",
-          "desc": "客户端 --avatar-xl",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--radius-avatar-xs",
-          "value": "11px",
-          "desc": "与 --size-avatar-xs 成比例的圆角档",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--radius-avatar-sm",
-          "value": "15px",
-          "desc": "与 --size-avatar-default/-sm 成比例的圆角档",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--radius-avatar-lg",
-          "value": "38px",
-          "desc": "",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--radius-avatar-xl",
-          "value": "52px",
-          "desc": "",
-          "nomikit": "",
-          "dark": ""
-        }
-      ]
-    },
-    {
       "title": "描边宽度",
       "tokens": [
         {
@@ -1180,8 +1357,8 @@ window.AyaneTokens = {
         },
         {
           "name": "--height-control-sm",
-          "value": "36px",
-          "desc": "后台标准按钮",
+          "value": "42px",
+          "desc": "通用标准操作按钮；触控热区另保底 44px。",
           "nomikit": "",
           "dark": ""
         },
@@ -1194,8 +1371,8 @@ window.AyaneTokens = {
         },
         {
           "name": "--height-field",
-          "value": "38px",
-          "desc": "后台输入框",
+          "value": "48px",
+          "desc": "通用登录字段；不改变校验行为。",
           "nomikit": "",
           "dark": ""
         },
@@ -1712,7 +1889,7 @@ window.AyaneTokens = {
         },
         {
           "name": "--toast-shift",
-          "value": "calc(-1 * var(--spacing-control-x))",
+          "value": "calc(-1 * var(--spacing-medium))",
           "desc": "未显时的滑入方向，客户端取正值从下往上",
           "nomikit": "",
           "dark": ""
@@ -1739,293 +1916,6 @@ window.AyaneTokens = {
           "dark": ""
         }
       ]
-    }
-  ],
-  "compat": [
-    {
-      "name": "--bg",
-      "alias": "var(--color-bg)",
-      "region": ""
-    },
-    {
-      "name": "--bg-deep",
-      "alias": "var(--color-bg-deep)",
-      "region": ""
-    },
-    {
-      "name": "--surface",
-      "alias": "var(--color-surface)",
-      "region": ""
-    },
-    {
-      "name": "--surface-strong",
-      "alias": "var(--color-surface-strong)",
-      "region": ""
-    },
-    {
-      "name": "--surface-soft",
-      "alias": "var(--color-surface-soft)",
-      "region": ""
-    },
-    {
-      "name": "--surface-solid",
-      "alias": "var(--color-surface-solid)",
-      "region": ""
-    },
-    {
-      "name": "--ink",
-      "alias": "var(--color-on-surface)",
-      "region": ""
-    },
-    {
-      "name": "--ink-soft",
-      "alias": "var(--color-on-surface-soft)",
-      "region": ""
-    },
-    {
-      "name": "--muted",
-      "alias": "var(--color-text-hint)",
-      "region": ""
-    },
-    {
-      "name": "--line",
-      "alias": "var(--color-outline)",
-      "region": ""
-    },
-    {
-      "name": "--line-strong",
-      "alias": "var(--color-outline-strong)",
-      "region": ""
-    },
-    {
-      "name": "--primary",
-      "alias": "var(--color-primary)",
-      "region": ""
-    },
-    {
-      "name": "--primary-dark",
-      "alias": "var(--color-primary-strong)",
-      "region": ""
-    },
-    {
-      "name": "--primary-soft",
-      "alias": "var(--color-primary-soft)",
-      "region": ""
-    },
-    {
-      "name": "--pink",
-      "alias": "var(--color-primary-container)",
-      "region": ""
-    },
-    {
-      "name": "--pink-soft",
-      "alias": "var(--color-primary-soft)",
-      "region": ""
-    },
-    {
-      "name": "--mint",
-      "alias": "var(--color-accent-mint)",
-      "region": ""
-    },
-    {
-      "name": "--yellow",
-      "alias": "var(--color-accent-yellow)",
-      "region": ""
-    },
-    {
-      "name": "--danger",
-      "alias": "var(--color-error)",
-      "region": ""
-    },
-    {
-      "name": "--danger-soft",
-      "alias": "var(--color-error-soft)",
-      "region": ""
-    },
-    {
-      "name": "--ok",
-      "alias": "var(--color-success)",
-      "region": ""
-    },
-    {
-      "name": "--ok-soft",
-      "alias": "var(--color-success-soft)",
-      "region": ""
-    },
-    {
-      "name": "--warn",
-      "alias": "var(--color-warning)",
-      "region": ""
-    },
-    {
-      "name": "--warn-soft",
-      "alias": "var(--color-warning-soft)",
-      "region": ""
-    },
-    {
-      "name": "--info",
-      "alias": "var(--color-info)",
-      "region": ""
-    },
-    {
-      "name": "--info-soft",
-      "alias": "var(--color-info-soft)",
-      "region": ""
-    },
-    {
-      "name": "--defer-soft",
-      "alias": "var(--color-neutral-soft)",
-      "region": ""
-    },
-    {
-      "name": "--table-head-bg",
-      "alias": "var(--color-table-head)",
-      "region": ""
-    },
-    {
-      "name": "--row-hover",
-      "alias": "var(--color-row-hover)",
-      "region": ""
-    },
-    {
-      "name": "--shadow",
-      "alias": "var(--shadow-high)",
-      "region": ""
-    },
-    {
-      "name": "--soft-shadow",
-      "alias": "var(--shadow-low)",
-      "region": ""
-    },
-    {
-      "name": "--radius-xl",
-      "alias": "var(--radius-app-window)",
-      "region": ""
-    },
-    {
-      "name": "--radius-lg",
-      "alias": "var(--radius-panel)",
-      "region": ""
-    },
-    {
-      "name": "--radius-md",
-      "alias": "var(--radius-control)",
-      "region": ""
-    },
-    {
-      "name": "--radius-ctl",
-      "alias": "var(--radius-field)",
-      "region": ""
-    },
-    {
-      "name": "--topbar-h",
-      "alias": "var(--height-appbar)",
-      "region": ""
-    },
-    {
-      "name": "--row-h",
-      "alias": "var(--height-row)",
-      "region": ""
-    },
-    {
-      "name": "--nav-w",
-      "alias": "var(--size-nav-width)",
-      "region": ""
-    },
-    {
-      "name": "--nav-w-rail",
-      "alias": "var(--size-nav-rail-width)",
-      "region": ""
-    },
-    {
-      "name": "--gap",
-      "alias": "var(--spacing-medium)",
-      "region": ""
-    },
-    {
-      "name": "--mobile-nav-space",
-      "alias": "calc(var(--height-mobile-nav) + var(--safe-bottom))",
-      "region": ""
-    },
-    {
-      "name": "--mono",
-      "alias": "var(--font-family-mono)",
-      "region": ""
-    },
-    {
-      "name": "--fs-h1",
-      "alias": "var(--font-title-large)",
-      "region": ""
-    },
-    {
-      "name": "--fs-h2",
-      "alias": "var(--font-body-medium)",
-      "region": ""
-    },
-    {
-      "name": "--fs-body",
-      "alias": "var(--font-body-small)",
-      "region": ""
-    },
-    {
-      "name": "--fs-sm",
-      "alias": "var(--font-label-small)",
-      "region": ""
-    },
-    {
-      "name": "--fs-xs",
-      "alias": "var(--font-caption)",
-      "region": ""
-    },
-    {
-      "name": "--z-nav",
-      "alias": "var(--z-index-nav)",
-      "region": ""
-    },
-    {
-      "name": "--z-topbar",
-      "alias": "var(--z-index-topbar)",
-      "region": ""
-    },
-    {
-      "name": "--z-scrim",
-      "alias": "var(--z-index-scrim)",
-      "region": ""
-    },
-    {
-      "name": "--z-drawer",
-      "alias": "var(--z-index-drawer)",
-      "region": ""
-    },
-    {
-      "name": "--z-modal",
-      "alias": "var(--z-index-modal)",
-      "region": ""
-    },
-    {
-      "name": "--z-toast",
-      "alias": "var(--z-index-toast)",
-      "region": ""
-    },
-    {
-      "name": "--safe-top",
-      "alias": "var(--safe-inset-top)",
-      "region": "client"
-    },
-    {
-      "name": "--safe-bottom",
-      "alias": "max(var(--spacing-large), var(--safe-inset-bottom))",
-      "region": "client"
-    },
-    {
-      "name": "--safe-top",
-      "alias": "var(--safe-inset-top)",
-      "region": "admin"
-    },
-    {
-      "name": "--safe-bottom",
-      "alias": "var(--safe-inset-bottom)",
-      "region": "admin"
     }
   ]
 };

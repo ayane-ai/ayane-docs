@@ -123,7 +123,7 @@ gate('02 令牌表数据新鲜度', async function () {
     return fail.call(this, `${target} 的源码指纹落后，重跑 node tools/tokens-report.mjs`);
   }
   if (current !== js) return fail.call(this, `${target} 内容与解析结果不一致，重跑 node tools/tokens-report.mjs`);
-  return note.call(this, `${parsed.total} 个令牌 / ${parsed.groups.length} 组 / ${parsed.compat.length} 条别名`);
+  return note.call(this, `${parsed.total} 个令牌 / ${parsed.groups.length} 组`);
 });
 
 /* ---------------------------------------------------------------- 03 */
@@ -304,25 +304,40 @@ gate('08 颜色只有令牌源', async function () {
   const jsRe = /(?:setProperty\(\s*['"][^'"]*['"]\s*,\s*['"]|style="[^"]*|color:\s*)(#[0-9a-fA-F]{3,8}\b|rgba?\(|hsl?\()/g;
   /* tokens.data.js 是令牌源的镜像，字面值来自 tokens.css，不算第二处定义 */
   const skip = new Set([...COLOR_LITERAL_ALLOW, ctx.manifest.generated.tokensData]);
-  /* 视图是原型自己的增量：这里的残留按债务计数汇报，共享层与规范区一律硬失败。
-     不给它们批量造 --color-proto-<hash> 之类的哑令牌，那是把门禁变成摆设。 */
-  let debt = 0;
+  const tokenSourceRel = 'src/base/tokens.css';
+  const tokenSource = ctx.files.get(tokenSourceRel) || '';
+  const tokenColorFunctions = [...tokenSource.matchAll(/\b(?:rgba?|hsla?)\s*\(/gi)];
+  if (tokenColorFunctions.length) {
+    const first = tokenColorFunctions[0];
+    const line = tokenSource.slice(0, first.index).split('\n').length;
+    fail.call(this, `${tokenSourceRel}:${line} 含 ${tokenColorFunctions.length} 个 RGB/HSL 颜色函数，颜色令牌必须使用十六进制`);
+  }
+  const tokenHexes = [...tokenSource.matchAll(/#[0-9A-Fa-f]{3,8}\b/g)];
+  const invalidHex = tokenHexes.find((match) => !/^#[0-9a-f]{8}$/.test(match[0]));
+  if (invalidHex) {
+    const line = tokenSource.slice(0, invalidHex.index).split('\n').length;
+    fail.call(this, `${tokenSourceRel}:${line} 的颜色 ${invalidHex[0]} 必须使用小写 8 位十六进制`);
+  }
+  const transparent = /\btransparent\b/i.exec(tokenSource);
+  if (transparent) {
+    const line = tokenSource.slice(0, transparent.index).split('\n').length;
+    fail.call(this, `${tokenSourceRel}:${line} 的颜色 transparent 必须使用 #00000000`);
+  }
+  /* 所有 CSS 视图都必须引用 tokens.css，避免把颜色债务永久化。 */
   for (const rel of ctx.css) {
     if (skip.has(rel)) continue;
     /* data-uri 里的颜色是 URL 编码，无法引用令牌，已在 field.css 注释标注例外 */
     const text = stripComments(ctx.files.get(rel)).replace(/url\(\s*["']?[^)]*["']?\s*\)/g, '');
     const n = (text.match(re) || []).length;
     if (!n) continue;
-    if (rel.startsWith('src/views/')) debt += n;
-    else fail.call(this, `${rel} 含 ${n} 处颜色字面量，改用 tokens.css 里的语义令牌`);
+    fail.call(this, `${rel} 含 ${n} 处颜色字面量，改用 tokens.css 里的语义令牌`);
   }
   for (const rel of [...ctx.js, ...ctx.html]) {
     if (skip.has(rel)) continue;
     const n = (stripComments(ctx.files.get(rel)).match(jsRe) || []).length;
     if (n) fail.call(this, `${rel} 有 ${n} 处直接写颜色，改用 var(--color-…)`);
   }
-  if (debt) note.call(this, `视图残留 ${debt} 处字面色（债务，逐值归名后再收进硬门禁）`);
-  else note.call(this, '零字面色值');
+  note.call(this, '零字面色值');
 });
 
 /* ---------------------------------------------------------------- 09 */

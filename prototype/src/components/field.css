@@ -31,16 +31,14 @@
 .field-ctl {
   width: 100%;
   min-height: var(--field-height, var(--height-field));
-  padding: var(--spacing-small) var(--spacing-control-x-sm);
-  border: 1px solid var(--color-outline-strong);
-  border-radius: var(--radius-control);
-  background: var(--color-surface-strong);
+  padding: var(--spacing-small) var(--spacing-medium);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface-inset);
   color: var(--color-on-surface);
   font-family: inherit;
   font-size: var(--font-body-small);
-  transition:
-    border-color var(--duration-fast) ease,
-    box-shadow var(--duration-fast) ease;
+  transition: opacity var(--duration-fast) ease;
 }
 
 .field-ctl::placeholder { color: var(--color-text-placeholder); }
@@ -79,16 +77,17 @@ textarea.field-ctl {
 /* select 箭头只能是 data-uri：url() 内部不解析 var()，色值与
    --color-text-placeholder 手工对齐，改主题时一并改这里。 */
 select.field-ctl {
-  padding-right: calc(var(--spacing-control-x) + var(--spacing-extra-small));
+  padding-right: calc(var(--spacing-medium) + var(--spacing-extra-small));
   appearance: none;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a29488' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9.5 12 15.5 18 9.5'/></svg>");
   background-repeat: no-repeat;
-  background-position: right var(--spacing-control-x-sm) center;
+  background-position: right var(--spacing-small) center;
   background-size: var(--size-icon-tiny) var(--size-icon-tiny);
   cursor: pointer;
 }
 
-.field.is-invalid .field-ctl {
+.field.is-invalid .field-ctl,
+.field.is-invalid .password-field > .password-input {
   border-color: var(--color-error);
   box-shadow: 0 0 0 var(--stroke-thick) var(--color-focus-ring-error);
 }
@@ -112,9 +111,9 @@ select.field-ctl {
   flex-wrap: wrap;
   gap: var(--spacing-small);
   flex: 0 0 auto;
-  padding: var(--spacing-control-x-sm) var(--spacing-medium);
+  padding: var(--spacing-small) var(--spacing-medium);
   border: 1px solid var(--color-surface-hairline);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-huge);
   background: var(--color-surface);
   box-shadow: var(--shadow-low);
   backdrop-filter: blur(18px);
@@ -126,14 +125,12 @@ select.field-ctl {
   gap: var(--spacing-extra-small);
   min-width: 0;
   min-height: var(--height-control-sm);
-  padding: 0 var(--spacing-control-x-sm);
+  padding: 0 var(--spacing-small);
   border: 1px solid var(--color-outline-strong);
-  border-radius: var(--radius-field);
+  border-radius: var(--radius-medium);
   background: var(--color-surface-strong);
   color: var(--color-text-hint);
-  transition:
-    border-color var(--duration-fast) ease,
-    box-shadow var(--duration-fast) ease;
+  transition: opacity var(--duration-fast) ease;
 }
 
 .filter-field:focus-within {
@@ -142,6 +139,7 @@ select.field-ctl {
 }
 
 .filter-input {
+  min-height: var(--tap-target);
   min-width: 130px;
   border: 0;
   outline: 0;
@@ -155,9 +153,9 @@ select.field-ctl {
 
 .filter-select {
   min-height: var(--height-control-sm);
-  padding: 0 calc(var(--spacing-control-x) * 2) 0 var(--spacing-control-x-sm);
+  padding: 0 calc(var(--spacing-medium) * 2) 0 var(--spacing-small);
   border: 1px solid var(--color-outline-strong);
-  border-radius: var(--radius-field);
+  border-radius: var(--radius-medium);
   background: var(--color-surface-strong) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a29488' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9.5 12 15.5 18 9.5'/></svg>") no-repeat right var(--spacing-small) center / var(--size-icon-tiny) var(--size-icon-tiny);
   color: var(--color-on-surface-soft);
   font-family: inherit;
@@ -188,7 +186,7 @@ select.field-ctl {
   border: 0;
   border-radius: var(--radius-pill);
   background: var(--color-outline-strong-wash);
-  transition: background var(--duration-fast) ease;
+  transition: opacity var(--duration-fast) ease;
 }
 
 .switch::after {
@@ -213,7 +211,7 @@ select.field-ctl {
   border-radius: var(--radius-pill);
   background: var(--color-on-primary);
   box-shadow: var(--shadow-knob);
-  transition: transform var(--duration-fast) ease;
+  transition: opacity var(--duration-fast) ease;
 }
 
 .switch[aria-checked="true"] .switch-knob { transform: translateX(var(--size-switch-knob)); }
@@ -242,7 +240,7 @@ select.field-ctl {
   height: 100%;
   border-radius: var(--radius-pill);
   background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
-  transition: width var(--duration-base) ease;
+  transition: opacity var(--duration-fast) ease;
 }
 
 .progress.is-warn .progress-bar {
@@ -276,3 +274,115 @@ select.field-ctl {
   .filter-input,
   .filter-select { min-height: var(--tap-target); }
 }
+
+
+/* 从旧客户端抽取的语义变体；客户端与组件库共用此定义，视图不再复制。 */
+:is([data-proto="client"], [data-client-components]) .login-field {
+
+  display: grid;
+  gap: var(--spacing-small);
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-label-small);
+  font-weight: 700;
+
+}
+
+.password-field,
+:is([data-proto="client"], [data-client-components]) .login-input-wrap {
+
+  display: block;
+  width: 100%;
+  position: relative;
+
+}
+
+.password-field > .password-input,
+:is([data-proto="client"], [data-client-components]) .login-input {
+
+  width: 100%;
+  min-height: var(--size-icon-massive);
+  padding: 0 var(--spacing-medium);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-medium);
+  outline: none;
+  background: var(--color-surface-inset);
+  color: var(--color-on-surface);
+  font-size: var(--font-body-small);
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
+
+}
+
+.password-field > .password-input::placeholder,
+:is([data-proto="client"], [data-client-components]) .login-input::placeholder {
+
+  color: var(--color-text-placeholder);
+
+}
+
+.password-field > .password-input:focus,
+:is([data-proto="client"], [data-client-components]) .login-input:focus {
+  outline: none;
+  border-color: var(--color-outline-hover);
+  box-shadow: var(--shadow-inset-hair);
+
+}
+
+.password-field > .password-input,
+:is([data-proto="client"], [data-client-components]) .login-input.has-toggle {
+
+  padding-right: var(--spacing-colossal);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .composer {
+ flex: 0 0 auto; display: flex; align-items: flex-end; gap: var(--spacing-small); margin: 0; padding: var(--spacing-small); border: var(--stroke-thin) solid var(--color-outline); border-radius: var(--radius-extra-large); background: var(--color-surface-solid); box-shadow: var(--shadow-low);
+}
+
+:is([data-proto="client"], [data-client-components]) .composer .field-ctl {
+ outline: none; box-shadow: none;
+ flex: 1; min-width: 0; min-height: var(--tap-target); max-height: min(var(--size-avatar-colossal), calc(var(--viewport-h) * 0.16)); resize: none; overflow-y: auto; border: none; background: transparent; font-size: var(--font-body-medium);
+}
+
+:is([data-proto="client"], [data-client-components]) .client-send {
+ flex: 0 0 var(--tap-target); width: var(--tap-target); min-width: var(--tap-target); padding: 0;
+}
+
+:is([data-proto="client"], [data-client-components]) .composer-hint {
+ display: block; padding-top: var(--spacing-extra-small); color: var(--color-text-hint); font-size: var(--font-caption);
+}
+
+@container region (max-width: 767px) {
+:is([data-proto="client"], [data-client-components]) .composer-hint {
+ display: none;
+}
+}
+
+/* 内嵌密码字段沿用通用禁用语义，密码值与显隐逻辑由宿主负责。 */
+.password-field > .password-input:disabled { background: var(--color-neutral-soft); color: var(--color-text-hint); cursor: not-allowed; }
+
+/* 聊天编辑区不随 focus/active 改描边或阴影；光标与输入行为不变，发送按钮仍保留独立焦点反馈。 */
+:is([data-proto="client"], [data-client-components]) .composer .field-ctl:is(:focus, :focus-visible, :active) { outline: none; box-shadow: none; border-color: transparent; }
+
+/* 筛选下拉：原 select 保留值与 change 事件，统一的可访问触发器/列表负责视觉。 */
+.filter-select-control { display: inline-flex; min-width: 0; max-width: 100%; position: relative; }
+.filter-select-control > .filter-select-trigger { display: inline-flex; align-items: center; justify-content: space-between; gap: var(--spacing-medium); width: 100%; min-width: 0; min-height: var(--tap-target); padding: 0 var(--spacing-medium); border: var(--stroke-thin) solid var(--color-outline-strong); border-radius: var(--radius-medium); background: var(--color-surface-strong); color: var(--color-on-surface-soft); font: inherit; font-size: var(--font-body-small); cursor: pointer; }
+.filter-select-value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; }
+.filter-select-control > .filter-select-trigger > .icon { flex: 0 0 auto; color: var(--color-text-hint); font-size: var(--size-icon-tiny); transition: transform var(--duration-fast) ease; }
+.filter-select-control > .filter-select-trigger:hover:not(:disabled), .filter-select-control > .filter-select-trigger[aria-expanded="true"] { border-color: var(--color-primary); background: var(--color-surface-solid); }
+.filter-select-control > .filter-select-trigger[aria-expanded="true"] > .icon { transform: rotate(180deg); }
+.filter-select-control > .filter-select-trigger:focus-visible { outline: var(--stroke-medium) solid var(--color-focus-ring); outline-offset: var(--stroke-thin); }
+.filter-select-control > .filter-select-trigger:active:not(:disabled) { background: var(--color-primary-soft); }
+.filter-select-control > .filter-select-trigger:disabled { opacity: 0.5; cursor: not-allowed; }
+.filter-select-menu { scrollbar-width: thin; scrollbar-color: var(--color-outline-strong) transparent; min-width: var(--size-popover-min-width); position: absolute; z-index: var(--z-index-popover); display: flex; flex-direction: column; gap: var(--spacing-tiny); margin: 0; padding: var(--spacing-extra-small); border: var(--stroke-thin) solid var(--color-outline); border-radius: var(--radius-medium); background: var(--color-surface-solid); color: var(--color-on-surface); box-shadow: var(--shadow-low); overflow-y: auto; overscroll-behavior: contain; opacity: 0; visibility: hidden; pointer-events: none; }
+.filter-select-menu.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+.filter-select-option { display: grid; grid-template-columns: minmax(0,1fr) var(--size-icon-extra-small); align-items: center; gap: var(--spacing-medium); flex: 0 0 auto; min-height: var(--tap-target); padding: var(--spacing-small) var(--spacing-small); border-radius: var(--radius-small); color: var(--color-on-surface-soft); cursor: pointer; font-size: var(--font-body-small); line-height: var(--line-height-normal); }
+.filter-select-option > span { overflow-wrap: anywhere; }
+.filter-select-option > .icon { font-size: var(--size-icon-extra-small); visibility: hidden; }
+.filter-select-option[aria-selected="true"] { color: var(--color-primary-strong); font-weight: var(--weight-bold); background: var(--color-primary-soft); }
+.filter-select-option[aria-selected="true"] > .icon { visibility: visible; }
+.filter-select-option.is-active:not([aria-disabled="true"]), .filter-select-option:hover:not([aria-disabled="true"]) { background: var(--color-primary-soft); color: var(--color-primary-strong); }
+.filter-select-option.is-active { outline: var(--stroke-thin) solid var(--color-outline-hover-soft); outline-offset: calc(-1 * var(--stroke-thin)); }
+.filter-select-option[aria-disabled="true"] { color: var(--color-text-hint); cursor: not-allowed; opacity: 0.5; }
+@media (prefers-reduced-motion: reduce) { .filter-select-control > .filter-select-trigger > .icon { transition: none; } }
+
+.filter-bar .chip { min-height: var(--tap-target); }

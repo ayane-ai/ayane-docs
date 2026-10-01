@@ -3,15 +3,30 @@
    ============================================================ -->
 <section class="demo-card">
   <div class="demo-meta">
-    <span class="demo-no">08</span>
+    <span class="demo-no">11</span>
     <h4>导航 Nav / Tabs / Pagination</h4>
     <p class="spec-note">
       三类控件共用「选中态 = 主色浅底 + 主色强调字」这一套语义，
       状态一律由 <code>is-active</code> / <code>aria-current</code> / <code>aria-selected</code> 表达。
-      示例可点，切换由 <code>data-demo="activate"</code> 统一委托。
+      示例可点；底部导航与客户端共用选择逻辑，双段页签支持鼠标与键盘切换，其他通用项由示例委托处理。
     </p>
   </div>
   <div class="demo-vars">
+<div class="demo-frame" id="demo-client-bottom-nav" data-client-components>
+      <span class="demo-label">手机底部导航：绫音／我的</span>
+      <nav class="client-bottom-nav" data-demo-bottom-nav aria-label="底部导航示例"></nav>
+      <p class="demo-hint">点击只切换此示例的选中项，不改变客户端页面。</p>
+    </div>
+    <div class="demo-frame" id="demo-segmented-tabs">
+      <span class="demo-label">通用页签：圆角双段</span>
+      <div class="tabs tabs--segmented" role="tablist" aria-label="内容切换示例" data-demo-tabs>
+        <button class="tab is-active" id="demo-tab-overview-button" type="button" role="tab" aria-selected="true" aria-controls="demo-tab-overview" tabindex="0">概览</button>
+        <button class="tab" id="demo-tab-detail-button" type="button" role="tab" aria-selected="false" aria-controls="demo-tab-detail" tabindex="-1">详情</button>
+      </div>
+      <div id="demo-tab-overview" role="tabpanel" aria-labelledby="demo-tab-overview-button" tabindex="0">概览内容：展示核心信息。</div>
+      <div id="demo-tab-detail" role="tabpanel" aria-labelledby="demo-tab-detail-button" tabindex="0" hidden>详情内容：展示完整说明。</div>
+      <p class="demo-hint">左右方向键、Home／End 切换；不绑定 AI 列表或页面路由。</p>
+    </div>
     <div class="demo-frame">
       <span class="demo-label">侧栏 .nav-item：248px 展开档</span>
       <nav class="demo-nav" aria-label="侧栏导航示例">

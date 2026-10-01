@@ -7,9 +7,9 @@
    令牌与组件各只有一份源；这里看到的是构建后的快照视图。
 
    目录（源文件，不要改 dist/）：
-     src/base/       tokens.css（唯一取值源）· tokens.compat.css（@deprecated 别名）
+     src/base/       tokens.css（唯一取值源）
                      base.css（重置与工具类）· util.js（共享运行时）· icons.svg.html（精灵）
-     src/components/ icon · button · field · avatar · tag · card · table · nav · overlay
+     src/components/ 九类基础组件 + client 组合（定义唯一，示例与实际页面同源）
      src/region.css  区域画布、容器查询容器与全屏层（--viewport-h 的区域与全屏档）
      src/views/      client.* / admin.*（画布内布局与交互，宽度断点只写在这里）
      src/spec/       spec.css（文档区）· shell.css + shell.js（左侧菜单 / 层级树 / 画布）
@@ -20,6 +20,7 @@
      node tools/tokens-report.mjs   改了 tokens.css 后重生成令牌表数据
      node tools/build.mjs           展开 include，产出 dist/绫音设计规范与交互原型.html
      node tools/check.mjs           十三条门禁；退出码 0 才可交付（条数以 check.mjs 输出为准）
+     node tools/check-components.mjs 组件覆盖与来源隔离
      pwsh .review/run.ps1           Chrome headless 截图与页面错误审计
 
    打开方式：双击 dist/绫音设计规范与交互原型.html 即可（file:// 零依赖、零请求）。
@@ -40,7 +41,6 @@
 <title>绫音 · 设计规范与交互原型</title>
 
 <!-- @include src/base/tokens.css -->
-<!-- @include src/base/tokens.compat.css -->
 <!-- @include src/base/base.css -->
 <!-- @include src/components/icon.css -->
 <!-- @include src/components/button.css -->
@@ -51,6 +51,7 @@
 <!-- @include src/components/table.css -->
 <!-- @include src/components/nav.css -->
 <!-- @include src/components/overlay.css -->
+<!-- @include src/components/client.css -->
 <!-- @include src/region.css -->
 <!-- @include src/spec/spec.css -->
 <!-- @include src/spec/shell.css -->
@@ -84,11 +85,11 @@
     <nav class="tree-menu" role="tablist" aria-orientation="vertical" aria-label="页面">
       <button class="tree-menu-item" type="button" role="tab" id="page-tab-tokens"
               data-page="tokens" data-no="01" aria-selected="true" tabindex="0">
-        <span class="no">01</span><span class="nm">设计令牌</span><span class="cnt">224</span>
+        <span class="no">01</span><span class="nm">设计令牌</span><span class="cnt" id="token-nav-count"></span>
       </button>
       <button class="tree-menu-item" type="button" role="tab" id="page-tab-components"
               data-page="components" data-no="02" aria-selected="false" tabindex="-1">
-        <span class="no">02</span><span class="nm">组件库</span><span class="cnt">9</span>
+        <span class="no">02</span><span class="nm">组件库</span><span class="cnt" id="component-nav-count"></span>
       </button>
       <button class="tree-menu-item" type="button" role="tab" id="page-tab-client"
               data-page="client" data-no="03" aria-selected="false" tabindex="-1">
@@ -154,27 +155,7 @@
       </div>
     </div>
 
-    <div class="spec-block" id="compat-block">
-      <h3>过渡别名（@deprecated）</h3>
-      <p class="spec-note">
-        两个原型本次不改用新令牌名，因此旧名必须在 <code>tokens.compat.css</code> 里全部有指向；
-        悬空即门禁失败。新代码一律使用上表的名字，不要再引用本表任何变量。
-      </p>
-      <div class="token-table-wrap">
-        <table class="data-table token-table compat-table">
-          <thead>
-            <tr>
-              <th scope="col">旧名</th>
-              <th scope="col">指向</th>
-              <th scope="col">声明原值</th>
-              <th scope="col">作用范围</th>
-            </tr>
-          </thead>
-          <tbody id="compat-body"></tbody>
-        </table>
-      </div>
-      <p class="demo-hint"><span id="compat-count">—</span> 条别名，集中在 <code>src/base/tokens.compat.css</code>。</p>
-    </div>
+
   </section>
 
   <!-- ============================================================
@@ -199,6 +180,7 @@
     </p>
 
     <div class="demo-board">
+      <details class="component-inventory" id="component-inventory"><summary>组件清单 · 来源与使用位置</summary><div class="table-scroll"><table class="data-table"><thead><tr><th>组件</th><th>来源选择器</th><th>用途</th><th>共享定义／当前使用</th><th>示例</th></tr></thead><tbody id="component-inventory-body"></tbody></table></div></details>
       <section class="demo-cat" id="cat-atom">
         <h3 class="demo-cat-head">视觉原子<span class="demo-cat-note">图标 · 头像 · 标签状态</span></h3>
         <!-- @include src/spec/demos/icon.html -->
@@ -210,18 +192,22 @@
         <h3 class="demo-cat-head">操作与输入<span class="demo-cat-note">按钮 · 表单</span></h3>
         <!-- @include src/spec/demos/button.html -->
         <!-- @include src/spec/demos/field.html -->
+        <!-- @include src/spec/demos/client-composer.html -->
       </section>
 
       <section class="demo-cat" id="cat-data">
         <h3 class="demo-cat-head">容器与数据<span class="demo-cat-note">卡片 · 表格</span></h3>
         <!-- @include src/spec/demos/card.html -->
         <!-- @include src/spec/demos/table.html -->
+        <!-- @include src/spec/demos/client-account.html -->
+        <!-- @include src/spec/demos/client-conversation.html -->
       </section>
 
       <section class="demo-cat" id="cat-float">
         <h3 class="demo-cat-head">导航与浮层<span class="demo-cat-note">导航 · 模态抽屉气泡提示</span></h3>
         <!-- @include src/spec/demos/nav.html -->
         <!-- @include src/spec/demos/overlay.html -->
+        <!-- @include src/spec/demos/client-interaction.html -->
       </section>
     </div>
   </section>
@@ -233,7 +219,7 @@
     <div class="region-head">
       <h2 id="sec-client-title">客户端原型</h2>
       <p class="region-lede">
-        登录 → 会话列表 → 聊天 → 通话 → 形象与资料，全流程可点。
+        登录 → 共用形象页 → 独立媒体开关演示 → 对话记录与账号资料。手机与桌面复用同一套交互；不调用真实设备或后端。
         画布是 <code>[data-proto="client"]</code>，宽度断点 767 / 768 / 1199 / 1200 / 1600
         与 <code>getLayout()</code> 同源。
       </p>
@@ -315,8 +301,8 @@
     <li>静态检查：CSS 花括号与注释配平、JS <code>node --check</code>、id 全局唯一、标签配平、
       <code>getElementById</code> 与 <code>.id ===</code> 目标存在、令牌无悬空、画布禁 CSS zoom
       —— 全部由 <code>tools/check.mjs</code> 把关。</li>
-    <li>渲染验证：<code>pwsh .review/run.ps1 -Region both -Mode both</code>，对两区 × 嵌入/全屏共 120 个状态截图并做几何审计，
-      <code>audit-*.json</code> 页面错误必须为 0。</li>
+    <li>渲染验证：<code>pwsh .review/run.ps1 -Region both -Mode both</code>，读取版本控制内的回归清单，对两区 × 嵌入/全屏及规范页截图并做断言、几何审计，
+      <code>audit.json</code> 场景准备、状态断言与页面脚本错误必须全部通过。</li>
     <li>已验证盲区：headless 下 <code>env(safe-area-inset-*)</code> 恒为 0、无软键盘、无真机 DPR&gt;1，
       <code>pointer: coarse</code> 只能靠触摸模拟间接推断，这些项只能标为未验证。</li>
   </ul>
@@ -339,6 +325,7 @@
 
 <!-- @include src/spec/tokens.data.js -->
 <!-- @include src/base/util.js -->
+<!-- @include src/spec/components.data.js -->
 <!-- @include src/spec/suite.js -->
 <!-- @include src/spec/shell.js -->
 <!-- @include src/views/client.script.js -->
@@ -357,7 +344,7 @@
        实测祖先 zoom:.5 时画布自认 1578px 宽，容器查询当场跳档。
      层级：当前只渲染一级 —— 令牌分组 / 组件行 / 画布直接子级；原型 markup 里的内层
        data-layer 标注为将来二级保留，一级渲染不读它们。
-     令牌：颜色字面量只出现在 src/base/tokens.css；旧名只出现在 tokens.compat.css。
+     令牌：颜色字面量只出现在 src/base/tokens.css。
      断点：宽度查询一律 @container region，阈值登记在 tools/manifest.json；
        视口宽度 @media 只允许出现在 region.css（画布出血）与 spec/shell.css（外壳抽屉），
        视口单位 vh/dvw 只允许出现在 region.css 与 tokens.css。

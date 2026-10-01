@@ -1,0 +1,27 @@
+<section class="demo-card" id="demo-component-06">
+  <div class="demo-meta">
+    <span class="demo-no">06</span>
+    <h4>消息输入 Composer</h4>
+    <p class="spec-note">自动增高、输入草稿与消息节点复用共享工具。所有发送只追加到当前示例，不连接实际会话。</p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame demo-frame--wide" id="demo-client-composer" data-client-components >
+      <span class="demo-label">文字输入区</span>
+      <div class="demo-chat-log" data-demo-message-list aria-live="polite">
+      </div>
+      <form class="composer" data-demo-form="message">
+        <textarea class="field-ctl" rows="1" data-demo-input placeholder="和绫音说点什么……" aria-label="示例消息"></textarea>
+        <button class="btn btn--solid client-send" type="submit" aria-label="发送示例消息">
+          <svg class="icon" aria-hidden="true" focusable="false">
+            <use href="#i-send">
+            </use>
+          </svg>
+        </button>
+      </form>
+      <span class="composer-hint">Enter 发送 · Shift+Enter 换行 · 本地演示</span>
+      <div class="toast" id="demo-client-composer-toast" role="status" aria-live="polite">
+      </div>
+    </div>
+
+  </div>
+</section>

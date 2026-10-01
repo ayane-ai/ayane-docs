@@ -7252,7 +7252,8 @@
   }
 
   function parseHash() {
-    const raw = (location.hash || '').replace(/^#/, '');
+    /* 工作台锚点不是后台模块；首次进入后台与 hashchange 使用同一边界。 */
+    const raw = (location.hash || '').startsWith('#/') ? location.hash.slice(1) : '';
     const qi = raw.indexOf('?');
     const seg = (qi >= 0 ? raw.slice(0, qi) : raw).replace(/^\/+/, '').split('/').filter(Boolean);
     const params = {};
@@ -7462,7 +7463,7 @@
         '」的路由权限。这次拒绝已经记入审计。'
       : '当前角色（' + ROLE_LABELS[state.role].name + '）没有' +
         (m ? '「' + m.title + '」' : '这个') + '页面的路由权限；这次访问已经记入审计。';
-    document.title = refs.pageTitle.textContent + ' · 绫音管理后台';
+    /* 文档标题由工作台入口定义；区域路由只更新自己的页头。 */
     const view = denied ? null : VIEWS[mod];
     const acts = view && typeof view.actions === 'function' ? view.actions() : '';
     refs.pageActions.innerHTML = acts ? acts + moreAnchorHtml(acts) : '';
@@ -7846,7 +7847,7 @@
     refs.loginPassword.value = '';
     clearFieldErrors(refs.loginForm);
     showLoginError('');
-    document.title = '登录 · 绫音管理后台';
+    /* 文档标题由工作台入口定义；区域路由只更新自己的页头。 */
     renderRoleGrid();
     syncLoginAccount();
     setNavOpen(false);
@@ -8142,6 +8143,7 @@
         return;
       }
     }
+    if (!refs.stage.contains(e.target)) return;
     const el = e.target.closest('[data-action]');
     if (!el || el.disabled) return;
     const fn = ACTIONS[el.dataset.action];
@@ -8155,6 +8157,7 @@
   });
 
   document.addEventListener('input', (e) => {
+    if (!refs.stage.contains(e.target)) return;
     const el = e.target.closest && e.target.closest('[data-action]');
     if (!el) return;
     const fn = INPUT_ACTIONS[el.dataset.action];
@@ -8162,6 +8165,7 @@
   });
 
   document.addEventListener('change', (e) => {
+    if (!refs.stage.contains(e.target)) return;
     const el = e.target.closest && e.target.closest('[data-action]');
     if (!el) return;
     const fn = CHANGE_ACTIONS[el.dataset.action];
@@ -8169,6 +8173,7 @@
   });
 
   document.addEventListener('submit', (e) => {
+    if (!refs.stage.contains(e.target)) return;
     /* 原型不落地，任何表单都不允许真的提交 */
     e.preventDefault();
     const form = e.target;
@@ -8273,10 +8278,11 @@
     state.auth.phase = 'login';
     refs.loginShell.hidden = false;
     refs.adminShell.hidden = true;
-    document.title = '登录 · 绫音管理后台';
+    /* 文档标题由工作台入口定义；区域路由只更新自己的页头。 */
     refs.loginAccount.focus({ preventScroll: true });
   }
 
+  window.AyaneUI.mountFilterSelects(refs.stage);
   boot();
 })();
 

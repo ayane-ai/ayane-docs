@@ -5,7 +5,7 @@
    ============================================================ -->
 <section class="demo-card">
   <div class="demo-meta">
-    <span class="demo-no">09</span>
+    <span class="demo-no">12</span>
     <h4>浮层 Overlay</h4>
     <p class="spec-note">
       登录、模态、抽屉、气泡、提示共用一套显隐机制与 <code>--z-index-*</code> 阶梯。
@@ -14,7 +14,8 @@
     </p>
   </div>
   <div class="demo-vars">
-    <div class="demo-frame demo-frame--block demo-frame--canvas demo-frame--tall">
+<div class="demo-frame demo-frame--canvas demo-frame--login" id="demo-client-login" data-client-components ><span class="demo-label">客户端登录：显隐、错误、提交中</span><section class="login-shell"><div class="login-card"><div class="login-avatar"><img src="https://avatars.githubusercontent.com/u/326977819?s=200&v=4" alt="绫音头像" loading="lazy"></div><h1>绫音</h1><p class="login-subtitle">登录客户端 · 仅组件演示</p><form class="login-form" data-demo-form="login"><label class="login-field"><span>账号</span><input class="login-input" data-demo-account autocomplete="username" value="ayane" placeholder="输入账号"></label><label class="login-field"><span>密码</span><span class="login-input-wrap password-field"><input class="login-input has-toggle password-input" id="demo-client-login-password" data-demo-password type="password" autocomplete="current-password" value="ayane" placeholder="输入密码"><button class="login-password-toggle password-toggle" type="button" data-demo="reveal" aria-controls="demo-client-login-password" aria-label="显示密码" aria-pressed="false"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-eye"></use></svg></button></span></label><button class="login-submit" type="submit">登录</button><p class="login-error" data-demo-error role="alert" hidden></p></form></div></section><div class="toast" id="demo-client-login-toast" role="status" aria-live="polite"></div></div>
+    <div class="demo-frame demo-frame--block demo-frame--canvas demo-frame--tall" id="demo-generic-login">
       <span class="demo-label">登录壳：画布内居中，窄档收成单列</span>
       <div class="login-shell">
         <div class="login-card">
@@ -34,9 +35,9 @@
             </div>
             <div class="field">
               <label for="demo-login-pass">口令</label>
-              <span class="field-inline">
-                <input class="field-ctl" id="demo-login-pass" type="password" value="ayane2026" autocomplete="current-password">
-                <button class="icon-btn" type="button" data-demo="reveal" aria-controls="demo-login-pass"
+              <span class="password-field">
+                <input class="field-ctl password-input" id="demo-login-pass" type="password" value="ayane2026" autocomplete="current-password">
+                <button class="password-toggle" type="button" data-demo="reveal" aria-controls="demo-login-pass"
                         aria-pressed="false" aria-label="显示口令">
                   <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-eye"></use></svg>
                 </button>

@@ -12,8 +12,8 @@
 .stat-card {
   min-width: 0;
   border: 1px solid var(--color-surface-hairline);
-  border-radius: var(--radius-card);
-  background: var(--color-surface);
+  border-radius: var(--radius-huge);
+  background: var(--background-user-card);
   box-shadow: var(--shadow-low);
   backdrop-filter: blur(18px);
 }
@@ -58,10 +58,7 @@
   gap: 6px;
   padding: 13px 14px;
   text-align: left;
-  transition:
-    border-color var(--duration-fast) ease,
-    box-shadow var(--duration-fast) ease,
-    transform var(--duration-fast) ease;
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
 }
 
 button.stat-card { cursor: pointer; }

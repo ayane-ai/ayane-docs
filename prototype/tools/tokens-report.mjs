@@ -13,24 +13,95 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { ROOT, readManifest } from './build.mjs';
 
-const DECL = /^(--[A-Za-z0-9-]+)\s*:\s*(.*?);?\s*(?:\/\*\s*(.*?)\s*\*\/)?\s*$/;
+const DECL = /^(?:\/\*[\s\S]*?\*\/\s*)*(--[A-Za-z0-9-]+)\s*:\s*([\s\S]*?);\s*(?:\/\*\s*([\s\S]*?)\s*\*\/)?\s*$/;
 const GROUP = /group:\s*([\s\S]*?)\*\//g;
 const NOMIKIT = /@nomikit\s+(\S+)/;
 
-/* 取某个选择器花括号里的正文 */
+/* Collect every matching selector block in source order. */
+function blocksOf(css, selector) {
+  const blocks = [];
+  let from = 0;
+  while (from < css.length) {
+    const at = css.indexOf(selector, from);
+    if (at < 0) break;
+    const open = css.indexOf('{', at + selector.length);
+    if (open < 0) break;
+    let depth = 0;
+    for (let i = open; i < css.length; i += 1) {
+      if (css[i] === '{') depth += 1;
+      else if (css[i] === '}') {
+        depth -= 1;
+        if (depth === 0) {
+          blocks.push(css.slice(open + 1, i));
+          from = i + 1;
+          break;
+        }
+      }
+    }
+    if (depth !== 0) break;
+  }
+  return blocks;
+}
+
 function blockOf(css, selector) {
-  const at = css.indexOf(selector);
-  if (at < 0) return '';
-  const open = css.indexOf('{', at);
-  let depth = 0;
-  for (let i = open; i < css.length; i += 1) {
-    if (css[i] === '{') depth += 1;
-    else if (css[i] === '}') {
-      depth -= 1;
-      if (depth === 0) return css.slice(open + 1, i);
+  return blocksOf(css, selector)[0] || '';
+}
+
+/* Parse declarations by top-level semicolons, not by lines. */
+function parseDeclarations(body) {
+  const declarations = [];
+  let start = 0;
+  let parenDepth = 0;
+  let quote = '';
+  let comment = false;
+
+  const push = (end, nextStart) => {
+    const statement = body.slice(start, end).trim();
+    const match = DECL.exec(statement);
+    if (match) {
+      declarations.push({ name: match[1], value: match[2].trim(), comment: match[3] || '' });
+    }
+    start = nextStart;
+  };
+
+  for (let i = 0; i < body.length; i += 1) {
+    const current = body[i];
+    const next = body[i + 1];
+
+    if (comment) {
+      if (current === '*' && next === '/') {
+        comment = false;
+        i += 1;
+      }
+      continue;
+    }
+    if (!quote && current === '/' && next === '*') {
+      comment = true;
+      i += 1;
+      continue;
+    }
+    if (quote) {
+      if (current === '\\') i += 1;
+      else if (current === quote) quote = '';
+      continue;
+    }
+    if (current === '"' || current === "'") {
+      quote = current;
+      continue;
+    }
+    if (current === '(') parenDepth += 1;
+    else if (current === ')') parenDepth = Math.max(0, parenDepth - 1);
+    else if (current === ';' && parenDepth === 0) {
+      let nextStart = i + 1;
+      const lineEnd = body.indexOf('\n', nextStart);
+      const restOfLine = body.slice(nextStart, lineEnd < 0 ? body.length : lineEnd);
+      const inlineComment = /^\s*(\/\*[\s\S]*?\*\/)/.exec(restOfLine);
+      if (inlineComment) nextStart += inlineComment[0].length;
+      push(nextStart, nextStart);
     }
   }
-  return '';
+
+  return declarations;
 }
 
 /* group 注释在源码里可能折行，先摊平再切说明 */
@@ -39,11 +110,11 @@ function groupTitle(raw) {
   return flat;
 }
 
-export function parse(tokensCss, compatCss) {
+export function parse(tokensCss) {
   const rootBody = blockOf(tokensCss, ':root');
-  const darkBody = blockOf(tokensCss, '[data-theme="dark"]');
+  const darkBodies = blocksOf(tokensCss, '[data-theme="dark"]');
 
-  /* 每个 group 注释到下一个 group 注释之间的行，归属该组 */
+  /* Each group comment owns the declarations until the next group comment. */
   const ranges = [];
   GROUP.lastIndex = 0;
   let m;
@@ -53,49 +124,31 @@ export function parse(tokensCss, compatCss) {
   ranges.forEach((r, i) => { r.to = i + 1 < ranges.length ? ranges[i + 1].from : rootBody.length; });
 
   const groups = ranges.map((r) => {
-    const tokens = [];
-    for (const line of rootBody.slice(r.from, r.to).split('\n')) {
-      const d = DECL.exec(line.trim());
-      if (!d) continue;
-      const comment = d[3] || '';
-      const nomikit = comment.match(NOMIKIT);
-      tokens.push({
-        name: d[1],
-        value: d[2].trim(),
+    const tokens = parseDeclarations(rootBody.slice(r.from, r.to)).map((declaration) => {
+      const comment = declaration.comment;
+      const rawNomikit = comment.match(NOMIKIT)?.[1] || '';
+      const nomikit = rawNomikit === '—' ? '' : rawNomikit;
+      return {
+        name: declaration.name,
+        value: declaration.value,
         desc: comment.replace(NOMIKIT, '').replace(/\s+/g, ' ').replace(/[：:]\s*$/, '').trim(),
-        nomikit: nomikit ? nomikit[1] : '',
+        nomikit,
         dark: '',
-      });
-    }
+      };
+    });
     return { title: r.title, tokens };
   }).filter((g) => g.tokens.length);
 
-  /* 深色覆写挂回同名令牌，找不到就是令牌表写漏了 */
+  /* Attach every dark override to the matching root token. */
   const stray = [];
   const byName = new Map(groups.flatMap((g) => g.tokens).map((t) => [t.name, t]));
-  for (const line of darkBody.split('\n')) {
-    const d = DECL.exec(line.trim());
-    if (!d || !d[1]) continue;
-    const target = byName.get(d[1]);
-    if (target) target.dark = d[2].trim();
-    else stray.push(d[1]);
+  for (const declaration of darkBodies.flatMap(parseDeclarations)) {
+    const target = byName.get(declaration.name);
+    if (target) target.dark = declaration.value;
+    else stray.push(declaration.name);
   }
 
-  const declOf = (body) => body.split('\n')
-    .map((line) => DECL.exec(line.trim()))
-    .filter((d) => d && d[1]);
-
-  /* :root 里是全局别名；区域块里的同名覆写单独标注，避免两张表混成一张 */
-  const compat = declOf(blockOf(compatCss, ':root'))
-    .map((d) => ({ name: d[1], alias: d[2].trim(), region: '' }));
-  for (const region of ['[data-proto="client"]', '[data-proto="admin"]']) {
-    const label = /data-proto="([^"]+)"/.exec(region)[1];
-    for (const d of declOf(blockOf(compatCss, region))) {
-      compat.push({ name: d[1], alias: d[2].trim(), region: label });
-    }
-  }
-
-  return { groups, compat, stray, total: groups.reduce((n, g) => n + g.tokens.length, 0) };
+  return { groups, stray, total: groups.reduce((n, g) => n + g.tokens.length, 0) };
 }
 
 export function sourceDigest(texts) {
@@ -105,17 +158,14 @@ export function sourceDigest(texts) {
 export async function report() {
   const manifest = await readManifest();
   const tokensCss = await readFile(join(ROOT, manifest.generated.tokensSource), 'utf8');
-  const compatCss = await readFile(join(ROOT, manifest.generated.compatSource), 'utf8');
-  const digest = sourceDigest([tokensCss, compatCss]);
-  const parsed = parse(tokensCss, compatCss);
+  const digest = sourceDigest([tokensCss]);
+  const parsed = parse(tokensCss);
   const data = {
     total: parsed.total,
     groups: parsed.groups,
-    compat: parsed.compat,
   };
   const json = JSON.stringify(data, null, 2);
-  const js = `/* 生成物 · 请勿手改\n   由 tools/tokens-report.mjs 解析 ${manifest.generated.tokensSource}`
-    + ` 与 ${manifest.generated.compatSource} 生成\n`
+  const js = `/* 生成物 · 请勿手改\n   由 tools/tokens-report.mjs 解析 ${manifest.generated.tokensSource} 生成\n`
     + `   source-sha256: ${digest}\n*/\nwindow.AyaneTokens = ${json};\n`;
   return { js, digest, parsed, target: manifest.generated.tokensData };
 }
@@ -135,7 +185,7 @@ if (process.argv[1] && process.argv[1].endsWith('tokens-report.mjs')) {
     await mkdir(dirname(out), { recursive: true });
     await writeFile(out, js, 'utf8');
     console.log(`✓ ${target}  ${parsed.total} 个令牌 · ${parsed.groups.length} 组`
-      + ` · ${parsed.compat.length} 条别名 · sha256 ${digest.slice(0, 16)}`);
+      + ` · sha256 ${digest.slice(0, 16)}`);
     if (parsed.stray.length) console.warn(`! 深色块里有令牌表不存在的名字：${parsed.stray.join(', ')}`);
   }
 }

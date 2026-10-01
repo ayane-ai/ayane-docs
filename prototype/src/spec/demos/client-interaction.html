@@ -1,0 +1,45 @@
+<section class="demo-card" id="demo-component-13">
+  <div class="demo-meta">
+    <span class="demo-no">13</span>
+    <h4>形象与功能工具栏 Toolbar</h4>
+    <p class="spec-note">形象模式与三个独立功能开关共用客户端图标按钮；这里只演示局部状态，不请求真实设备。</p>
+  </div>
+  <div class="demo-vars">
+    <div class="demo-frame demo-frame--wide" id="demo-client-toolbar" data-client-components >
+      <span class="demo-label">四图标工具栏</span>
+      <div class="client-toolbar-controls" role="group" aria-label="形象与独立功能开关示例">
+        <button class="icon-btn client-icon-control" type="button" data-demo="avatar-mode" aria-label="3D 图片模式（演示）" aria-pressed="false" title="当前 2D；点击切换至 3D">
+          <svg class="icon icon-md" aria-hidden="true" focusable="false">
+            <use href="#i-frame">
+            </use>
+          </svg>
+        </button>
+        <button class="icon-btn client-icon-control" type="button" role="switch" aria-checked="false" aria-label="语音输入（仅演示）" data-demo="media" data-media="voice-input" data-icons="mic-off mic">
+          <svg class="icon icon-md" aria-hidden="true" focusable="false">
+            <use href="#i-mic-off">
+            </use>
+          </svg>
+        </button>
+        <button class="icon-btn client-icon-control" type="button" role="switch" aria-checked="false" aria-label="语音输出（仅演示）" data-demo="media" data-media="voice-output" data-icons="volume-off volume">
+          <svg class="icon icon-md" aria-hidden="true" focusable="false">
+            <use href="#i-volume-off">
+            </use>
+          </svg>
+        </button>
+        <button class="icon-btn client-icon-control" type="button" role="switch" aria-checked="false" aria-label="视觉（仅演示）" data-demo="media" data-media="vision" data-icons="camera-off camera">
+          <svg class="icon icon-md" aria-hidden="true" focusable="false">
+            <use href="#i-camera-off">
+            </use>
+          </svg>
+        </button>
+      </div>
+      <span data-demo-mode-note role="status">2D 图片预览 · 非实时模型</span>
+      <p class="demo-hint">三个功能独立；此示例不请求设备权限，也不影响客户端。</p>
+      <div class="toast" id="demo-client-toolbar-toast" role="status" aria-live="polite">
+      </div>
+    </div>
+
+
+
+  </div>
+</section>

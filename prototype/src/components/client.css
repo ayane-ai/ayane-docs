@@ -1,0 +1,740 @@
+/* 客户端组合组件唯一源。实际客户端与组件库实例共用；布局与业务状态仍由宿主负责。 */
+:is([data-proto="client"], [data-client-components]) button:where(:not(.btn):not(.icon-btn)), :is([data-proto="client"], [data-client-components]) textarea:where(:not(.field-ctl)) {
+
+  font: inherit;
+
+}
+
+:is([data-proto="client"], [data-client-components]) button:where(:not(.btn):not(.icon-btn)) {
+
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+
+}
+
+:is([data-proto="client"], [data-client-components]) button:where(:not(.btn):not(.icon-btn)):focus-visible, :is([data-proto="client"], [data-client-components]) textarea:not(.field-ctl):focus-visible {
+
+  outline: 3px solid var(--color-row-flash);
+  outline-offset: 2px;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .login-card h1 {
+
+  margin: 0;
+  color: var(--color-on-surface);
+  font-size: var(--font-display-large);
+  letter-spacing: 0.04em;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .login-subtitle {
+
+  margin: var(--spacing-small) 0 var(--spacing-huge);
+  color: var(--color-text-hint);
+  font-size: var(--font-label-small);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .messages:focus-visible {
+
+  /* 聊天区可 Tab 到达（tabindex=0）：给它自己的焦点样式，而不是让 UA 画出那圈像多余边框的灰环（走查 P1#2）。
+     用 inset 阴影，不挤动布局。 */
+  outline: 0;
+  box-shadow: inset 0 0 0 var(--stroke-thick) var(--color-focus-ring);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-top {
+
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  padding: var(--spacing-extra-small) var(--spacing-extra-small) var(--spacing-extra-large);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-block {
+
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-extra-small);
+  border-radius: var(--radius-large);
+  background: transparent;
+  text-align: left;
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-block:hover {
+
+  background: var(--color-row-hover);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-copy {
+
+  min-width: 0;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-copy strong {
+
+  display: block;
+  font-size: var(--font-body-medium);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-copy p {
+
+  margin: var(--spacing-extra-small) 0 0;
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-copy span {
+
+  display: block;
+  margin-top: var(--spacing-extra-small);
+  overflow: hidden;
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-menu-wrap {
+
+  position: relative;
+  flex: 0 0 auto;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-menu {
+
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 10px);
+  right: 0;
+  width: var(--size-popover-min-width);
+  padding: var(--spacing-small);
+  border: 1px solid var(--color-surface-hairline-strong);
+  border-radius: var(--radius-large);
+  background: var(--color-surface-hairline-strong);
+  box-shadow: var(--shadow-low);
+  backdrop-filter: blur(18px);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-menu-item {
+
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  gap: var(--spacing-small);
+  align-items: center;
+  width: 100%;
+  min-height: var(--size-avatar-medium);
+  padding: 0 var(--spacing-small);
+  border-radius: var(--radius-medium);
+  background: transparent;
+  color: var(--color-on-surface-soft);
+  text-align: left;
+  font-size: var(--font-label-small);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-menu-item:hover {
+
+  background: var(--color-primary-soft);
+  color: var(--color-primary-strong);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-menu-icon {
+
+  color: var(--color-primary);
+  text-align: center;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-menu-note {
+
+  color: var(--color-text-hint);
+  font-size: var(--font-badge);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-menu-divider {
+
+  height: var(--stroke-thin);
+  margin: var(--spacing-extra-small) var(--spacing-small);
+  background: var(--color-outline);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-top h1,
+:is([data-proto="client"], [data-client-components]) .sidebar-top p,
+:is([data-proto="client"], [data-client-components]) .user-copy strong,
+:is([data-proto="client"], [data-client-components]) .user-copy p,
+:is([data-proto="client"], [data-client-components]) .profile-summary p,
+:is([data-proto="client"], [data-client-components]) .profile-summary strong,
+:is([data-proto="client"], [data-client-components]) .contact-copy strong,
+:is([data-proto="client"], [data-client-components]) .contact-copy span {
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-top h1 {
+
+  margin: 0;
+  font-size: var(--font-title-medium);
+  letter-spacing: 0.02em;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-top p {
+
+  margin: var(--spacing-tiny) 0 0;
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .contact-list {
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--spacing-small);
+  min-height: 0;
+  padding-top: var(--spacing-large);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .contact-card {
+
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: var(--spacing-small);
+  align-items: center;
+  width: 100%;
+  padding: var(--spacing-small);
+  border: 1px solid transparent;
+  border-radius: var(--radius-large);
+  background: transparent;
+  text-align: left;
+  transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .contact-card:hover {
+
+  background: var(--color-surface);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .contact-card.is-active {
+
+  border-color: var(--color-outline-hover-soft);
+  background: var(--background-contact-card);
+  box-shadow: var(--shadow-card-hover);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .contact-card:active {
+
+  transform: scale(0.985);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .contact-copy {
+
+  min-width: 0;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .contact-copy strong {
+
+  display: block;
+  font-size: var(--font-body-small);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .contact-copy span {
+
+  display: block;
+  margin-top: var(--spacing-extra-small);
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .mobile-user-card {
+
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: var(--spacing-medium);
+  margin-top: var(--spacing-extra-large);
+  padding: var(--spacing-medium);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-extra-large);
+  background: var(--color-surface-hairline-strong);
+  box-shadow: var(--shadow-low);
+  text-align: left;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .mobile-user-card:hover {
+
+  border-color: var(--color-outline-strong);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .mobile-user-card .user-copy {
+
+  flex: 1;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .mobile-user-hint {
+
+  flex: 0 0 auto;
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+  white-space: nowrap;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .mobile-user-actions {
+
+  display: flex;
+  gap: var(--spacing-small);
+  margin-top: var(--spacing-medium);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .profile-modal {
+
+  position: relative;
+  width: min(100%, 390px);
+  padding: var(--spacing-huge);
+  border: 1px solid var(--color-surface-hairline);
+  border-radius: var(--radius-huge);
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-high);
+  text-align: center;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .profile-modal h2 {
+
+  margin: var(--spacing-large) 0 var(--spacing-extra-small);
+  font-size: var(--font-headline-large);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .profile-modal > p {
+
+  margin: 0;
+  color: var(--color-text-hint);
+  font-size: var(--font-label-small);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .profile-actions {
+
+  display: flex;
+  gap: var(--spacing-small);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card {
+
+  position: relative;
+  width: min(100%, 400px);
+  padding: var(--spacing-huge) var(--spacing-huge) var(--spacing-huge);
+  border: 1px solid var(--color-surface-hairline);
+  border-radius: var(--radius-huge);
+  background: var(--background-user-card);
+  box-shadow: var(--shadow-high);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-identity {
+
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-medium);
+  margin: var(--spacing-extra-small) 0 var(--spacing-huge);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-identity strong {
+
+  display: block;
+  color: var(--color-on-surface);
+  font-size: var(--font-title-medium);
+  letter-spacing: 0.01em;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-identity p {
+
+  margin: var(--spacing-extra-small) 0 0;
+  color: var(--color-text-hint);
+  font-size: var(--font-label-small);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-table {
+
+  display: grid;
+  margin: 0;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-row {
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
+  gap: var(--spacing-large);
+  align-items: center;
+  min-height: var(--height-head);
+  padding-bottom: var(--spacing-extra-small);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-row > * {
+
+  padding-bottom: var(--spacing-medium);
+  border-bottom: 1px solid var(--color-nav-active-ring);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-row:last-child > * {
+
+  border-bottom-color: transparent;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-row dt {
+
+  color: var(--color-text-hint);
+  font-size: var(--font-label-small);
+  letter-spacing: 0.02em;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-row dd {
+
+  margin: 0;
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-body-small);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card-actions {
+
+  display: flex;
+  gap: var(--spacing-medium);
+  margin-top: var(--spacing-extra-large);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-card {
+
+  text-align: center;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-avatar {
+
+  display: inline-block;
+  width: var(--size-avatar-massive);
+  height: var(--size-avatar-massive);
+  margin: var(--spacing-tiny) 0 var(--spacing-medium);
+  border-radius: var(--radius-huge);
+  background: var(--color-on-primary);
+  box-shadow: 0 10px 24px var(--color-primary-deep), 0 0 0 4px var(--color-surface-hairline-strong);
+  vertical-align: top;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-avatar img {
+
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-name {
+
+  margin: 0;
+  color: var(--color-on-surface);
+  font-size: var(--font-title-large);
+  letter-spacing: 0.02em;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-version {
+
+  margin: var(--spacing-small) 0 0;
+  color: var(--color-text-hint);
+  font-size: var(--font-label-small);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-tagline {
+
+  margin: var(--spacing-medium) 0 0;
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-label-small);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-divider {
+
+  height: var(--stroke-thin);
+  margin: var(--spacing-extra-large) var(--spacing-massive);
+  background: var(--color-nav-active-ring);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-links {
+
+  display: grid;
+  gap: var(--spacing-extra-small);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .about-actions {
+
+  margin-top: var(--spacing-large);
+
+}
+
+@container region (max-width: 767px) {
+:is([data-proto="client"], [data-client-components]) .login-shell {
+
+    min-height: var(--viewport-h);
+    padding: max(24px, env(safe-area-inset-top)) 20px calc(24px + var(--safe-inset-bottom));
+
+}
+:is([data-proto="client"], [data-client-components]) .login-card {
+
+    width: 100%;
+    min-height: calc(var(--viewport-h) - max(24px, env(safe-area-inset-top)) - calc(24px + var(--safe-inset-bottom)));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: var(--spacing-huge) 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+
+}
+:is([data-proto="client"], [data-client-components]) .login-card h1 {
+
+    font-size: var(--font-display-large);
+
+}
+:is([data-proto="client"], [data-client-components]) .login-form {
+
+    width: min(100%, 360px);
+    margin: 0 auto;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .user-card {
+
+    padding: var(--spacing-extra-large) var(--spacing-large) var(--spacing-extra-large);
+
+}
+:is([data-proto="client"], [data-client-components]) .user-card-row {
+
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--spacing-medium);
+
+}
+}
+
+:is([data-proto="client"], [data-client-components]) .ai-selector .contact-list {
+ min-height: 0; overflow: auto;
+}
+
+:is([data-proto="client"], [data-client-components]) .ai-card {
+ min-height: var(--tap-target); flex: 0 0 auto;
+}
+
+:is([data-proto="client"], [data-client-components]) .ai-card:active {
+ opacity: 0.8;
+}
+
+:is([data-proto="client"], [data-client-components]) .ai-card:disabled {
+ opacity: 0.5; cursor: not-allowed;
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-menu {
+ opacity: 0; visibility: hidden; pointer-events: none; z-index: var(--z-index-popover);
+}
+
+:is([data-proto="client"], [data-client-components]) .sidebar-menu.is-open {
+ opacity: 1; visibility: visible; pointer-events: auto;
+}
+
+:is([data-proto="client"], [data-client-components]) .client-toolbar-controls {
+ display: flex; flex: 0 0 auto; flex-wrap: nowrap; margin-inline-start: auto; gap: var(--spacing-extra-small);
+}
+
+:is([data-proto="client"], [data-client-components]) .client-toolbar-controls [aria-checked="true"],
+:is([data-proto="client"], [data-client-components]) .client-toolbar-controls [aria-pressed="true"] {
+ background: var(--color-primary-soft); border-color: var(--color-primary); color: var(--color-primary-strong);
+}
+
+:is([data-proto="client"], [data-client-components]) .message-row {
+ flex: 0 0 auto; display: flex; align-items: flex-end; gap: var(--spacing-small); min-width: 0; max-width: 100%;
+}
+
+:is([data-proto="client"], [data-client-components]) .message-row.is-sent {
+ justify-content: flex-end;
+}
+
+:is([data-proto="client"], [data-client-components]) .message-body {
+ min-width: 0; max-width: 88%; display: flex; flex-direction: column; align-items: flex-start;
+}
+
+:is([data-proto="client"], [data-client-components]) .message-row.is-sent .message-body {
+ align-items: flex-end;
+}
+
+:is([data-proto="client"], [data-client-components]) .message-bubble {
+
+  padding: var(--spacing-medium) var(--spacing-large);
+  border-radius: var(--radius-large) var(--radius-large) var(--radius-large) var(--radius-extra-small);
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-high);
+  color: var(--color-on-surface);
+  font-size: var(--font-body-small);
+  line-height: 1.62;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+
+}
+
+:is([data-proto="client"], [data-client-components]) .is-sent .message-bubble {
+
+  border-radius: var(--radius-large) var(--radius-large) var(--radius-extra-small) var(--radius-large);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-primary-low);
+
+}
+
+:is([data-proto="client"], [data-client-components]) .message-text {
+ margin: 0; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+
+:is([data-proto="client"], [data-client-components]) .recent-messages .message-text {
+ display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+}
+
+:is([data-proto="client"], [data-client-components]) .message-expand {
+ font-size: var(--font-label-small);
+}
+
+:is([data-proto="client"], [data-client-components]) .message-time {
+ margin-bottom: var(--spacing-extra-small); font-size: var(--font-caption); color: var(--color-text-hint);
+}
+
+:is([data-proto="client"], [data-client-components]) .messages {
+ display: flex; flex-direction: column; gap: var(--spacing-large); scroll-behavior: auto;
+}
+
+:is([data-proto="client"], [data-client-components]) .history-target .message-bubble {
+ outline: var(--stroke-medium) solid var(--color-primary); outline-offset: var(--stroke-medium);
+}
+
+@container region (max-width: 767px) {
+:is([data-proto="client"], [data-client-components]) .message-body {
+ max-width: 94%;
+}
+}
+
+/* 示例同样是局部组件容器，但不是客户端的挂载点。 */
+[data-client-components] { container-name: region; --overlay-place-items: center; --overlay-inset-top: 0px; --field-height: var(--height-tab); --login-card-align: center; --toast-inset-start: auto; --toast-inset-end: var(--spacing-medium); --toast-shift: var(--spacing-medium); --toast-max-width: min(90cqi, var(--size-toast-max-width-sm)); }
+
+:is([data-proto="client"], [data-client-components]) .composer .field-ctl { font-family: inherit; }
+:is([data-proto="client"], [data-client-components]) .client-toolbar-controls .icon-btn { flex: 0 0 var(--tap-target); }
+[data-client-components] button { position: relative; }
+[data-client-components] button:not(.btn):not(.icon-btn)::after { content: ""; position: absolute; width: max(100%, var(--tap-target)); height: max(100%, var(--tap-target)); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+[data-client-components] button:disabled { opacity: 0.5; cursor: not-allowed; }
+[data-client-components] button:active:not(:disabled) { transform: scale(0.97); }
+[data-client-components] .login-submit::before { content: none; }
+
+/* AI 选择与最近对话：画布和示例共用，宿主只决定常驻/抽屉和页面定位。 */
+:is([data-proto="client"], [data-client-components]) .ai-list-note {
+ margin: var(--spacing-small) var(--spacing-small); color: var(--color-text-hint); font-size: var(--font-label-small);
+}
+:is([data-proto="client"], [data-client-components]) .conversation-dock {
+ width: min(100%, var(--size-modal-width-lg)); align-self: center; min-width: 0; min-height: 0; flex: 0 1 auto; display: flex; flex-direction: column;
+}
+:is([data-proto="client"], [data-client-components]) .recent-messages {
+ display: flex; flex-direction: column; gap: var(--spacing-small); min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+}
+:is([data-proto="client"], [data-client-components]) .conversation-meta {
+ flex: 0 0 auto; display: flex; justify-content: flex-end; align-items: center; gap: var(--spacing-small); min-height: var(--tap-target); font-size: var(--font-label-small); color: var(--color-on-surface-soft);
+}
+:is([data-proto="client"], [data-client-components]) .client-history-layer {
+ --overlay-place-items: end center;
+}
+:is([data-proto="client"], [data-client-components]) .client-history-sheet {
+ width: min(100%, var(--size-modal-width-lg)); height: 80%; min-height: 0;
+}
+:is([data-proto="client"], [data-client-components]) .conversation-thinking { margin-right: auto; }
+:is([data-proto="client"], [data-client-components]) .ai-choice-panel { min-width: 0; display: flex; flex-direction: column; padding: calc(var(--spacing-huge) - var(--spacing-tiny)) var(--spacing-large) var(--spacing-large); background: var(--background-ai-panel); border-right: var(--stroke-thin) solid var(--color-outline); }
+@container region (max-width: 767px) {
+:is([data-proto="client"], [data-client-components]) .ai-choice-drawer {
+ position: absolute; inset: 0 auto 0 0; width: min(var(--size-nav-width), calc(100% - var(--spacing-colossal))); z-index: var(--z-index-drawer); opacity: 0; visibility: hidden; pointer-events: none; box-shadow: var(--shadow-high);
+}
+:is([data-proto="client"], [data-client-components]) .ai-choice-drawer.is-open {
+ opacity: 1; visibility: visible; pointer-events: auto;
+}
+:is([data-proto="client"], [data-client-components]) .ai-drawer-head {
+ display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-small); padding-bottom: var(--spacing-large);
+}
+:is([data-proto="client"], [data-client-components]) .ai-drawer-head h2 {
+ margin: 0; font-size: var(--font-title-medium);
+}
+:is([data-proto="client"], [data-client-components]) .client-ai-scrim {
+ display: block; position: absolute; inset: 0; background: var(--color-scrim); z-index: var(--z-index-scrim); opacity: 0; visibility: hidden; pointer-events: none;
+}
+:is([data-proto="client"], [data-client-components]) .client-ai-scrim.is-visible {
+ opacity: 1; visibility: visible; pointer-events: auto;
+}
+:is([data-proto="client"], [data-client-components]) .client-history-layer {
+ padding: var(--spacing-medium) var(--spacing-small) var(--safe-inset-bottom);
+}
+:is([data-proto="client"], [data-client-components]) .client-history-sheet {
+ height: 88%;
+}
+}
+
+:is([data-proto="client"], [data-client-components]) .conversation-dock .btn,
+:is([data-proto="client"], [data-client-components]) .client-history-layer .btn { min-height: var(--tap-target); }

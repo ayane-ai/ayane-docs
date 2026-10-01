@@ -3,23 +3,53 @@
   "out": "dist/绫音设计规范与交互原型.html",
   "generated": {
     "tokensData": "src/spec/tokens.data.js",
-    "tokensSource": "src/base/tokens.css",
-    "compatSource": "src/base/tokens.compat.css"
+    "tokensSource": "src/base/tokens.css"
   },
   "includeSyntax": "<!-- @include 相对路径 -->",
-  "sharedSources": ["src/base", "src/components"],
+  "sharedSources": [
+    "src/base",
+    "src/components"
+  ],
   "docBreakpoints": [],
   "sections": [
-    { "id": "sec-tokens", "title": "设计令牌" },
-    { "id": "sec-components", "title": "组件库" },
-    { "id": "sec-client", "title": "客户端原型" },
-    { "id": "sec-admin", "title": "管理后台原型" }
+    {
+      "id": "sec-tokens",
+      "title": "设计令牌"
+    },
+    {
+      "id": "sec-components",
+      "title": "组件库"
+    },
+    {
+      "id": "sec-client",
+      "title": "客户端原型"
+    },
+    {
+      "id": "sec-admin",
+      "title": "管理后台原型"
+    }
   ],
   "pages": [
-    { "id": "tokens", "section": "sec-tokens", "tree": "tokens" },
-    { "id": "components", "section": "sec-components", "tree": "components" },
-    { "id": "client", "section": "sec-client", "tree": "layer" },
-    { "id": "admin", "section": "sec-admin", "tree": "layer" }
+    {
+      "id": "tokens",
+      "section": "sec-tokens",
+      "tree": "tokens"
+    },
+    {
+      "id": "components",
+      "section": "sec-components",
+      "tree": "components"
+    },
+    {
+      "id": "client",
+      "section": "sec-client",
+      "tree": "layer"
+    },
+    {
+      "id": "admin",
+      "section": "sec-admin",
+      "tree": "layer"
+    }
   ],
   "shell": {
     "canvas": "canvas",
@@ -34,8 +64,17 @@
       "view": "src/views/client.css",
       "markup": "src/views/client.markup.html",
       "selector": "[data-proto=\"client\"]",
-      "cssBreakpoints": [767, 768, 1199, 1600],
-      "jsThresholds": [768, 1200, 1600],
+      "cssBreakpoints": [
+        767,
+        768,
+        1199,
+        1600
+      ],
+      "jsThresholds": [
+        768,
+        1200,
+        1600
+      ],
       "jsFile": "src/views/client.script.js",
       "layoutFn": "getLayout",
       "fullscreen": "fullscreen-client"
@@ -45,15 +84,34 @@
       "view": "src/views/admin.css",
       "markup": "src/views/admin.markup.html",
       "selector": "[data-proto=\"admin\"]",
-      "cssBreakpoints": [639, 899, 1199, 1439],
-      "jsThresholds": [640, 900, 1200],
+      "cssBreakpoints": [
+        639,
+        899,
+        1199,
+        1439
+      ],
+      "jsThresholds": [
+        640,
+        900,
+        1200
+      ],
       "jsFile": "src/views/admin.script.js",
       "layoutFn": "computeLayout",
       "fullscreen": "fullscreen-admin"
     }
   ],
   "review": {
-    "viewports": [320, 390, 767, 768, 1024, 1199, 1200, 1440, 1920],
+    "viewports": [
+      320,
+      390,
+      767,
+      768,
+      1024,
+      1199,
+      1200,
+      1440,
+      1920
+    ],
     "baseline": ".review/走查报告.md"
   }
 }

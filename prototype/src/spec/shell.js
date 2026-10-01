@@ -201,6 +201,7 @@
     const [kind, a, b] = spec.split(':');
     if (kind === 'group') return page.querySelectorAll('.token-group')[Number(a)] || null;
     if (kind === 'cat') return page.querySelectorAll('.demo-cat')[Number(a)] || null;
+    if (kind === 'component') { const node=document.getElementById(a); return node && page.contains(node) ? node : null; }
     if (kind !== 'layer') return null;
     const stage = document.querySelector(`[data-proto="${a}"]`);
     if (!stage) return null;

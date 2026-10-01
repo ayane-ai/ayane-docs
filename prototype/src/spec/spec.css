@@ -29,7 +29,7 @@
 /* ---- 令牌表：直接复用组件层的 .data-table，规范区自己也吃自己的狗粮 ---- */
 .token-table-wrap {
   border: 1px solid var(--color-outline);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-huge);
   background: var(--color-surface-strong);
   overflow-x: auto;
 }
@@ -198,7 +198,7 @@
 
   /* 卡片外观与 .card 同源：同一套令牌，不给文档区另造一层视觉 */
   border: 1px solid var(--color-surface-hairline);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-huge);
   background: var(--color-surface);
   box-shadow: var(--shadow-low);
   backdrop-filter: blur(18px);
@@ -298,7 +298,7 @@
   max-width: 100%;
   padding: var(--spacing-large);
   border: 1px solid var(--color-outline);
-  border-radius: var(--radius-control);
+  border-radius: var(--radius-medium);
   background: var(--color-bg);
   color: var(--color-on-surface);
   font-size: var(--font-body-small);
@@ -425,3 +425,24 @@
   .demo-frame,
   .token-table-wrap { break-inside: avoid; }
 }
+
+/* 组件清单和来源说明：仍在唯一工作台内，不增加页面入口。 */
+.component-inventory { padding: var(--spacing-large); border-bottom: var(--stroke-thin) solid var(--color-outline); }
+.component-inventory summary { cursor: pointer; font-weight: var(--weight-bold); min-height: var(--tap-target); display: flex; align-items: center; }
+.component-inventory .table-scroll { max-height: var(--size-demo-tile-wide); overflow: auto; }
+.component-inventory td { vertical-align: top; font-size: var(--font-caption); }
+.component-inventory code { overflow-wrap: anywhere; white-space: normal; }
+.demo-source { flex: 0 0 auto; color: var(--color-text-hint); font-size: var(--font-caption); overflow-wrap: anywhere; }
+.demo-source summary { cursor: pointer; min-height: var(--tap-target); display: flex; align-items: center; }
+.demo-source ul { margin: 0; padding-inline-start: var(--spacing-large); }
+.demo-source li + li { margin-top: var(--spacing-small); }
+.demo-icon-item { display: inline-flex; gap: var(--spacing-extra-small); align-items: center; min-height: var(--tap-target); }
+.demo-frame--login { --viewport-h: var(--size-modal-width-lg); min-height: var(--size-modal-width-lg); }
+.demo-frame .demo-chat-log { min-height: var(--size-avatar-colossal); max-height: var(--size-demo-tile); overflow: auto; display: flex; flex-direction: column; gap: var(--spacing-medium); }
+
+[data-client-components] .drawer { max-width: calc(100% - var(--spacing-large)); }
+
+/* 展示分组只排版，不新增按钮视觉定义或嵌套卡片。 */
+.demo-button-section { display: flex; flex-direction: column; gap: var(--spacing-small); }
+.demo-button-section h5 { margin: 0; color: var(--color-on-surface-soft); font-size: var(--font-label-small); }
+.demo-frame.demo-frame--compact { --demo-w: var(--size-demo-tile); }

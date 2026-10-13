@@ -56,8 +56,113 @@
   }
 
   /* ------------------------------------------------------------
-     01 · 令牌表：每组一张表，样本格画得出形状就不只列数值
+     01 · 令牌规范板：数据仍来自 AyaneTokens，展示按参考规范分段
      ------------------------------------------------------------ */
+  const visualSections = [
+    { title: '① 排版', groups: ['字体族', '排版（字号与行高）'] },
+    { title: '② 间距 Spacings · 9 级', groups: ['间距（九级）'] },
+    { title: '③ 圆角 AppShapes · 9 级', groups: ['圆角（九级）'] },
+    { title: '④ 尺寸 AppSizes', groups: ['图标尺寸（九级）', '头像尺寸（九级）', '描边宽度', '控件高度', '浮层尺寸（弹层宽度不跟九级刻度，按内容实测宽度定档）'] },
+    { title: '⑤ 配色', groups: ['颜色 · 品牌', '颜色 · 中性面', '颜色 · 文字', '颜色 · 描边与分隔', '颜色 · 语义', '颜色 · 特殊表面与背景'] },
+    { title: '⑥ 例外与说明', groups: ['安全区与视口', '层级', '时长与曲线', '布局常量', '区域旋钮'] },
+  ];
+
+  function tokenGroupClass(title) {
+    if (/颜色/.test(title)) return 'color';
+    if (/图标尺寸/.test(title)) return 'icon-size';
+    if (/头像尺寸/.test(title)) return 'avatar-size';
+    if (/间距/.test(title)) return 'spacing';
+    if (/圆角/.test(title)) return 'radius';
+    if (/描边宽度/.test(title)) return 'stroke';
+    if (/字体族/.test(title)) return 'font-family';
+    if (/排版/.test(title)) return 'typography';
+    return 'table';
+  }
+
+  function appendTokenHeader(box, group) {
+    const head = el('div', 'token-group-head');
+    head.append(el('span', '', group.title), el('span', 'count', group.tokens.length));
+    box.append(head);
+  }
+
+  function appendTokenTable(box, group) {
+    const wrap = el('div', 'token-table-wrap');
+    const table = el('table', 'data-table token-spec-table');
+    const thead = el('thead');
+    thead.innerHTML = '<tr><th>令牌名称</th><th>样本</th><th>值</th><th>说明</th><th>NomiKit 对照</th><th>深色覆写</th></tr>';
+    const tbody = el('tbody');
+    group.tokens.forEach((token) => {
+      const tr = el('tr');
+      tr.dataset.token = token.name;
+      const tdSample = el('td');
+      const kind = sampleOf(token, group.title);
+      if (kind) {
+        const pair = el('span', 'swatch-pair');
+        const sample = sampleNode(kind, token.value);
+        if (kind === 'font') sample.textContent = '绫音 Aa 123';
+        pair.append(sample);
+        if (token.dark) {
+          const darkSample = sampleNode(kind, token.dark, 'is-dark-end');
+          if (kind === 'font') darkSample.textContent = '绫音 Aa 123';
+          pair.append(darkSample);
+        }
+        tdSample.append(pair);
+      }
+      tr.append(el('td', 'token-spec-name', token.name), tdSample, el('td', 'token-spec-value', token.value), el('td', 'cell-desc', token.desc), el('td', 'cell-nomi', token.nomikit || '—'), el('td', 'token-spec-value', token.dark));
+      tbody.append(tr);
+    });
+    table.append(thead, tbody);
+    wrap.append(table);
+    box.append(wrap);
+  }
+
+  function appendColorGrid(box, group) {
+    const grid = el('div', 'token-swatch-grid');
+    group.tokens.forEach((token) => {
+      const item = el('div', 'token-swatch-card');
+      item.dataset.token = token.name;
+      const pair = el('div', 'token-swatch-pair');
+      pair.append(sampleNode('color', token.value));
+      if (token.dark) pair.append(sampleNode('color', token.dark, 'is-dark-end'));
+      item.append(pair, el('div', 'token-swatch-name', token.name), el('div', 'token-swatch-value', token.value), el('div', 'token-swatch-desc', token.desc));
+      grid.append(item);
+    });
+    box.append(grid);
+  }
+
+  function appendSizeGrid(box, group, kind) {
+    const grid = el('div', 'token-size-grid');
+    group.tokens.forEach((token) => {
+      const item = el('div', 'token-size-item');
+      item.dataset.token = token.name;
+      const sample = el('span', `token-size-demo token-size-demo--${kind}`);
+      sample.style.setProperty('--sample-v', token.value);
+      if (kind === 'icon') {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.classList.add('icon');
+        svg.setAttribute('aria-hidden', 'true');
+        const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        use.setAttribute('href', '#i-spark');
+        svg.append(use);
+        sample.append(svg);
+      }
+      item.append(sample, el('div', 'token-size-name', token.name.replace(/^--size-(?:icon|avatar)-/, '')), el('div', 'token-size-value', token.value));
+      grid.append(item);
+    });
+    box.append(grid);
+  }
+
+  function renderTokenGroup(group) {
+    const box = el('div', `token-group token-group--${tokenGroupClass(group.title)}`);
+    box.dataset.tokenGroup = group.title;
+    appendTokenHeader(box, group);
+    if (/颜色/.test(group.title)) appendColorGrid(box, group);
+    else if (/图标尺寸/.test(group.title)) appendSizeGrid(box, group, 'icon');
+    else if (/头像尺寸/.test(group.title)) appendSizeGrid(box, group, 'avatar');
+    else appendTokenTable(box, group);
+    return box;
+  }
+
   function renderTokens() {
     const host = byId('token-groups');
     if (!host) return;
@@ -65,52 +170,28 @@
     if (navCount) navCount.textContent = String(TOKENS.total);
     const count = byId('token-count');
     if (count) count.textContent = `${TOKENS.total} 个令牌 · ${TOKENS.groups.length} 组`;
-
-    TOKENS.groups.forEach((group) => {
-      const box = el('div', 'token-group');
-      box.dataset.tokenGroup = group.title;
-      const head = el('div', 'token-group-head');
-      head.append(el('span', '', group.title), el('span', 'count', group.tokens.length));
-      box.append(head);
-
-      const wrap = el('div', 'token-table-wrap');
-      const table = el('table', 'data-table token-table');
-      const thead = el('thead');
-      thead.innerHTML = '<tr><th>令牌</th><th>样本</th><th>值</th><th>说明</th><th>NomiKit 对照</th><th>深色覆写</th></tr>';
-      const tbody = el('tbody');
-
-      group.tokens.forEach((token) => {
-        const tr = el('tr');
-        /* 一级树定位到 .token-group 区块；这枚行级锚点为将来的二级保留 */
-        tr.dataset.token = token.name;
-        const tdSample = el('td');
-        const kind = sampleOf(token, group.title);
-        if (kind) {
-          const pair = el('span', 'swatch-pair');
-          pair.append(sampleNode(kind, token.value));
-          if (token.dark) pair.append(sampleNode(kind, token.dark, 'is-dark-end'));
-          tdSample.append(pair);
-        } else if (/颜色/.test(group.title)) {
-          tdSample.append(el('span', 'sample-empty'));
-        }
-        tr.append(
-          el('td', 'cell-name', token.name),
-          tdSample,
-          el('td', 'cell-value', token.value),
-          el('td', 'cell-desc', token.desc),
-          el('td', 'cell-nomi', token.nomikit || '—'),
-          el('td', 'cell-value', token.dark),
-        );
-        tbody.append(tr);
+    const groups = new Map(TOKENS.groups.map((group) => [group.title, group]));
+    const rendered = new Set();
+    host.replaceChildren();
+    visualSections.forEach((section) => {
+      const sectionEl = el('section', 'token-section');
+      sectionEl.dataset.tokenSection = section.title;
+      sectionEl.append(el('h3', 'token-section-title', section.title));
+      section.groups.forEach((title) => {
+        const group = groups.get(title);
+        if (!group) return;
+        sectionEl.append(renderTokenGroup(group));
+        rendered.add(title);
       });
-
-      table.append(thead, tbody);
-      wrap.append(table);
-      box.append(wrap);
-      host.append(box);
+      if (sectionEl.querySelector('.token-group')) host.append(sectionEl);
+    });
+    TOKENS.groups.forEach((group) => {
+      if (rendered.has(group.title)) return;
+      const sectionEl = el('section', 'token-section token-section--other');
+      sectionEl.append(el('h3', 'token-section-title', '其它令牌'), renderTokenGroup(group));
+      host.append(sectionEl);
     });
   }
-
   /* ------------------------------------------------------------
      03 · 区域旋钮表：默认值取 :root，两区实测值取画布计算样式
      ------------------------------------------------------------ */

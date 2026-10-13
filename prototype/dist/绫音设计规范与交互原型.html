@@ -2,7 +2,7 @@
 <!--
   生成物 · 请勿手改 · dist 只是 src/ 的快照
   源：src/design-system.html + 40 个 include
-  sha256: 66a1dae4dd84266f37e5d38144271d238d3e742143c489e09824b4832a2004e9
+  sha256: f628bfd447365521bc7b3f8310c92ab88b47365202272251ac5d5b1022bfddc2
   重建：node tools/build.mjs
 -->
 <!-- ============================================================
@@ -4129,6 +4129,289 @@ button.stat-card:disabled {
 
 .cell-desc { color: var(--color-on-surface-soft); }
 
+/* ============================================================
+   令牌规范板：对齐瓦哩卡哩「设计规范」的板式与密度
+   ------------------------------------------------------------
+   这里只改展示层，令牌数据、名称、值与消费者不在此处重定义。
+   ============================================================ */
+.token-board-page {
+  max-width: var(--size-demo-board);
+  min-width: 0;
+}
+
+.token-board {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 22px;
+  margin: 0 auto;
+  border: var(--stroke-thin) solid var(--color-outline);
+  border-radius: var(--radius-large);
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-low);
+}
+
+.token-board-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-medium);
+  padding-bottom: var(--spacing-medium);
+  border-bottom: var(--stroke-thin) solid var(--color-outline);
+}
+
+.token-board-heading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+}
+
+.token-board-heading h2 {
+  margin: 0;
+  color: var(--color-on-surface);
+  font-size: var(--font-title-large);
+  font-weight: var(--weight-heavy);
+}
+
+.token-board-heading > span,
+.token-board-status,
+.token-board-note,
+.token-board-mode {
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-caption);
+  line-height: var(--line-height-normal);
+}
+
+.token-board-status {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--spacing-small);
+  white-space: nowrap;
+}
+
+.token-board-count {
+  color: var(--color-primary-strong);
+  font-family: var(--font-family-mono);
+  font-weight: var(--weight-bold);
+}
+
+.token-board-note {
+  max-width: 88ch;
+  margin: var(--spacing-medium) 0 var(--spacing-extra-small);
+}
+
+.token-board-mode {
+  display: inline-block;
+  margin-bottom: var(--spacing-small);
+  font-family: var(--font-family-mono);
+}
+
+.token-section + .token-section {
+  margin-top: var(--spacing-large);
+}
+
+.token-section-title {
+  margin: var(--spacing-large) 0 var(--spacing-small);
+  padding-bottom: var(--spacing-extra-small);
+  border-bottom: var(--stroke-medium) solid var(--color-outline-strong);
+  color: var(--color-primary);
+  font-size: var(--font-title-medium);
+  font-weight: var(--weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+.token-group {
+  margin: 0;
+}
+
+.token-group + .token-group {
+  margin-top: var(--spacing-medium);
+}
+
+.token-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-small);
+  flex-wrap: wrap;
+  padding: var(--spacing-small) 0 var(--spacing-extra-small);
+  color: var(--color-on-surface);
+  font-size: var(--font-label-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0;
+}
+
+.token-group-head .count {
+  color: var(--color-text-hint);
+  font-family: var(--font-family-mono);
+  font-weight: var(--weight-regular);
+}
+
+.token-board .token-table-wrap {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow-x: auto;
+}
+
+.token-spec-table {
+  width: 100%;
+  min-width: 0;
+  margin-bottom: var(--spacing-small);
+  border-collapse: collapse;
+  font-size: var(--font-caption);
+}
+
+.token-spec-table th {
+  padding: var(--spacing-extra-small) var(--spacing-small);
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+  font-weight: var(--weight-medium);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.token-spec-table td {
+  height: auto;
+  padding: var(--spacing-small);
+  border-bottom: var(--stroke-thin) solid var(--color-outline);
+  vertical-align: middle;
+  line-height: var(--line-height-normal);
+}
+
+.token-spec-name,
+.token-spec-value,
+.token-swatch-name,
+.token-swatch-value,
+.token-size-name,
+.token-size-value {
+  font-family: var(--font-family-mono);
+}
+
+.token-spec-name {
+  color: var(--color-primary-strong);
+  white-space: nowrap;
+}
+
+.token-spec-value {
+  color: var(--color-on-surface-soft);
+  overflow-wrap: anywhere;
+}
+
+.token-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: var(--spacing-small);
+  padding: var(--spacing-extra-small) 0 var(--spacing-small);
+}
+
+.token-swatch-card {
+  min-width: 0;
+  padding: var(--spacing-small);
+  border: var(--stroke-thin) solid var(--color-outline);
+  border-radius: var(--radius-small);
+  background: var(--color-surface-soft);
+}
+
+.token-swatch-pair {
+  display: flex;
+  gap: var(--spacing-extra-small);
+  min-height: var(--size-icon-extra-large);
+  margin-bottom: var(--spacing-extra-small);
+}
+
+.token-swatch-pair .sample {
+  width: var(--size-icon-extra-large);
+  height: var(--size-icon-extra-large);
+  border-radius: var(--radius-extra-small);
+}
+
+.token-swatch-name {
+  overflow-wrap: anywhere;
+  color: var(--color-on-surface);
+  font-size: var(--font-caption);
+}
+
+.token-swatch-value {
+  margin-top: 2px;
+  color: var(--color-primary-strong);
+  font-size: var(--font-badge);
+  overflow-wrap: anywhere;
+}
+
+.token-swatch-desc {
+  margin-top: var(--spacing-extra-small);
+  color: var(--color-text-hint);
+  font-size: var(--font-badge);
+  line-height: var(--line-height-normal);
+}
+
+.token-size-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-extra-small) 0 var(--spacing-medium);
+}
+
+.token-size-item {
+  min-width: 56px;
+  color: var(--color-text-hint);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-badge);
+  text-align: center;
+}
+
+.token-size-demo {
+  display: grid;
+  place-items: center;
+  margin: 0 auto var(--spacing-extra-small);
+  color: var(--color-on-surface);
+}
+
+.token-size-demo--icon {
+  width: var(--sample-v);
+  height: var(--sample-v);
+}
+
+.token-size-demo--icon .icon {
+  width: var(--sample-v);
+  height: var(--sample-v);
+}
+
+.token-size-demo--avatar {
+  width: var(--sample-v);
+  height: var(--sample-v);
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--color-primary-soft), var(--color-surface-soft));
+}
+
+.token-size-name {
+  white-space: nowrap;
+}
+
+.token-size-value {
+  margin-top: 2px;
+  color: var(--color-primary-strong);
+}
+
+.token-exception-block {
+  margin-top: var(--spacing-large);
+  padding: var(--spacing-medium);
+  border: var(--stroke-thin) solid var(--color-outline-strong);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface-soft);
+}
+
+.token-exception-block > h3 {
+  margin-bottom: var(--spacing-small);
+}
+
+.token-exception-block .token-table-wrap {
+  margin-top: var(--spacing-medium);
+}
+
 /* ---- 示例区：一张固定宽的大卡片，卡内先分类，类内「一行一组件 + 变体横向」 ---- */
 .demo-board {
   /* 左元信息栏宽与画布间隔属于文档 chrome，写在局部变量里，不占用产品令牌位（同 shell.css 的 --tree-width） */
@@ -4649,7 +4932,7 @@ body {
   padding: 0;
 }
 
-.canvas-page--doc { max-width: var(--size-doc-max); }
+.canvas-page--doc { max-width: var(--size-demo-board); }
 
 .canvas-page--proto { max-width: none; }
 
@@ -7549,53 +7832,50 @@ td、td > .row-link、.skeleton-row 会一起跟上，不用逐个补。 */
       <!-- ============================================================
            01 · 设计令牌
            ============================================================ -->
-      <section class="spec-region region--doc canvas-page canvas-page--doc" id="sec-tokens" aria-labelledby="sec-tokens-title">
-        <div class="region-head">
-          <h2 id="sec-tokens-title">设计令牌</h2>
-          <p class="region-lede">
-            一个文件、四张视图：令牌取值以两个原型的实测视觉为权威，命名与刻度结构对齐 NomiKit 的九级
-            （tiny → colossal）。改 <code>src/base/tokens.css</code> 一处，令牌表、组件示例与两张画布同时变。
-            唯一取值源也是全项目唯一允许出现颜色字面量的文件；下表由 <code>tools/tokens-report.mjs</code>
-            解析该文件的分组与行内注释生成，「NomiKit 对照」列取自 <code>@nomikit</code> 标注。
-            宽度断点全部走容器查询（<code>@container region</code>），区域内高度一律取
-            <code>var(--viewport-h)</code>，因此画布嵌入还是全屏、缩放还是平移，档位表现一致。
-          </p>
-          <div class="region-actions">
-            <span class="region-band" id="token-count">—</span>
-          </div>
+      <section class="spec-region region--doc canvas-page canvas-page--doc token-board-page" id="sec-tokens" aria-labelledby="sec-tokens-title">
+    <div class="token-board">
+      <header class="token-board-head">
+        <div class="token-board-heading">
+          <h2 id="sec-tokens-title">绫音 · 设计规范</h2>
+          <span>排版 · 间距 · 圆角 · 尺寸 · 配色 · 例外说明</span>
         </div>
-        <p class="region-meta">
+        <div class="token-board-status">
+          <span class="token-board-count" id="token-count">—</span>
           <span>当前：<span id="theme-state">浅色</span></span>
-          <span>深色评审作用范围：仅令牌与组件两页，画布不受影响</span>
-          <code>[data-theme="dark"]</code>
-        </p>
+        </div>
+      </header>
 
-        <div id="token-groups"></div>
-
-        <div class="spec-block" id="knob-block">
-      <h3>区域旋钮</h3>
-      <p class="spec-note">
-        同一组件在两区的落位差异，只能改这些自定义属性的值：默认档等于后台形态，
-        客户端在 <code>src/views/client.css</code> 的「00 · 区域旋钮」块里覆写。
-        下表的区域列取画布的计算样式，因此能直接证明覆写生效。
+      <p class="token-board-note">
+        令牌取值以两个原型的实测视觉为权威，命名与刻度结构对齐 NomiKit 九级体系。
+        修改 <code>src/base/tokens.css</code> 后，令牌表、组件示例与两张画布同步更新；深色评审仅作用于令牌与组件页。
       </p>
-      <div class="token-table-wrap">
-        <table class="data-table knob-table">
-          <thead>
-            <tr>
-              <th scope="col">旋钮</th>
-              <th scope="col">用途</th>
-              <th scope="col">默认（后台档）</th>
-              <th scope="col">客户端画布</th>
-              <th scope="col">后台画布</th>
-            </tr>
-          </thead>
-          <tbody id="knob-body"></tbody>
-        </table>
+      <code class="token-board-mode">[data-theme="dark"]</code>
+
+      <div id="token-groups"></div>
+
+      <div class="spec-block token-exception-block" id="knob-block">
+        <h3>⑥ 例外与说明 · 区域旋钮</h3>
+        <p class="spec-note">
+          同一组件在两区的落位差异，只能改这些自定义属性的值：默认档等于后台形态，
+          客户端在 <code>src/views/client.css</code> 的「00 · 区域旋钮」块里覆写。
+          下表的区域列取画布的计算样式，因此能直接证明覆写生效。
+        </p>
+        <div class="token-table-wrap">
+          <table class="data-table knob-table">
+            <thead>
+              <tr>
+                <th scope="col">旋钮</th>
+                <th scope="col">用途</th>
+                <th scope="col">默认（后台档）</th>
+                <th scope="col">客户端画布</th>
+                <th scope="col">后台画布</th>
+              </tr>
+            </thead>
+            <tbody id="knob-body"></tbody>
+          </table>
+        </div>
       </div>
     </div>
-
-
   </section>
 
   <!-- ============================================================
@@ -11424,8 +11704,113 @@ window.AyaneComponentInventory = {
   }
 
   /* ------------------------------------------------------------
-     01 · 令牌表：每组一张表，样本格画得出形状就不只列数值
+     01 · 令牌规范板：数据仍来自 AyaneTokens，展示按参考规范分段
      ------------------------------------------------------------ */
+  const visualSections = [
+    { title: '① 排版', groups: ['字体族', '排版（字号与行高）'] },
+    { title: '② 间距 Spacings · 9 级', groups: ['间距（九级）'] },
+    { title: '③ 圆角 AppShapes · 9 级', groups: ['圆角（九级）'] },
+    { title: '④ 尺寸 AppSizes', groups: ['图标尺寸（九级）', '头像尺寸（九级）', '描边宽度', '控件高度', '浮层尺寸（弹层宽度不跟九级刻度，按内容实测宽度定档）'] },
+    { title: '⑤ 配色', groups: ['颜色 · 品牌', '颜色 · 中性面', '颜色 · 文字', '颜色 · 描边与分隔', '颜色 · 语义', '颜色 · 特殊表面与背景'] },
+    { title: '⑥ 例外与说明', groups: ['安全区与视口', '层级', '时长与曲线', '布局常量', '区域旋钮'] },
+  ];
+
+  function tokenGroupClass(title) {
+    if (/颜色/.test(title)) return 'color';
+    if (/图标尺寸/.test(title)) return 'icon-size';
+    if (/头像尺寸/.test(title)) return 'avatar-size';
+    if (/间距/.test(title)) return 'spacing';
+    if (/圆角/.test(title)) return 'radius';
+    if (/描边宽度/.test(title)) return 'stroke';
+    if (/字体族/.test(title)) return 'font-family';
+    if (/排版/.test(title)) return 'typography';
+    return 'table';
+  }
+
+  function appendTokenHeader(box, group) {
+    const head = el('div', 'token-group-head');
+    head.append(el('span', '', group.title), el('span', 'count', group.tokens.length));
+    box.append(head);
+  }
+
+  function appendTokenTable(box, group) {
+    const wrap = el('div', 'token-table-wrap');
+    const table = el('table', 'data-table token-spec-table');
+    const thead = el('thead');
+    thead.innerHTML = '<tr><th>令牌名称</th><th>样本</th><th>值</th><th>说明</th><th>NomiKit 对照</th><th>深色覆写</th></tr>';
+    const tbody = el('tbody');
+    group.tokens.forEach((token) => {
+      const tr = el('tr');
+      tr.dataset.token = token.name;
+      const tdSample = el('td');
+      const kind = sampleOf(token, group.title);
+      if (kind) {
+        const pair = el('span', 'swatch-pair');
+        const sample = sampleNode(kind, token.value);
+        if (kind === 'font') sample.textContent = '绫音 Aa 123';
+        pair.append(sample);
+        if (token.dark) {
+          const darkSample = sampleNode(kind, token.dark, 'is-dark-end');
+          if (kind === 'font') darkSample.textContent = '绫音 Aa 123';
+          pair.append(darkSample);
+        }
+        tdSample.append(pair);
+      }
+      tr.append(el('td', 'token-spec-name', token.name), tdSample, el('td', 'token-spec-value', token.value), el('td', 'cell-desc', token.desc), el('td', 'cell-nomi', token.nomikit || '—'), el('td', 'token-spec-value', token.dark));
+      tbody.append(tr);
+    });
+    table.append(thead, tbody);
+    wrap.append(table);
+    box.append(wrap);
+  }
+
+  function appendColorGrid(box, group) {
+    const grid = el('div', 'token-swatch-grid');
+    group.tokens.forEach((token) => {
+      const item = el('div', 'token-swatch-card');
+      item.dataset.token = token.name;
+      const pair = el('div', 'token-swatch-pair');
+      pair.append(sampleNode('color', token.value));
+      if (token.dark) pair.append(sampleNode('color', token.dark, 'is-dark-end'));
+      item.append(pair, el('div', 'token-swatch-name', token.name), el('div', 'token-swatch-value', token.value), el('div', 'token-swatch-desc', token.desc));
+      grid.append(item);
+    });
+    box.append(grid);
+  }
+
+  function appendSizeGrid(box, group, kind) {
+    const grid = el('div', 'token-size-grid');
+    group.tokens.forEach((token) => {
+      const item = el('div', 'token-size-item');
+      item.dataset.token = token.name;
+      const sample = el('span', `token-size-demo token-size-demo--${kind}`);
+      sample.style.setProperty('--sample-v', token.value);
+      if (kind === 'icon') {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.classList.add('icon');
+        svg.setAttribute('aria-hidden', 'true');
+        const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+        use.setAttribute('href', '#i-spark');
+        svg.append(use);
+        sample.append(svg);
+      }
+      item.append(sample, el('div', 'token-size-name', token.name.replace(/^--size-(?:icon|avatar)-/, '')), el('div', 'token-size-value', token.value));
+      grid.append(item);
+    });
+    box.append(grid);
+  }
+
+  function renderTokenGroup(group) {
+    const box = el('div', `token-group token-group--${tokenGroupClass(group.title)}`);
+    box.dataset.tokenGroup = group.title;
+    appendTokenHeader(box, group);
+    if (/颜色/.test(group.title)) appendColorGrid(box, group);
+    else if (/图标尺寸/.test(group.title)) appendSizeGrid(box, group, 'icon');
+    else if (/头像尺寸/.test(group.title)) appendSizeGrid(box, group, 'avatar');
+    else appendTokenTable(box, group);
+    return box;
+  }
+
   function renderTokens() {
     const host = byId('token-groups');
     if (!host) return;
@@ -11433,52 +11818,28 @@ window.AyaneComponentInventory = {
     if (navCount) navCount.textContent = String(TOKENS.total);
     const count = byId('token-count');
     if (count) count.textContent = `${TOKENS.total} 个令牌 · ${TOKENS.groups.length} 组`;
-
-    TOKENS.groups.forEach((group) => {
-      const box = el('div', 'token-group');
-      box.dataset.tokenGroup = group.title;
-      const head = el('div', 'token-group-head');
-      head.append(el('span', '', group.title), el('span', 'count', group.tokens.length));
-      box.append(head);
-
-      const wrap = el('div', 'token-table-wrap');
-      const table = el('table', 'data-table token-table');
-      const thead = el('thead');
-      thead.innerHTML = '<tr><th>令牌</th><th>样本</th><th>值</th><th>说明</th><th>NomiKit 对照</th><th>深色覆写</th></tr>';
-      const tbody = el('tbody');
-
-      group.tokens.forEach((token) => {
-        const tr = el('tr');
-        /* 一级树定位到 .token-group 区块；这枚行级锚点为将来的二级保留 */
-        tr.dataset.token = token.name;
-        const tdSample = el('td');
-        const kind = sampleOf(token, group.title);
-        if (kind) {
-          const pair = el('span', 'swatch-pair');
-          pair.append(sampleNode(kind, token.value));
-          if (token.dark) pair.append(sampleNode(kind, token.dark, 'is-dark-end'));
-          tdSample.append(pair);
-        } else if (/颜色/.test(group.title)) {
-          tdSample.append(el('span', 'sample-empty'));
-        }
-        tr.append(
-          el('td', 'cell-name', token.name),
-          tdSample,
-          el('td', 'cell-value', token.value),
-          el('td', 'cell-desc', token.desc),
-          el('td', 'cell-nomi', token.nomikit || '—'),
-          el('td', 'cell-value', token.dark),
-        );
-        tbody.append(tr);
+    const groups = new Map(TOKENS.groups.map((group) => [group.title, group]));
+    const rendered = new Set();
+    host.replaceChildren();
+    visualSections.forEach((section) => {
+      const sectionEl = el('section', 'token-section');
+      sectionEl.dataset.tokenSection = section.title;
+      sectionEl.append(el('h3', 'token-section-title', section.title));
+      section.groups.forEach((title) => {
+        const group = groups.get(title);
+        if (!group) return;
+        sectionEl.append(renderTokenGroup(group));
+        rendered.add(title);
       });
-
-      table.append(thead, tbody);
-      wrap.append(table);
-      box.append(wrap);
-      host.append(box);
+      if (sectionEl.querySelector('.token-group')) host.append(sectionEl);
+    });
+    TOKENS.groups.forEach((group) => {
+      if (rendered.has(group.title)) return;
+      const sectionEl = el('section', 'token-section token-section--other');
+      sectionEl.append(el('h3', 'token-section-title', '其它令牌'), renderTokenGroup(group));
+      host.append(sectionEl);
     });
   }
-
   /* ------------------------------------------------------------
      03 · 区域旋钮表：默认值取 :root，两区实测值取画布计算样式
      ------------------------------------------------------------ */

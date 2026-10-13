@@ -190,6 +190,289 @@
 
 .cell-desc { color: var(--color-on-surface-soft); }
 
+/* ============================================================
+   令牌规范板：对齐瓦哩卡哩「设计规范」的板式与密度
+   ------------------------------------------------------------
+   这里只改展示层，令牌数据、名称、值与消费者不在此处重定义。
+   ============================================================ */
+.token-board-page {
+  max-width: var(--size-demo-board);
+  min-width: 0;
+}
+
+.token-board {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 22px;
+  margin: 0 auto;
+  border: var(--stroke-thin) solid var(--color-outline);
+  border-radius: var(--radius-large);
+  background: var(--color-surface-strong);
+  box-shadow: var(--shadow-low);
+}
+
+.token-board-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-medium);
+  padding-bottom: var(--spacing-medium);
+  border-bottom: var(--stroke-thin) solid var(--color-outline);
+}
+
+.token-board-heading {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+}
+
+.token-board-heading h2 {
+  margin: 0;
+  color: var(--color-on-surface);
+  font-size: var(--font-title-large);
+  font-weight: var(--weight-heavy);
+}
+
+.token-board-heading > span,
+.token-board-status,
+.token-board-note,
+.token-board-mode {
+  color: var(--color-on-surface-soft);
+  font-size: var(--font-caption);
+  line-height: var(--line-height-normal);
+}
+
+.token-board-status {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--spacing-small);
+  white-space: nowrap;
+}
+
+.token-board-count {
+  color: var(--color-primary-strong);
+  font-family: var(--font-family-mono);
+  font-weight: var(--weight-bold);
+}
+
+.token-board-note {
+  max-width: 88ch;
+  margin: var(--spacing-medium) 0 var(--spacing-extra-small);
+}
+
+.token-board-mode {
+  display: inline-block;
+  margin-bottom: var(--spacing-small);
+  font-family: var(--font-family-mono);
+}
+
+.token-section + .token-section {
+  margin-top: var(--spacing-large);
+}
+
+.token-section-title {
+  margin: var(--spacing-large) 0 var(--spacing-small);
+  padding-bottom: var(--spacing-extra-small);
+  border-bottom: var(--stroke-medium) solid var(--color-outline-strong);
+  color: var(--color-primary);
+  font-size: var(--font-title-medium);
+  font-weight: var(--weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+.token-group {
+  margin: 0;
+}
+
+.token-group + .token-group {
+  margin-top: var(--spacing-medium);
+}
+
+.token-group-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-small);
+  flex-wrap: wrap;
+  padding: var(--spacing-small) 0 var(--spacing-extra-small);
+  color: var(--color-on-surface);
+  font-size: var(--font-label-small);
+  font-weight: var(--weight-bold);
+  letter-spacing: 0;
+}
+
+.token-group-head .count {
+  color: var(--color-text-hint);
+  font-family: var(--font-family-mono);
+  font-weight: var(--weight-regular);
+}
+
+.token-board .token-table-wrap {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow-x: auto;
+}
+
+.token-spec-table {
+  width: 100%;
+  min-width: 0;
+  margin-bottom: var(--spacing-small);
+  border-collapse: collapse;
+  font-size: var(--font-caption);
+}
+
+.token-spec-table th {
+  padding: var(--spacing-extra-small) var(--spacing-small);
+  color: var(--color-text-hint);
+  font-size: var(--font-caption);
+  font-weight: var(--weight-medium);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.token-spec-table td {
+  height: auto;
+  padding: var(--spacing-small);
+  border-bottom: var(--stroke-thin) solid var(--color-outline);
+  vertical-align: middle;
+  line-height: var(--line-height-normal);
+}
+
+.token-spec-name,
+.token-spec-value,
+.token-swatch-name,
+.token-swatch-value,
+.token-size-name,
+.token-size-value {
+  font-family: var(--font-family-mono);
+}
+
+.token-spec-name {
+  color: var(--color-primary-strong);
+  white-space: nowrap;
+}
+
+.token-spec-value {
+  color: var(--color-on-surface-soft);
+  overflow-wrap: anywhere;
+}
+
+.token-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: var(--spacing-small);
+  padding: var(--spacing-extra-small) 0 var(--spacing-small);
+}
+
+.token-swatch-card {
+  min-width: 0;
+  padding: var(--spacing-small);
+  border: var(--stroke-thin) solid var(--color-outline);
+  border-radius: var(--radius-small);
+  background: var(--color-surface-soft);
+}
+
+.token-swatch-pair {
+  display: flex;
+  gap: var(--spacing-extra-small);
+  min-height: var(--size-icon-extra-large);
+  margin-bottom: var(--spacing-extra-small);
+}
+
+.token-swatch-pair .sample {
+  width: var(--size-icon-extra-large);
+  height: var(--size-icon-extra-large);
+  border-radius: var(--radius-extra-small);
+}
+
+.token-swatch-name {
+  overflow-wrap: anywhere;
+  color: var(--color-on-surface);
+  font-size: var(--font-caption);
+}
+
+.token-swatch-value {
+  margin-top: 2px;
+  color: var(--color-primary-strong);
+  font-size: var(--font-badge);
+  overflow-wrap: anywhere;
+}
+
+.token-swatch-desc {
+  margin-top: var(--spacing-extra-small);
+  color: var(--color-text-hint);
+  font-size: var(--font-badge);
+  line-height: var(--line-height-normal);
+}
+
+.token-size-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--spacing-medium);
+  padding: var(--spacing-extra-small) 0 var(--spacing-medium);
+}
+
+.token-size-item {
+  min-width: 56px;
+  color: var(--color-text-hint);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-badge);
+  text-align: center;
+}
+
+.token-size-demo {
+  display: grid;
+  place-items: center;
+  margin: 0 auto var(--spacing-extra-small);
+  color: var(--color-on-surface);
+}
+
+.token-size-demo--icon {
+  width: var(--sample-v);
+  height: var(--sample-v);
+}
+
+.token-size-demo--icon .icon {
+  width: var(--sample-v);
+  height: var(--sample-v);
+}
+
+.token-size-demo--avatar {
+  width: var(--sample-v);
+  height: var(--sample-v);
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--color-primary-soft), var(--color-surface-soft));
+}
+
+.token-size-name {
+  white-space: nowrap;
+}
+
+.token-size-value {
+  margin-top: 2px;
+  color: var(--color-primary-strong);
+}
+
+.token-exception-block {
+  margin-top: var(--spacing-large);
+  padding: var(--spacing-medium);
+  border: var(--stroke-thin) solid var(--color-outline-strong);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface-soft);
+}
+
+.token-exception-block > h3 {
+  margin-bottom: var(--spacing-small);
+}
+
+.token-exception-block .token-table-wrap {
+  margin-top: var(--spacing-medium);
+}
+
 /* ---- 示例区：一张固定宽的大卡片，卡内先分类，类内「一行一组件 + 变体横向」 ---- */
 .demo-board {
   /* 左元信息栏宽与画布间隔属于文档 chrome，写在局部变量里，不占用产品令牌位（同 shell.css 的 --tree-width） */

@@ -260,7 +260,7 @@ body {
   padding: 0;
 }
 
-.canvas-page--doc { max-width: var(--size-doc-max); }
+.canvas-page--doc { max-width: var(--size-demo-board); }
 
 .canvas-page--proto { max-width: none; }
 

@@ -109,53 +109,50 @@
       <!-- ============================================================
            01 · 设计令牌
            ============================================================ -->
-      <section class="spec-region region--doc canvas-page canvas-page--doc" id="sec-tokens" aria-labelledby="sec-tokens-title">
-        <div class="region-head">
-          <h2 id="sec-tokens-title">设计令牌</h2>
-          <p class="region-lede">
-            一个文件、四张视图：令牌取值以两个原型的实测视觉为权威，命名与刻度结构对齐 NomiKit 的九级
-            （tiny → colossal）。改 <code>src/base/tokens.css</code> 一处，令牌表、组件示例与两张画布同时变。
-            唯一取值源也是全项目唯一允许出现颜色字面量的文件；下表由 <code>tools/tokens-report.mjs</code>
-            解析该文件的分组与行内注释生成，「NomiKit 对照」列取自 <code>@nomikit</code> 标注。
-            宽度断点全部走容器查询（<code>@container region</code>），区域内高度一律取
-            <code>var(--viewport-h)</code>，因此画布嵌入还是全屏、缩放还是平移，档位表现一致。
-          </p>
-          <div class="region-actions">
-            <span class="region-band" id="token-count">—</span>
-          </div>
+      <section class="spec-region region--doc canvas-page canvas-page--doc token-board-page" id="sec-tokens" aria-labelledby="sec-tokens-title">
+    <div class="token-board">
+      <header class="token-board-head">
+        <div class="token-board-heading">
+          <h2 id="sec-tokens-title">绫音 · 设计规范</h2>
+          <span>排版 · 间距 · 圆角 · 尺寸 · 配色 · 例外说明</span>
         </div>
-        <p class="region-meta">
+        <div class="token-board-status">
+          <span class="token-board-count" id="token-count">—</span>
           <span>当前：<span id="theme-state">浅色</span></span>
-          <span>深色评审作用范围：仅令牌与组件两页，画布不受影响</span>
-          <code>[data-theme="dark"]</code>
-        </p>
+        </div>
+      </header>
 
-        <div id="token-groups"></div>
-
-        <div class="spec-block" id="knob-block">
-      <h3>区域旋钮</h3>
-      <p class="spec-note">
-        同一组件在两区的落位差异，只能改这些自定义属性的值：默认档等于后台形态，
-        客户端在 <code>src/views/client.css</code> 的「00 · 区域旋钮」块里覆写。
-        下表的区域列取画布的计算样式，因此能直接证明覆写生效。
+      <p class="token-board-note">
+        令牌取值以两个原型的实测视觉为权威，命名与刻度结构对齐 NomiKit 九级体系。
+        修改 <code>src/base/tokens.css</code> 后，令牌表、组件示例与两张画布同步更新；深色评审仅作用于令牌与组件页。
       </p>
-      <div class="token-table-wrap">
-        <table class="data-table knob-table">
-          <thead>
-            <tr>
-              <th scope="col">旋钮</th>
-              <th scope="col">用途</th>
-              <th scope="col">默认（后台档）</th>
-              <th scope="col">客户端画布</th>
-              <th scope="col">后台画布</th>
-            </tr>
-          </thead>
-          <tbody id="knob-body"></tbody>
-        </table>
+      <code class="token-board-mode">[data-theme="dark"]</code>
+
+      <div id="token-groups"></div>
+
+      <div class="spec-block token-exception-block" id="knob-block">
+        <h3>⑥ 例外与说明 · 区域旋钮</h3>
+        <p class="spec-note">
+          同一组件在两区的落位差异，只能改这些自定义属性的值：默认档等于后台形态，
+          客户端在 <code>src/views/client.css</code> 的「00 · 区域旋钮」块里覆写。
+          下表的区域列取画布的计算样式，因此能直接证明覆写生效。
+        </p>
+        <div class="token-table-wrap">
+          <table class="data-table knob-table">
+            <thead>
+              <tr>
+                <th scope="col">旋钮</th>
+                <th scope="col">用途</th>
+                <th scope="col">默认（后台档）</th>
+                <th scope="col">客户端画布</th>
+                <th scope="col">后台画布</th>
+              </tr>
+            </thead>
+            <tbody id="knob-body"></tbody>
+          </table>
+        </div>
       </div>
     </div>
-
-
   </section>
 
   <!-- ============================================================

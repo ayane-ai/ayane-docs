@@ -55,6 +55,11 @@
     return node;
   }
 
+  function parseTypographyValue(value) {
+    const match = /^\s*(\S+)\s*\/\s*(\S+)\s*$/.exec(value);
+    return match ? { size: match[1], lineHeight: match[2] } : { size: value, lineHeight: '' };
+  }
+
   /* ------------------------------------------------------------
      01 · 令牌规范板：数据仍来自 AyaneTokens，展示按参考规范分段
      ------------------------------------------------------------ */
@@ -81,8 +86,55 @@
 
   function appendTokenHeader(box, group) {
     const head = el('div', 'token-group-head');
-    head.append(el('span', '', group.title), el('span', 'count', group.tokens.length));
+    const count = /排版/.test(group.title)
+      ? '15 个 Type.kt 槽位 · 4 个字重辅助'
+      : group.tokens.length;
+    head.append(el('span', '', group.title), el('span', 'count', count));
     box.append(head);
+  }
+
+  function appendTypographyTable(box, tokens) {
+    const table = el('table', 'data-table token-spec-table token-typography-table');
+    const thead = el('thead');
+    thead.innerHTML = '<tr><th>令牌名称</th><th>字号</th><th>行高</th><th>示例文字</th><th>说明</th><th>NomiKit 对照</th></tr>';
+    const tbody = el('tbody');
+    tokens.filter((token) => token.name.startsWith('--type-')).forEach((token) => {
+      const typography = parseTypographyValue(token.value);
+      const tr = el('tr');
+      tr.dataset.token = token.name;
+      const sample = el('span', 'token-type-sample', '绫音 Aa 123');
+      sample.style.fontSize = typography.size;
+      sample.style.lineHeight = typography.lineHeight;
+      tr.append(
+        el('td', 'token-spec-name', token.name),
+        el('td', 'token-spec-value', typography.size),
+        el('td', 'token-spec-value', typography.lineHeight),
+        el('td', 'token-type-preview'),
+        el('td', 'cell-desc', token.desc),
+        el('td', 'cell-nomi', token.nomikit || '—'),
+      );
+      tr.querySelector('.token-type-preview').append(sample);
+      tbody.append(tr);
+    });
+    table.append(thead, tbody);
+    const wrap = el('div', 'token-table-wrap');
+    wrap.append(table);
+    box.append(wrap);
+    const aux = tokens.filter((token) => token.name.startsWith('--weight-'));
+    if (!aux.length) return;
+    const auxTitle = el('div', 'token-type-aux-title', '字重辅助');
+    const auxTable = el('table', 'data-table token-spec-table token-type-aux-table');
+    const auxHead = el('thead');
+    auxHead.innerHTML = '<tr><th>令牌名称</th><th>值</th><th>说明</th></tr>';
+    const auxBody = el('tbody');
+    aux.forEach((token) => {
+      const tr = el('tr');
+      tr.dataset.token = token.name;
+      tr.append(el('td', 'token-spec-name', token.name), el('td', 'token-spec-value', token.value), el('td', 'cell-desc', token.desc));
+      auxBody.append(tr);
+    });
+    auxTable.append(auxHead, auxBody);
+    box.append(auxTitle, auxTable);
   }
 
   function appendTokenTable(box, group) {
@@ -159,6 +211,7 @@
     if (/颜色/.test(group.title)) appendColorGrid(box, group);
     else if (/图标尺寸/.test(group.title)) appendSizeGrid(box, group, 'icon');
     else if (/头像尺寸/.test(group.title)) appendSizeGrid(box, group, 'avatar');
+    else if (/排版/.test(group.title)) appendTypographyTable(box, group.tokens);
     else appendTokenTable(box, group);
     return box;
   }

@@ -17,7 +17,7 @@
 .data-table {
   width: 100%;
   table-layout: fixed;
-  font-size: var(--font-body-small);
+  font: var(--type-body-small) var(--font-family-sans);
 }
 
 .data-table th,
@@ -33,10 +33,12 @@
   position: sticky;
   top: 0;
   z-index: 2;
-  height: var(--height-field);
+  height: auto;
+  padding-block: var(--spacing-small);
+  padding-inline: var(--spacing-medium);
   background: var(--color-table-head);
   color: var(--color-on-surface-soft);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
   font-weight: var(--weight-bold);
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -69,7 +71,7 @@
 
 .cell-mono {
   font-family: var(--font-family-mono);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-mono);
 }
 
 /* 行内可点区域：整行链接。只有直接落在单元格里的才撑满行高，
@@ -102,7 +104,7 @@
   border-top: 1px solid var(--color-outline);
   background: var(--color-surface-solid);
   color: var(--color-text-hint);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
 }
 
 /* 窄容器下让表格横向滚动，而不是把列压到不可读 */

@@ -112,8 +112,8 @@
   --background-contact-card: linear-gradient(135deg, #fff0e5ff, #fff9f1ff); /* 共享组件背景：从客户端卡片背景提升，保留原型渐变。 @nomikit — */
   --background-user-card: radial-gradient(circle at 12% 0%, #ffe8d880, #00000000 42%),
   #fffffff7; /* 共享组件背景：从客户端用户卡片背景提升，保留原型渐变。 @nomikit — */
-  --background-user-card-action: linear-gradient(135deg, var(--color-primary), #eba48dff); /* 共享组件背景：从客户端动作背景提升，保留原型渐变。 @nomikit — */
-  --background-user-card-action-hover: linear-gradient(135deg, var(--color-primary), #e09a83ff); /* 共享组件背景：从客户端动作 hover 背景提升，保留原型渐变。 @nomikit — */
+  --background-user-card-action: linear-gradient(135deg, var(--color-primary), #efa791ff); /* 共享组件背景：从客户端动作背景提升，保留原型渐变。 @nomikit — */
+  --background-user-card-action-hover: linear-gradient(135deg, #dd8f77ff, #e79c85ff); /* 共享组件背景：从客户端动作 hover 背景提升，保留原型渐变。 @nomikit — */
   --background-ai-panel: linear-gradient(180deg, #ffffffd1, #fff8efd1), radial-gradient(circle at 20% 8%, #ffe2d273, #00000000 35%); /* 共享组件背景：由 --background-ai-panel 提升，保留原型渐变。 @nomikit — */
 
 
@@ -221,16 +221,10 @@
   /* group: 控件高度 */
   --height-appbar: 56px; /* 顶栏 @nomikit Heights.appBar */
 
-  --height-tab: 48px; /* 标签与主按钮 */
-  --height-chip: 32px; /* 标签芯片 */
   --height-badge: 18px; /* 计数徽标 */
   --height-badge-inline: 16px; /* 贴在图标按钮上的小号徽标 */
   --height-row: 40px; /* 表格行 */
-  --height-control: 44px; /* 输入控件最小可点高度 */
-  --height-control-sm: 42px; /* 通用标准操作按钮；触控热区另保底 44px。 @nomikit — */
-  --height-control-xs: 30px; /* 后台小按钮 */
   --height-field: 48px; /* 通用登录字段；不改变校验行为。 @nomikit — */
-  --height-head: 46px; /* 卡片头 */
   --height-mobile-nav: 62px; /* 客户端移动端底部导航视觉高度 */
   --tap-target: 44px; /* 触控热区下限 */
   --size-switch-knob: 17px; /* 开关滑块 */
@@ -239,20 +233,21 @@
   --size-switch-height: 23px; /* 开关轨道高度 */
 
   /* group: 排版（字号与行高） */
-  --font-caption: 11px; /* 辅助说明 @nomikit Typography.caption */
-  --font-badge: 10px; /* 徽标数字，比 caption 再小一档的组件档 */
-  --font-label-small: 12px; /* 标签与次要元信息 @nomikit Typography.labelSmall */
-  --font-body-small: 13px; /* 后台正文 @nomikit Typography.bodySmall */
-  --font-body-medium: 14px; /* 正文与二级标题 @nomikit Typography.bodyMedium */
-  --font-body-large: 15px; /* 聊天正文 @nomikit Typography.bodyLarge */
-  --font-title-medium: 16px; /* 区块标题 @nomikit Typography.titleMedium */
-  --font-title-large: 17px; /* 页面标题 @nomikit Typography.titleLarge */
-  --font-headline-large: 20px; /* 大标题 @nomikit Typography.headlineLarge */
-  --font-display-large: 24px; /* 展示标题 @nomikit Typography.displayLarge */
-  --font-stat-large: 22px; /* 统计数字，介于 headline 与 display 之间的组件档 */
-  --line-height-tight: 1.35;
-  --line-height-normal: 1.5;
-  --line-height-loose: 1.65;
+  --type-display-large: 57px / 64px; /* 展示大标题 @nomikit Typography.displayLarge */
+  --type-display-medium: 45px / 52px; /* 展示中标题 @nomikit Typography.displayMedium */
+  --type-display-small: 36px / 44px; /* 展示小标题 @nomikit Typography.displaySmall */
+  --type-headline-large: 32px / 40px; /* 大标题 @nomikit Typography.headlineLarge */
+  --type-headline-medium: 28px / 36px; /* 中标题 @nomikit Typography.headlineMedium */
+  --type-headline-small: 24px / 32px; /* 小标题 @nomikit Typography.headlineSmall */
+  --type-title-large: 22px / 28px; /* 页面标题 @nomikit Typography.titleLarge */
+  --type-title-medium: 16px / 24px; /* 中等标题 @nomikit Typography.titleMedium */
+  --type-title-small: 14px / 20px; /* 小标题 @nomikit Typography.titleSmall */
+  --type-body-large: 16px / 24px; /* 大正文 @nomikit Typography.bodyLarge */
+  --type-body-medium: 14px / 20px; /* 中正文 @nomikit Typography.bodyMedium */
+  --type-body-small: 12px / 16px; /* 小正文 @nomikit Typography.bodySmall */
+  --type-label-large: 14px / 20px; /* 大标签 @nomikit Typography.labelLarge */
+  --type-label-medium: 12px / 16px; /* 中标签 @nomikit Typography.labelMedium */
+  --type-label-small: 10px / 16px; /* 小标签 @nomikit Typography.labelSmall */
   --weight-regular: 400;
   --weight-medium: 600;
   --weight-bold: 700;

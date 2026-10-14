@@ -14,9 +14,6 @@
 
   --toast-shift: var(--spacing-medium);
   --toast-max-width: min(90cqi, var(--size-toast-max-width-sm));
-  --field-height: var(--height-tab);
-  /* 登录输入框 48px 档 */
-
   --login-card-align: center;
 
 }
@@ -173,7 +170,7 @@
 }
 
 [data-proto="client"] .scene-status {
- display: flex; flex-wrap: wrap; gap: var(--spacing-tiny) var(--spacing-medium); color: var(--color-on-surface-soft); font-size: var(--font-caption); line-height: var(--line-height-normal);
+ display: flex; flex-wrap: wrap; gap: var(--spacing-tiny) var(--spacing-medium); color: var(--color-on-surface-soft); font: var(--type-body-small) var(--font-family-sans);
 }
 
 [data-proto="client"] #client-media-status {
@@ -195,7 +192,7 @@
 }
 
 [data-proto="client"] .vision-preview header {
- display: flex; align-items: center; justify-content: space-between; padding-inline: var(--spacing-small); gap: var(--spacing-extra-small); flex: 0 0 auto; font-size: var(--font-caption);
+ display: flex; align-items: center; justify-content: space-between; padding-inline: var(--spacing-small); gap: var(--spacing-extra-small); flex: 0 0 auto; font: var(--type-body-small) var(--font-family-sans);
 }
 
 [data-proto="client"] .vision-preview > img {
@@ -203,11 +200,11 @@
 }
 
 [data-proto="client"] .vision-preview-note {
- flex: 0 0 auto; padding: var(--spacing-extra-small); font-size: var(--font-caption); text-align: center;
+ flex: 0 0 auto; padding: var(--spacing-extra-small); font: var(--type-body-small) var(--font-family-sans); text-align: center;
 }
 
 [data-proto="client"] .vision-restore {
- position: absolute; top: 0; right: 0; max-width: 100%; font-size: var(--font-label-small); white-space: normal;
+ position: absolute; top: 0; right: 0; max-width: 100%; font: var(--type-label-medium) var(--font-family-sans); white-space: normal;
 }
 
 [data-proto="client"] .client-profile-view {
@@ -256,7 +253,7 @@
  display: flex; align-items: center; gap: var(--spacing-extra-small);
 }
 [data-proto="client"] .scene-status {
- font-size: var(--font-caption);
+ font: var(--type-body-small) var(--font-family-sans);
 }
 [data-proto="client"] .mobile-nav { display: grid; grid-column: 1; grid-row: 2; }
 [data-proto="client"] .ai-drawer-head { display: flex; }

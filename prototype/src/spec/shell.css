@@ -44,7 +44,7 @@ body {
   overflow: hidden;
   color: var(--color-text-hint);
   font-family: var(--font-family-mono);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-mono);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -61,13 +61,13 @@ body {
 .tree-toggle {
   display: none;
   place-items: center;
-  width: var(--height-chip);
-  height: var(--height-chip);
   flex: 0 0 auto;
+  padding: calc(var(--spacing-small) - var(--stroke-thin));
   border: 1px solid var(--color-outline-strong);
   border-radius: var(--radius-small);
   background: var(--color-surface-strong);
   color: var(--color-on-surface-soft);
+  font-size: var(--size-icon-extra-small);
 }
 
 /* ------------------------------------------------------------
@@ -96,14 +96,13 @@ body {
   align-items: center;
   gap: var(--spacing-small);
   width: 100%;
-  min-height: var(--height-control-sm);
-  padding: 0 var(--spacing-small);
+  padding: var(--spacing-medium) var(--spacing-small);
   border: 0;
   border-radius: var(--radius-medium);
   background: transparent;
   color: var(--color-on-surface-soft);
   font-family: inherit;
-  font-size: var(--font-body-small);
+  font: var(--type-body-small) var(--font-family-sans);
   text-align: left;
   transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
 }
@@ -124,7 +123,7 @@ body {
 .tree-menu-item .no {
   flex: 0 0 auto;
   font-family: var(--font-family-mono);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-mono);
   color: var(--color-text-hint);
 }
 
@@ -142,7 +141,7 @@ body {
   flex: 0 0 auto;
   color: var(--color-text-hint);
   font-family: var(--font-family-mono);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-mono);
 }
 
 /* 层级区自己滚动，菜单固定在上方 */
@@ -161,10 +160,10 @@ body {
   gap: var(--spacing-small);
   padding: var(--spacing-extra-small) var(--spacing-medium) var(--spacing-small);
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
 }
 
-.tree-head b { color: var(--color-on-surface); font-size: var(--font-label-small); }
+.tree-head b { color: var(--color-on-surface); font: var(--type-label-medium) var(--font-family-sans); }
 
 /* 一级树：唯一条目样式，右侧计数表示该节点自身的规模 */
 .tree-node {
@@ -172,14 +171,13 @@ body {
   align-items: center;
   gap: var(--spacing-extra-small);
   width: 100%;
-  min-height: var(--height-control-xs);
-  padding: 0 var(--spacing-medium) 0 calc(var(--spacing-medium) - var(--stroke-medium));
+  padding: var(--spacing-small) var(--spacing-medium) var(--spacing-small) calc(var(--spacing-medium) - var(--stroke-medium));
   border: 0;
   border-left: var(--stroke-medium) solid transparent;
   background: transparent;
   color: var(--color-on-surface-soft);
   font-family: inherit;
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
   text-align: left;
   cursor: pointer;
   transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
@@ -213,14 +211,14 @@ body {
   flex: 0 0 auto;
   color: var(--color-text-hint);
   font-family: var(--font-family-mono);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-mono);
 }
 
 .tree-empty {
   padding: var(--spacing-medium);
   color: var(--color-text-hint);
-  font-size: var(--font-label-small);
-  line-height: var(--line-height-normal);
+  font: var(--type-label-medium) var(--font-family-sans);
+
 }
 
 /* ------------------------------------------------------------
@@ -296,15 +294,13 @@ body {
 .canvas-hud button {
   display: inline-grid;
   place-items: center;
-  min-width: var(--height-control-xs);
-  min-height: var(--height-control-xs);
-  padding: 0 var(--spacing-small);
+  padding: var(--spacing-small);
   border: 0;
   border-radius: var(--radius-pill);
   background: transparent;
   color: var(--color-on-surface-soft);
   font-family: inherit;
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
   font-weight: var(--weight-bold);
   white-space: nowrap;
   cursor: pointer;
@@ -342,7 +338,7 @@ body {
   border-radius: var(--radius-pill);
   background: var(--color-surface-strong);
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
 }
 
 .canvas-hint kbd {
@@ -351,7 +347,7 @@ body {
   border-radius: var(--radius-tiny);
   background: var(--color-surface-soft);
   font-family: var(--font-family-mono);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-mono);
 }
 
 /* ------------------------------------------------------------

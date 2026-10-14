@@ -15,7 +15,11 @@
   overflow: hidden;
   border: 0;
   border-radius: var(--radius-large);
-  background: linear-gradient(145deg, var(--color-primary-soft), var(--color-primary-soft));
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--color-primary-soft) 70%, var(--color-primary) 30%),
+    var(--color-success-soft)
+  );
   box-shadow: var(--shadow-avatar-inset);
 }
 
@@ -59,12 +63,12 @@
 /* 从旧客户端抽取的语义变体；客户端与组件库共用此定义，视图不再复制。 */
 :is([data-proto="client"], [data-client-components]) .login-avatar {
 
-  width: var(--size-avatar-colossal);
-  height: var(--size-avatar-colossal);
-  margin: 0 auto var(--spacing-large);
+  width: calc(var(--size-avatar-colossal) + var(--spacing-medium));
+  height: calc(var(--size-avatar-colossal) + var(--spacing-medium));
+  margin: 0 auto calc(var(--spacing-large) + var(--spacing-tiny));
   overflow: hidden;
-  border: 5px solid var(--color-outline-strong);
-  border-radius: var(--radius-massive);
+  border: calc(var(--stroke-thick) + var(--spacing-tiny)) solid var(--color-surface-strong);
+  border-radius: calc(var(--radius-massive) + var(--spacing-tiny));
   background: var(--color-surface-soft);
   box-shadow: var(--shadow-avatar-inset);
 
@@ -143,8 +147,8 @@
 @container region (max-width: 767px) {
 :is([data-proto="client"], [data-client-components]) .login-avatar {
 
-    width: var(--size-avatar-colossal);
-    height: var(--size-avatar-colossal);
+    width: calc(var(--size-avatar-colossal) + var(--spacing-large));
+    height: calc(var(--size-avatar-colossal) + var(--spacing-large));
     margin-bottom: var(--spacing-extra-large);
 
 }

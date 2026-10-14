@@ -2506,7 +2506,7 @@
         "w": 1440,
         "h": 1000,
         "focus": "component-inventory",
-        "setup": "",
+         "setup": "await wait(()=>!!q('#demo-field-density-trigger'));q('#demo-field-density-trigger').scrollIntoView({block:'center'});click('#demo-field-density-trigger');await wait(()=>visible(q('.filter-select-menu.is-open')));q('.filter-select-menu.is-open [data-option-index=\"2\"]').click();await wait(()=>q('#demo-field-density').value==='详细');",
         "expect": [
           "qAll('.demo-cat').length===4",
           "qAll('.demo-card').length===13",
@@ -2516,7 +2516,16 @@
           "document.querySelectorAll('[data-proto=client]').length===1",
           "document.querySelectorAll('[data-proto=admin]').length===1",
           "document.getElementById('component-nav-count').textContent==='13'",
-          "qAll('.demo-frame').every(frame=>!!frame.querySelector('.demo-source'))"
+          "qAll('.demo-frame').every(frame=>!!frame.querySelector('.demo-source'))",
+          "q('#demo-field-density').hidden===true",
+          "q('#demo-field-density-trigger').getAttribute('role')==='combobox'",
+          "q('#demo-field-density').value==='详细'",
+          "q('#demo-field-density-trigger').getAttribute('aria-expanded')==='false'",
+          "!q('.filter-select-menu.is-open')",
+          "(()=>{const s=qAll('.skeleton');return s.length>0&&s.every(n=>getComputedStyle(n).backgroundImage!=='none'&&getComputedStyle(n).animationName!=='none');})()",
+          "(()=>{const tabs=qAll('.tabs').find(t=>t.querySelector('.tab-count')),active=tabs?.querySelector('.tab.is-active'),count=active?.querySelector('.tab-count');return !!tabs&&!!active&&!!count&&getComputedStyle(tabs).backgroundColor!=='rgba(0, 0, 0, 0)'&&getComputedStyle(count).backgroundColor!==getComputedStyle(tabs).backgroundColor;})()",
+          "(()=>{const buttons=[...qAll('.empty-state .row > .btn')];return buttons.length===2&&buttons.every(b=>getComputedStyle(b).paddingTop==='12px'&&getComputedStyle(b).paddingBottom==='12px')&&Math.abs(buttons[0].getBoundingClientRect().height-buttons[1].getBoundingClientRect().height)<=1;})()",
+          "(()=>{const tracks=[...qAll('#demo-shared-table .progress')];return tracks.length===4&&tracks.every(t=>{const bar=t.querySelector('.progress-bar'),label=t.nextElementSibling,s=getComputedStyle(t),r=t.getBoundingClientRect(),b=bar.getBoundingClientRect(),l=label.getBoundingClientRect(),expected=parseFloat(getComputedStyle(t).getPropertyValue('--progress-value'));return s.display==='block'&&Math.abs(r.height-6)<=1&&Math.abs(b.height-r.height)<=1&&Math.abs(b.width/r.width*100-expected)<=1&&getComputedStyle(label).display==='block'&&l.top>=r.bottom&&l.right<=t.parentElement.getBoundingClientRect().right+1;});})()"
         ]
       },
       {
@@ -2669,6 +2678,7 @@
           "qAll('.demo-cat').length===4",
           "qAll('.demo-card').length===13",
           "q('#demo-client-composer [data-demo-input]').value===''",
+          "(()=>{const button=q('#demo-client-composer .client-send'),icon=button.querySelector('.icon'),b=button.getBoundingClientRect(),i=icon.getBoundingClientRect();return b.width>=40&&b.width<=41&&b.height>=40&&b.height<=41&&i.left>=b.left&&i.right<=b.right&&i.top>=b.top&&i.bottom<=b.bottom&&Math.abs((i.left+i.right-b.left-b.right)/2)<=1&&Math.abs((i.top+i.bottom-b.top-b.bottom)/2)<=1;})()",
           "q('#demo-client-composer .message-text').textContent==='组件发送 <script> 不执行'",
           "qAll('#demo-client-composer script').length===0",
           "document.querySelectorAll('[data-proto=client] .recent-messages .message-row').length===2",
@@ -2730,6 +2740,8 @@
         "expect": [
           "q('#demo-client-buttons button[disabled]').disabled",
           "q('#demo-client-buttons .is-loading').disabled",
+          "(()=>{const frame=q('#demo-client-buttons'),normal=frame.querySelector('[data-button-group=semantics] .btn--primary'),loading=frame.querySelector('.btn--primary.is-loading'),s=getComputedStyle(loading),spin=getComputedStyle(loading,'::after');return s.opacity==='1'&&s.backgroundImage===getComputedStyle(normal).backgroundImage&&parseFloat(spin.width)===parseFloat(getComputedStyle(loading).getPropertyValue('--size-spinner'))&&parseFloat(spin.height)===parseFloat(getComputedStyle(loading).getPropertyValue('--size-spinner'));})()",
+          "(()=>{const send=q('#demo-client-buttons .client-send'),icon=qAll('#demo-client-buttons .icon-btn')[0],a=send.getBoundingClientRect(),b=icon.getBoundingClientRect(),s=getComputedStyle(send),i=getComputedStyle(icon);return Math.abs(a.width-b.width)<=1&&Math.abs(a.height-b.height)<=1&&s.paddingTop==='12px'&&s.paddingBottom==='12px'&&s.backgroundColor!==i.backgroundColor;})()",
           "q('#demo-component-button').querySelectorAll('.demo-frame').length===1",
           "qAll('#demo-client-buttons [data-button-group=semantics] > button').length===5",
           "qAll('#demo-client-buttons [data-button-group=sizes] > button').length===3",

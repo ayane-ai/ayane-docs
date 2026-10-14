@@ -115,7 +115,7 @@ body {
   gap: var(--spacing-small);
   margin-right: auto;
   color: var(--color-on-surface);
-  font-size: var(--font-title-large);
+  font: var(--type-title-large) var(--font-family-sans);
   font-weight: var(--weight-bold);
   letter-spacing: 0.02em;
   text-decoration: none;
@@ -133,11 +133,10 @@ body {
 .suite-link {
   display: inline-flex;
   align-items: center;
-  min-height: var(--height-chip);
-  padding: 0 var(--spacing-medium);
+  padding: var(--spacing-small) var(--spacing-medium);
   border-radius: var(--radius-pill);
   color: var(--color-on-surface-soft);
-  font-size: var(--font-body-small);
+  font: var(--type-body-small) var(--font-family-sans);
   font-weight: var(--weight-medium);
   text-decoration: none;
   transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
@@ -165,7 +164,7 @@ body {
 .suite-head h1 {
   margin: 0 0 var(--spacing-small);
   color: var(--color-on-surface);
-  font-size: var(--font-display-large);
+  font: var(--type-display-large) var(--font-family-sans);
   font-weight: var(--weight-heavy);
   letter-spacing: 0.01em;
 }
@@ -173,8 +172,8 @@ body {
 .suite-head p {
   margin: 0;
   color: var(--color-on-surface-soft);
-  font-size: var(--font-body-medium);
-  line-height: var(--line-height-loose);
+  font: var(--type-body-medium) var(--font-family-sans);
+
 }
 
 .suite-note {
@@ -182,8 +181,8 @@ body {
   margin: 0 auto;
   padding: 0 var(--spacing-large) var(--spacing-large);
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
-  line-height: var(--line-height-normal);
+  font: var(--type-body-small) var(--font-family-sans);
+
 }
 
 .suite-note code { font-family: var(--font-family-mono); }
@@ -193,6 +192,6 @@ body {
   margin: var(--spacing-huge) auto 0;
   padding: 0 var(--spacing-large);
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
-  line-height: var(--line-height-loose);
+  font: var(--type-body-small) var(--font-family-sans);
+
 }

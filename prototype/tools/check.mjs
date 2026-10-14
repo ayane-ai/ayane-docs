@@ -130,8 +130,8 @@ gate('02 令牌表数据新鲜度', async function () {
     '图标尺寸（九级）': [['--size-icon-tiny', '14px'], ['--size-icon-extra-small', '16px'], ['--size-icon-small', '18px'], ['--size-icon-medium', '20px'], ['--size-icon-large', '24px'], ['--size-icon-extra-large', '32px'], ['--size-icon-huge', '40px'], ['--size-icon-massive', '48px'], ['--size-icon-colossal', '56px']],
     '头像尺寸（九级）': [['--size-avatar-tiny', '18px'], ['--size-avatar-extra-small', '24px'], ['--size-avatar-small', '32px'], ['--size-avatar-medium', '40px'], ['--size-avatar-large', '48px'], ['--size-avatar-extra-large', '56px'], ['--size-avatar-huge', '64px'], ['--size-avatar-massive', '72px'], ['--size-avatar-colossal', '96px']],
   };
-  if (parsed.total !== 167 || parsed.groups.length !== 21) {
-    fail.call(this, `公共令牌收敛结果应为 167 个令牌 / 21 组，实际为 ${parsed.total} 个令牌 / ${parsed.groups.length} 组`);
+  if (parsed.total !== 162 || parsed.groups.length !== 21) {
+    fail.call(this, `内容驱动控件高度重构结果应为 162 个令牌 / 21 组，实际为 ${parsed.total} 个令牌 / ${parsed.groups.length} 组`);
   }
   for (const [title, expected] of Object.entries(protectedScale)) {
     const group = parsed.groups.find((item) => item.title === title);
@@ -147,6 +147,36 @@ gate('02 令牌表数据新鲜度', async function () {
   if (/颜色 · (?:组件专用|原型视图专用)|阴影 · 原型视图专用/.test(tokenSource)) {
     fail.call(this, '专用颜色/阴影分组未删除');
   }
+  const expectedTypography = [
+    ['--type-display-large', '57px / 64px'],
+    ['--type-display-medium', '45px / 52px'],
+    ['--type-display-small', '36px / 44px'],
+    ['--type-headline-large', '32px / 40px'],
+    ['--type-headline-medium', '28px / 36px'],
+    ['--type-headline-small', '24px / 32px'],
+    ['--type-title-large', '22px / 28px'],
+    ['--type-title-medium', '16px / 24px'],
+    ['--type-title-small', '14px / 20px'],
+    ['--type-body-large', '16px / 24px'],
+    ['--type-body-medium', '14px / 20px'],
+    ['--type-body-small', '12px / 16px'],
+    ['--type-label-large', '14px / 20px'],
+    ['--type-label-medium', '12px / 16px'],
+    ['--type-label-small', '10px / 16px'],
+  ];
+  const typographyGroup = parsed.groups.find((group) => group.title === '排版（字号与行高）');
+  const actualTypography = typographyGroup?.tokens
+    .filter((token) => token.name.startsWith('--type-'))
+    .map((token) => [token.name, token.value]);
+  if (JSON.stringify(actualTypography) !== JSON.stringify(expectedTypography)) {
+    fail.call(this, '排版（字号与行高）必须完整匹配 Type.kt 的 15 个槽位');
+  }
+  const legacyTypography = /--font-(?:caption|badge|label-small|body-small|body-medium|body-large|title-medium|title-large|headline-large|display-large|stat-large)\b|--line-height-(?:tight|normal|loose)\b/;
+  const legacyHit = [...ctx.files.entries()].find(([, text]) => legacyTypography.test(text));
+  if (legacyHit) fail.call(this, `${legacyHit[0]} 仍含已删除的旧字号或通用行高令牌`);
+  const legacyControlHeights = /--height-(?:control|tab|chip|control-sm|control-xs|head)\b/;
+  const legacyHeightHit = [...ctx.files.entries()].find(([, text]) => legacyControlHeights.test(text));
+  if (legacyHeightHit) fail.call(this, `${legacyHeightHit[0]} 仍含已删除的视觉控件高度令牌`);
   return note.call(this, `${parsed.total} 个令牌 / ${parsed.groups.length} 组 · 四组九级刻度保持不变`);
 });
 
@@ -452,6 +482,106 @@ gate('12 语法与引用完整', async function () {
     });
   }
   for (const [id, where] of want) fail.call(this, `${where} 取的 #${id} 在源码里不存在`);
+
+  const buttonCss = ctx.files.get('src/components/button.css') || '';
+  const fieldCss = ctx.files.get('src/components/field.css') || '';
+  const navCss = ctx.files.get('src/components/nav.css') || '';
+  const avatarCss = ctx.files.get('src/components/avatar.css') || '';
+  const tagCss = ctx.files.get('src/components/tag.css') || '';
+  const fieldDemo = ctx.files.get('src/spec/demos/field.html') || '';
+  const overlayCss = ctx.files.get('src/components/overlay.css') || '';
+  const clientCss = ctx.files.get('src/components/client.css') || '';
+  const primaryBlock = /\.btn--primary\s*\{([^{}]*)\}/.exec(buttonCss)?.[1] || '';
+  const defaultButtonBlock = /\.btn\s*\{([^{}]*)\}/.exec(buttonCss)?.[1] || '';
+  const clientSendBlock = /\.client-send\s*\{([^{}]*)\}/.exec(fieldCss)?.[1] || '';
+  const skeletonBlock = /\.skeleton\s*\{([^{}]*)\}/.exec(fieldCss)?.[1] || '';
+  const tabsBlock = /\.tabs\s*\{([^{}]*)\}/.exec(navCss)?.[1] || '';
+  const avatarBlock = /\.avatar\s*\{([^{}]*)\}/.exec(avatarCss)?.[1] || '';
+  const chipActiveBlock = /\.chip\.is-on,\s*\.chip:has\(input:checked\)\s*\{([^{}]*)\}/.exec(tagCss)?.[1] || '';
+  const primaryHoverBlock = /\.btn--primary:hover:not\(:disabled\)\s*\{([^{}]*)\}/.exec(buttonCss)?.[1] || '';
+  const fieldBlock = /\.field-ctl\s*\{([^{}]*)\}/.exec(fieldCss)?.[1] || '';
+  const loginCardBlock = /\.login-card\s*\{([^{}]*)\}/.exec(overlayCss)?.[1] || '';
+  if (!/background:\s*var\(--background-user-card-action\)/.test(primaryBlock)) {
+    fail.call(this, 'Button 主操作渐变必须由 button.css 的公共背景令牌提供');
+  }
+  if (!/border:\s*1px\s+solid\s+var\(--color-outline-strong\)/.test(defaultButtonBlock) ||
+      !/background:\s*var\(--color-surface-strong\)/.test(defaultButtonBlock)) {
+    fail.call(this, '默认 Button 必须使用公共 surface-strong 背景和 outline-strong 描边');
+  }
+  for (const expected of [
+    /display:\s*inline-grid/,
+    /place-items:\s*center/,
+    /flex:\s*0 0 auto/,
+    /width:\s*auto/,
+    /min-width:\s*0/,
+    /min-height:\s*0/,
+    /padding:\s*var\(--spacing-medium\)/,
+  ]) {
+    if (!expected.test(clientSendBlock)) fail.call(this, 'client-send 必须以公共内边距形成视觉尺寸');
+  }
+  if (!/color-mix\(in srgb, var\(--color-neutral-soft\) 55%, var\(--color-surface-strong\)\)/.test(skeletonBlock)) {
+    fail.call(this, '骨架屏必须使用公共中性表面混合色');
+  }
+  if (!/background:\s*color-mix\(in srgb, var\(--color-bg-deep\) 70%, var\(--color-surface-strong\)\)/.test(tabsBlock)) {
+    fail.call(this, 'Tabs 轨道必须使用公共暖色表面混合背景');
+  }
+  if (!/background:\s*linear-gradient\(/.test(avatarBlock) ||
+      !/color-mix\(in srgb, var\(--color-primary-soft\) 70%, var\(--color-primary\) 30%\)/.test(avatarBlock) ||
+      !/var\(--color-success-soft\)/.test(avatarBlock)) {
+    fail.call(this, 'Avatar 无图兜底必须使用公共品牌与成功色渐变');
+  }
+  if (!/border-color:\s*var\(--color-primary\)/.test(chipActiveBlock)) {
+    fail.call(this, 'Chip 选中态必须使用公共主色描边');
+  }
+  if (!/<select\s+class="field-ctl filter-select"\s+id="demo-field-density">/.test(fieldDemo)) {
+    fail.call(this, '回复密度必须接入现有 filter-select 自定义下拉');
+  }
+  if (!/background:\s*var\(--background-user-card-action-hover\)/.test(primaryHoverBlock)) {
+    fail.call(this, 'Button 主操作 hover 渐变必须由 button.css 的公共背景令牌提供');
+  }
+  const loadingBlock = /\.btn\.is-loading\s*\{([^{}]*)\}/.exec(buttonCss)?.[1] || '';
+  const sentBubbleBlock = /\.is-sent \.message-bubble\s*\{([^{}]*)\}/.exec(clientCss)?.[1] || '';
+  const invalidFieldBlock = /\.field\.is-invalid \.field-ctl,\s*\.field\.is-invalid \.password-field > \.password-input\s*\{([^{}]*)\}/.exec(fieldCss)?.[1] || '';
+  const navActiveBlock = /\.nav-item\.is-active,\s*\.nav-item\[aria-current="page"\]\s*\{([^{}]*)\}/.exec(ctx.files.get('src/components/nav.css') || '')?.[1] || '';
+  if (/background\s*:/.test(loadingBlock) || !/background:\s*var\(--background-user-card-action\)/.test(sentBubbleBlock)) {
+    fail.call(this, '加载态和发送消息气泡必须共享公共主操作渐变');
+  }
+  if (!/border-color:\s*var\(--color-error\)/.test(invalidFieldBlock) ||
+      !/color-mix\(in srgb, var\(--color-error\) 14%, transparent\)/.test(invalidFieldBlock)) {
+    fail.call(this, 'Field 错误态必须使用公共错误色与浅错误环');
+  }
+  if (!/color-mix\(in srgb, var\(--color-primary\) 22%, transparent\)/.test(navActiveBlock) ||
+      /--color-nav-active-/.test(navActiveBlock)) {
+    fail.call(this, '侧边栏选中态必须使用公共主色渐变');
+  }
+  for (const selector of ['.sidebar-menu', '.mobile-user-card']) {
+    const block = new RegExp('\\' + selector + '\\s*\\{([^{}]*)\\}').exec(clientCss)?.[1] || '';
+    if (/background:\s*var\(--color-outline-strong\)/.test(block)) {
+      fail.call(this, selector + ' 不能把描边色当作背景');
+    }
+  }
+  for (const expected of [
+    /padding:\s*var\(--spacing-small\)\s+calc\(var\(--spacing-medium\) \+ var\(--spacing-tiny\)\)/,
+    /border:\s*1px\s+solid\s+var\(--color-outline-strong\)/,
+    /border-radius:\s*calc\(var\(--radius-medium\) \+ var\(--spacing-tiny\)\)/,
+    /background:\s*var\(--color-surface-strong\)/,
+  ]) {
+    if (!expected.test(fieldBlock)) fail.call(this, '通用 Field 的旧版输入框样式必须保留在 field.css 源头');
+  }
+  for (const expected of [
+    /border:\s*1px\s+solid\s+var\(--color-surface-strong\)/,
+    /border-radius:\s*calc\(var\(--radius-extra-large\) \+ var\(--spacing-small\)\)/,
+    /box-shadow:\s*0 28px 80px\s+color-mix\(/,
+  ]) {
+    if (!expected.test(loginCardBlock)) fail.call(this, '登录卡桌面样式必须保留在 overlay.css 源头');
+  }
+  if (/\.login-input\s*\{/.test(clientCss)) {
+    fail.call(this, 'client.css 不得重新定义登录输入框样式，改用 field.css 共享源');
+  }
+  const clientDesktopCss = clientCss.split('@container region (max-width: 767px)', 1)[0];
+  if (/:is\(\[data-proto="client"\], \[data-client-components\]\) \.login-card\s*\{[^}]*\b(?:border-color|box-shadow)\s*:/s.test(clientDesktopCss)) {
+    fail.call(this, 'client.css 不得覆盖登录卡桌面边框或阴影，改用 overlay.css 共享源');
+  }
   return note.call(this, want.size ? '' : `${ids.size} 个 id 可解析`);
 });
 

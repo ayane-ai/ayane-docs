@@ -13,14 +13,13 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-extra-small);
-  min-height: var(--height-control-sm);
-  padding: 0 var(--spacing-medium);
-  border: 1px solid var(--color-row-hover);
+  padding: var(--spacing-medium);
+  border: 1px solid var(--color-outline-strong);
   border-radius: var(--radius-medium);
-  background: var(--color-surface-soft);
+  background: var(--color-surface-strong);
   color: var(--color-on-surface-soft);
   font-family: inherit;
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
   font-weight: var(--weight-bold);
   white-space: nowrap;
   transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
@@ -48,14 +47,14 @@
 /* ---- 语义档 ---- */
 .btn--primary {
   border-color: transparent;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+  background: var(--background-user-card-action);
   color: var(--color-on-primary);
   box-shadow: var(--shadow-primary-low);
 }
 
 .btn--primary:hover:not(:disabled) {
   border-color: transparent;
-  background: linear-gradient(135deg, var(--color-primary-strong), var(--color-primary));
+  background: var(--background-user-card-action-hover);
   color: var(--color-on-primary);
   box-shadow: var(--shadow-primary-high);
 }
@@ -80,18 +79,16 @@
 }
 
 .btn--sm {
-  min-height: var(--height-control-xs);
-  padding: 0 var(--spacing-small);
+  padding: var(--spacing-small);
   border-radius: var(--radius-small);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
 }
 
-/* 登录、空状态等主行动按钮：48px 档，字号升到正文档 */
+/* 登录、空状态等主行动按钮：字号升到正文档 */
 .btn--lg {
   border-radius: var(--radius-medium);
-  min-height: var(--height-tab);
-  padding: 0 var(--spacing-huge);
-  font-size: var(--font-body-medium);
+  padding: var(--spacing-medium) var(--spacing-huge);
+  font: var(--type-body-medium) var(--font-family-sans);
   font-weight: var(--weight-heavy);
 }
 
@@ -105,6 +102,8 @@
   color: transparent !important;
   pointer-events: none;
 }
+
+.btn.is-loading:disabled { opacity: 1; }
 
 .btn.is-loading::after {
   content: "";
@@ -205,7 +204,7 @@
   border-radius: var(--radius-medium);
   background: transparent;
   color: var(--color-text-hint);
-  font-size: var(--font-body-large);
+  font: var(--type-body-large) var(--font-family-sans);
 
 }
 
@@ -244,13 +243,26 @@
   width: 100%;
   min-height: var(--size-icon-massive);
   margin-top: var(--spacing-extra-small);
-  border-radius: var(--radius-medium);
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+  border-radius: calc(var(--radius-medium) + var(--spacing-tiny));
+  background: var(--background-user-card-action);
   color: var(--color-on-primary);
-  font-size: var(--font-body-medium);
+  font: var(--type-body-medium) var(--font-family-sans);
   font-weight: 800;
   box-shadow: var(--shadow-primary-low);
   transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
+
+}
+
+[data-theme="dark"] .btn--primary,
+[data-theme="dark"] :is([data-proto="client"], [data-client-components]) .login-submit {
+
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+
+}
+
+[data-theme="dark"] .btn--primary:hover:not(:disabled) {
+
+  background: linear-gradient(135deg, var(--color-primary-strong), var(--color-primary));
 
 }
 
@@ -313,7 +325,7 @@
   background: var(--color-surface-soft);
   border: 1px solid var(--color-outline);
   color: var(--color-on-surface-soft);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
   font-weight: 700;
 
 }
@@ -340,7 +352,7 @@
   border-radius: var(--radius-medium);
   background: var(--color-primary);
   color: var(--color-on-primary);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
   font-weight: 700;
 
 }
@@ -355,12 +367,12 @@
 :is([data-proto="client"], [data-client-components]) .user-card-actions button {
 
   flex: 1;
-  min-height: var(--height-head);
+  padding: var(--spacing-medium);
   border: 1px solid var(--color-focus-ring);
   border-radius: var(--radius-medium);
   background: var(--color-surface-solid);
   color: var(--color-on-surface-soft);
-  font-size: var(--font-body-small);
+  font: var(--type-body-small) var(--font-family-sans);
   font-weight: 700;
   transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
 
@@ -402,7 +414,7 @@
   border-radius: var(--radius-medium);
   background: transparent;
   color: var(--color-on-surface-soft);
-  font-size: var(--font-body-small);
+  font: var(--type-body-small) var(--font-family-sans);
   font-weight: 600;
   transition: transform var(--duration-fast) ease, opacity var(--duration-fast) ease;
 

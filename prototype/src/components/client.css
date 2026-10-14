@@ -24,7 +24,8 @@
 
   margin: 0;
   color: var(--color-on-surface);
-  font-size: var(--font-display-large);
+  font: var(--type-title-large) var(--font-family-sans);
+  font-weight: var(--weight-bold);
   letter-spacing: 0.04em;
 
 }
@@ -33,7 +34,7 @@
 
   margin: var(--spacing-small) 0 var(--spacing-huge);
   color: var(--color-text-hint);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
 
 }
 
@@ -85,7 +86,7 @@
 :is([data-proto="client"], [data-client-components]) .user-copy strong {
 
   display: block;
-  font-size: var(--font-body-medium);
+  font: var(--type-body-medium) var(--font-family-sans);
 
 }
 
@@ -93,7 +94,7 @@
 
   margin: var(--spacing-extra-small) 0 0;
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
 
 }
 
@@ -103,7 +104,7 @@
   margin-top: var(--spacing-extra-small);
   overflow: hidden;
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
   text-overflow: ellipsis;
   white-space: nowrap;
 
@@ -125,8 +126,8 @@
   width: var(--size-popover-min-width);
   padding: var(--spacing-small);
   border: 1px solid var(--color-outline-strong);
-  border-radius: var(--radius-large);
-  background: var(--color-outline-strong);
+  border-radius: calc(var(--radius-large) + var(--spacing-tiny));
+  background: var(--color-surface-strong);
   box-shadow: var(--shadow-low);
   backdrop-filter: blur(18px);
 
@@ -145,7 +146,7 @@
   background: transparent;
   color: var(--color-on-surface-soft);
   text-align: left;
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
 
 }
 
@@ -166,7 +167,7 @@
 :is([data-proto="client"], [data-client-components]) .sidebar-menu-note {
 
   color: var(--color-text-hint);
-  font-size: var(--font-badge);
+  font: var(--type-label-small) var(--font-family-sans);
 
 }
 
@@ -196,7 +197,7 @@
 :is([data-proto="client"], [data-client-components]) .sidebar-top h1 {
 
   margin: 0;
-  font-size: var(--font-title-medium);
+  font: var(--type-title-medium) var(--font-family-sans);
   letter-spacing: 0.02em;
 
 }
@@ -205,7 +206,7 @@
 
   margin: var(--spacing-tiny) 0 0;
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
 
 }
 
@@ -265,7 +266,7 @@
 :is([data-proto="client"], [data-client-components]) .contact-copy strong {
 
   display: block;
-  font-size: var(--font-body-small);
+  font: var(--type-body-small) var(--font-family-sans);
 
 }
 
@@ -274,7 +275,7 @@
   display: block;
   margin-top: var(--spacing-extra-small);
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
 
 }
 
@@ -287,8 +288,8 @@
   margin-top: var(--spacing-extra-large);
   padding: var(--spacing-medium);
   border: 1px solid var(--color-outline);
-  border-radius: var(--radius-extra-large);
-  background: var(--color-outline-strong);
+  border-radius: calc(var(--radius-large) + var(--spacing-tiny));
+  background: var(--color-surface-solid);
   box-shadow: var(--shadow-low);
   text-align: left;
 
@@ -310,7 +311,7 @@
 
   flex: 0 0 auto;
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
   white-space: nowrap;
 
 }
@@ -339,7 +340,7 @@
 :is([data-proto="client"], [data-client-components]) .profile-modal h2 {
 
   margin: var(--spacing-large) 0 var(--spacing-extra-small);
-  font-size: var(--font-headline-large);
+  font: var(--type-headline-large) var(--font-family-sans);
 
 }
 
@@ -347,7 +348,7 @@
 
   margin: 0;
   color: var(--color-text-hint);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
 
 }
 
@@ -364,7 +365,7 @@
   width: min(100%, 400px);
   padding: var(--spacing-huge) var(--spacing-huge) var(--spacing-huge);
   border: 1px solid var(--color-outline);
-  border-radius: var(--radius-huge);
+  border-radius: calc(var(--radius-extra-large) + var(--spacing-small));
   background: var(--background-user-card);
   box-shadow: var(--shadow-high);
 
@@ -383,7 +384,7 @@
 
   display: block;
   color: var(--color-on-surface);
-  font-size: var(--font-title-medium);
+  font: var(--type-title-medium) var(--font-family-sans);
   letter-spacing: 0.01em;
 
 }
@@ -392,7 +393,7 @@
 
   margin: var(--spacing-extra-small) 0 0;
   color: var(--color-text-hint);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
 
 }
 
@@ -409,7 +410,6 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
   gap: var(--spacing-large);
   align-items: center;
-  min-height: var(--height-head);
   padding-bottom: var(--spacing-extra-small);
 
 }
@@ -430,7 +430,7 @@
 :is([data-proto="client"], [data-client-components]) .user-card-row dt {
 
   color: var(--color-text-hint);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
   letter-spacing: 0.02em;
 
 }
@@ -439,7 +439,7 @@
 
   margin: 0;
   color: var(--color-on-surface-soft);
-  font-size: var(--font-body-small);
+  font: var(--type-body-small) var(--font-family-sans);
   font-weight: 500;
   overflow-wrap: anywhere;
 
@@ -486,7 +486,7 @@
 
   margin: 0;
   color: var(--color-on-surface);
-  font-size: var(--font-title-large);
+  font: var(--type-title-large) var(--font-family-sans);
   letter-spacing: 0.02em;
 
 }
@@ -495,7 +495,7 @@
 
   margin: var(--spacing-small) 0 0;
   color: var(--color-text-hint);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
 
 }
 
@@ -503,7 +503,7 @@
 
   margin: var(--spacing-medium) 0 0;
   color: var(--color-on-surface-soft);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
 
 }
 
@@ -552,7 +552,7 @@
 }
 :is([data-proto="client"], [data-client-components]) .login-card h1 {
 
-    font-size: var(--font-display-large);
+    font: var(--type-headline-small) var(--font-family-sans);
 
 }
 :is([data-proto="client"], [data-client-components]) .login-form {
@@ -631,8 +631,8 @@
   background: var(--color-surface-strong);
   box-shadow: var(--shadow-high);
   color: var(--color-on-surface);
-  font-size: var(--font-body-small);
-  line-height: 1.62;
+  font: var(--type-body-small) var(--font-family-sans);
+
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 
@@ -641,7 +641,7 @@
 :is([data-proto="client"], [data-client-components]) .is-sent .message-bubble {
 
   border-radius: var(--radius-large) var(--radius-large) var(--radius-extra-small) var(--radius-large);
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-strong));
+  background: var(--background-user-card-action);
   color: var(--color-on-primary);
   box-shadow: var(--shadow-primary-low);
 
@@ -656,11 +656,11 @@
 }
 
 :is([data-proto="client"], [data-client-components]) .message-expand {
- font-size: var(--font-label-small);
+ font: var(--type-label-medium) var(--font-family-sans);
 }
 
 :is([data-proto="client"], [data-client-components]) .message-time {
- margin-bottom: var(--spacing-extra-small); font-size: var(--font-caption); color: var(--color-text-hint);
+ margin-bottom: var(--spacing-extra-small); font: var(--type-body-small) var(--font-family-sans); color: var(--color-text-hint);
 }
 
 :is([data-proto="client"], [data-client-components]) .messages {
@@ -678,7 +678,7 @@
 }
 
 /* 示例同样是局部组件容器，但不是客户端的挂载点。 */
-[data-client-components] { container-name: region; --overlay-place-items: center; --overlay-inset-top: 0px; --field-height: var(--height-tab); --login-card-align: center; --toast-inset-start: auto; --toast-inset-end: var(--spacing-medium); --toast-shift: var(--spacing-medium); --toast-max-width: min(90cqi, var(--size-toast-max-width-sm)); }
+[data-client-components] { container-name: region; --overlay-place-items: center; --overlay-inset-top: 0px; --login-card-align: center; --toast-inset-start: auto; --toast-inset-end: var(--spacing-medium); --toast-shift: var(--spacing-medium); --toast-max-width: min(90cqi, var(--size-toast-max-width-sm)); }
 
 :is([data-proto="client"], [data-client-components]) .composer .field-ctl { font-family: inherit; }
 :is([data-proto="client"], [data-client-components]) .client-toolbar-controls .icon-btn { flex: 0 0 var(--tap-target); }
@@ -690,7 +690,7 @@
 
 /* AI 选择与最近对话：画布和示例共用，宿主只决定常驻/抽屉和页面定位。 */
 :is([data-proto="client"], [data-client-components]) .ai-list-note {
- margin: var(--spacing-small) var(--spacing-small); color: var(--color-text-hint); font-size: var(--font-label-small);
+ margin: var(--spacing-small) var(--spacing-small); color: var(--color-text-hint); font: var(--type-label-medium) var(--font-family-sans);
 }
 :is([data-proto="client"], [data-client-components]) .conversation-dock {
  width: min(100%, var(--size-modal-width-lg)); align-self: center; min-width: 0; min-height: 0; flex: 0 1 auto; display: flex; flex-direction: column;
@@ -699,7 +699,7 @@
  display: flex; flex-direction: column; gap: var(--spacing-small); min-height: 0; overflow-y: auto; overscroll-behavior: contain;
 }
 :is([data-proto="client"], [data-client-components]) .conversation-meta {
- flex: 0 0 auto; display: flex; justify-content: flex-end; align-items: center; gap: var(--spacing-small); min-height: var(--tap-target); font-size: var(--font-label-small); color: var(--color-on-surface-soft);
+ flex: 0 0 auto; display: flex; justify-content: flex-end; align-items: center; gap: var(--spacing-small); min-height: var(--tap-target); font: var(--type-label-medium) var(--font-family-sans); color: var(--color-on-surface-soft);
 }
 :is([data-proto="client"], [data-client-components]) .client-history-layer {
  --overlay-place-items: end center;
@@ -720,7 +720,7 @@
  display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-small); padding-bottom: var(--spacing-large);
 }
 :is([data-proto="client"], [data-client-components]) .ai-drawer-head h2 {
- margin: 0; font-size: var(--font-title-medium);
+ margin: 0; font: var(--type-title-medium) var(--font-family-sans);
 }
 :is([data-proto="client"], [data-client-components]) .client-ai-scrim {
  display: block; position: absolute; inset: 0; background: var(--color-scrim); z-index: var(--z-index-scrim); opacity: 0; visibility: hidden; pointer-events: none;

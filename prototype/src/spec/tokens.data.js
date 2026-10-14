@@ -1,9 +1,9 @@
 /* 生成物 · 请勿手改
    由 tools/tokens-report.mjs 解析 src/base/tokens.css 生成
-   source-sha256: c99a9ec73df024a8138965d7a2f84315fb7eccc856dde810b31b48eb6183cd2f
+   source-sha256: 96387eb878433d0246d5c027d2a0325aeee34515f57b27cc1524c84eba3206ff
 */
 window.AyaneTokens = {
-  "total": 167,
+  "total": 162,
   "groups": [
     {
       "title": "字体族",
@@ -299,14 +299,14 @@ window.AyaneTokens = {
         },
         {
           "name": "--background-user-card-action",
-          "value": "linear-gradient(135deg, var(--color-primary), #eba48dff)",
+          "value": "linear-gradient(135deg, var(--color-primary), #efa791ff)",
           "desc": "共享组件背景：从客户端动作背景提升，保留原型渐变。",
           "nomikit": "",
           "dark": "var(--color-surface)"
         },
         {
           "name": "--background-user-card-action-hover",
-          "value": "linear-gradient(135deg, var(--color-primary), #e09a83ff)",
+          "value": "linear-gradient(135deg, #dd8f77ff, #e79c85ff)",
           "desc": "共享组件背景：从客户端动作 hover 背景提升，保留原型渐变。",
           "nomikit": "",
           "dark": "var(--color-surface)"
@@ -704,20 +704,6 @@ window.AyaneTokens = {
           "dark": ""
         },
         {
-          "name": "--height-tab",
-          "value": "48px",
-          "desc": "标签与主按钮",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--height-chip",
-          "value": "32px",
-          "desc": "标签芯片",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
           "name": "--height-badge",
           "value": "18px",
           "desc": "计数徽标",
@@ -739,37 +725,9 @@ window.AyaneTokens = {
           "dark": ""
         },
         {
-          "name": "--height-control",
-          "value": "44px",
-          "desc": "输入控件最小可点高度",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--height-control-sm",
-          "value": "42px",
-          "desc": "通用标准操作按钮；触控热区另保底 44px。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--height-control-xs",
-          "value": "30px",
-          "desc": "后台小按钮",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
           "name": "--height-field",
           "value": "48px",
           "desc": "通用登录字段；不改变校验行为。",
-          "nomikit": "",
-          "dark": ""
-        },
-        {
-          "name": "--height-head",
-          "value": "46px",
-          "desc": "卡片头",
           "nomikit": "",
           "dark": ""
         },
@@ -821,101 +779,108 @@ window.AyaneTokens = {
       "title": "排版（字号与行高）",
       "tokens": [
         {
-          "name": "--font-caption",
-          "value": "11px",
-          "desc": "辅助说明",
-          "nomikit": "Typography.caption",
+          "name": "--type-display-large",
+          "value": "57px / 64px",
+          "desc": "展示大标题",
+          "nomikit": "Typography.displayLarge",
           "dark": ""
         },
         {
-          "name": "--font-badge",
-          "value": "10px",
-          "desc": "徽标数字，比 caption 再小一档的组件档",
-          "nomikit": "",
+          "name": "--type-display-medium",
+          "value": "45px / 52px",
+          "desc": "展示中标题",
+          "nomikit": "Typography.displayMedium",
           "dark": ""
         },
         {
-          "name": "--font-label-small",
-          "value": "12px",
-          "desc": "标签与次要元信息",
-          "nomikit": "Typography.labelSmall",
+          "name": "--type-display-small",
+          "value": "36px / 44px",
+          "desc": "展示小标题",
+          "nomikit": "Typography.displaySmall",
           "dark": ""
         },
         {
-          "name": "--font-body-small",
-          "value": "13px",
-          "desc": "后台正文",
-          "nomikit": "Typography.bodySmall",
-          "dark": ""
-        },
-        {
-          "name": "--font-body-medium",
-          "value": "14px",
-          "desc": "正文与二级标题",
-          "nomikit": "Typography.bodyMedium",
-          "dark": ""
-        },
-        {
-          "name": "--font-body-large",
-          "value": "15px",
-          "desc": "聊天正文",
-          "nomikit": "Typography.bodyLarge",
-          "dark": ""
-        },
-        {
-          "name": "--font-title-medium",
-          "value": "16px",
-          "desc": "区块标题",
-          "nomikit": "Typography.titleMedium",
-          "dark": ""
-        },
-        {
-          "name": "--font-title-large",
-          "value": "17px",
-          "desc": "页面标题",
-          "nomikit": "Typography.titleLarge",
-          "dark": ""
-        },
-        {
-          "name": "--font-headline-large",
-          "value": "20px",
+          "name": "--type-headline-large",
+          "value": "32px / 40px",
           "desc": "大标题",
           "nomikit": "Typography.headlineLarge",
           "dark": ""
         },
         {
-          "name": "--font-display-large",
-          "value": "24px",
-          "desc": "展示标题",
-          "nomikit": "Typography.displayLarge",
+          "name": "--type-headline-medium",
+          "value": "28px / 36px",
+          "desc": "中标题",
+          "nomikit": "Typography.headlineMedium",
           "dark": ""
         },
         {
-          "name": "--font-stat-large",
-          "value": "22px",
-          "desc": "统计数字，介于 headline 与 display 之间的组件档",
-          "nomikit": "",
+          "name": "--type-headline-small",
+          "value": "24px / 32px",
+          "desc": "小标题",
+          "nomikit": "Typography.headlineSmall",
           "dark": ""
         },
         {
-          "name": "--line-height-tight",
-          "value": "1.35",
-          "desc": "",
-          "nomikit": "",
+          "name": "--type-title-large",
+          "value": "22px / 28px",
+          "desc": "页面标题",
+          "nomikit": "Typography.titleLarge",
           "dark": ""
         },
         {
-          "name": "--line-height-normal",
-          "value": "1.5",
-          "desc": "",
-          "nomikit": "",
+          "name": "--type-title-medium",
+          "value": "16px / 24px",
+          "desc": "中等标题",
+          "nomikit": "Typography.titleMedium",
           "dark": ""
         },
         {
-          "name": "--line-height-loose",
-          "value": "1.65",
-          "desc": "",
-          "nomikit": "",
+          "name": "--type-title-small",
+          "value": "14px / 20px",
+          "desc": "小标题",
+          "nomikit": "Typography.titleSmall",
+          "dark": ""
+        },
+        {
+          "name": "--type-body-large",
+          "value": "16px / 24px",
+          "desc": "大正文",
+          "nomikit": "Typography.bodyLarge",
+          "dark": ""
+        },
+        {
+          "name": "--type-body-medium",
+          "value": "14px / 20px",
+          "desc": "中正文",
+          "nomikit": "Typography.bodyMedium",
+          "dark": ""
+        },
+        {
+          "name": "--type-body-small",
+          "value": "12px / 16px",
+          "desc": "小正文",
+          "nomikit": "Typography.bodySmall",
+          "dark": ""
+        },
+        {
+          "name": "--type-label-large",
+          "value": "14px / 20px",
+          "desc": "大标签",
+          "nomikit": "Typography.labelLarge",
+          "dark": ""
+        },
+        {
+          "name": "--type-label-medium",
+          "value": "12px / 16px",
+          "desc": "中标签",
+          "nomikit": "Typography.labelMedium",
+          "dark": ""
+        },
+        {
+          "name": "--type-label-small",
+          "value": "10px / 16px",
+          "desc": "小标签",
+          "nomikit": "Typography.labelSmall",
           "dark": ""
         },
         {

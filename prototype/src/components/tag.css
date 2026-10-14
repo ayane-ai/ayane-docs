@@ -17,7 +17,7 @@
   border-radius: var(--radius-pill);
   background: var(--color-neutral-soft);
   color: var(--color-on-surface-soft);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
   font-weight: var(--weight-bold);
   white-space: nowrap;
   overflow: hidden;
@@ -53,13 +53,12 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  min-height: var(--height-chip);
-  padding: 0 var(--spacing-medium);
+  padding: calc(var(--spacing-small) - var(--stroke-thin)) var(--spacing-medium);
   border: 1px solid var(--color-outline-strong);
   border-radius: var(--radius-pill);
   background: transparent;
   color: var(--color-on-surface-soft);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
   white-space: nowrap;
   transition:
     background var(--duration-fast) ease,
@@ -81,7 +80,7 @@
 
 .chip.is-on,
 .chip:has(input:checked) {
-  border-color: transparent;
+  border-color: var(--color-primary);
   background: var(--color-primary-soft);
   color: var(--color-primary-strong);
   font-weight: var(--weight-bold);
@@ -121,7 +120,7 @@
   align-self: start;
   padding-top: var(--spacing-tiny);
   color: var(--color-text-hint);
-  font-size: var(--font-badge);
+  font: var(--type-label-small) var(--font-family-sans);
   white-space: nowrap;
 
 }
@@ -142,6 +141,6 @@
   border-radius: var(--radius-pill);
   background: var(--color-primary-soft);
   color: var(--color-primary-strong);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
 
 }

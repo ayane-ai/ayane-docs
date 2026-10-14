@@ -44,7 +44,7 @@
   flex: 1 1 100%;
   margin: 0;
   color: var(--color-on-surface);
-  font-size: var(--font-headline-large);
+  font: var(--type-headline-large) var(--font-family-sans);
   font-weight: var(--weight-bold);
 }
 
@@ -52,8 +52,8 @@
   flex: 1 1 320px;
   margin: 0;
   color: var(--color-on-surface-soft);
-  font-size: var(--font-body-small);
-  line-height: var(--line-height-normal);
+  font: var(--type-body-small) var(--font-family-sans);
+
 }
 
 .region-actions {
@@ -70,7 +70,7 @@
   background: var(--color-neutral-soft);
   color: var(--color-on-surface-soft);
   font-family: var(--font-family-mono);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-mono);
 }
 
 /* ------------------------------------------------------------
@@ -90,8 +90,8 @@
   border-radius: var(--radius-huge);
   background: var(--color-bg);
   color: var(--color-on-surface);
-  font-size: var(--font-body-small);
-  line-height: var(--line-height-normal);
+  font: var(--type-body-small) var(--font-family-sans);
+
 }
 
 /* 原型原来的 body::before/::after 装饰改挂在画布上；
@@ -111,7 +111,7 @@
   flex-wrap: wrap;
   margin: var(--spacing-small) 0 0;
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
 }
 
 .region-meta code { font-family: var(--font-family-mono); }

@@ -25,10 +25,10 @@
 .login-card {
   width: min(100%, var(--size-login-card-width));
   padding: var(--spacing-massive) var(--spacing-massive) var(--spacing-huge);
-  border: 1px solid var(--color-outline);
-  border-radius: var(--radius-huge);
+  border: 1px solid var(--color-surface-strong);
+  border-radius: calc(var(--radius-extra-large) + var(--spacing-small));
   background: var(--color-surface-solid);
-  box-shadow: var(--shadow-high);
+  box-shadow: 0 28px 80px color-mix(in srgb, var(--color-on-surface) 14%, transparent);
   text-align: var(--login-card-align);
   backdrop-filter: blur(22px);
 }
@@ -43,7 +43,7 @@
 .login-brand h1 {
   margin: 0;
   color: var(--color-on-surface);
-  font-size: var(--font-title-medium);
+  font: var(--type-title-medium) var(--font-family-sans);
   font-weight: var(--weight-heavy);
   letter-spacing: 0.01em;
 }
@@ -51,7 +51,7 @@
 .login-brand p {
   margin: var(--spacing-extra-small) 0 0;
   color: var(--color-text-hint);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
 }
 
 .brand-mark {
@@ -76,8 +76,8 @@
 .login-note {
   margin: var(--spacing-large) 0 0;
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
-  line-height: var(--line-height-loose);
+  font: var(--type-body-small) var(--font-family-sans);
+
 }
 
 .login-error {
@@ -86,9 +86,9 @@
   gap: var(--spacing-extra-small);
   margin: calc(-1 * var(--spacing-extra-small)) 0 0;
   color: var(--color-error);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
   font-weight: var(--weight-medium);
-  line-height: var(--line-height-normal);
+
   text-align: left;
 }
 
@@ -165,15 +165,15 @@
 
 .modal-head h2 {
   margin: 0;
-  font-size: var(--font-body-medium);
+  font: var(--type-body-medium) var(--font-family-sans);
   font-weight: var(--weight-heavy);
 }
 
 .modal-head p {
   margin: var(--spacing-extra-small) 0 0;
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
-  line-height: var(--line-height-normal);
+  font: var(--type-body-small) var(--font-family-sans);
+
 }
 
 .form-modal.is-danger .modal-head {
@@ -279,7 +279,7 @@
 
 .drawer-head h2 {
   margin: 0;
-  font-size: var(--font-body-medium);
+  font: var(--type-body-medium) var(--font-family-sans);
   font-weight: var(--weight-heavy);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -289,8 +289,8 @@
 .drawer-head p {
   margin: var(--spacing-extra-small) 0 0;
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
-  line-height: var(--line-height-normal);
+  font: var(--type-body-small) var(--font-family-sans);
+
 }
 
 .drawer-head-copy {
@@ -370,7 +370,7 @@
 .popover-title {
   padding: var(--spacing-extra-small) var(--spacing-small);
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
+  font: var(--type-body-small) var(--font-family-sans);
   font-weight: var(--weight-heavy);
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -385,7 +385,7 @@
   padding: 0 var(--spacing-small);
   border-radius: var(--radius-small);
   color: var(--color-on-surface-soft);
-  font-size: var(--font-body-small);
+  font: var(--type-body-small) var(--font-family-sans);
   text-align: left;
   transition: background var(--duration-fast) ease, color var(--duration-fast) ease;
 }
@@ -422,7 +422,7 @@
 
 .popover-item-copy strong {
   display: block;
-  font-size: var(--font-body-small);
+  font: var(--type-body-small) var(--font-family-sans);
   font-weight: var(--weight-medium);
 }
 
@@ -430,8 +430,8 @@
   display: block;
   margin-top: var(--spacing-tiny);
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
-  line-height: var(--line-height-normal);
+  font: var(--type-body-small) var(--font-family-sans);
+
 }
 
 .popover-item[aria-checked="true"] .popover-item-copy strong {
@@ -442,8 +442,8 @@
   margin: 0;
   padding: var(--spacing-small) var(--spacing-small) var(--spacing-extra-small);
   color: var(--color-text-hint);
-  font-size: var(--font-caption);
-  line-height: var(--line-height-normal);
+  font: var(--type-body-small) var(--font-family-sans);
+
 }
 
 .popover-sep {
@@ -469,7 +469,7 @@
   background: var(--color-toast-bg);
   color: var(--color-on-dark);
   box-shadow: var(--shadow-high);
-  font-size: var(--font-label-small);
+  font: var(--type-label-medium) var(--font-family-sans);
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, var(--toast-shift));

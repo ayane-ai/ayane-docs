@@ -115,7 +115,7 @@ Phase 1 的范围以本文档为准；Phase 2 / 3 的能力在这里只留出接
 
 - **Ktor 宿主**：提供 HTTP、WebSocket、健康检查和路由适配，保持服务端边界轻量且纯 Kotlin。
 - **Koog Agent**：负责 Agent 编排、模型调用、上下文执行和 Structured Output；不拥有 Identity、Memory 或 State 的业务权属。
-- **Koin**：使用经典 Kotlin DSL 装配应用层、runtime、Repository 和模型输出适配器，不引入重量级容器或注解处理器。
+- **Koin**：使用经典 Kotlin DSL 装配应用层、核心、Repository 和模型输出适配器，不引入重量级容器或注解处理器。
 - **Exposed JDBC**：实现 `agent-domain` 的 Repository 接口，通过协程事务封装阻塞式 JDBC；数据库表和映射对象只存在于 `agent-store-exposed`。
 - **OpenAI-compatible Model Provider**：由 Koog 接入云端 OpenAI-compatible API，供应商切换不改变 Prompt 和 Runtime 行为。
 - **云端视觉引擎**：由视觉层通过 HTTP 客户端调用云端多模态理解能力，供应商切换不改变感知事件与 Runtime 行为。
@@ -757,20 +757,11 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 │  │ Vision (Screen / Face) │                         │
 │  └────────────────────────┘                         │
 └─────────────────────────────────────────────────────┘
-
-┌─────────────────────────────────────────────────────┐
-│ runtime-service（Ktor Application :8090）            │
-│ Koin Modules → Koog / Runtime Adapter               │
-│ /api/runtime/health                                  │
-│ /api/runtime/process                                 │
-└─────────────────────────────────────────────────────┘
 ```
 
 要点：
 
-- `agent-service` 是 Phase 1 默认入口，Ktor 负责 API / WebSocket，Koin 负责组合根，runtime 以进程内实现运行。
-- `runtime-service` 同时提供可启动的 Ktor 入口，用于独立健康检查和 runtime 路由验证，但不改变 Phase 1 的嵌入式请求路径。
-- `runtime-service` 只做协议转换和运行时适配，业务逻辑仍由 `runtime:agent-runtime` 负责。
+- `agent-service` 是 Phase 1 唯一入口，Ktor 负责 API / WebSocket，Koin 负责组合根，`AgentRuntime`（agent-core SDK）在进程内被装配和调用。
 - `agent-protocol` 产出的完整动作通过 Action Event Stream 发送；模型 token 流不直接暴露为协议事件。
 - **Perception Layer** 与 **Proactive Loop Scheduler** 是 Phase 1 常驻组件。
 - **账号与鉴权**、**Agent 归属登记** 是 Phase 1 常驻组件，位于接口层之前，先于 Runtime 生效。

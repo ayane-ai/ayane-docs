@@ -2129,11 +2129,13 @@
         "name": "a20-providers-1439",
         "w": 1439,
         "h": 900,
-        "note": "1439 统计卡密度档上界",
-        "setup": "const s=document.querySelector('[data-proto=admin]');s.querySelector('#admin-login-account').value='admin@ayane.local';s.querySelector('#admin-login-password').value='ayane2026';s.querySelector('#admin-login-submit').click();await new Promise(r=>setTimeout(r,900));s.querySelector('#nav-scroll [data-module=\"providers\"]').click();await new Promise(r=>setTimeout(r,600));",
+        "note": "供应商两栏配置工作区",
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
         "expect": [
-          "location.hash.startsWith('#/providers')",
-          "q('.page-head h1').textContent.includes('模型供应商')"
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('.provider-editor')!==null"
         ]
       },
       {
@@ -2356,6 +2358,682 @@
             ]
           }
         ]
+      },
+      {
+        "name": "provider-layout-320",
+        "w": 320,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-320)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===1",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 320
+      },
+      {
+        "name": "provider-layout-390",
+        "w": 390,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-390)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===1",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 390
+      },
+      {
+        "name": "provider-layout-767",
+        "w": 767,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-767)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===1",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 767
+      },
+      {
+        "name": "provider-layout-768",
+        "w": 768,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-768)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===1",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 768
+      },
+      {
+        "name": "provider-layout-1024",
+        "w": 1024,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-1024)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===2",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 1024
+      },
+      {
+        "name": "provider-layout-1199",
+        "w": 1199,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-1199)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===2",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 1199
+      },
+      {
+        "name": "provider-layout-1200",
+        "w": 1200,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-1200)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===2",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 1200
+      },
+      {
+        "name": "provider-layout-1440",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-1440)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===2",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 1440
+      },
+      {
+        "name": "provider-layout-1599",
+        "w": 1599,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-1599)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===2",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 1599
+      },
+      {
+        "name": "provider-layout-1600",
+        "w": 1600,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-1600)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===2",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 1600
+      },
+      {
+        "name": "provider-layout-1920",
+        "w": 1920,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "Math.abs(queryWidth()-1920)<1",
+          "q('.provider-sources').textContent.includes('4')",
+          "q('#provider-field-timeout').value==='120'",
+          "q('[data-action=\"provider.save\"]').disabled",
+          "qAll('.provider-model-toolbar h3').length===1",
+          "getComputedStyle(q('.provider-workspace')).gridTemplateColumns.split(' ').length===2",
+          "qAll('.provider-setting').every(n=>n.scrollWidth<=n.clientWidth+1)",
+          "qAll('.provider-model-actions button').every(n=>!!n.getAttribute('aria-label'))"
+        ],
+        "canvasWidth": 1920
+      },
+      {
+        "name": "provider-initial",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "!q('.provider-editor')",
+          "q('.provider-editor-empty').textContent.includes('请选择一个提供商源')"
+        ]
+      },
+      {
+        "name": "provider-categories",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));for(const id of ['speech_to_text','embedding','rerank']){click('[data-category=\"'+id+'\"]');assert(q('.provider-source-empty')&&q('.provider-editor-empty'),'empty category '+id);}click('[data-category=\"text_to_speech\"]');assert(qAll('.provider-source-select').length===1,'tts mapped');click('[data-category=\"conversation\"]');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "qAll('.provider-source-select').length===4",
+          "q('#provider-field-sourceId').value==='pv_301'"
+        ]
+      },
+      {
+        "name": "provider-picker-320",
+        "w": 320,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#modal-title').textContent==='新建模型提供商'",
+          "qAll('.provider-template-card').length===29",
+          "qAll('.provider-sponsor-card').length===2",
+          "q('#provider-template-query').closest('.modal-head')!==null",
+          "!q('.provider-picker .modal-foot')",
+          "getComputedStyle(q('.provider-template-grid')).gridTemplateColumns.split(' ').length===1",
+          "q('.provider-picker').scrollWidth<=q('.provider-picker').clientWidth+1"
+        ],
+        "canvasWidth": 320
+      },
+      {
+        "name": "provider-picker-390",
+        "w": 390,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#modal-title').textContent==='新建模型提供商'",
+          "qAll('.provider-template-card').length===29",
+          "qAll('.provider-sponsor-card').length===2",
+          "q('#provider-template-query').closest('.modal-head')!==null",
+          "!q('.provider-picker .modal-foot')",
+          "getComputedStyle(q('.provider-template-grid')).gridTemplateColumns.split(' ').length===1",
+          "q('.provider-picker').scrollWidth<=q('.provider-picker').clientWidth+1"
+        ],
+        "canvasWidth": 390
+      },
+      {
+        "name": "provider-picker-768",
+        "w": 768,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#modal-title').textContent==='新建模型提供商'",
+          "qAll('.provider-template-card').length===29",
+          "qAll('.provider-sponsor-card').length===2",
+          "q('#provider-template-query').closest('.modal-head')!==null",
+          "!q('.provider-picker .modal-foot')",
+          "getComputedStyle(q('.provider-template-grid')).gridTemplateColumns.split(' ').length===2",
+          "q('.provider-picker').scrollWidth<=q('.provider-picker').clientWidth+1"
+        ],
+        "canvasWidth": 768
+      },
+      {
+        "name": "provider-picker-1024",
+        "w": 1024,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#modal-title').textContent==='新建模型提供商'",
+          "qAll('.provider-template-card').length===29",
+          "qAll('.provider-sponsor-card').length===2",
+          "q('#provider-template-query').closest('.modal-head')!==null",
+          "!q('.provider-picker .modal-foot')",
+          "getComputedStyle(q('.provider-template-grid')).gridTemplateColumns.split(' ').length===3",
+          "q('.provider-picker').scrollWidth<=q('.provider-picker').clientWidth+1"
+        ],
+        "canvasWidth": 1024
+      },
+      {
+        "name": "provider-picker-1440",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#modal-title').textContent==='新建模型提供商'",
+          "qAll('.provider-template-card').length===29",
+          "qAll('.provider-sponsor-card').length===2",
+          "q('#provider-template-query').closest('.modal-head')!==null",
+          "!q('.provider-picker .modal-foot')",
+          "getComputedStyle(q('.provider-template-grid')).gridTemplateColumns.split(' ').length===3",
+          "q('.provider-picker').scrollWidth<=q('.provider-picker').clientWidth+1"
+        ],
+        "canvasWidth": 1440
+      },
+      {
+        "name": "provider-picker-1920",
+        "w": 1920,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#modal-title').textContent==='新建模型提供商'",
+          "qAll('.provider-template-card').length===29",
+          "qAll('.provider-sponsor-card').length===2",
+          "q('#provider-template-query').closest('.modal-head')!==null",
+          "!q('.provider-picker .modal-foot')",
+          "getComputedStyle(q('.provider-template-grid')).gridTemplateColumns.split(' ').length===3",
+          "q('.provider-picker').scrollWidth<=q('.provider-picker').clientWidth+1"
+        ],
+        "canvasWidth": 1920
+      },
+      {
+        "name": "provider-picker-search",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));fill('#provider-template-query','deep');assert(qAll('.provider-template-card').length===2,'2 deepseek templates');fill('#provider-template-query','no-such-provider');assert(q('.provider-template-empty'),'no match state');fill('#provider-template-query','');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "qAll('.provider-template-card').length===29",
+          "document.activeElement===q('#provider-template-query')"
+        ]
+      },
+      {
+        "name": "provider-picker-focus-escape",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));q('.provider-template-card:last-child').focus();",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "!q('.modal-layer.is-open')",
+          "document.activeElement===q('[data-action=\"provider.create\"]')"
+        ],
+        "keyboard": [
+          {
+            "key": "Tab",
+            "expect": [
+              "document.activeElement===q('#provider-template-query')"
+            ]
+          },
+          {
+            "key": "Escape",
+            "expect": [
+              "!q('.modal-layer.is-open')",
+              "document.activeElement===q('[data-action=\"provider.create\"]')"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "provider-picker-scrim",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));click('#modal-layer');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "!q('.modal-layer.is-open')",
+          "document.activeElement===q('[data-action=\"provider.create\"]')"
+        ]
+      },
+      {
+        "name": "provider-catalog-all",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));for(let i=0;i<29;i++){click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));click('[data-template=\"template_'+i+'\"]');await wait(()=>!q('.modal-layer.is-open'));assert(q('#provider-field-sourceId').value.length>0,'template source ID '+i);assert(q('#provider-field-timeout').value==='120','template timeout '+i);assert(qAll('.provider-model-row').length===0,'new models empty '+i);assert(!q('[data-action=\"provider.save\"]').disabled,'new source dirty '+i);}",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "qAll('.provider-source-select').length===33",
+          "q('.provider-editor-head h2').textContent==='FastGPT'"
+        ],
+        "settle": 300
+      },
+      {
+        "name": "provider-drafts",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));fill('#provider-field-sourceId','demo-renamed');fill('#provider-field-proxy','http://127.0.0.1:7890');fill('#provider-key-0','sk-new-test-only');click('[data-action=\"provider.key.toggle\"]');assert(q('#provider-key-0').type==='text'&&q('#provider-key-0').value==='sk-new-test-only','draft eye');click('[data-action=\"provider.advanced\"]');click('[data-id=\"pv_302\"][data-action=\"provider.select\"]');click('[data-id=\"pv_301\"][data-action=\"provider.select\"]');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#provider-field-sourceId').value==='demo-renamed'",
+          "q('#provider-key-0').value==='sk-new-test-only'",
+          "q('#provider-field-proxy').value==='http://127.0.0.1:7890'",
+          "q('#provider-advanced').hidden",
+          "!q('[data-action=\"provider.save\"]').disabled"
+        ]
+      },
+      {
+        "name": "provider-draft-save-and-masks",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));fill('#provider-key-0','sk-only-a-test-1234');click('[data-action=\"provider.key.add\"]');fill('#provider-key-1','sk-second-test-5678');fill('#provider-field-timeout','90');click('[data-action=\"provider.save\"]');await wait(()=>q('[data-action=\"provider.save\"]').disabled&&!q('[data-action=\"provider.save\"]').classList.contains('is-loading'));click('[data-action=\"provider.key.toggle\"][data-key-index=\"0\"]');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#provider-key-0').value==='sk-••••1234'",
+          "q('#provider-key-1').value==='sk-••••5678'",
+          "q('#provider-field-timeout').value==='90'",
+          "!root.innerHTML.includes('sk-only-a-test-1234')",
+          "q('[data-action=\"provider.save\"]').disabled"
+        ]
+      },
+      {
+        "name": "provider-keys-remove",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.key.add\"]');fill('#provider-key-1','test');click('[data-action=\"provider.key.remove\"]');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "qAll('.provider-key-row').length===1",
+          "q('[data-action=\"provider.save\"]').disabled"
+        ]
+      },
+      {
+        "name": "provider-validation",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));fill('#provider-field-sourceId','pv_302');click('[data-action=\"provider.save\"]');assert(q('#provider-field-sourceId').getAttribute('aria-invalid')==='true','duplicate source rejected');fill('#provider-field-sourceId','pv_301');fill('#provider-field-baseUrl','bad');click('[data-action=\"provider.save\"]');assert(q('#provider-field-baseUrl').getAttribute('aria-invalid')==='true','invalid url rejected');fill('#provider-field-baseUrl','https://demo.invalid/v1');fill('#provider-field-timeout','0');click('[data-action=\"provider.save\"]');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#provider-field-timeout').getAttribute('aria-invalid')==='true'",
+          "q('.provider-editor-head p').textContent==='https://api.openai-compatible.local/v1'"
+        ]
+      },
+      {
+        "name": "provider-headers",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.headers.open\"]');await wait(()=>visible(q('.modal-layer.is-open')));fill('[data-header-key]','X-Demo');fill('[data-header-value]','demo');click('[data-action=\"provider.header.add\"]');assert(qAll('.provider-header-row').length===2,'added header');assert(q('[data-header-key]').value==='X-Demo','existing draft retained');qAll('[data-header-key]')[1].value='X-Second';qAll('[data-header-value]')[1].value='second';click('[type=\"submit\"][form=\"modal-form\"]');await wait(()=>!q('.modal-layer.is-open'));click('[data-action=\"provider.save\"]');await wait(()=>q('[data-action=\"provider.save\"]').disabled);click('[data-action=\"provider.headers.open\"]');await wait(()=>visible(q('.modal-layer.is-open')));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "qAll('.provider-header-row').length===2",
+          "q('[data-header-value]').value==='demo'",
+          "qAll('[data-header-value]')[1].value==='second'"
+        ]
+      },
+      {
+        "name": "provider-header-validation-cancel",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.headers.open\"]');await wait(()=>visible(q('.modal-layer.is-open')));fill('[data-header-value]','missing key');click('[type=\"submit\"][form=\"modal-form\"]');assert(q('#modal-alert').textContent.includes('不能为空'),'key validation');click('[data-kind=\"modal\"][data-action=\"layer.close\"]');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "!q('.modal-layer.is-open')",
+          "q('[data-action=\"provider.save\"]').disabled"
+        ]
+      },
+      {
+        "name": "provider-model-fetch-search-add",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.models.fetch\"]');await wait(()=>qAll('.provider-available-row').length===2);fill('[data-action=\"provider.model.search\"]','qwen');assert(document.activeElement!==null,'search remains mounted');const search=q('[data-action=\"provider.model.search\"]');search.focus();fill('[data-action=\"provider.model.search\"]','qwen-max');assert(document.activeElement===search,'search focus retained');click('[data-action=\"provider.model.add-available\"]');await wait(()=>!!q('.provider-model-main')&&q('.provider-model-main').textContent.includes('qwen-max'));fill('[data-action=\"provider.model.search\"]','');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "qAll('.provider-model-row').length===2",
+          "qAll('.provider-available-row').length===1"
+        ]
+      },
+      {
+        "name": "provider-model-custom-edit-toggle-delete",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.model.add\"]');await wait(()=>visible(q('.modal-layer.is-open')));click('[type=\"submit\"][form=\"modal-form\"]');assert(q('#provider-model-id').getAttribute('aria-invalid')==='true','empty model rejected');fill('#provider-model-id','gpt-4o-mini');click('[type=\"submit\"][form=\"modal-form\"]');assert(q('#provider-model-id-error').textContent.includes('已配置'),'duplicate model rejected');fill('#provider-model-id','demo-model');fill('#provider-model-name','演示模型');click('[type=\"submit\"][form=\"modal-form\"]');await wait(()=>!q('.modal-layer.is-open'));click('[data-action=\"provider.model.edit\"][data-model-id=\"demo-model\"]');await wait(()=>visible(q('.modal-layer.is-open')));fill('#provider-model-context','128K');click('[type=\"submit\"][form=\"modal-form\"]');await wait(()=>!q('.modal-layer.is-open'));click('[data-action=\"provider.model.toggle\"][data-model-id=\"demo-model\"]');await wait(()=>q('[data-action=\"provider.model.toggle\"][data-model-id=\"demo-model\"]').getAttribute('aria-checked')==='false');assert(q('[data-action=\"provider.model.edit\"][data-model-id=\"demo-model\"]').textContent.includes('128K'),'edit stored');click('[data-action=\"provider.model.delete\"][data-model-id=\"demo-model\"]');await wait(()=>visible(q('.modal-layer.is-open')));click('[type=\"submit\"][form=\"modal-form\"]');await wait(()=>!q('.modal-layer.is-open'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "qAll('.provider-model-row').length===1",
+          "!q('[data-model-id=\"demo-model\"]')"
+        ]
+      },
+      {
+        "name": "provider-delete-source",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.delete\"][data-id=\"pv_301\"]');await wait(()=>visible(q('.modal-layer.is-open')));click('[data-kind=\"modal\"][data-action=\"layer.close\"]');assert(qAll('.provider-source-select').length===4,'cancel keeps source');click('[data-action=\"provider.delete\"][data-id=\"pv_301\"]');await wait(()=>visible(q('.modal-layer.is-open')));click('[type=\"submit\"][form=\"modal-form\"]');await wait(()=>!q('.modal-layer.is-open'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "qAll('.provider-source-select').length===3",
+          "q('.provider-editor-empty')!==null",
+          "document.activeElement===q('[data-action=\"provider.create\"]')"
+        ]
+      },
+      {
+        "name": "provider-keyboard-tabs",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));q('[data-category=\"conversation\"]').focus();",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('[data-category=\"conversation\"]').getAttribute('aria-selected')==='true'",
+          "qAll('[role=tab][tabindex=\"0\"]').length===1"
+        ],
+        "keyboard": [
+          {
+            "key": "ArrowRight",
+            "expect": [
+              "q('[data-category=\"speech_to_text\"]').getAttribute('aria-selected')==='true'"
+            ]
+          },
+          {
+            "key": "End",
+            "expect": [
+              "q('[data-category=\"rerank\"]').getAttribute('aria-selected')==='true'"
+            ]
+          },
+          {
+            "key": "Home",
+            "expect": [
+              "document.activeElement===q('[data-category=\"conversation\"]')"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "provider-navigate-fullscreen",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));fill('#provider-field-timeout','150');if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"users\"]');await wait(()=>!!q('.data-table'));if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('#provider-field-timeout'));if(!root.closest('.region-fullscreen-layer')){click('#fullscreen-admin-open',document);await sleep(60);}",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#provider-field-timeout').value==='150'",
+          "!q('[data-action=\"provider.save\"]').disabled"
+        ],
+        "resize": [
+          {
+            "w": 390,
+            "h": 1000
+          },
+          {
+            "w": 1920,
+            "h": 1000
+          }
+        ]
+      },
+      {
+        "name": "provider-escape-fullscreen",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));if(!root.closest('.region-fullscreen-layer')){click('#fullscreen-admin-open',document);await sleep(80);}click('[data-action=\"provider.create\"]');await wait(()=>visible(q('.provider-picker')));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "!q('.modal-layer.is-open')",
+          "!root.closest('.region-fullscreen-layer')"
+        ],
+        "keyboard": [
+          {
+            "key": "Escape",
+            "expect": [
+              "!q('.modal-layer.is-open')",
+              "!!root.closest('.region-fullscreen-layer')"
+            ]
+          },
+          {
+            "key": "Escape",
+            "expect": [
+              "!root.closest('.region-fullscreen-layer')"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "provider-model-failure",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.select\"][data-id=\"pv_305\"]');click('[data-action=\"provider.models.fetch\"]');await wait(()=>q('#admin-toast').textContent.includes('502'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "qAll('.provider-model-row').length===1",
+          "qAll('.provider-available-row').length===0",
+          "q('#admin-toast').textContent.includes('获取模型列表失败')"
+        ]
+      },
+      {
+        "name": "provider-model-test",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('[data-action=\"provider.model.test\"]');await wait(()=>q('#admin-toast').textContent.includes('模型连接测试成功'));",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('#admin-toast').textContent.includes('未连接真实服务')"
+        ]
+      },
+      {
+        "name": "provider-load-error",
+        "w": 1440,
+        "h": 1000,
+        "setup": "fill('#admin-login-account','admin@ayane.local');fill('#admin-login-password','ayane2026');click('#admin-login-submit');await wait(()=>!q('#admin-shell').hidden);if(!visible(q('#sidenav'))){click('#nav-toggle');await wait(()=>visible(q('#sidenav')));}click('#nav-scroll [data-module=\"providers\"]');await wait(()=>!!q('.provider-workspace'));assert(!q('#admin-shell').hidden,'admin logged in');click('[data-action=\"provider.select\"][data-id=\"pv_301\"]');await wait(()=>!!q('#provider-field-sourceId'));click('#chaos-toggle');await wait(()=>visible(q('#chaos-popover')));click('[data-action=\"chaos.set\"][data-mode=\"500\"]');",
+        "expect": [
+          "qAll('.provider-type-tabs [role=tab]').length===5",
+          "!q('.provider-grid') && !q('[data-action=\"provider.layout\"]')",
+          "q('.provider-workspace')!==null",
+          "q('.provider-workspace').textContent.includes('加载失败')",
+          "!q('#provider-field-sourceId')"
+        ]
       }
     ],
     "components": [
@@ -2506,7 +3184,7 @@
         "w": 1440,
         "h": 1000,
         "focus": "component-inventory",
-         "setup": "await wait(()=>!!q('#demo-field-density-trigger'));q('#demo-field-density-trigger').scrollIntoView({block:'center'});click('#demo-field-density-trigger');await wait(()=>visible(q('.filter-select-menu.is-open')));q('.filter-select-menu.is-open [data-option-index=\"2\"]').click();await wait(()=>q('#demo-field-density').value==='详细');",
+        "setup": "await wait(()=>!!q('#demo-field-density-trigger'));q('#demo-field-density-trigger').scrollIntoView({block:'center'});click('#demo-field-density-trigger');await wait(()=>visible(q('.filter-select-menu.is-open')));q('.filter-select-menu.is-open [data-option-index=\"2\"]').click();await wait(()=>q('#demo-field-density').value==='详细');",
         "expect": [
           "qAll('.demo-cat').length===4",
           "qAll('.demo-card').length===13",

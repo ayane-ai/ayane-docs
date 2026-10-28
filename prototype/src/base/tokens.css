@@ -302,6 +302,9 @@
   --size-modal-width: 520px; /* 表单模态 */
   --size-modal-width-lg: 780px; /* 宽模态：详情与对比类表单 */
   --size-modal-width-sm: 424px; /* 窄模态：单步确认 */
+  --size-provider-workspace: 1180px; /* 供应商双栏工作区上限；通用画布宽度不能表达此居中面板 @nomikit — */
+  --size-provider-sidebar: 320px; /* 供应商源列表宽度；独立于后台全局导航 @nomikit — */
+  --size-provider-picker: 820px; /* 提供商选择器三列卡片宽度；通用表单弹窗不足以承载长模板名 @nomikit — */
   --size-drawer-width: 560px; /* 右侧抽屉 */
   --size-drawer-width-lg: 780px; /* 宽抽屉 */
   --size-popover-min-width: 216px; /* 气泡菜单下限 */

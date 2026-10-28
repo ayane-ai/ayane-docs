@@ -1,9 +1,9 @@
 /* 生成物 · 请勿手改
    由 tools/tokens-report.mjs 解析 src/base/tokens.css 生成
-   source-sha256: 96387eb878433d0246d5c027d2a0325aeee34515f57b27cc1524c84eba3206ff
+   source-sha256: 0078cc0db5df65a512f6307a514698e3feed482da4882d8dc8da5c4151a9cbe5
 */
 window.AyaneTokens = {
-  "total": 162,
+  "total": 165,
   "groups": [
     {
       "title": "字体族",
@@ -1143,6 +1143,27 @@ window.AyaneTokens = {
           "name": "--size-modal-width-sm",
           "value": "424px",
           "desc": "窄模态：单步确认",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--size-provider-workspace",
+          "value": "1180px",
+          "desc": "供应商双栏工作区上限；通用画布宽度不能表达此居中面板",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--size-provider-sidebar",
+          "value": "320px",
+          "desc": "供应商源列表宽度；独立于后台全局导航",
+          "nomikit": "",
+          "dark": ""
+        },
+        {
+          "name": "--size-provider-picker",
+          "value": "820px",
+          "desc": "提供商选择器三列卡片宽度；通用表单弹窗不足以承载长模板名",
           "nomikit": "",
           "dark": ""
         },

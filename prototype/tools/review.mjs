@@ -96,7 +96,7 @@ try{
   const overlay=root.querySelector('.modal-layer.is-open, .ai-selector.is-open, .drawer.is-open, .popover.is-open, .sidenav.is-open');
   for(const selector of critical){const node=root.querySelector(selector);if(!visible(node))continue;const r=rect(node);if(r.x<stage.x-1||r.right>stage.right+1||r.y<stage.y-1||r.bottom>stage.bottom+1)outside.push({selector,rect:r});let hitWidth=node.offsetWidth,hitHeight=node.offsetHeight;for(const pseudo of ['::before','::after']){const p=getComputedStyle(node,pseudo);if(p.content!=='none'&&p.content!=='normal'){hitWidth=Math.max(hitWidth,parseFloat(p.width)||0);hitHeight=Math.max(hitHeight,parseFloat(p.height)||0);}}if(hitWidth<43||hitHeight<43)small.push({selector,w:hitWidth,h:hitHeight});if(!overlay&&r.x+r.w/2>=0&&r.right-r.w/2<viewport.w&&r.y+r.h/2>=0&&r.bottom-r.h/2<viewport.h){const hit=document.elementFromPoint(r.x+r.w/2,r.y+r.h/2);if(hit&&!node.contains(hit)){const record={selector,by:hit.id||hit.className||hit.tagName};if(!root.contains(hit)&&!root.closest('.region-fullscreen-layer'))workbenchOcclusion.push(record);else blocked.push(record);}}}
   const scrollOverflow=[];
-  for(const selector of region==='admin'?['.admin-shell','.topbar','.page-head','.filter-bar']:['.client-layout','.scene-toolbar','.client-toolbar-controls','.composer','.client-profile-view']){const node=root.querySelector(selector);if(visible(node)&&node.scrollWidth>node.clientWidth+2)scrollOverflow.push({selector,scrollWidth:node.scrollWidth,clientWidth:node.clientWidth});}
+  for(const selector of region==='admin'?['.admin-shell','.topbar','.page-head:not(.provider-page-head)','.filter-bar','.provider-workspace','.provider-main','.provider-type-tabs','.provider-model-toolbar','.provider-picker']:['.client-layout','.scene-toolbar','.client-toolbar-controls','.composer','.client-profile-view']){const node=root.querySelector(selector);if(visible(node)&&node.scrollWidth>node.clientWidth+2)scrollOverflow.push({selector,scrollWidth:node.scrollWidth,clientWidth:node.clientWidth});}
   return {stage,viewport,contentWidth,layout:root.dataset.layout||null,outside,small,blocked,workbenchOcclusion,scrollOverflow,activeElement:document.activeElement?.id||null};
  }
 
@@ -142,6 +142,7 @@ try{
    for(let i=0;i<100;i++){try{if(events.some(event=>event.method==='Page.loadEventFired')&&await evaluate("document.readyState==='complete' && !!window.AyaneSpec"))break;}catch{}await sleep(50);}
    await evaluate("(async()=>{await Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,1200))]);await Promise.race([Promise.all([...document.images].filter(i=>i.loading!=='lazy').map(i=>i.complete?Promise.resolve():new Promise(r=>{i.addEventListener('load',r,{once:true});i.addEventListener('error',r,{once:true});}))),new Promise(r=>setTimeout(r,1800))]);window.AyaneSpec.showPage("+JSON.stringify(job.region)+");window.AyaneSpec.setView();})()");
    if(job.mode==='fullscreen')await run(job.region,"click('#fullscreen-"+job.region+"-open',document);await sleep(60);");
+   if(job.canvasWidth)await evaluate('(()=>{const s=document.querySelector(' + JSON.stringify('[data-proto="'+job.region+'"]') + ');const c=getComputedStyle(s);s.style.width=('+job.canvasWidth+'+parseFloat(c.borderLeftWidth)+parseFloat(c.borderRightWidth))+"px";s.style.maxWidth="none";})()');
    if(job.focus)await evaluate('window.AyaneSpec.locate('+JSON.stringify('component:'+job.focus)+')');
    if(job.auth)await run(job.region,'await login();');
    if(job.setup)await run(job.region,job.setup);
@@ -189,6 +190,7 @@ try{
    if(job.focus){item.demoGeometry=await evaluate('('+demoGeometry.toString()+')('+JSON.stringify(job.focus)+')');if(item.demoGeometry&&(item.demoGeometry.outside.length||item.demoGeometry.small.length))throw Error('Component geometry: '+JSON.stringify(item.demoGeometry));}
    item.geometry=await evaluate('('+geometry.toString()+')('+JSON.stringify(job.region)+')');
    if(['client','admin'].includes(job.region)&&!job.baseline){const g=item.geometry;if(g.outside.length||g.small.length||g.blocked.length||g.scrollOverflow.length)throw Error('Geometry assertion: '+JSON.stringify({outside:g.outside,small:g.small,blocked:g.blocked,overflow:g.scrollOverflow}));}
+   if(job.canvasWidth && Math.abs(item.geometry.contentWidth-job.canvasWidth)>1)throw Error('Requested canvas width did not apply');
    const shot=await cmd('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
    item.screenshot='shots/'+tag+'.png';await fs.writeFile(path.join(outDir,item.screenshot),Buffer.from(shot.data,'base64'));
    item.exceptions=events.filter(e=>e.method==='Runtime.exceptionThrown').map(e=>e.params.exceptionDetails.exception?.description||e.params.exceptionDetails.text);

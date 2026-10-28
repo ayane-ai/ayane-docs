@@ -130,8 +130,8 @@ gate('02 令牌表数据新鲜度', async function () {
     '图标尺寸（九级）': [['--size-icon-tiny', '14px'], ['--size-icon-extra-small', '16px'], ['--size-icon-small', '18px'], ['--size-icon-medium', '20px'], ['--size-icon-large', '24px'], ['--size-icon-extra-large', '32px'], ['--size-icon-huge', '40px'], ['--size-icon-massive', '48px'], ['--size-icon-colossal', '56px']],
     '头像尺寸（九级）': [['--size-avatar-tiny', '18px'], ['--size-avatar-extra-small', '24px'], ['--size-avatar-small', '32px'], ['--size-avatar-medium', '40px'], ['--size-avatar-large', '48px'], ['--size-avatar-extra-large', '56px'], ['--size-avatar-huge', '64px'], ['--size-avatar-massive', '72px'], ['--size-avatar-colossal', '96px']],
   };
-  if (parsed.total !== 162 || parsed.groups.length !== 21) {
-    fail.call(this, `内容驱动控件高度重构结果应为 162 个令牌 / 21 组，实际为 ${parsed.total} 个令牌 / ${parsed.groups.length} 组`);
+  if (parsed.total !== 165 || parsed.groups.length !== 21) {
+    fail.call(this, `包含供应商布局三项组件档应为 165 个令牌 / 21 组，实际为 ${parsed.total} 个令牌 / ${parsed.groups.length} 组`);
   }
   for (const [title, expected] of Object.entries(protectedScale)) {
     const group = parsed.groups.find((item) => item.title === title);

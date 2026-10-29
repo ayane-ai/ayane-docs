@@ -236,7 +236,7 @@ agent-core 是 SDK：它只提供库，不提供可启动入口，也不定义�
 | Account | `User`、`UserCredential`、`UserRepository`、`RefreshTokenRepository`、口令哈希端口 |
 | Memory | `Memory`、`MemoryQuery`、`MemoryRepository` |
 | State | `AgentState`、`AgentStateRepository`、状态更新规则端口 |
-| World | `WorldModel`、`WorldModelRepository` |
+| World | `WorldModel`、`WorldModelRepository`、`BodyId`、`BodyView`、`BodyCapability`、`BodyRepository` |
 | Event | `PerceptionEvent`、`SessionEvent` 及相关值对象 |
 | 媒体 | `AudioRecord`、`AudioStore`、`VisionRecord`、`VisionStore`（对象存储端口）、`AudioIndexRepository`、`VisionIndexRepository` |
 
@@ -315,6 +315,7 @@ Repository 只表达领域需要的读写能力；数据库连接、事务、序
 - `agent.api.*.dto`：由 contracts 生成或适配的 DTO。
 - `agent.api.client.AuthRoutes`：登录、刷新与登出。
 - `agent.api.security`：归属解析，把登录凭据与请求中的 `AgentId` 解析为确定的「用户 + Agent」。
+- `agent.api.body`：身体握手的标识与能力集校验、能力变更上报的分流。
 - `agent.api.voice`：WebSocket 音频帧分流与校验（大小、时长、轮次归属）。
 - `agent.api.vision`：WebSocket 视觉帧分流与校验（尺寸、频率、来源与轮次归属）。
 
@@ -335,8 +336,9 @@ Repository 只表达领域需要的读写能力；数据库连接、事务、序
 1. 创建 Ktor Application 并安装 HTTP、WebSocket、序列化和错误处理能力。
 2. 由 Koin 装配 Repository、`AgentRuntime`、Koog 输出适配器和 API 路由依赖。
 3. 装配鉴权：从环境 Secret 加载 Token 签名密钥，注册认证能力并绑定归属解析。
-4. 注册 Client API、Admin API、WebSocket 和健康检查路由。
-5. 将请求交给 `AgentRuntime`。
+4. 装配身体注册表：把连接建立、断开与能力上报投影为 `WorldModel` 的身体条目。
+5. 注册 Client API、Admin API、WebSocket 和健康检查路由。
+6. 将请求交给 `AgentRuntime`。
 
 agent-core 是 SDK，由 `agent-service` 在进程内装配；不存在独立部署形态，也没有运行模式开关。
 
@@ -378,7 +380,7 @@ LLM 只能读取 State；所有 State 变化必须经过 `StateRule` 和状态�
 
 #### 3.7.4 `agent-core:agent-world-model`（World Model）
 
-**职责**：维护时间、用户、活跃 Session、设备和最近事件等当前认知。
+**职责**：维护时间、用户、身体与焦点身体、最近事件等当前认知，并在多具在线身体之间解析焦点切换。
 
 Phase 1 的 `WorldContext` 保持轻量；Phase 2+ 再演进为带置信度和更新时间的 Belief Store。
 
@@ -423,7 +425,7 @@ Phase 1 支持 ClientSignal、ClockSignal 和 SessionSignal；麦克风音频在
 - 不依赖 Ktor Server、Koin 或 Exposed；云端引擎凭据由应用入口从 Secret 注入。
 - 口型时间轴由合成引擎产出；引擎不提供时标记为缺失，回落到 Unity 侧音素分析。
 - 音频字节不进入记忆、不下发客户端展示、不写应用日志；日志只记录媒体标识与耗时。
-- 播报单播到最后一次用户输入的设备。
+- 播报只发往焦点身体，不在多具身体上重复播报；路由规则见 [Agent Service 架构设计 §10.4 身体路由](AgentService架构设计.md)。
 
 ---
 
@@ -510,7 +512,7 @@ agent-core 不提供启动入口，只能作为库被 `agent-service` 加载。
 | `contracts` | Schema、DTO 序列化测试 | ❌ |
 | `agent-core:agent-memory` | 纯单测（召回策略用假仓储） | ❌ |
 | `agent-core:agent-state` | 纯单测（状态机 + 规则） | ❌ |
-| `agent-core:agent-world-model` | 纯单测（推理逻辑用假 Client） | ❌ |
+| `agent-core:agent-world-model` | 纯单测（推理逻辑用假 Client；身体集合用假仓储验证焦点切换） | ❌ |
 | `agent-core:agent-perception` | 纯单测（Filter + Buffer） | ❌ |
 | `agent-core:agent-vision` | 纯单测（假理解引擎、节流与轮次归属、留存旁路） | ❌ |
 | `agent-core:agent-voice` | 纯单测（假识别 / 假合成引擎、轮次状态机与打断取消） | ❌ |

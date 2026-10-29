@@ -38,7 +38,7 @@ flowchart LR
         Identity[Identity<br/>人格 价值观 说话方式]
         Memory[Memory<br/>六类记忆]
         State[Agent State<br/>心情 精力 亲密度 孤独感]
-        World[World Model<br/>时间 用户 设备 当前认知]
+        World[World Model<br/>时间 用户 身体 当前认知]
 
         Runtime --> Reactive
         Runtime --> Proactive
@@ -147,63 +147,88 @@ Ktor、Koog、Koin 和 Exposed 只属于工程实现层；Identity、Memory、Ag
 
 整体请求与生命周期路径：
 
-```text
-                                                  ┌──────────────────────────┐
-                                                  │  Perception Sources      │
-                                                  │  (Phase 1: client signal │
-                                                  │   + client audio + basic │
-                                                  │   vision; Phase 2+:      │
-                                                  │   camera / sensors /     │
-                                                  │   smart home)            │
-                                                  └───────────┬──────────────┘
-                                                              │ raw signals
-                                                              ▼
-Client ── HTTPS / WebSocket ──► Client API ──► 语音层 / 视觉层 ──► Perception Layer ──► Perception Events
-                                                              │
-                                                              ▼
-                                                       Working Memory Buffer
-                                                              │
-                                                              ▼
-                              ┌────────────────► Agent Runtime ────────────────┐
-                              │                  │            │                 │
-                              │          ┌───────▼──────┐ ┌───▼────────┐        │
-                              │          │ Identity     │ │ World Model│        │
-                              │          └──────────────┘ └────────────┘        │
-                              │          ┌──────────────┐ ┌────────────┐        │
-                              │          │ Memory       │ │ Agent State│        │
-                              │          └──────────────┘ └────────────┘        │
-                              │                  │            │                 │
-                              │                  └──────┬─────┘                 │
-                              │                         ▼                       │
-                              │                  Model Adapter                  │
-                              │                  (Cloud LLM)                   │
-                              └─────────────────────────────────────────────────┘
-                                                              │
-                                                              ▼
-                                                   Agent Action Protocol
-                                                              │
-                                                              ▼
-                                                    Action Event Stream
-                                                              │
-                                                              ▼
-                                                       ayane-client
-                                                  (KMP Unity Bridge → Unity)
+```mermaid
+flowchart TB
+    Client["Client<br/>Desktop / Android / iOS"]
+
+    subgraph Src["感知来源"]
+        Sources["Perception Sources<br/>Phase 1 客户端信号 音频 基础视觉<br/>Phase 2+ 摄像头 传感器 智能家居"]
+    end
+
+    subgraph In["入口与理解"]
+        API["Client API"]
+        VoiceVision["语音层 / 视觉层"]
+    end
+
+    subgraph Perc["感知层"]
+        PL["Perception Layer"]
+        PE["Perception Events"]
+        WMB["Working Memory Buffer"]
+    end
+
+    subgraph RT["Agent Runtime"]
+        Identity["Identity"]
+        Memory["Memory"]
+        State["Agent State"]
+        World["World Model"]
+    end
+
+    subgraph Out["决策与表达"]
+        Adapter["Model Adapter<br/>Cloud LLM"]
+        AAP["Agent Action Protocol"]
+        Stream["Action Event Stream"]
+        ClientOut["ayane-client<br/>KMP Unity Bridge 转发至 Unity"]
+    end
+
+    Sources -->|raw signals| PL
+    Client -->|HTTPS / WebSocket| API
+    API --> VoiceVision
+    VoiceVision --> PL
+    PL --> PE
+    PE --> WMB
+    WMB --> RT
+    Identity & Memory & State & World --> Adapter
+    Adapter --> AAP
+    AAP --> Stream
+    Stream --> ClientOut
 ```
 
-语音路径（与上图为同一条连接）：
+语音与视觉路径（与上图为同一条连接）：
 
-```text
-Client ── 音频帧(上行) ──► 语音层 ──► 云端识别 ──► 用户文本 ──► Perception Layer
-语音层 ── 云端合成 ──► 音频帧(下行，含口型时间轴) ──► Client ──► Unity 播放
-              └── 旁路留存：上行与下行音频异步写入对象存储
-```
+```mermaid
+flowchart LR
+    Client["Client<br/>Desktop / Android / iOS"]
 
-视觉路径（与音频帧共用同一条连接）：
+    subgraph Voice["语音链路"]
+        VLayer["语音层"]
+        ASR["云端识别"]
+        TTS["云端合成"]
+    end
 
-```text
-Client ── 视觉帧(上行，屏幕 / 摄像头) ──► 视觉层 ──► 云端多模态理解 ──► 视觉摘要 ──► Perception Layer
-在场检测 ──► 客户端本地判定 ──► ClientSignal（不经视觉层）
-              └── 旁路留存：原帧异步写入对象存储并登记媒体索引（默认 7 天）
+    subgraph Vision["视觉链路"]
+        VILayer["视觉层"]
+        MM["云端多模态理解"]
+        Presence["端侧在场检测<br/>客户端本地"]
+    end
+
+    PL["Perception Layer"]
+    Unity["Unity 播放"]
+    Store["对象存储<br/>音频留存 / 视觉原帧"]
+
+    Client -->|音频帧 上行| VLayer
+    VLayer --> ASR
+    ASR -->|用户文本| PL
+    VLayer --> TTS
+    TTS -->|音频帧 下行 含口型时间轴| Client
+    Client --> Unity
+
+    Client -->|视觉帧 上行 屏幕 / 摄像头| VILayer
+    VILayer --> MM
+    MM -->|视觉摘要| PL
+    Presence -->|ClientSignal 不经视觉层| PL
+
+    VLayer -.->|旁路留存| Store
+    VILayer -.->|旁路留存 默认 7 天| Store
 ```
 
 要点：
@@ -228,7 +253,7 @@ Client ── 视觉帧(上行，屏幕 / 摄像头) ──► 视觉层 ──�
 | **视觉层（Vision）** | 上行视觉帧的理解编排、视觉摘要产出、原帧留存与媒体索引 | ✅（屏幕内容理解与人脸跟踪） |
 | **Memory** | 6 类记忆：Episodic / Semantic / Preference / Relationship / Emotional / Procedural | ✅（6 类契约与接口齐备；Phase 1 实装 Episodic / Preference / Relationship / Emotional，Semantic / Procedural 与固化、衰减属 Phase 1 内延后项） |
 | **Agent State Store** | Mood / Energy / Affection / Loneliness / Curiosity / Circadian / CurrentGoal / CurrentActivity | ✅（核心字段） |
-| **World Model** | 时间、用户、她自己所在设备、活跃 Session、最近事件 | ✅ |
+| **World Model** | 时间、用户、她的身体与焦点身体、最近事件 | ✅ |
 | **Perception Layer** | 把原始信号抽象为 PerceptionEvent，承载 Attention Filter | ✅（接口与基础事件齐备；麦克风音频在 Phase 1 由客户端采集、经音频通道进入语音层并转为 ClientSignal 文本；视觉帧经视觉层理解后，视觉摘要与端侧在场检测同样进入本层，完整视觉理解留到 Phase 2） |
 | **Agent Runtime** | Reactive Loop + Proactive Loop、Reasoning、Planning、Decision | ✅ |
 | **Model Adapter** | 云端 OpenAI-compatible API、流式输出、Prompt 组装 | ✅ |
@@ -321,7 +346,7 @@ AgentState
 ├── CurrentActivity   // 正在做什么：idle / listening / chatting / reflecting / sleeping
 ├── CircadianPhase    // morning / afternoon / evening / night / deep_night
 ├── LastInteractionAt // 上一次和用户互动的时间戳
-├── ActiveDevice      // 当前主要所在设备：phone / desktop / tablet / ...
+├── FocusBodyId       // 焦点身体的引用；身体本身与能力集见 WorldModel
 └── VersionSeq        // 单调递增版本号，用于乐观并发与审计
 ```
 
@@ -437,14 +462,15 @@ WorldModel
 │   ├── present      // 当前是否有活跃 Session
 │   ├── lastActivity // 上次互动时间
 │   └── inferred     // 当前推断状态：focused / idle / away / sleeping
-├── SelfLocation     // 她当前主要在哪台设备上
-├── ActiveSessions   // 该 Agent 的活跃 Session 列表
+├── Bodies           // 该 Agent 的身体列表：标识、平台、能力集、生效能力、是否在线、最后在线时间
+├── FocusBodyId      // 焦点身体（可空）：她此刻在哪具身体上表达
 └── RecentEvents     // 最近 N 条 PerceptionEvent 摘要
 ```
 
 ### 8.2 与 Perception / Runtime 的关系
 
 - Perception Layer 写入 WorldModel 的对应字段。
+- 连接、心跳与能力上报是应用层的传输事实；应用层把身体上线、下线与能力变更投影为 WorldModel 的身体条目，SDK 本身不感知连接。
 - Runtime 在拼装 Prompt 时读取 WorldModel，**不直接读取原始信号**。
 - WorldModel 的字段必须可被 PerceptionEvent 溯源，便于调试和解释"她为什么这么判断"。
 
@@ -453,7 +479,7 @@ WorldModel
 Phase 2 起：
 
 - 增加 `Belief`：用户偏好/习惯的置信度。
-- 增加 `Devices`：智能家居设备状态。
+- 增加 `Devices`：智能家居设备状态（与她的身体 `Bodies` 是不同概念）。
 - 增加 `Environment`：天气、地理、空间布局。
 - WorldModel 从"单一对象"升级为 **Belief Store**——每个字段带 `confidence` 与 `lastUpdated`。
 
@@ -593,6 +619,22 @@ Phase 1 内延后项视情况扩展：`NOTIFY`（向客户端通知但不说话�
 - Action Protocol 由契约统一定义（见 [Contracts 架构设计](Contracts架构设计.md)）。
 - 服务端在发出 Action Event 的同时，把"主动行为原因 / 引用记忆 / 触发条件"写入审计日志，便于管理后台回溯"她为什么这时候说话"。
 
+### 10.4 身体路由
+
+动作可能对应多具在线身体，也可能没有任何在线身体。发出动作前先确定焦点身体：
+
+1. 用户显式指定（例如"到客厅的显示器上说"）优先。
+2. 否则取本回合用户输入的来源身体。
+3. 否则沿用上一回合的焦点身体。
+4. 都不成立时，从在线身体中选一具，或判定为没有身体。
+
+要点：
+
+- **同一时刻只允许一具焦点身体**：同一句话不在多处同时发声，避免回声与语义撕裂；表现类动作也只在焦点身体上执行。
+- **身体切换只改变动作目标**：不重开 Session、不重放回复、不丢已有动作与音频。
+- **离线目标不静默排队**：用户指定一具离线身体时，在回退的焦点身体上说明该身体不在线，不假装已投递。
+- **无身体时动作丢弃并留痕**：没有任何焦点身体时，动作不进入传输层，只写入审计日志。
+
 ---
 
 ## 11. 主动行为与节律
@@ -604,7 +646,8 @@ Phase 1 内延后项视情况扩展：`NOTIFY`（向客户端通知但不说话�
 - **Clock Tick**：按活跃 Agent 集合遍历，固定间隔（如 5 分钟）触发；受全局并发上限与单 Agent 频率上限约束。
 - **State Change**：Loneliness / Mood / Energy 跨越阈值时触发。
 - **Memory Recall**：重要日期或重要事件临近时触发（生日、纪念日、用户提到的 deadline）。
-- **Perception Event**：用户长时间不来 / Session 启停 / 设备事件。
+- **Perception Event**：用户长时间不来 / Session 启停。
+- **身体事件**：身体上线、下线或能力集变化时触发，用于决定是否切换焦点身体或改变表达方式。
 
 ### 11.2 节律（Circadian）
 
@@ -618,7 +661,7 @@ Phase 1 内延后项视情况扩展：`NOTIFY`（向客户端通知但不说话�
 
 不是写死的脚本，而是基于"模板 + State + Time + Memory"动态生成的主动行为：
 
-- **问候**：早安 / 晚安 / 用户第一次出现在某设备
+- **问候**：早安 / 晚安 / 用户第一次出现在某具身体
 - **关怀**：用户沉默过久 / 检测到语气低沉
 - **回顾**：重要日期 / 共同记忆节点
 - **收尾**：用户长时间未回应 → 留一句晚安或关心，但不刷屏
@@ -685,12 +728,13 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 - SelfNarrative 的修改必须审计，不允许 Runtime 在无边界的情况下自我改写人格。
 - **按 Agent 隔离**：Identity 与 Memory 以 Agent 为归属单位；任何读取都必须先确认该 Agent 属于当前登录用户。
 - **账号凭据**：口令只保存哈希，登录 Token 的签名密钥只存在于服务端 Secret 环境，不进入日志。
-- **用户级删除**：删除用户必须级联其名下全部 Agent 的 Identity、Memory、State 快照与留存音频；审计日志的保留期限单独决策。
+- **用户级删除**：删除用户必须级联其名下全部 Agent 的 Identity、Memory、State 快照、身体条目与留存音频；审计日志的保留期限单独决策。
 - **音频留存**：语音输入与合成输出的音频全部留存，仅用于审计与回溯，不进入记忆体系，也不向客户端暴露，运行时不可读取；音频字节只存对象存储，数据库只保存媒体索引。
 - **保留期限**：留存音频默认保留 90 天，可按环境配置为其他期限或不自动删除；到期由对象存储生命周期策略清理。
 - **音频访问**：只有服务端语音层可直接读取；管理后台经 Admin API 换取短期签名地址，每次访问记录审计。
 - **视觉留存**：视觉上行原帧默认保留 7 天，可按环境配置为其他期限；原帧只存对象存储并登记媒体索引，只有服务端视觉层可直接读取，管理后台经 Admin API 换取短期签名地址并记录审计。
 - **视觉摘要与记忆**：视觉只以摘要进入当前对话上下文与审计记录，不写入长期记忆；删除用户时随视觉留存一并级联清除。
+- **身体清单**：身体标识、平台与能力集属于设备信息，按敏感个人信息级保护；不向其他用户或其他 Agent 暴露。
 - **摄像头授权**：摄像头采集必须由用户在客户端显式授权后开启；未授权时只做屏幕内容理解与端侧在场检测，服务端不接受未授权的摄像头帧。
 
 ---
@@ -713,50 +757,45 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 
 ## 15. 运行时拓扑（Phase 1）
 
-```text
-┌─────────────────────────────────────────────────────┐
-│ agent-service（Ktor Application :8080）             │
-│                                                     │
-│  ┌────────────┐    ┌────────────┐    ┌────────────┐ │
-│  │  Client    │    │   Admin    │    │ WebSocket  │ │
-│  │   API      │    │   API      │    │  Gateway   │ │
-│  └─────┬──────┘    └─────┬──────┘    └─────┬──────┘ │
-│        │                 │                 │        │
-│        └────────┬────────┴────────┬────────┘        │
-│                 ▼                 ▼                 │
-│        ┌────────────────┐ ┌──────────────────┐      │
-│        │ Perception     │ │ Proactive Loop   │      │
-│        │ Layer          │ │ Scheduler        │      │
-│        └─────┬──────────┘ └─────┬────────────┘      │
-│              ▼                 ▼                    │
-│        ┌────────────────────────────────────┐       │
-│        │       Agent Runtime Core           │       │
-│        │  ┌─────────┐ ┌─────────┐ ┌──────┐  │       │
-│        │  │Identity │ │ Memory  │ │State │  │       │
-│        │  └─────────┘ └─────────┘ └──────┘  │       │
-│        │  ┌─────────┐ ┌─────────────────┐   │       │
-│        │  │World    │ │ Koog Agent     │   │       │
-│        │  │Model    │ │ Structured Out │   │       │
-│        │  └─────────┘ └─────────────────┘   │       │
-│        └─────────────────┬──────────────────┘       │
-│                          ▼                          │
-│                ┌──────────────────┐                 │
-│                │  Action Event    │                 │
-│                │  Stream          │                 │
-│                └──────────────────┘                 │
-│                                                     │
-│  ┌─────────────────┐  ┌──────────────────────┐      │
-│  │ Persistence     │  │ Koin Modules         │      │
-│  │ Exposed JDBC    │  │ Runtime / Store / AI │      │
-│  └─────────────────┘  └──────────────────────┘      │
-│  ┌─────────────────┐  ┌──────────────────────┐      │
-│  │ Auth / Registry │  │ Voice (ASR / TTS)    │      │
-│  └─────────────────┘  └──────────────────────┘      │
-│                                                     │
-│  ┌────────────────────────┐                         │
-│  │ Vision (Screen / Face) │                         │
-│  └────────────────────────┘                         │
-└─────────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph Service["agent-service（Ktor Application :8080）"]
+        ClientAPI["Client API"]
+        AdminAPI["Admin API"]
+        WS["WebSocket Gateway"]
+
+        Perception["Perception Layer"]
+        Scheduler["Proactive Loop Scheduler"]
+
+        subgraph Core["Agent Runtime Core"]
+            Identity["Identity"]
+            Memory["Memory"]
+            State["State"]
+            World["World Model"]
+            Koog["Koog Agent<br/>Structured Output"]
+        end
+
+        Stream["Action Event Stream"]
+
+        subgraph Infra["常驻组件与基础设施"]
+            Persistence["Persistence<br/>Exposed JDBC"]
+            Koin["Koin Modules<br/>Runtime / Store / AI"]
+            Auth["Auth / Registry"]
+            Voice["Voice ASR / TTS"]
+            Vision["Vision Screen / Face"]
+        end
+    end
+
+    ClientAPI --> Perception
+    AdminAPI --> Perception
+    WS --> Perception
+    ClientAPI --> Scheduler
+    AdminAPI --> Scheduler
+    WS --> Scheduler
+
+    Perception --> Core
+    Scheduler --> Core
+    Core --> Stream
 ```
 
 要点：
@@ -765,8 +804,8 @@ Memory 不是"写一次永久保留"。它有完整的生命周期：
 - `agent-protocol` 产出的完整动作通过 Action Event Stream 发送；模型 token 流不直接暴露为协议事件。
 - **Perception Layer** 与 **Proactive Loop Scheduler** 是 Phase 1 常驻组件。
 - **账号与鉴权**、**Agent 归属登记** 是 Phase 1 常驻组件，位于接口层之前，先于 Runtime 生效。
-- **语音层** 是 Phase 1 常驻组件，承接上行音频识别与下行合成，并经音频通道回传客户端。
-- **视觉层** 是 Phase 1 常驻组件，承接上行视觉帧并产出视觉摘要，原帧经留存旁路写入对象存储。
+- **语音层** 是 Phase 1 常驻组件，承接上行音频识别与下行合成，并经音频通道回传客户端；仅在焦点身体具备音频输入或音频输出能力时启用对应方向。
+- **视觉层** 是 Phase 1 常驻组件，承接上行视觉帧并产出视觉摘要，原帧经留存旁路写入对象存储；仅在焦点身体具备视觉输入能力时接受上行帧。
 - **Secret / Config** 与 **Persistence** 是服务端基础设施，详见 [基础设施架构设计](基础设施架构设计.md)。
 
 ---
@@ -814,6 +853,10 @@ Phase 1 验收额外必须满足：
 12. **留存可回溯**：任一轮回复都能从记忆回溯到对应的留存音频。
 13. **视觉闭环**：客户端上行的屏幕或摄像头帧能产出视觉摘要并进入感知层。
 14. **视觉降级**：断开视觉上行时端侧在场检测与文本对话仍可用，视觉留存可回溯。
+15. **多身体并存**：两具以上身体同时在线时，动作只发往焦点身体，不发生重复播报。
+16. **焦点可指定**：用户显式指定另一具在线身体时，后续动作在新焦点身体上执行，Session 不重开。
+17. **离线回退**：指定一具离线身体时，服务端在回退的焦点身体上给出说明，链路不中断。
+18. **能力降级**：缺少音频输出或 3D 表现能力的身体上，`SPEAK` 与表现类动作按能力子集降级，对话链路不中断。
 
 ---
 

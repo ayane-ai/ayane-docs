@@ -24,6 +24,8 @@
 - Unity Embodiment API。
 - TTS 音频播放与口型驱动（音频由服务端产出）。
 
+按能力集划分，Unity 承载 3D 表现能力（外观、动画、表情、手势、注视与口型同步），并负责播放下行音频；文本输出、音频采集与端侧在场检测不属于 Unity，由客户端共享层与各端 source set 承担。
+
 Unity 不负责：
 
 - AI Identity。
@@ -62,6 +64,8 @@ Avatar / Animation / Emotion / Gesture / Lip Sync
 Unity Bridge 分流：Agent Action Protocol 转换为 Unity Embodiment API；服务端下发的音频帧与口型时间轴交给音频播放与口型链路；口型时间轴缺失时，Unity 侧做音素分析。
 
 Unity 只接受身体能力调用，不直接理解后端的 Identity、Memory 和业务状态。
+
+Unity 可执行的动作为 3D 表现类动作的子集，具体可用范围由当前身体的能力集决定；能力集协商在客户端完成，Unity 不参与。
 
 ## 5. 平台接入
 

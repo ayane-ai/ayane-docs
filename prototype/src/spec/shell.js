@@ -18,6 +18,7 @@
   const shell = document.getElementById('suite-shell');
   const viewLabel = document.getElementById('suite-view-label');
   const pctEl = document.getElementById('zoom-pct');
+  const footer = document.querySelector('.suite-foot');
   if (!canvas || !layer || !tree || !layersBox || !shell) return;
 
   const MIN_K = 0.2;
@@ -92,6 +93,7 @@
       const name = item.querySelector('.nm') || item;
       viewLabel.textContent = `${item.getAttribute('data-no')} · ${name.textContent.trim()}`;
     }
+    if (footer) footer.hidden = id !== 'tokens';
     resetView();
     renderTree();
     if (window.location.hash !== `#sec-${id}`) {

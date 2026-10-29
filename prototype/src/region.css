@@ -29,35 +29,13 @@
 }
 
 /* ------------------------------------------------------------
-   区域标题条
+   画布操作条
    ------------------------------------------------------------ */
-.region-head {
-  display: flex;
-  align-items: flex-end;
-  gap: var(--spacing-medium);
-  flex-wrap: wrap;
-  padding: var(--spacing-huge) 0 var(--spacing-medium);
-}
-
-.region-head h2 {
-  /* 标题独占一行：画布页里 lede 常有四五行长文，与标题同排会挤在一起 */
-  flex: 1 1 100%;
-  margin: 0;
-  color: var(--color-on-surface);
-  font: var(--type-headline-large) var(--font-family-sans);
-  font-weight: var(--weight-bold);
-}
-
-.region-lede {
-  flex: 1 1 320px;
-  margin: 0;
-  color: var(--color-on-surface-soft);
-  font: var(--type-body-small) var(--font-family-sans);
-
-}
-
 .region-actions {
   display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  padding-bottom: var(--spacing-medium);
   align-items: center;
   gap: var(--spacing-small);
 }
@@ -104,17 +82,6 @@
   pointer-events: none;
   border-radius: var(--radius-pill);
 }
-
-.region-meta {
-  display: flex;
-  gap: var(--spacing-medium);
-  flex-wrap: wrap;
-  margin: var(--spacing-small) 0 0;
-  color: var(--color-text-hint);
-  font: var(--type-body-small) var(--font-family-sans);
-}
-
-.region-meta code { font-family: var(--font-family-mono); }
 
 /* ------------------------------------------------------------
    全屏层：popover 只换高度来源，原型标记本身不复制

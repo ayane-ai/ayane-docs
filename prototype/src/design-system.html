@@ -158,24 +158,10 @@
   <!-- ============================================================
        02 · 组件库
        ============================================================ -->
-  <section class="spec-region region--doc canvas-page canvas-page--board" id="sec-components" aria-labelledby="sec-components-title" hidden>
-    <div class="region-head">
-      <h2 id="sec-components-title">组件库</h2>
-      <p class="region-lede">
-        九份组件源，两份原型共用。整页是一张固定宽的大卡片，卡内先按用途分类，
-        类内一行一组件：左侧编号与说明，右侧把该组件的全部变体横向铺开。
-        卡片比窗口宽时靠画布平移与缩放看，排版因此不会退回竖排。
-      </p>
-      <div class="region-actions">
-        <span class="region-band">4 类 · 9 个源 · 24 个画布 · 固定宽 1420</span>
-      </div>
+  <section class="spec-region region--doc canvas-page canvas-page--board" id="sec-components" aria-label="组件库" hidden>
+    <div class="region-actions">
+      <span class="region-band">4 类 · 9 个源 · 24 个画布 · 固定宽 1420</span>
     </div>
-    <p class="region-meta">
-      <span>示例画布 = <code>.demo-frame</code>（容器 + 定位包含块），宽度取 <code>--size-demo-*</code> 档</span>
-      <span>浮层画布锁 <code>--size-modal-width</code>，表格画布撑满整行</span>
-      <code>src/spec/demos/*.html</code>
-    </p>
-
     <div class="demo-board">
       <details class="component-inventory" id="component-inventory"><summary>组件清单 · 来源与使用位置</summary><div class="table-scroll"><table class="data-table"><thead><tr><th>组件</th><th>来源选择器</th><th>用途</th><th>共享定义／当前使用</th><th>示例</th></tr></thead><tbody id="component-inventory-body"></tbody></table></div></details>
       <section class="demo-cat" id="cat-atom">
@@ -212,27 +198,15 @@
   <!-- ============================================================
        03 · 客户端原型
        ============================================================ -->
-  <section class="spec-region canvas-page canvas-page--proto" id="sec-client" data-region="client" aria-labelledby="sec-client-title" hidden>
-    <div class="region-head">
-      <h2 id="sec-client-title">客户端原型</h2>
-      <p class="region-lede">
-        登录 → 共用形象页 → 独立媒体开关演示 → 对话记录与账号资料。手机与桌面复用同一套交互；不调用真实设备或后端。
-        画布是 <code>[data-proto="client"]</code>，宽度断点 767 / 768 / 1199 / 1200 / 1600
-        与 <code>getLayout()</code> 同源。
-      </p>
-      <div class="region-actions">
-        <span class="region-band">320 – 1600+</span>
-        <button class="btn btn--sm region-fullscreen-open" type="button"
-                id="fullscreen-client-open" aria-controls="fullscreen-client" aria-expanded="false">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-external"></use></svg>
-          全屏
-        </button>
-      </div>
+  <section class="spec-region canvas-page canvas-page--proto" id="sec-client" data-region="client" aria-label="客户端原型" hidden>
+    <div class="region-actions">
+      <span class="region-band">320 – 1600+</span>
+      <button class="btn btn--sm region-fullscreen-open" type="button"
+              id="fullscreen-client-open" aria-controls="fullscreen-client" aria-expanded="false">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-external"></use></svg>
+        全屏
+      </button>
     </div>
-    <p class="region-meta">
-      <span>源：<code>src/views/client.markup.html</code> · <code>client.css</code> · <code>client.script.js</code></span>
-      <span>退出全屏：ESC 或右上角按钮，画布回到本槽位</span>
-    </p>
     <div class="region-slot" id="fullscreen-client-slot">
       <!-- @include src/views/client.markup.html -->
     </div>
@@ -241,27 +215,15 @@
   <!-- ============================================================
        04 · 管理后台原型
        ============================================================ -->
-  <section class="spec-region canvas-page canvas-page--proto" id="sec-admin" data-region="admin" aria-labelledby="sec-admin-title" hidden>
-    <div class="region-head">
-      <h2 id="sec-admin-title">管理后台原型</h2>
-      <p class="region-lede">
-        概览、用户、智能体、模型、会话、审计、权限与配置八类列表 + 抽屉 / 模态 / 气泡，
-        带角色权限矩阵（可切只读、内容、系统三种演示角色）。
-        断点 639 / 899 / 1199 / 1439 与 <code>computeLayout()</code> 同源。
-      </p>
-      <div class="region-actions">
-        <span class="region-band">320 – 1440+</span>
-        <button class="btn btn--sm region-fullscreen-open" type="button"
-                id="fullscreen-admin-open" aria-controls="fullscreen-admin" aria-expanded="false">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-external"></use></svg>
-          全屏
-        </button>
-      </div>
+  <section class="spec-region canvas-page canvas-page--proto" id="sec-admin" data-region="admin" aria-label="管理后台原型" hidden>
+    <div class="region-actions">
+      <span class="region-band">320 – 1440+</span>
+      <button class="btn btn--sm region-fullscreen-open" type="button"
+              id="fullscreen-admin-open" aria-controls="fullscreen-admin" aria-expanded="false">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-external"></use></svg>
+        全屏
+      </button>
     </div>
-    <p class="region-meta">
-      <span>源：<code>src/views/admin.markup.html</code> · <code>admin.css</code> · <code>admin.script.js</code></span>
-      <span>数据全部本地 mock，不连接任何 Admin API</span>
-    </p>
     <div class="region-slot" id="fullscreen-admin-slot">
       <!-- @include src/views/admin.markup.html -->
     </div>
